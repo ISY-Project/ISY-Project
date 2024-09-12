@@ -7,12 +7,16 @@ public class Timer {
         this.startTime = (long) 0.0;
     }
 
+    private long CalculateTime() {
+        return System.currentTimeMillis() - this.startTime;
+    }
+
     public void StartTimer() {
         this.startTime = System.currentTimeMillis();
     }
 
     public void PauseTimer() {
-        this.totalTime += System.currentTimeMillis() - this.startTime;
+        this.totalTime += CalculateTime();
         this.startTime = (long) 0.0;
     }
 
@@ -26,11 +30,14 @@ public class Timer {
     }
 
     public void StopTimer() {
-        this.totalTime += System.currentTimeMillis() - this.startTime;
+        this.totalTime += CalculateTime();
         this.startTime = (long) 0.0;
     }
 
     public long GetTime() {
+        if (this.startTime > 0.0) {
+            return this.totalTime + CalculateTime();
+        }
         return this.totalTime;
     }
 }
