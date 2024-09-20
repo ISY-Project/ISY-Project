@@ -13,3 +13,7 @@ Spelbord 8x8 (ipv 10x10)
 Schepen niet tegen elkaar aan.
 Schepen wel tegen de rand.
 Om de beurt een zet, random wie begint.
+
+## TODO
+
+Houdt functioneel en technisch ontwerk gescheiden.
