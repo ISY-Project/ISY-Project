@@ -6,6 +6,7 @@ Voor het ontwikkelen van Zeeslagje willen we graag dat de volgende spelregels wo
 
 Spelbord 8x8 (ipv 10x10)
 4 schepen:
+
 - 1x Lengte 6
 - 1x Lengte 4
 - 1x Lengte 3
