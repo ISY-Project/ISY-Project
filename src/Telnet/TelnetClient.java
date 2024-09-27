@@ -48,7 +48,8 @@ public class TelnetClient {
         try {
             client.connect("localhost", 7789); // Replace with your server and port
             client.sendMessage("login SeaCarpetBomber");
-            client.showMessage();
+            client.sendMessage("message \"SeaCarpetBomber Here to win the game!1!\"");
+            client.sendMessage("subscribe battleship");
         } catch (Exception e) {
             e.printStackTrace();
         }
