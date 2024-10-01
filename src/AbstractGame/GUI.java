@@ -27,7 +27,7 @@ public class Gui {
             System.out.print(rowLabel + " ");
             rowLabel++;
             for (int j = 0; j < grid[i].length; j++) {
-            System.out.print(Blocks.values()[grid[i][j]] + " ");
+                System.out.print(Blocks.values()[grid[i][j]] + " ");
             }
             System.out.println();
         }
