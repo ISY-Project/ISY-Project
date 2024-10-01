@@ -13,21 +13,34 @@ public class Ship {
         this.hits = new boolean[size];
     }
 
+    public Direction getDirection() {
+        return direction;
+    }
+
     public boolean isHit(int x, int y) {
         if (y == this.y && x >= this.x && x < this.x + size) {
-                hits[x - this.x] = true;
-                return true;
+            hits[x - this.x] = true;
+            return true;
         } else if (x == this.x && y >= this.y && y < this.y + size) {
-                hits[y - this.y] = true;
-                return true;
+            hits[y - this.y] = true;
+            return true;
         }
         if (x == this.x && y >= this.y && y < this.y + size) {
-                hits[y - this.y] = true;
-                return true;
+            hits[y - this.y] = true;
+            return true;
         } else if (y == this.y && x >= this.x && x < this.x + size) {
-                hits[x - this.x] = true;
-                return true;
+            hits[x - this.x] = true;
+            return true;
         }
         return false;
+    }
+
+    public boolean isSunk() {
+        for (boolean hit : hits) {
+            if (!hit) {
+                return false;
+            }
+        }
+        return true;
     }
 }

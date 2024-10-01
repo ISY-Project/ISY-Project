@@ -47,9 +47,17 @@ public class TelnetClient {
         TelnetClient client = new TelnetClient();
         try {
             client.connect("localhost", 7789); // Replace with your server and port
-            client.sendMessage("login SeaCarpetBomber");
-            client.sendMessage("message \"SeaCarpetBomber Here to win the game!1!\"");
-            client.sendMessage("subscribe battleship");
+            String name = "SeaCarpetBomber";
+            Login login = new Login(name);
+            Message message = new Message(name + " Here to win the game!1!");
+            Subscribe subscribe = new Subscribe("battleship");
+            client.sendMessage(login.get());
+            client.sendMessage(message.get());
+            client.sendMessage(subscribe.get());
+            // handle waiting for the game to start
+            while (client.in.readLine().contains("")) {
+                client.showMessage();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
