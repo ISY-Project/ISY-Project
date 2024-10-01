@@ -1,10 +1,11 @@
 package AbstractGame;
 
 public enum Blocks {
-    FULL_BLOCK("█"),
-    BOTTOM_HALF("▄"),
-    TOP_HALF("▀"),
-    SMALL_BLOCK("■"),
+    UNKNOWN("■"),
+    HIT("X"),
+    MISS("□"),
+    SEA("■"),
+    DESTROYED("*")
     ;
 
     private final String text;
