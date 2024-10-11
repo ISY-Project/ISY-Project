@@ -46,11 +46,7 @@ public class ResponseHandler {
                     this.eventHandler.onYourTurn(responseArray[2]);
                 }
                 else if (response.contains(GameEvent.message + "MOVE")) {
-                    char data_start = '{';
-                    char data_end = '}';
-                    int start = response.indexOf(data_start);
-                    String[] data = response.substring(start + 1).split(",");
-                    int end = response.indexOf(data_end);
+                    String[] data = parseMove(response);
                     this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
                 }
                 else if (response.contains(GameEvent.message + "WIN")) {
@@ -64,5 +60,14 @@ public class ResponseHandler {
                 }
             }
         }
+    }
+
+    private String[] parseMove(String response) {
+        char data_start = '{';
+        char data_end = '}';
+        int start = response.indexOf(data_start);
+        String[] data = response.substring(start + 1).split(",");
+        int end = response.indexOf(data_end);
+        return data;
     }
 }
