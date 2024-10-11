@@ -16,8 +16,7 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
 
     @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
-        // TODO Auto-generated method stub. Automatically accept the challenge.
-        throw new UnsupportedOperationException("Unimplemented method 'onChallenge'");
+        this.showMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
     }
 
     @Override
