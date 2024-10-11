@@ -3,17 +3,10 @@ package AbstractGame;
 public class Gui {
     public void show() {
         System.out.println("Showing GUI");
+        int size = 8;
+        int[][] grid;
+        grid = new int[size][size];
 
-        int[][] grid = new int[][] {
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0}
-        };
         // Print column numbers
         System.out.print("  ");
         for (int i = 0; i < grid[0].length; i++) {
