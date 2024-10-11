@@ -8,12 +8,6 @@ import Telnet.Responses.ServerEvent;
 
 // TODO Remove the showMessage calls, as they are for debugging.
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
-    private TelnetClient client;
-
-    EventHandler(TelnetClient client) {
-        this.client = client;
-    }
-
     @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
         this.showMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
