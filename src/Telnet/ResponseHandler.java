@@ -8,9 +8,9 @@ import Telnet.Responses.ServerEvent;
 public class ResponseHandler {
     // read the server response, and parse the response as a event
     private TelnetClient client;
-    private ServerEvent eventHandler;
+    private EventHandler eventHandler;
     
-    ResponseHandler(TelnetClient client, ServerEvent eventHandler) {
+    ResponseHandler(TelnetClient client, EventHandler eventHandler) {
         this.client = client;
         this.eventHandler = eventHandler;
     }
@@ -33,36 +33,34 @@ public class ResponseHandler {
         }
         else if (response.contains(ServerEvent.message)) {
             if (response.contains(GameEvent.message)) {
-                var gameHandler = this.eventHandler.gameHandler;
                 if (response.contains(ChallengeEvent.message)) {
-                    var challengeHandler = gameHandler.challengeHandler;
                     String playerName = response.split(" ")[1];
                     int gameNumber = Integer.parseInt(responseArray[2]);
                     int gameName = Integer.parseInt(responseArray[3]);
-                    challengeHandler.onChallenge(playerName, gameName, gameNumber);
+                    this.eventHandler.onChallenge(playerName, gameName, gameNumber);
                 }
-                if (response.contains(GameEvent.message + "MATCH")) {
-                    gameHandler.onMatch();
+                else if (response.contains(GameEvent.message + "MATCH")) {
+                    this.eventHandler.onMatch();
                 }
-                if (response.contains(GameEvent.message + "YOURTURN")) {
-                    gameHandler.onYourTurn(responseArray[2]);
+                else if (response.contains(GameEvent.message + "YOURTURN")) {
+                    this.eventHandler.onYourTurn(responseArray[2]);
                 }
-                if (response.contains(GameEvent.message + "MOVE")) {
+                else if (response.contains(GameEvent.message + "MOVE")) {
                     char data_start = '{';
                     char data_end = '}';
                     int start = response.indexOf(data_start);
                     String[] data = response.substring(start + 1).split(",");
                     int end = response.indexOf(data_end);
-                    gameHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
+                    this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
                 }
-                if (response.contains(GameEvent.message + "WIN")) {
-                    gameHandler.onWin();
+                else if (response.contains(GameEvent.message + "WIN")) {
+                    this.eventHandler.onWin();
                 }
-                if (response.contains(GameEvent.message + "LOSE")) {
-                    gameHandler.onLose();
+                else if (response.contains(GameEvent.message + "LOSE")) {
+                    this.eventHandler.onLose();
                 }
-                if (response.contains(GameEvent.message + "DRAW")) {
-                    gameHandler.onDraw();
+                else if (response.contains(GameEvent.message + "DRAW")) {
+                    this.eventHandler.onDraw();
                 }
             }
         }
