@@ -44,6 +44,8 @@ public class TelnetClient {
     }
 
     public static void main(String[] args) {
+        // Test example
+        // TODO Remove when it works
         TelnetClient client = new TelnetClient();
         try {
             client.connect("localhost", 7789); // Replace with your server and port
