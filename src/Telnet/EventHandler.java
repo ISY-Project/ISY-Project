@@ -5,6 +5,8 @@ import Telnet.Responses.GameEvent;
 import Telnet.Responses.MoveResponse;
 import Telnet.Responses.ServerEvent;
 
+
+// TODO Remove the showMessage calls, as they are for debugging.
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
     private TelnetClient client;
 
