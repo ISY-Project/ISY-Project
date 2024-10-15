@@ -7,6 +7,7 @@ import Telnet.Responses.ServerEvent;
 
 // TODO Remove the showMessage calls, as they are for debugging.
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
+    final Logout logout = new Logout();
     private TelnetClient client;
 
     EventHandler(TelnetClient client) {
@@ -41,21 +42,18 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
     @Override
     public void onWin() {
         showMessage("Win");
-        var logout = new Logout();
         this.client.sendMessage(logout.get());
     }
 
     @Override
     public void onLose() {
         showMessage("Lose");
-        var logout = new Logout();
         this.client.sendMessage(logout.get());
     }
 
     @Override
     public void onDraw() {
         showMessage("Draw");
-        var logout = new Logout();
         this.client.sendMessage(logout.get());
     }
 
