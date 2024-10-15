@@ -59,6 +59,8 @@ public class ResponseHandler {
                     this.eventHandler.onDraw();
                 }
             }
+        } else if (response.contains(ServerEvent.error)) {
+            this.client.showMessage(response);
         }
     }
 
