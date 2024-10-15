@@ -65,7 +65,7 @@ public class TelnetClient {
             // handle waiting for the game to start
             String response = client.in.readLine();
             while (response.contains("")) {
-                client.showMessage(response);
+                client.showMessage("Received: " + response);
                 responseHandler.handle(response);
                 response = client.in.readLine();
             }
