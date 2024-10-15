@@ -1,3 +1,7 @@
+/*
+ * X > rows
+ * Y > columns
+ */
 public class Heatmap {
     private int[][] heatmap;
 
@@ -33,14 +37,18 @@ public class Heatmap {
         return heatmap[x][y];
     }
 
+    public int getSize() {
+        return heatmap.length;
+    }
+
     public static void main(String[] args) {
         int size = 8;
         var heatmap = new Heatmap(size);
 
         // Initialize the heatmap with some default values
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                heatmap.setHeat(i, j, 1); // Start with a base heat of 1 for all cells
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                heatmap.setHeat(x, y, 1); // Start with a base heat of 1 for all cells
             }
         }
 
