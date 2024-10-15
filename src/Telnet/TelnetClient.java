@@ -18,6 +18,7 @@ public class TelnetClient {
     }
 
     public void sendMessage(String message) {
+        System.out.println("Sent: " + message);
         out.println(message);
     }
 
