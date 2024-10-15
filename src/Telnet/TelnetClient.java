@@ -54,7 +54,7 @@ public class TelnetClient {
         try {
             client.connect("localhost", 7789); // Replace with your server and port
             String name = "SeaCarpetBomber";
-            name += (int) (Math.random() * 100);
+            name += (int) (Math.random() * 10);
             Login login = new Login(name);
             Message message = new Message(name + " Here to win the game!1!");
             Subscribe subscribe = new Subscribe("battleship");
@@ -72,6 +72,13 @@ public class TelnetClient {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                client.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
