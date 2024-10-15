@@ -13,6 +13,22 @@ public class Ship {
         this.hits = new boolean[size];
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int[] getCoordinates() {
+        return new int[] {this.getX(), this.getY()};
+    }
+
+    public int getSize() {
+        return size;
+    }
+
     public Direction getDirection() {
         return direction;
     }
