@@ -70,6 +70,7 @@ public class TelnetClient {
                 client.showMessage("Received: " + response);
                 responseHandler.handle(response);
                 response = client.in.readLine();
+                if (response == null) {break;}
             }
         } catch (Exception e) {
             e.printStackTrace();
