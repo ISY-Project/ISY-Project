@@ -59,7 +59,7 @@ public class TelnetClient {
             Login login = new Login(name);
             Message message = new Message(name + " Here to win the game!1!");
             Subscribe subscribe = new Subscribe("battleship");
-            EventHandler eventHandler = new EventHandler();
+            EventHandler eventHandler = new EventHandler(client);
             ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
