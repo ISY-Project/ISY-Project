@@ -1,0 +1,184 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+public class BattleshipGUI extends JFrame {
+    private JButton[][] playerGrid = new JButton[10][10];
+    private JButton[][] opponentGrid = new JButton[10][10];
+    private boolean[][] playerShips = new boolean[10][10];  // To track player ships
+    private ArrayList<Ship> ships;  // Ships available to be placed
+    private JPanel playerPanel;
+    private JPanel shipTray;
+    private Ship selectedShip;  // Ship currently being dragged
+    private boolean isVertical = true;  // Ship orientation (vertical/horizontal)
+    private int selectedShipSize = 0;  // Track the size of the ship being dragged
+
+    public BattleshipGUI() {
+        setTitle("Battleship Game");
+        setSize(800, 800);
+        setLayout(new BorderLayout());
+
+        // Player's grid panel
+        playerPanel = new JPanel(new GridLayout(10, 10));
+        playerPanel.setBorder(BorderFactory.createTitledBorder("Your Grid"));
+        initializePlayerGrid();
+
+        // Opponent's grid panel
+        JPanel opponentPanel = new JPanel(new GridLayout(10, 10));
+        opponentPanel.setBorder(BorderFactory.createTitledBorder("Opponent Grid"));
+        initializeOpponentGrid(opponentPanel);
+
+        // Add ship tray at the bottom
+        shipTray = new JPanel(new FlowLayout());
+        shipTray.setBorder(BorderFactory.createTitledBorder("Ship Tray"));
+        initializeShipTray();
+
+        // Rotate button
+        JButton rotateButton = new JButton("Rotate Ship");
+        rotateButton.addActionListener(e -> rotateShip());
+
+        // Add components to the frame
+        add(playerPanel, BorderLayout.CENTER);
+        add(opponentPanel, BorderLayout.EAST);
+        add(shipTray, BorderLayout.SOUTH);
+        add(rotateButton, BorderLayout.NORTH);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+
+    // Initialize player grid with buttons
+    private void initializePlayerGrid() {
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                JButton cell = new JButton();
+                cell.setBackground(Color.BLUE); // Water color
+                final int finalRow = row;
+                final int finalCol = col;
+
+                cell.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // When a player clicks on their grid to place a ship
+                        if (selectedShip != null) {
+                            placeShipOnGrid(finalRow, finalCol);
+                        }
+                    }
+                });
+
+                playerGrid[row][col] = cell;
+                playerPanel.add(cell);
+            }
+        }
+    }
+
+    // Initialize opponent grid (simplified)
+    private void initializeOpponentGrid(JPanel opponentPanel) {
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                JButton cell = new JButton();
+                cell.setBackground(Color.BLUE); // Water color
+                opponentPanel.add(cell);
+                opponentGrid[row][col] = cell;
+            }
+        }
+    }
+
+    // Initialize ship tray with ships to drag
+    private void initializeShipTray() {
+        ships = new ArrayList<>();
+        ships.add(new Ship("Carrier", 5));
+        ships.add(new Ship("Battleship", 4));
+        ships.add(new Ship("Destroyer", 3));
+        ships.add(new Ship("Submarine", 3));
+        ships.add(new Ship("Patrol Boat", 2));
+
+        for (Ship ship : ships) {
+            JButton shipButton = new JButton(ship.getName() + " (" + ship.getSize() + ")");
+            shipButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectedShip = ship;  // Set the selected ship
+                    selectedShipSize = ship.getSize();
+                }
+            });
+            shipTray.add(shipButton);
+        }
+    }
+
+    // Rotate the currently selected ship
+    private void rotateShip() {
+        isVertical = !isVertical;  // Toggle orientation
+        if (selectedShip != null) {
+            String orientation = isVertical ? "Vertical" : "Horizontal";
+            JOptionPane.showMessageDialog(this, "Rotated " + selectedShip.getName() + " to " + orientation);
+        }
+    }
+
+    // Place the selected ship on the player's grid
+    private void placeShipOnGrid(int row, int col) {
+        if (selectedShip == null) {
+            JOptionPane.showMessageDialog(this, "Please select a ship to place.");
+            return;
+        }
+
+        // Check if the ship fits on the grid
+        if (!canPlaceShip(row, col, selectedShipSize, isVertical)) {
+            JOptionPane.showMessageDialog(this, "Ship cannot be placed here.");
+            return;
+        }
+
+        // Place ship on the grid
+        for (int i = 0; i < selectedShipSize; i++) {
+            if (isVertical) {
+                playerGrid[row + i][col].setBackground(Color.GRAY);
+            } else {
+                playerGrid[row][col + i].setBackground(Color.GRAY);
+            }
+        }
+
+        // After placing, reset the selected ship
+        selectedShip = null;
+        selectedShipSize = 0;
+    }
+
+    // Check if the ship can be placed at the given location without overlapping or going out of bounds
+    private boolean canPlaceShip(int row, int col, int size, boolean isVertical) {
+        if (isVertical) {
+            if (row + size > 10) return false;  // Out of bounds
+            for (int i = 0; i < size; i++) {
+                if (playerShips[row + i][col]) return false;  // Ship already placed
+            }
+        } else {
+            if (col + size > 10) return false;  // Out of bounds
+            for (int i = 0; i < size; i++) {
+                if (playerShips[row][col + i]) return false;  // Ship already placed
+            }
+        }
+        return true;
+    }
+
+    // Ship class representing a ship to place on the grid
+    private class Ship {
+        private String name;
+        private int size;
+
+        public Ship(String name, int size) {
+            this.name = name;
+            this.size = size;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getSize() {
+            return size;
+        }
+    }
+
+    public static void main(String[] args) {
+        new BattleshipGUI();
+    }
+}

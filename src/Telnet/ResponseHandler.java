@@ -60,7 +60,7 @@ public class ResponseHandler {
                 }
             }
         } else if (response.contains(ServerEvent.error)) {
-            this.client.showMessage(response);
+            this.eventHandler.onError(response);
         }
     }
 

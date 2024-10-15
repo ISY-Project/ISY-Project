@@ -58,12 +58,12 @@ public class TelnetClient {
             name += (int) (Math.random() * 10);
             Login login = new Login(name);
             Message message = new Message(name + " Here to win the game!1!");
-            Subscribe subscribe = new Subscribe("battleship");
+            // Subscribe subscribe = new Subscribe("battleship");
             EventHandler eventHandler = new EventHandler(client);
             ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
-            client.sendMessage(subscribe.get());
+            // client.sendMessage(subscribe.get());
             // handle waiting for the game to start
             String response = client.in.readLine();
             while (response.contains("")) {
