@@ -25,6 +25,10 @@ public class TelnetClient {
         return in.readLine();
     }
 
+    public void showMessage(String message) {
+        System.out.println(message);
+    }
+
     public void showMessage() {
         String msg;
         try {
@@ -59,9 +63,11 @@ public class TelnetClient {
             client.sendMessage(message.get());
             client.sendMessage(subscribe.get());
             // handle waiting for the game to start
-            while (client.in.readLine().contains("")) {
-                client.showMessage();
-                responseHandler.handle();
+            String response = client.in.readLine();
+            while (response.contains("")) {
+                client.showMessage(response);
+                responseHandler.handle(response);
+                response = client.in.readLine();
             }
         } catch (Exception e) {
             e.printStackTrace();
