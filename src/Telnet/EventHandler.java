@@ -5,9 +5,14 @@ import Telnet.Responses.GameEvent;
 import Telnet.Responses.MoveResponse;
 import Telnet.Responses.ServerEvent;
 
-
 // TODO Remove the showMessage calls, as they are for debugging.
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
+    private TelnetClient client;
+
+    EventHandler(TelnetClient client) {
+        this.client = client;
+    }
+
     @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
         this.showMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
@@ -36,16 +41,22 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent {
     @Override
     public void onWin() {
         showMessage("Win");
+        var logout = new Logout();
+        this.client.sendMessage(logout.get());
     }
 
     @Override
     public void onLose() {
         showMessage("Lose");
+        var logout = new Logout();
+        this.client.sendMessage(logout.get());
     }
 
     @Override
     public void onDraw() {
         showMessage("Draw");
+        var logout = new Logout();
+        this.client.sendMessage(logout.get());
     }
 
     @Override
