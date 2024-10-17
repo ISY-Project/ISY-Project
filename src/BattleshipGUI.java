@@ -5,13 +5,14 @@ import java.awt.event.*;
 import java.util.Arrays;
 
 public class BattleshipGUI extends JFrame {
-    private JButton[][] playerGrid = new JButton[10][10];
-    private JButton[][] opponentGrid = new JButton[10][10];
-    private boolean[][] playerShips = new boolean[10][10];  // To track player ships
+    private JButton[][] playerGrid = new JButton[8][8];
+    private JButton[][] opponentGrid = new JButton[8][8];
+    private boolean[][] playerShips = new boolean[8][8];  // To track player ships
     private Ships ships;  // Ships available to be placed
     private JPanel playerPanel;
     private JPanel opponentPanel;
     private JPanel infoPanel;
+    private JDialog chatBox;
     private boolean isVertical = true;  // Ship orientation (vertical/horizontal)
     private int selectedShipSize = 0;  // Track the size of the ship being dragged
     private int[] initialShipSizes = {2, 3, 3, 4, 5};  // Ship sizes available to be placed
@@ -20,28 +21,35 @@ public class BattleshipGUI extends JFrame {
         this.ships = new Ships(initialShipSizes);
 
         setTitle("Battleship Game");
-        setSize(950, 500);
+        setSize(800, 425);
         setLayout(new BorderLayout());
 
         // Player's grid panel
-        this.playerPanel = new JPanel(new GridLayout(10, 10));
+        this.playerPanel = new JPanel(new GridLayout(8, 8));
         this.playerPanel.setBorder(BorderFactory.createTitledBorder("Your Grid"));
         initializePlayerGrid(this.playerPanel);
 
         // Opponent's grid panel
-        this.opponentPanel = new JPanel(new GridLayout(10, 10));
+        this.opponentPanel = new JPanel(new GridLayout(8, 8));
         this.opponentPanel.setBorder(BorderFactory.createTitledBorder("Opponent Grid"));
         initializeOpponentGrid(this.opponentPanel);
 
         // information panel
-        this.infoPanel = new JPanel(new GridLayout(20, 0));
+        this.infoPanel = new JPanel(new GridLayout(3, 0));
         this.infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
         initializeInfoPanel(this.infoPanel);
+
+        // chat box
+        chatBox = new JDialog();
+        this.infoPanel.add(chatBox);
+        // this.chatBox.setBorder(BorderFactory.createTitledBorder("Information"));
+        // initializeInfoPanel(this.chatBox);
 
         // Add components to the frame
         add(this.playerPanel, BorderLayout.WEST);
         add(this.infoPanel, BorderLayout.CENTER);
         add(this.opponentPanel, BorderLayout.EAST);
+
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -49,8 +57,8 @@ public class BattleshipGUI extends JFrame {
 
     // Initialize player grid with buttons
     private void initializePlayerGrid(JPanel playerPanel) {
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 final int finalRow = row;
@@ -64,10 +72,8 @@ public class BattleshipGUI extends JFrame {
                         } else if ("".equals(chosenShip)) {
 
                         } else if (Arrays.asList(ships.getShipSizes()).contains(Integer.valueOf(chosenShip))) {
-                            selectedShipSize = Integer.parseInt(chosenShip);
-                            placeShipOnGrid(finalRow, finalCol);
+                            // TODO - Send ship placement message to the server
                         }
-                        // TODO - Send ship placement message to the server
                     }
                 });
 
@@ -79,8 +85,8 @@ public class BattleshipGUI extends JFrame {
 
     // Initialize opponent grid (simplified)
     private void initializeOpponentGrid(JPanel opponentPanel) {
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 cell.addActionListener(new ActionListener() {
@@ -107,9 +113,12 @@ public class BattleshipGUI extends JFrame {
             }
         });
 
+        // TODO - Add a way to join an leave the game and start the game and add a chat (for trash talking)
+
         infoPanel.add(resetButton);
         infoPanel.add(new JLabel("Select a ship to place on the grid:"));
         infoPanel.add(new JLabel("Avable Ships:" + Arrays.toString(ships.shipSizes)));
+        // TODO - Add an way to update the show information about the game
     }
 
     // Rotate the currently selected ship
