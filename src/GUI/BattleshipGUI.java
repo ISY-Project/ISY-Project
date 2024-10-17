@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.util.Arrays;
 
 public class BattleshipGUI extends JFrame {
-    private final static int GRID_SIZE = 10;
+    private final static int GRID_SIZE = 8;
     private JButton[][] playerGrid = new JButton[GRID_SIZE][GRID_SIZE];
     private JButton[][] opponentGrid = new JButton[GRID_SIZE][GRID_SIZE];
     private boolean[][] playerShips = new boolean[GRID_SIZE][GRID_SIZE];  // To track player ships
