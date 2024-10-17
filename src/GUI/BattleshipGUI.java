@@ -1,3 +1,4 @@
+package GUI;
 import javax.swing.*;
 
 import java.awt.*;
@@ -5,9 +6,10 @@ import java.awt.event.*;
 import java.util.Arrays;
 
 public class BattleshipGUI extends JFrame {
-    private JButton[][] playerGrid = new JButton[10][10];
-    private JButton[][] opponentGrid = new JButton[10][10];
-    private boolean[][] playerShips = new boolean[10][10];  // To track player ships
+    private final static int GRID_SIZE = 10;
+    private JButton[][] playerGrid = new JButton[GRID_SIZE][GRID_SIZE];
+    private JButton[][] opponentGrid = new JButton[GRID_SIZE][GRID_SIZE];
+    private boolean[][] playerShips = new boolean[GRID_SIZE][GRID_SIZE];  // To track player ships
     private Ships ships;  // Ships available to be placed
     private JPanel playerPanel;
     private JPanel opponentPanel;
@@ -24,12 +26,12 @@ public class BattleshipGUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Player's grid panel
-        this.playerPanel = new JPanel(new GridLayout(10, 10));
+        this.playerPanel = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE));
         this.playerPanel.setBorder(BorderFactory.createTitledBorder("Your Grid"));
         initializePlayerGrid(this.playerPanel);
 
         // Opponent's grid panel
-        this.opponentPanel = new JPanel(new GridLayout(10, 10));
+        this.opponentPanel = new JPanel(new GridLayout(GRID_SIZE, GRID_SIZE));
         this.opponentPanel.setBorder(BorderFactory.createTitledBorder("Opponent Grid"));
         initializeOpponentGrid(this.opponentPanel);
 
@@ -49,8 +51,8 @@ public class BattleshipGUI extends JFrame {
 
     // Initialize player grid with buttons
     private void initializePlayerGrid(JPanel playerPanel) {
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < GRID_SIZE; row++) {
+            for (int col = 0; col < GRID_SIZE; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 final int finalRow = row;
@@ -79,8 +81,8 @@ public class BattleshipGUI extends JFrame {
 
     // Initialize opponent grid (simplified)
     private void initializeOpponentGrid(JPanel opponentPanel) {
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < GRID_SIZE; row++) {
+            for (int col = 0; col < GRID_SIZE; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 cell.addActionListener(new ActionListener() {
@@ -151,41 +153,17 @@ public class BattleshipGUI extends JFrame {
     // Check if the ship can be placed at the given location without overlapping or going out of bounds
     private boolean canPlaceShip(int row, int col, int size, boolean isVertical) {
         if (isVertical) {
-            if (row + size > 10) return false;  // Out of bounds
+            if (row + size > GRID_SIZE) return false;  // Out of bounds
             for (int i = 0; i < size; i++) {
                 if (playerShips[row + i][col]) return false;  // Ship already placed
             }
         } else {
-            if (col + size > 10) return false;  // Out of bounds
+            if (col + size > GRID_SIZE) return false;  // Out of bounds
             for (int i = 0; i < size; i++) {
                 if (playerShips[row][col + i]) return false;  // Ship already placed
             }
         }
         return true;
-    }
-
-    // Ship class representing a ship to place on the grid
-    private class Ships {
-        private int numberOfShips;
-        private int[] shipSizes;
-
-        public Ships (int[] shipSizes) {
-            this.shipSizes = shipSizes;
-            this.numberOfShips = shipSizes.length;
-        }
-
-        public void setShipSizes(int[] shipSizes) {
-            this.shipSizes = shipSizes;
-            this.numberOfShips = shipSizes.length;
-        }
-
-        public int getNumberOfShips() {
-            return numberOfShips;
-        }
-
-        public int[] getShipSizes() {
-            return shipSizes;
-        }
     }
 
     public static void main(String[] args) {
