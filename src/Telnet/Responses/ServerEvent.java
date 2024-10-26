@@ -5,4 +5,5 @@ public interface ServerEvent {
     String help = message + "HELP ";
     String error = "ERR ";
     void onHelp(String message);
+    void onMessage(String message);
 }

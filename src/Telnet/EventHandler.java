@@ -71,4 +71,8 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
         System.out.println(message);
     }
 
+    @Override
+    public void onMessage(String message) {
+        
+    }
 }
