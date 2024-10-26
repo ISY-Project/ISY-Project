@@ -115,71 +115,94 @@ public class BattleshipGUI extends JFrame {
     private void initializePlayerGrid(JPanel playerPanel) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
-                JButton cell = new JButton();
-                cell.setBackground(Color.BLUE); // Water color
-                final int finalRow = row;
-                final int finalCol = col;
-
-                var actionListener = new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // When a player clicks on their grid to place a ship
-                        System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
-                        String placingMessage = "What size ship do you want to place?\nAvailable sizes:" + Arrays.toString(ships.getShipSizes());
-                        String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
-                        try {
-                            selectedShipSize = Integer.parseInt(chosenShipSize);
-                            System.out.println("Selected ship size: " + selectedShipSize);
-                        } catch (NumberFormatException err) {
-                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
-                            System.out.println("Invalid ship size: " + chosenShipSize);
-                            return;
-                        }
-
-                        selectedShip = getSelectedShip();
-                        if (selectedShip == null) {
-                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
-                            return;
-                        }
-                        
-                        // TODO - Send ship placement message to the engine
-                        // TODO - Wait for response from the engine
-                        // TODO - If the engine accepts the placement, place the ship on the grid
-                        int shipSize = selectedShip.getSize();
-                        if (!validateGridBorderPlacement(finalRow, finalCol, shipSize, isVertical)) {
-                            JOptionPane.showMessageDialog(cell, "Ship cannot be placed here.");
-                            return;
-                        }
-                        placeShip(finalRow, finalCol, shipSize, isVertical);
-                    }
-
-                };
-
-                cell.addActionListener(actionListener);
-
-                playerGrid[row][col] = cell;
-                playerPanel.add(cell);
+                initializePlayerGridCell(playerPanel, row, col);
             }
         }
+    }
+
+    private void initializePlayerGridCell(JPanel playerPanel, int row, int col) {
+        JButton cell = new JButton();
+        cell.setBackground(Color.BLUE); // Water color
+        final int finalRow = row;
+        final int finalCol = col;
+
+        var actionListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // When a player clicks on their grid to place a ship
+                System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
+                String placingMessage = "What size ship do you want to place?\nAvailable sizes:" + Arrays.toString(ships.getShipSizes());
+                String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
+                try {
+                    selectedShipSize = Integer.parseInt(chosenShipSize);
+                    System.out.println("Selected ship size: " + selectedShipSize);
+                } catch (NumberFormatException err) {
+                    JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                    System.out.println("Invalid ship size: " + chosenShipSize);
+                    return;
+                }
+
+                selectedShip = getSelectedShip();
+                if (selectedShip == null) {
+                    JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                    return;
+                }
+                
+                // TODO - Send ship placement message to the engine
+                // TODO - Wait for response from the engine
+                // TODO - If the engine accepts the placement, place the ship on the grid
+                int shipSize = selectedShip.getSize();
+                if (!validateGridBorderPlacement(finalRow, finalCol, shipSize, isVertical)) {
+                    JOptionPane.showMessageDialog(cell, "Ship cannot be placed here.");
+                    return;
+                }
+                placeShip(finalRow, finalCol, shipSize, isVertical);
+            }
+
+        };
+
+        cell.addActionListener(actionListener);
+
+        playerGrid[row][col] = cell;
+        playerPanel.add(cell);
     }
 
     // Initialize opponent grid (simplified)
     private void initializeOpponentGrid(JPanel opponentPanel) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
-                JButton cell = new JButton();
-                cell.setBackground(Color.BLUE); // Water color
-                cell.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // When a player clicks on their grid to place a ship
-                        cell.setBackground(Color.GRAY); // Hit color
-                        // TODO - Send shot message to the server and wait for response
-                    }
-                });
-
-                opponentPanel.add(cell);
-                opponentGrid[row][col] = cell;
+                InitializeOpponentGridCell(opponentPanel, row, col);
             }
         }
+    }
+
+    private void InitializeOpponentGridCell(JPanel opponentPanel, int row, int col) {
+        JButton cell = new JButton();
+        cell.setBackground(Color.BLUE); // Water color
+        ActionListener actionListener = new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    // When a player clicks on their grid to place a ship
+                    cell.setBackground(Color.GRAY); // Hit color
+                    // TODO - Send shot message to the server and wait for response
+                    if (Math.random() < 0.5) {
+                        onHit();
+                    } else {
+                        onMiss();
+                }
+                // Example functions to be called when the player hits or misses a shot,
+                // These should go into a ResponseHandler somewhere.
+            }
+            
+            private void onHit() {
+                cell.setBackground(Color.RED); // Hit color
+            }
+            private void onMiss() {
+                cell.setBackground(Color.WHITE); // Miss color
+            }
+        };
+        cell.addActionListener(actionListener);
+
+        opponentPanel.add(cell);
+        opponentGrid[row][col] = cell;
     }
 
     private void initializeInfoPanel(JPanel infoPanel) {
