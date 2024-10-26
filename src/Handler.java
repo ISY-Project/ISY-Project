@@ -1,17 +1,18 @@
-package Telnet;
-
-import Telnet.Responses.ChallengeEvent;
-import Telnet.Responses.GameEvent;
+import GUI.BattleshipGUI;
+import Telnet.Logout;
+import Telnet.TelnetClient;
 import Telnet.Responses.MoveResponse;
-import Telnet.Responses.ServerEvent;
+import Telnet.EventHandler;
 
 // TODO Remove the showMessage calls, as they are for debugging.
-public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
+public class Handler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
+    private BattleshipGUI gui;
 
-    public EventHandler(TelnetClient client) {
-        this.client = client;
+    public Handler(TelnetClient client, BattleshipGUI gui) {
+        super(client);
+        this.gui = gui;
     }
 
     @Override
@@ -73,6 +74,6 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
 
     @Override
     public void onMessage(String message) {
-        
+        this.gui.getChatBox().addMessage(message);
     }
 }
