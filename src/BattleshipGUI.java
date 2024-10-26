@@ -83,13 +83,21 @@ public class BattleshipGUI extends JFrame {
 
     private void placeShip(int row, int col, int size, boolean isVertical) {
         if (isVertical) {
-            for (int i = 0; i < size; i++) {
-                playerGrid[row + i][col].setBackground(Color.GREEN);
-            }
+            placeVerticalShip(row, col, size);
         } else {
-            for (int i = 0; i < size; i++) {
-                playerGrid[row][col + i].setBackground(Color.GREEN);
-            }
+            placeHorizontalShip(row, col, size);
+        }
+    }
+
+    private void placeHorizontalShip(int row, int col, int size) {
+        for (int i = 0; i < size; i++) {
+            this.getPlayerCell(row, col + i).setBackground(Color.GREEN);
+        }
+    }
+
+    private void placeVerticalShip(int row, int col, int size) {
+        for (int i = 0; i < size; i++) {
+            this.getPlayerCell(row + i, col).setBackground(Color.GREEN);
         }
     }
 
