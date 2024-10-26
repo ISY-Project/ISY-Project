@@ -12,7 +12,7 @@ public class BattleshipGUI extends JFrame {
     private JPanel playerPanel;
     private JPanel opponentPanel;
     private JPanel infoPanel;
-    private JDialog chatBox;
+    private JPanel chatBox;
 
     public BattleshipGUI() {
         int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
@@ -39,15 +39,16 @@ public class BattleshipGUI extends JFrame {
 
         // chat box
         // TODO: show the server chat messages and allow for sending messages.
-        // chatBox = new JDialog();
-        // this.infoPanel.add(chatBox);
-        // this.chatBox.setBorder(BorderFactory.createTitledBorder("Information"));
-        // initializeInfoPanel(this.chatBox);
+        chatBox = new JPanel();
+        this.infoPanel.add(chatBox);
+        this.chatBox.setBorder(BorderFactory.createTitledBorder("Chatbox"));
+        initializeChatPanel(this.chatBox);
 
         // Add components to the frame
         add(this.playerPanel, BorderLayout.WEST);
         add(this.infoPanel, BorderLayout.CENTER);
         add(this.opponentPanel, BorderLayout.EAST);
+        add(this.chatBox, BorderLayout.SOUTH);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -193,6 +194,10 @@ public class BattleshipGUI extends JFrame {
 
         opponentPanel.add(cell);
         opponentGrid[row][col] = cell;
+    }
+
+    private void initializeChatPanel(JPanel chatBox) {
+        // TODO - Add a chat box to the GUI
     }
 
     private void initializeInfoPanel(JPanel infoPanel) {
