@@ -188,8 +188,6 @@ public class BattleshipGUI extends JFrame {
                     } else {
                         onMiss();
                 }
-                // Example functions to be called when the player hits or misses a shot,
-                // These should go into a ResponseHandler somewhere.
             }
             
             private void onHit() {
