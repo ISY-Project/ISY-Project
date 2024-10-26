@@ -101,6 +101,16 @@ public class BattleshipGUI extends JFrame {
         }
     }
 
+    private Ship getSelectedShip() {
+        Ship selectedShip = null;
+        for (var ship : ships.getShipSizes()) {
+            if (ship == selectedShipSize) {
+                selectedShip = new Ship(selectedShipSize);
+            }
+        }
+        return selectedShip;
+    }
+
     // Initialize player grid with buttons
     private void initializePlayerGrid(JPanel playerPanel) {
         for (int row = 0; row < gridSize; row++) {
@@ -110,13 +120,12 @@ public class BattleshipGUI extends JFrame {
                 final int finalRow = row;
                 final int finalCol = col;
 
-                cell.addActionListener(new ActionListener() {
+                var actionListener = new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         // When a player clicks on their grid to place a ship
                         System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
                         String placingMessage = "What size ship do you want to place?\nAvailable sizes:" + Arrays.toString(ships.getShipSizes());
                         String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
-                        Ship selectedShip = null;
                         try {
                             selectedShipSize = Integer.parseInt(chosenShipSize);
                             System.out.println("Selected ship size: " + selectedShipSize);
@@ -126,11 +135,7 @@ public class BattleshipGUI extends JFrame {
                             return;
                         }
 
-                        for (var ship : ships.getShipSizes()) {
-                            if (ship == selectedShipSize) {
-                                selectedShip = new Ship(selectedShipSize);
-                            }
-                        }
+                        selectedShip = getSelectedShip();
                         if (selectedShip == null) {
                             JOptionPane.showMessageDialog(cell, "Invalid ship size");
                             return;
@@ -146,7 +151,10 @@ public class BattleshipGUI extends JFrame {
                         }
                         placeShip(finalRow, finalCol, shipSize, isVertical);
                     }
-                });
+
+                };
+
+                cell.addActionListener(actionListener);
 
                 playerGrid[row][col] = cell;
                 playerPanel.add(cell);
