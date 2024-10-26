@@ -3,6 +3,7 @@ import Telnet.EventHandler;
 import Telnet.Login;
 import Telnet.Message;
 import Telnet.ResponseHandler;
+import Telnet.Subscribe;
 import Telnet.TelnetClient;
 
 public class Main {
@@ -17,12 +18,12 @@ public class Main {
             client.connect("localhost", 7789); // Replace with your server and port
             Login login = new Login(name);
             Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
-            // Subscribe subscribe = new Subscribe("battleship");
+            Subscribe subscribe = new Subscribe("battleship");
             EventHandler eventHandler = new Handler(client, GUI);
             ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
-            // client.sendMessage(subscribe.get());
+            client.sendMessage(subscribe.get());
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) {
