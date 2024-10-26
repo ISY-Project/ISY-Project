@@ -181,7 +181,6 @@ public class BattleshipGUI extends JFrame {
         ActionListener actionListener = new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     // When a player clicks on their grid to place a ship
-                    cell.setBackground(Color.GRAY); // Hit color
                     // TODO - Send shot message to the server and wait for response
                     if (Math.random() < 0.5) {
                         onHit();
@@ -194,7 +193,7 @@ public class BattleshipGUI extends JFrame {
                 cell.setBackground(Color.RED); // Hit color
             }
             private void onMiss() {
-                cell.setBackground(Color.WHITE); // Miss color
+                cell.setBackground(Color.GRAY); // Miss color
             }
         };
         cell.addActionListener(actionListener);
