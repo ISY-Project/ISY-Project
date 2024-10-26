@@ -30,4 +30,15 @@ class Ships {
     public Ship[] getShips() {
         return ships;
     }
+    
+    public Ship getShipBySize(int selectedShipSize) {
+        Ship selectedShip = null;
+        for (var ship : ships) {
+            if (ship.getSize() == selectedShipSize) {
+                selectedShip = ship;
+            }
+        }
+        return selectedShip;
+    }
+
 }
