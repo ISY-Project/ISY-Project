@@ -20,13 +20,6 @@ public class InfoPanel extends JPanel {
         this.playerGrid = playerGrid;
         this.opponentGrid = opponentGrid;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
-        initializeInfoPanel();
-
-    }
-    
-    private void initializeInfoPanel() {
-        // Add buttons to the info panel
-
         JButton resetButton = new JButton("Reset Ships");
         JButton rotateButton = new JButton("Rotate Ship");
         resetButton.addActionListener(resetShipsActionListener());
@@ -37,6 +30,7 @@ public class InfoPanel extends JPanel {
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
     }
+
 
     private ActionListener RotateShipActionListener() {
         return new ActionListener() {
