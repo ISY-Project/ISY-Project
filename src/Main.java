@@ -1,5 +1,6 @@
+import java.awt.event.ActionListener;
+
 import GUI.BattleshipGUI;
-import Telnet.EventHandler;
 import Telnet.Login;
 import Telnet.Message;
 import Telnet.ResponseHandler;
@@ -13,14 +14,21 @@ public class Main {
 
         var client = new TelnetClient();
         var GUI = new BattleshipGUI();
+        Login login = new Login(name);
+        Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
+        Subscribe subscribe = new Subscribe("battleship");
+        Handler eventHandler = new Handler(client, GUI);
+        ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+
+        GUI.getChatBox().getChatArea().addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                String msg = GUI.getChatBox().getChatArea().getText();
+                client.sendMessage(new Message(msg).get());
+            }
+        });
 
         try {
             client.connect("localhost", 7789);
-            Login login = new Login(name);
-            Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
-            Subscribe subscribe = new Subscribe("battleship");
-            Handler eventHandler = new Handler(client, GUI);
-            ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
             client.sendMessage(subscribe.get());
