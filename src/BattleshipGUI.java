@@ -5,9 +5,10 @@ import java.awt.event.*;
 import java.util.Arrays;
 
 public class BattleshipGUI extends JFrame {
-    private JButton[][] playerGrid = new JButton[8][8];
-    private JButton[][] opponentGrid = new JButton[8][8];
-    private boolean[][] playerShips = new boolean[8][8];  // To track player ships
+    private static final int gridSize = 8;
+    private JButton[][] playerGrid = new JButton[gridSize][gridSize];
+    private JButton[][] opponentGrid = new JButton[gridSize][gridSize];
+    private boolean[][] playerShips = new boolean[gridSize][gridSize];  // To track player ships
     private Ships ships;  // Ships available to be placed
     private JPanel playerPanel;
     private JPanel opponentPanel;
@@ -16,6 +17,7 @@ public class BattleshipGUI extends JFrame {
     private boolean isVertical = true;  // Ship orientation (vertical/horizontal)
     private int selectedShipSize = 0;  // Track the size of the ship being dragged
     private int[] initialShipSizes = {2, 3, 3, 4, 5};  // Ship sizes available to be placed
+    private Ship selectedShip;  // Ship being dragged
 
     public BattleshipGUI() {
         this.ships = new Ships(initialShipSizes);
@@ -25,12 +27,12 @@ public class BattleshipGUI extends JFrame {
         setLayout(new BorderLayout());
 
         // Player's grid panel
-        this.playerPanel = new JPanel(new GridLayout(8, 8));
+        this.playerPanel = new JPanel(new GridLayout(gridSize, gridSize));
         this.playerPanel.setBorder(BorderFactory.createTitledBorder("Your Grid"));
         initializePlayerGrid(this.playerPanel);
 
         // Opponent's grid panel
-        this.opponentPanel = new JPanel(new GridLayout(8, 8));
+        this.opponentPanel = new JPanel(new GridLayout(gridSize, gridSize));
         this.opponentPanel.setBorder(BorderFactory.createTitledBorder("Opponent Grid"));
         initializeOpponentGrid(this.opponentPanel);
 
@@ -40,8 +42,8 @@ public class BattleshipGUI extends JFrame {
         initializeInfoPanel(this.infoPanel);
 
         // chat box
-        chatBox = new JDialog();
-        this.infoPanel.add(chatBox);
+        // chatBox = new JDialog();
+        // this.infoPanel.add(chatBox);
         // this.chatBox.setBorder(BorderFactory.createTitledBorder("Information"));
         // initializeInfoPanel(this.chatBox);
 
@@ -55,10 +57,30 @@ public class BattleshipGUI extends JFrame {
         setVisible(true);
     }
 
+    private int[][] createGrid(int size) {
+        return createGrid(size, size);
+    }
+
+    private int[][] createGrid(int rows, int cols) {
+        return new int[rows][cols];
+    }
+
+    private void placeShip(int row, int col, int size, boolean isVertical) {
+        if (isVertical) {
+            for (int i = 0; i < size; i++) {
+                playerGrid[row + i][col].setBackground(Color.GREEN);
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                playerGrid[row][col + i].setBackground(Color.GREEN);
+            }
+        }
+    }
+
     // Initialize player grid with buttons
     private void initializePlayerGrid(JPanel playerPanel) {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 final int finalRow = row;
@@ -67,13 +89,34 @@ public class BattleshipGUI extends JFrame {
                 cell.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         // When a player clicks on their grid to place a ship
-                        String chosenShip = JOptionPane.showInputDialog("What size ship do you want to place?\nAvalable sizes:" + Arrays.toString(ships.getShipSizes()));
-                        if (chosenShip == null) {
-                        } else if ("".equals(chosenShip)) {
-
-                        } else if (Arrays.asList(ships.getShipSizes()).contains(Integer.valueOf(chosenShip))) {
-                            // TODO - Send ship placement message to the server
+                        System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
+                        String placingMessage = "What size ship do you want to place?\nAvailable sizes:" + Arrays.toString(ships.getShipSizes());
+                        String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
+                        Ship selectedShip = null;
+                        try {
+                            selectedShipSize = Integer.parseInt(chosenShipSize);
+                            System.out.println("Selected ship size: " + selectedShipSize);
+                        } catch (NumberFormatException err) {
+                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                            System.out.println("Invalid ship size: " + chosenShipSize);
+                            return;
                         }
+
+                        for (var ship : ships.getShipSizes()) {
+                            if (ship == selectedShipSize) {
+                                selectedShip = new Ship(selectedShipSize);
+                            }
+                        }
+                        if (selectedShip == null) {
+                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                            return;
+                        }
+                        
+                        // TODO - Send ship placement message to the engine
+                        // TODO - Wait for response from the engine
+                        // TODO - If the engine accepts the placement, place the ship on the grid
+                        cell.setBackground(Color.GREEN); // Ship color
+                        placeShip(finalRow, finalCol, selectedShip.getSize(), isVertical);
                     }
                 });
 
@@ -85,8 +128,8 @@ public class BattleshipGUI extends JFrame {
 
     // Initialize opponent grid (simplified)
     private void initializeOpponentGrid(JPanel opponentPanel) {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
+        for (int row = 0; row < gridSize; row++) {
+            for (int col = 0; col < gridSize; col++) {
                 JButton cell = new JButton();
                 cell.setBackground(Color.BLUE); // Water color
                 cell.addActionListener(new ActionListener() {
@@ -126,12 +169,12 @@ public class BattleshipGUI extends JFrame {
         isVertical = !isVertical;  // Toggle orientation
         if (selectedShip != null) {
             String orientation = isVertical ? "Vertical" : "Horizontal";
-            JOptionPane.showMessageDialog(this, "Rotated " + selectedShip.getName() + " to " + orientation);
+            JOptionPane.showMessageDialog(this, "Rotated " + selectedShip.getSize() + " to " + orientation);
         }
     }
 
     // Place the selected ship on the player's grid
-    private void placeShipOnGrid(int row, int col) {
+    private void placeShipOnGrid(int row, int col, int size, boolean isVertical) {
         if (selectedShip == null) {
             JOptionPane.showMessageDialog(this, "Please select a ship to place.");
             return;
@@ -171,30 +214,6 @@ public class BattleshipGUI extends JFrame {
             }
         }
         return true;
-    }
-
-    // Ship class representing a ship to place on the grid
-    private class Ships {
-        private int numberOfShips;
-        private int[] shipSizes;
-
-        public Ships (int[] shipSizes) {
-            this.shipSizes = shipSizes;
-            this.numberOfShips = shipSizes.length;
-        }
-
-        public void setShipSizes(int[] shipSizes) {
-            this.shipSizes = shipSizes;
-            this.numberOfShips = shipSizes.length;
-        }
-
-        public int getNumberOfShips() {
-            return numberOfShips;
-        }
-
-        public int[] getShipSizes() {
-            return shipSizes;
-        }
     }
 
     public static void main(String[] args) {
