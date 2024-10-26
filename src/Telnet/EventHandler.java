@@ -10,7 +10,7 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
     final Logout logout = new Logout();
     private TelnetClient client;
 
-    EventHandler(TelnetClient client) {
+    public EventHandler(TelnetClient client) {
         this.client = client;
     }
 

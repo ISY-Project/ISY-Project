@@ -10,7 +10,7 @@ public class ResponseHandler {
     private TelnetClient client;
     private EventHandler eventHandler;
     
-    ResponseHandler(TelnetClient client, EventHandler eventHandler) {
+    public ResponseHandler(TelnetClient client, EventHandler eventHandler) {
         this.client = client;
         this.eventHandler = eventHandler;
     }
