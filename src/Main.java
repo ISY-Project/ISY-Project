@@ -15,11 +15,11 @@ public class Main {
         var GUI = new BattleshipGUI();
 
         try {
-            client.connect("localhost", 7789); // Replace with your server and port
+            client.connect("localhost", 7789);
             Login login = new Login(name);
             Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
             Subscribe subscribe = new Subscribe("battleship");
-            EventHandler eventHandler = new Handler(client, GUI);
+            Handler eventHandler = new Handler(client, GUI);
             ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
             client.sendMessage(login.get());
             client.sendMessage(message.get());

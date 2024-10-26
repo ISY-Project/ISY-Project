@@ -68,12 +68,14 @@ public class Handler extends EventHandler {
         showMessage(message);
     }
 
-    private void showMessage(String message) {
-        System.out.println(message);
+    public void showMessage(String message) {
+        System.out.println("Received: " + message);
+        this.gui.getChatBox().addMessage("You", message);
     }
 
     @Override
     public void onMessage(String message) {
         this.gui.getChatBox().addMessage(message);
     }
+
 }
