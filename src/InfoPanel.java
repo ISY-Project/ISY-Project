@@ -32,14 +32,10 @@ public class InfoPanel extends JPanel {
         resetButton.addActionListener(resetShipsActionListener());
         rotateButton.addActionListener(RotateShipActionListener());
 
-        // TODO - Add a way to join an leave the game and start the game and add a chat
-        // (for trash talking)
-
         this.add(resetButton);
         this.add(rotateButton);
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
-        // TODO - Add an way to update the show information about the game
     }
 
     private ActionListener RotateShipActionListener() {
