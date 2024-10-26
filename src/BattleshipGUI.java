@@ -11,7 +11,7 @@ public class BattleshipGUI extends JFrame {
     private PlayerGrid playerGrid;
     private OpponentGrid opponentGrid;
     private InfoPanel infoPanel;
-    private JPanel chatBox;
+    private ChatBox chatBox;
 
     public PlayerGrid getPlayerGrid() {
         return playerGrid;
