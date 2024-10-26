@@ -46,4 +46,13 @@ public class ChatBox extends JPanel {
     public void addMessage(String name, String message) {
         addMessage(name + ": " + message);
     }
+
+    public JTextField getChatArea() {
+        return chatArea;
+    }
+
+    public JTextArea getChatView() {
+        return chatView;
+    }
+
 }
