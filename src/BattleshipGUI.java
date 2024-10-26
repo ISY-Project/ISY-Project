@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 // TODO - Add a way to join an leave the game and start the game
 
