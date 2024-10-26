@@ -8,30 +8,18 @@ public class BattleshipGUI extends JFrame {
     private static final int gridSize = 8;
     private JButton[][] playerGrid = new JButton[gridSize][gridSize];
     private JButton[][] opponentGrid = new JButton[gridSize][gridSize];
-    private boolean[][] playerShips = new boolean[gridSize][gridSize];  // To track player ships
-    private Ships ships;  // Ships available to be placed
+    private Ships ships; // Ships available to be placed
     private JPanel playerPanel;
     private JPanel opponentPanel;
     private JPanel infoPanel;
     private JDialog chatBox;
-    private boolean isVertical = true;  // Ship orientation (vertical/horizontal)
-    private int selectedShipSize = 0;  // Track the size of the ship being dragged
-    private int[] initialShipSizes = {2, 3, 3, 4, 5};  // Ship sizes available to be placed
-    private Ship selectedShip;  // Ship being dragged
-
-    public JButton getPlayerCell(int row, int col) {
-        return playerGrid[row][col];
-    }
-
-    public JButton getOpponentCell(int row, int col) {
-        return playerGrid[row][col];
-    }
 
     public BattleshipGUI() {
+        int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
         this.ships = new Ships(initialShipSizes);
 
         setTitle("Battleship Game");
-        setSize(800, 425);
+        setSize(900, 600);
         setLayout(new BorderLayout());
 
         // Player's grid panel
@@ -61,51 +49,54 @@ public class BattleshipGUI extends JFrame {
         add(this.infoPanel, BorderLayout.CENTER);
         add(this.opponentPanel, BorderLayout.EAST);
 
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    private int[][] createGrid(int size) {
-        return createGrid(size, size);
-    }
-
-    private int[][] createGrid(int rows, int cols) {
-        return new int[rows][cols];
-    }
-
-    private boolean validateGridBorderPlacement(int row, int col, int size, boolean isVertical) {
-        if (isVertical) {
-            if (row + size > gridSize) {return false;};
-        } else if (col + size > gridSize) {return false;};
+    private boolean validateGridBorderPlacement(int row, int col, Ship ship) {
+        if (ship.isVertical()) {
+            if (row + ship.getSize() > gridSize) {
+                return false;
+            }
+        } else if (col + ship.getSize() > gridSize) {
+            return false;
+        }
         return true;
     }
 
-    private void placeShip(int row, int col, int size, boolean isVertical) {
-        if (isVertical) {
-            placeVerticalShip(row, col, size);
+    private void placeShip(int row, int col, Ship ship) {
+        if (ship.isVertical()) {
+            placeVerticalShip(row, col, ship.getSize());
         } else {
-            placeHorizontalShip(row, col, size);
+            placeHorizontalShip(row, col, ship.getSize());
         }
+    }
+
+    public JButton getPlayerGridCell(int row, int col) {
+        return playerGrid[row][col];
+    }
+
+    public JButton getOpponentGridCell(int row, int col) {
+        return playerGrid[row][col];
     }
 
     private void placeHorizontalShip(int row, int col, int size) {
         for (int i = 0; i < size; i++) {
-            this.getPlayerCell(row, col + i).setBackground(Color.GREEN);
+            this.getPlayerGridCell(row, col + i).setBackground(Color.GREEN);
         }
     }
 
     private void placeVerticalShip(int row, int col, int size) {
         for (int i = 0; i < size; i++) {
-            this.getPlayerCell(row + i, col).setBackground(Color.GREEN);
+            this.getPlayerGridCell(row + i, col).setBackground(Color.GREEN);
         }
     }
 
-    private Ship getSelectedShip() {
+    private Ship getSelectedShip(int selectedShipSize) {
         Ship selectedShip = null;
-        for (var ship : ships.getShipSizes()) {
-            if (ship == selectedShipSize) {
-                selectedShip = new Ship(selectedShipSize);
+        for (var ship : ships.getShips()) {
+            if (ship.getSize() == selectedShipSize) {
+                selectedShip = ship;
             }
         }
         return selectedShip;
@@ -130,8 +121,10 @@ public class BattleshipGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // When a player clicks on their grid to place a ship
                 System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
-                String placingMessage = "What size ship do you want to place?\nAvailable sizes:" + Arrays.toString(ships.getShipSizes());
+                String placingMessage = "What size ship do you want to place?\nAvailable sizes:"
+                        + Arrays.toString(ships.ShipSizes());
                 String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
+                int selectedShipSize = 0;
                 try {
                     selectedShipSize = Integer.parseInt(chosenShipSize);
                     System.out.println("Selected ship size: " + selectedShipSize);
@@ -141,21 +134,20 @@ public class BattleshipGUI extends JFrame {
                     return;
                 }
 
-                selectedShip = getSelectedShip();
+                Ship selectedShip = getSelectedShip(selectedShipSize);
                 if (selectedShip == null) {
                     JOptionPane.showMessageDialog(cell, "Invalid ship size");
                     return;
                 }
-                
+
                 // TODO - Send ship placement message to the engine
                 // TODO - Wait for response from the engine
                 // TODO - If the engine accepts the placement, place the ship on the grid
-                int shipSize = selectedShip.getSize();
-                if (!validateGridBorderPlacement(finalRow, finalCol, shipSize, isVertical)) {
+                if (!validateGridBorderPlacement(finalRow, finalCol, selectedShip)) {
                     JOptionPane.showMessageDialog(cell, "Ship cannot be placed here.");
                     return;
                 }
-                placeShip(finalRow, finalCol, shipSize, isVertical);
+                placeShip(finalRow, finalCol, selectedShip);
             }
 
         };
@@ -179,19 +171,20 @@ public class BattleshipGUI extends JFrame {
         JButton cell = new JButton();
         cell.setBackground(Color.BLUE); // Water color
         ActionListener actionListener = new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    // When a player clicks on their grid to place a ship
-                    // TODO - Send shot message to the server and wait for response
-                    if (Math.random() < 0.5) {
-                        onHit();
-                    } else {
-                        onMiss();
+            public void actionPerformed(ActionEvent e) {
+                // When a player clicks on their grid to place a ship
+                // TODO - Send shot message to the server and wait for response
+                if (Math.random() < 0.5) {
+                    onHit();
+                } else {
+                    onMiss();
                 }
             }
-            
+
             private void onHit() {
                 cell.setBackground(Color.RED); // Hit color
             }
+
             private void onMiss() {
                 cell.setBackground(Color.GRAY); // Miss color
             }
@@ -206,7 +199,37 @@ public class BattleshipGUI extends JFrame {
         // Add buttons to the info panel
 
         JButton resetButton = new JButton("Reset Ships");
-        resetButton.addActionListener(new ActionListener() {
+        JButton rotateButton = new JButton("Rotate Ship");
+        resetButton.addActionListener(resetShipsActionListener());
+        rotateButton.addActionListener(RotateShipActionListener());
+
+        // TODO - Add a way to join an leave the game and start the game and add a chat
+        // (for trash talking)
+
+        infoPanel.add(resetButton);
+        infoPanel.add(rotateButton);
+        infoPanel.add(new JLabel("Select a ship to place on the grid:"));
+        infoPanel.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
+        // TODO - Add an way to update the show information about the game
+    }
+
+    private ActionListener RotateShipActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                rotateAllShips();
+            }
+
+        };
+    }
+
+    private void rotateAllShips() {
+        for (var ship : ships.getShips()) {
+            ship.rotate();
+        }
+    }
+
+    private ActionListener resetShipsActionListener() {
+        return new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (var row : playerGrid) {
                     for (var cell : row) {
@@ -219,73 +242,7 @@ public class BattleshipGUI extends JFrame {
                     }
                 }
             }
-        });
-        JButton rotateButton = new JButton("Rotate Ship");
-        rotateButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                rotateShip();
-            }
-        });
-
-        // TODO - Add a way to join an leave the game and start the game and add a chat (for trash talking)
-
-        infoPanel.add(resetButton);
-        infoPanel.add(rotateButton);
-        infoPanel.add(new JLabel("Select a ship to place on the grid:"));
-        infoPanel.add(new JLabel("Avable Ships:" + Arrays.toString(ships.shipSizes)));
-        // TODO - Add an way to update the show information about the game
-    }
-
-    // Rotate the currently selected ship
-    private void rotateShip() {
-        isVertical = !isVertical;  // Toggle orientation
-        if (selectedShip != null) {
-            String orientation = isVertical ? "Vertical" : "Horizontal";
-            JOptionPane.showMessageDialog(this, "Rotated " + selectedShip.getSize() + " to " + orientation);
-        }
-    }
-
-    // Place the selected ship on the player's grid
-    private void placeShipOnGrid(int row, int col, int size, boolean isVertical) {
-        if (selectedShip == null) {
-            JOptionPane.showMessageDialog(this, "Please select a ship to place.");
-            return;
-        }
-
-        // Check if the ship fits on the grid
-        if (!canPlaceShip(row, col, selectedShipSize, isVertical)) {
-            JOptionPane.showMessageDialog(this, "Ship cannot be placed here.");
-            return;
-        }
-
-        // Place ship on the grid
-        for (int i = 0; i < selectedShipSize; i++) {
-            if (isVertical) {
-                playerGrid[row + i][col].setBackground(Color.GRAY);
-            } else {
-                playerGrid[row][col + i].setBackground(Color.GRAY);
-            }
-        }
-
-        // After placing, reset the selected ship
-        selectedShip = null;
-        selectedShipSize = 0;
-    }
-
-    // Check if the ship can be placed at the given location without overlapping or going out of bounds
-    private boolean canPlaceShip(int row, int col, int size, boolean isVertical) {
-        if (isVertical) {
-            if (row + size > 10) return false;  // Out of bounds
-            for (int i = 0; i < size; i++) {
-                if (playerShips[row + i][col]) return false;  // Ship already placed
-            }
-        } else {
-            if (col + size > 10) return false;  // Out of bounds
-            for (int i = 0; i < size; i++) {
-                if (playerShips[row][col + i]) return false;  // Ship already placed
-            }
-        }
-        return true;
+        };
     }
 
     public static void main(String[] args) {
