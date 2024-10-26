@@ -42,6 +42,7 @@ public class BattleshipGUI extends JFrame {
         initializeInfoPanel(this.infoPanel);
 
         // chat box
+        // TODO: show the server chat messages and allow for sending messages.
         // chatBox = new JDialog();
         // this.infoPanel.add(chatBox);
         // this.chatBox.setBorder(BorderFactory.createTitledBorder("Information"));
