@@ -1,0 +1,68 @@
+package GUI;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+public class InfoPanel extends JPanel {
+    private Ships ships;
+    private PlayerGrid playerGrid;
+    private OpponentGrid opponentGrid;
+
+    public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
+        super(new GridLayout(3, 0));
+        this.ships = ships;
+        this.playerGrid = playerGrid;
+        this.opponentGrid = opponentGrid;
+        this.setBorder(BorderFactory.createTitledBorder("Information"));
+        JButton resetButton = new JButton("Reset Ships");
+        JButton rotateButton = new JButton("Rotate Ship");
+        resetButton.addActionListener(resetShipsActionListener());
+        rotateButton.addActionListener(RotateShipActionListener());
+
+        this.add(resetButton);
+        this.add(rotateButton);
+        this.add(new JLabel("Select a ship to place on the grid:"));
+        this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
+    }
+
+
+    private ActionListener RotateShipActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                rotateAllShips();
+            }
+
+        };
+    }
+
+    private void rotateAllShips() {
+        for (var ship : ships.getShips()) {
+            ship.rotate();
+        }
+    }
+
+    private ActionListener resetShipsActionListener() {
+        return new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (var row : playerGrid.getGrid()) {
+                    for (var cell : row) {
+                        cell.setBackground(Color.BLUE);
+                    }
+                }
+                for (var row : opponentGrid.getGrid()) {
+                    for (var cell : row) {
+                        cell.setBackground(Color.BLUE);
+                    }
+                }
+            }
+        };
+    }
+
+}
