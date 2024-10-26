@@ -25,7 +25,7 @@ public class ChatBox extends JPanel {
 
         chatArea.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                addNamedMessage("You", chatArea.getText());
+                addMessage("You", chatArea.getText());
             }
         });
 
@@ -43,7 +43,7 @@ public class ChatBox extends JPanel {
         chatArea.setText("");
     }
 
-    public void addNamedMessage(String name, String message) {
+    public void addMessage(String name, String message) {
         addMessage(name + ": " + message);
     }
 }
