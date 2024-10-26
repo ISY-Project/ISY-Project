@@ -52,7 +52,7 @@ public class ResponseHandler {
                 else if (response.contains(GameEvent.message + "WIN")) {
                     this.eventHandler.onWin();
                 }
-                else if (response.contains(GameEvent.message + "LOSE")) {
+                else if (response.contains(GameEvent.message + "LOSS")) {
                     this.eventHandler.onLose();
                 }
                 else if (response.contains(GameEvent.message + "DRAW")) {
