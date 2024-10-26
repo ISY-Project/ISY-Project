@@ -5,7 +5,7 @@ public class Challenge {
         private String command;
         private String acceptedString = "accept ";
 
-        Accept(int gameNumber) {
+        private Accept(int gameNumber) {
             this.command = challengeString + acceptedString + gameNumber;
         }
 
@@ -16,7 +16,7 @@ public class Challenge {
     String command;
     private final String challengeString = "challenge ";
 
-    Challenge(String playerName, int game) {
+    public Challenge(String playerName, int game) {
         this.command = challengeString + playerName + " " + game;
     }
 
