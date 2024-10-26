@@ -13,6 +13,18 @@ public class BattleshipGUI extends JFrame {
     private InfoPanel infoPanel;
     private JPanel chatBox;
 
+    public PlayerGrid getPlayerGrid() {
+        return playerGrid;
+    }
+
+    public OpponentGrid getOpponentGrid() {
+        return opponentGrid;
+    }
+
+    public JPanel getChatBox() {
+        return chatBox;
+    }
+
     public BattleshipGUI() {
         int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
         this.ships = new Ships(initialShipSizes);
