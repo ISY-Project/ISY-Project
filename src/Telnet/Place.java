@@ -3,11 +3,11 @@ package Telnet;
 public class Place {
     private String command;
 
-    Place(String game, int start_index, int end_index, String direction) {
+    public Place(String game, int start_index, int end_index, String direction) {
         this.command = "place " + start_index + " " + end_index;
     }
 
-    Place(String game, int x, int y, Direction direction, int size) {
+    public Place(String game, int x, int y, Direction direction, int size) {
         int start_index = 0;
         int end_index = 0;
         if (direction == Direction.NORTH) {

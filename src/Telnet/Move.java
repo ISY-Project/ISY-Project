@@ -3,7 +3,7 @@ package Telnet;
 public class Move {
     String command;
 
-    Move(int value) {
+    public Move(int value) {
         this.command = "move" + value;
     }
 
