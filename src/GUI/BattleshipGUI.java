@@ -23,7 +23,7 @@ public class BattleshipGUI extends JFrame {
         return opponentGrid;
     }
 
-    public JPanel getChatBox() {
+    public ChatBox getChatBox() {
         return chatBox;
     }
 
