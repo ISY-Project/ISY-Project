@@ -19,7 +19,7 @@ public class BattleshipGUI extends JFrame {
         this.ships = new Ships(initialShipSizes);
 
         setTitle("Battleship Game");
-        setSize(900, 600);
+        setSize(1100, 400);
         setLayout(new BorderLayout());
 
         // Player's grid panel
