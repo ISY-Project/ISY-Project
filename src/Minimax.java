@@ -93,7 +93,7 @@ public class Minimax {
     }
 
     public static void main(String[] args) {
-        char[] grid = {' ', 'X', 'O', ' ', 'X', ' ', 'O', ' ', ' '};
+        char[] grid = {' ', 'O', 'X', ' ', 'O', ' ', 'X', ' ', ' '};
         System.out.println(getBestMove(grid, 'X'));
     }
 }
