@@ -1,10 +1,9 @@
 import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 // TODO - Add a way to join an leave the game and start the game
 
-public class BattleshipGUI extends JFrame {
+public class BattleshipGUI extends JPanel {
     private static final int gridSize = 8;
     private Ships ships; // Ships available to be placed
     private PlayerGrid playerGrid;
@@ -24,12 +23,11 @@ public class BattleshipGUI extends JFrame {
         return chatBox;
     }
 
-    public BattleshipGUI() {
+    public BattleshipGUI(MainFrame mainFrame) {
         int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
         this.ships = new Ships(initialShipSizes);
 
-        setTitle("Battleship Game");
-        setSize(1100, 400);
+        mainFrame.setSize(1500, 500);
         setLayout(new BorderLayout());
 
         this.playerGrid = new PlayerGrid(gridSize, ships);
@@ -43,11 +41,7 @@ public class BattleshipGUI extends JFrame {
         add(this.opponentGrid, BorderLayout.EAST);
         add(this.chatBox, BorderLayout.SOUTH);
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new BattleshipGUI();
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setVisible(true);
     }
 }
