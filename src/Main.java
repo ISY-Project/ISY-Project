@@ -29,6 +29,7 @@ public class Main {
 
         try {
             client.connect("localhost", 7789);
+            // TODO: replace these calls with GUI buttons or menu's
             client.sendMessage(login.get());
             client.sendMessage(message.get());
             client.sendMessage(subscribe.get());
