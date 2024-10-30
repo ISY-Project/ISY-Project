@@ -4,7 +4,7 @@ import Telnet.TelnetClient;
 import Telnet.Responses.MoveResponse;
 import Telnet.EventHandler;
 
-// TODO Remove the showMessage calls, as they are for debugging.
+// TODO Remove the showMessage calls, as they are for debugging. Instead show the messages in the GUI
 public class Handler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
