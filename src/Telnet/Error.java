@@ -1,8 +1,8 @@
 package Telnet;
 
 public interface Error {
-    String message = "ERR ";
-    String notLoggedIn = message + "Not logged in";
+    String MESSAGE = "ERR ";
+    String NOTLOGEDIN = MESSAGE + "Not logged in";
 
     void onError(String error);
 }

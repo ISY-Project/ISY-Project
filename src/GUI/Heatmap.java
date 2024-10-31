@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 
 public class Heatmap {
-  private long[] ships;
+  private final long[] ships;
   private List<List<Long[]>> iterationsByShip;
 
   public Heatmap(long[] ships) {

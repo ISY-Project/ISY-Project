@@ -1,7 +1,7 @@
 package Telnet;
 
 public class Get {
-    private String command;
+    private final String command;
 
     public Get(AllowedGet name) {
         this.command = "get " + name.label;

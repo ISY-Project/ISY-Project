@@ -1,7 +1,7 @@
 package Telnet;
 
 public class Subscribe {
-    private String command;
+    private final String command;
 
     public Subscribe(String game) {
         // TODO: use a enum.

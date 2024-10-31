@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -46,48 +45,41 @@ public class InfoPanel extends JPanel {
         this.add(resetButton);
     }
 
+    @SuppressWarnings("unused")
     private ActionListener resetTickTackToeListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (var row : tickTackToeGrid.getGrid()) {
-                    for (var cell : row) {
-                        cell.setText("");
-                        cell.setForeground(Color.black);
-                    }
+        return (ActionEvent e) -> {
+            for (var row : tickTackToeGrid.getGrid()) {
+                for (var cell : row) {
+                    cell.setText("");
+                    cell.setForeground(Color.black);
                 }
-                tickTackToeGrid.setXTurn(true);
             }
+            tickTackToeGrid.setXTurn(true);
         };
     }
 
 
+    @SuppressWarnings("unused")
     private ActionListener RotateShipActionListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (var ship : ships.getShips()) {
-                    ship.rotate();
-                }
+        return (ActionEvent e) -> {
+            for (var ship : ships.getShips()) {
+                ship.rotate();
             }
-
         };
     }
 
     
+    @SuppressWarnings("unused")
     private ActionListener resetShipsActionListener() {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (var row : playerGrid.getGrid()) {
-                    for (var cell : row) {
-                        cell.setBackground(Color.BLUE);
-                    }
+        return (ActionEvent e) -> {
+            for (var row : playerGrid.getGrid()) {
+                for (var cell : row) {
+                    cell.setBackground(Color.BLUE);
                 }
-                for (var row : opponentGrid.getGrid()) {
-                    for (var cell : row) {
-                        cell.setBackground(Color.BLUE);
-                    }
+            }
+            for (var row : opponentGrid.getGrid()) {
+                for (var cell : row) {
+                    cell.setBackground(Color.BLUE);
                 }
             }
         };

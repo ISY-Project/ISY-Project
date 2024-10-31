@@ -39,7 +39,6 @@ public class ChatBox extends JPanel {
 
         this.add(scroll, BorderLayout.NORTH);
         this.add(chatArea,  BorderLayout.SOUTH);
-        System.out.println("created an chatbox");
     }
 
     public void addMessage(String message) {

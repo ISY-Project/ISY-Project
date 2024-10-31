@@ -29,10 +29,10 @@ public class ResponseHandler {
     public void handle(String response) {
         // TODO: Test
         String[] responseArray = response.split(" ");
-        if (response.contains(ServerEvent.help)) {
+        if (response.contains(ServerEvent.HELP)) {
             this.eventHandler.onHelp(response);
         }
-        else if (response.contains(ServerEvent.message)) {
+        else if (response.contains(ServerEvent.MESSAGE)) {
             if (response.contains(GameEvent.MESSAGE)) {
                 if (response.contains(ChallengeEvent.MESSAGE)) {
                     String playerName = response.split(" ")[1];
@@ -60,7 +60,7 @@ public class ResponseHandler {
                     this.eventHandler.onDraw();
                 }
             }
-        } else if (response.contains(ServerEvent.error)) {
+        } else if (response.contains(ServerEvent.ERROR)) {
             this.eventHandler.onError(response);
         }
     }

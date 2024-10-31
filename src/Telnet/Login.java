@@ -1,7 +1,7 @@
 package Telnet;
 
 public class Login {
-    private String command;
+    private final String command;
 
     public Login(String name) {
         this.command = "login " + name;

@@ -2,8 +2,8 @@ package Telnet;
 
 public class Challenge {
     private class Accept{
-        private String command;
-        private String acceptedString = "accept ";
+        private final String command;
+        private final String acceptedString = "accept ";
 
         private Accept(int gameNumber) {
             this.command = challengeString + acceptedString + gameNumber;

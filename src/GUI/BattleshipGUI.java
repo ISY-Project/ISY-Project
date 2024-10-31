@@ -6,12 +6,12 @@ import javax.swing.JPanel;
 // TODO - Add a way to join an leave the game and start the game
 
 public class BattleshipGUI extends JPanel {
-    private static final int gridSize = 8;
-    private Ships ships; // Ships available to be placed
-    private PlayerGrid playerGrid;
-    private OpponentGrid opponentGrid;
-    private InfoPanel infoPanel;
-    private ChatBox chatBox;
+    private static final int GRIDSIZE = 8;
+    private final Ships ships; // Ships available to be placed
+    private final PlayerGrid playerGrid;
+    private final OpponentGrid opponentGrid;
+    private final InfoPanel infoPanel;
+    private final ChatBox chatBox;
 
     public PlayerGrid getPlayerGrid() {
         return playerGrid;
@@ -31,8 +31,8 @@ public class BattleshipGUI extends JPanel {
 
         setLayout(new BorderLayout());
 
-        this.playerGrid = new PlayerGrid(gridSize, ships);
-        this.opponentGrid = new OpponentGrid(gridSize);
+        this.playerGrid = new PlayerGrid(GRIDSIZE, ships);
+        this.opponentGrid = new OpponentGrid(GRIDSIZE);
         this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
         this.chatBox = new ChatBox();
 

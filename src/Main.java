@@ -6,12 +6,13 @@ import Telnet.Message;
 import Telnet.ResponseHandler;
 import Telnet.Subscribe;
 import Telnet.TelnetClient;
+import java.util.Random;
 
 public class Main {
-    private static final String NAME = "SeaCarpetBomber";
+    private final String NAME = genName();
     private static final String HOST = "localhost";
     private static final int PORT = 7789;
-    private static final Login login = new Login(NAME);
+    private final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();
     private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
@@ -20,6 +21,22 @@ public class Main {
     private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;
+
+
+    private String genName() {
+        int leftLimit = 97; // letter 'a'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int) 
+            (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+        return generatedString;
+    }
 
 
     @SuppressWarnings({ "CallToPrintStackTrace", "unused" })

@@ -1,9 +1,9 @@
 package Telnet.Responses;
 
 public interface ServerEvent {
-    String message = "SVR ";
-    String help = message + "HELP ";
-    String error = "ERR ";
-    void onHelp(String message);
-    void onMessage(String message);
+    String MESSAGE = "SVR ";
+    String HELP = MESSAGE + "HELP ";
+    String ERROR = "ERR ";
+    void onHelp(String MESSAGE);
+    void onMessage(String MESSAGE);
 }
