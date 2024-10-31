@@ -53,38 +53,38 @@ public class TelnetClient {
         socket.close();
     }
 
-    @SuppressWarnings("CallToPrintStackTrace")
-    public static void main(String[] args) {
-        TelnetClient client = new TelnetClient();
-        try {
-            client.connect("localhost", 7789); // Replace with your server and port
-            String name = "SeaCarpetBomber";
-            name += (int) (Math.random() * 10);
-            Login login = new Login(name);
-            Message message = new Message(name + " Here to win the game!1!");
-            // Subscribe subscribe = new Subscribe("battleship");
-            EventHandler eventHandler = new EventHandler(client);
-            ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
-            client.sendMessage(login.get());
-            client.sendMessage(message.get());
-            // client.sendMessage(subscribe.get());
-            // handle waiting for the game to start
-            String response = client.in.readLine();
-            while (response.contains("")) {
-                client.showMessage("Received: " + response);
-                responseHandler.handle(response);
-                response = client.in.readLine();
-                if (response == null) {break;}
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                client.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    // @SuppressWarnings("CallToPrintStackTrace")
+    // public static void main(String[] args) {
+    //     TelnetClient client = new TelnetClient();
+    //     try {
+    //         client.connect("localhost", 7789); // Replace with your server and port
+    //         String name = "SeaCarpetBomber";
+    //         name += (int) (Math.random() * 10);
+    //         Login login = new Login(name);
+    //         Message message = new Message(name + " Here to win the game!1!");
+    //         // Subscribe subscribe = new Subscribe("battleship");
+    //         EventHandler eventHandler = new EventHandler(client);
+    //         ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+    //         client.sendMessage(login.get());
+    //         client.sendMessage(message.get());
+    //         // client.sendMessage(subscribe.get());
+    //         // handle waiting for the game to start
+    //         String response = client.in.readLine();
+    //         while (response.contains("")) {
+    //             client.showMessage("Received: " + response);
+    //             responseHandler.handle(response);
+    //             response = client.in.readLine();
+    //             if (response == null) {break;}
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     }
+    //     finally {
+    //         try {
+    //             client.close();
+    //         } catch (Exception e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
 }

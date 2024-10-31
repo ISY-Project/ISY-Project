@@ -16,10 +16,16 @@ public class Main {
     private static final String HOST = "localhost";
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
-    private final static TelnetClient client = new TelnetClient();
-    private static ResponseHandler responseHandler;
+    private static final MainFrame GUI_Frame = new MainFrame();
+    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
+    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final TelnetClient client = new TelnetClient();
+    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, battleshipGUI);
+    private static final TTTHandler tttHandler = new TTTHandler(client, tickTackToeGUI);
+    private static final ResponseHandler responseHandler = new ResponseHandler(client, battleshipHandler);
     // private static final GameEngine;
     // private static final Algorithm;
+
 
     private static String genName() {
         int leftLimit = 97; // letter 'a'
@@ -37,24 +43,11 @@ public class Main {
 
     public static void selectGame(Subscribe game) {
         client.sendMessage(game.get());
-        switch (game) {
-            case BATTLESHIP:
-                runBattleshipComp(new Message(NAME + " Here to draw!!"));
-                break;
-            case TICTACTOE:
-                runTicTacToeComp(new Message(NAME + " Here to win the game!1!"));
-                break;
-            default:
-                break;
-        }
     }
 
+
+    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public static void main(String[] args) {
-        MainFrame GUI_Frame = new MainFrame();
-        BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-        TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
-        Handler eventHandler = new Handler(client, battleshipGUI);
-        responseHandler = new ResponseHandler(client, eventHandler);
         Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
 
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
@@ -86,14 +79,13 @@ public class Main {
     }
 
     private static void runTicTacToeComp(Message message) {
-
+        
     }
 
     private static void runBattleshipComp(Message message) {
         // TODO: Replace this with GUI buttons or menu's.
         // TODO: Currently this blocks the gui. It could easily be integrated.
         try {
-            client.connect(HOST, PORT);
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
