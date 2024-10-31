@@ -1,4 +1,7 @@
+package ALG;
+
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Minimax {
@@ -8,32 +11,46 @@ public class Minimax {
         
     }
 
-    private static String gameResult(char[] grid) {
+    private static GameState gameResult(char[] grid) {
         if ((grid[0] == 'X' & grid[1] == 'X' & grid[2] == 'X') | (grid[3] == 'X' & grid[4] == 'X' & grid[5] == 'X') | (grid[6] == 'X' & grid[7] == 'X' & grid[8] == 'X') | 
             (grid[0] == 'X' & grid[3] == 'X' & grid[6] == 'X') | (grid[1] == 'X' & grid[4] == 'X' & grid[7] == 'X') | (grid[2] == 'X' & grid[5] == 'X' & grid[8] == 'X') | 
             (grid[0] == 'X' & grid[4] == 'X' & grid[8] == 'X') | (grid[2] == 'X' & grid[4] == 'X' & grid[6] == 'X')) {
-            return "X won";
+            return GameState.WIN_X;
         }
         if ((grid[0] == 'O' & grid[1] == 'O' & grid[2] == 'O') | (grid[3] == 'O' & grid[4] == 'O' & grid[5] == 'O') | (grid[6] == 'O' & grid[7] == 'O' & grid[8] == 'O') | 
             (grid[0] == 'O' & grid[3] == 'O' & grid[6] == 'O') | (grid[1] == 'O' & grid[4] == 'O' & grid[7] == 'O') | (grid[2] == 'O' & grid[5] == 'O' & grid[8] == 'O') | 
             (grid[0] == 'O' & grid[4] == 'O' & grid[8] == 'O') | (grid[2] == 'O' & grid[4] == 'O' & grid[6] == 'O')) {
-            return "O won";
+            return GameState.WIN_O;
         }
         if (grid[0] != ' ' & grid[1] != ' ' & grid[2] != ' ' & grid[3] != ' ' & grid[4] != ' ' & grid[5] != ' ' &grid[6] != ' ' & grid[7] != ' ' & grid[8] != ' ') {
-            return "tie";
+            return GameState.TIE;
         }
-        return "game not ended";
+        return GameState.ONGOING;
     }
 
     private static int minimax(char[] grid, boolean isplayer, char playerSymbol) {
-        if (gameResult(grid) == "X won" | gameResult(grid) == "O won") {
-            if (isplayer) {
-                return -10;
+        switch(gameResult(grid)) {
+            case WIN_X -> {
+                // System.out.println("X Won");
+                if (isplayer) {
+                    return -10;
+                }
+                return 10;
             }
-            return 10;
-        }
-        else if (gameResult(grid) == "tie") {
-            return 0;
+            case WIN_O -> {
+                // System.out.println("O Won");
+                if (isplayer) {
+                    return -10;
+                }
+                return 10;
+            }
+            case TIE -> {
+                // System.out.println("It's a Tie");
+                return 0;
+            }
+            case ONGOING -> {
+                break;
+            }
         }
 
         char opponentSymbol;
@@ -44,8 +61,8 @@ public class Minimax {
             opponentSymbol = 'X';
         }
 
-        ArrayList<Integer> scores = new ArrayList<Integer>();
-        ArrayList<Integer> moves = new ArrayList<Integer>();
+        ArrayList<Integer> scores = new ArrayList<>();
+        ArrayList<Integer> moves = new ArrayList<>();
         for (int i=0; i<9; i++) {
             if (grid[i]==' ') {
                 char[] newgrid = grid.clone();
@@ -76,9 +93,9 @@ public class Minimax {
             }
         }
 
-        ArrayList<Integer> optimalMoves = new ArrayList<Integer>();
+        ArrayList<Integer> optimalMoves = new ArrayList<>();
         for (int i=0; i<scores.size(); i++) {
-            if (scores.get(i) == scores.get(maxIndex)) {
+            if (Objects.equals(scores.get(i), scores.get(maxIndex))) {
                 optimalMoves.add(moves.get(i));
             }
         }
@@ -93,7 +110,22 @@ public class Minimax {
     }
 
     public static void main(String[] args) {
-        char[] grid = {' ', 'O', 'X', ' ', 'O', ' ', 'X', ' ', ' '};
-        System.out.println(getBestMove(grid, 'X'));
+        char[] grid = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        int move;
+        while (gameResult(grid).equals(GameState.ONGOING)) {
+            move = getBestMove(grid, 'X');
+            System.out.println(move);
+            grid[move] = 'X';
+            System.out.println("Game is ongoing");
+            move = getBestMove(grid, 'O');
+            System.out.println(move);
+            grid[move] = 'O';
+            System.out.println("Game is ongoing");
+        }
+        System.out.println("Game is not ongoing");
+        System.out.println(gameResult(grid));
+        for (int i = 0; i < 3; i++) {
+            System.out.println(grid[i*3] + " " + grid[i*3+1] + " " + grid[i*3+2]);            
+        }
     }
 }
