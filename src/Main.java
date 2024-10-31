@@ -24,7 +24,6 @@ public class Main {
     // private static final Algorithm;
 
 
-    @SuppressWarnings("CallToPrintStackTrace")
     public static void main(String[] args) {
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
