@@ -1,8 +1,6 @@
 package GUI;
 
-
 import java.awt.Color;
-
 import javax.swing.JButton;
 
 public class GridCell extends JButton{

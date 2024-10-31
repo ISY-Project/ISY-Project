@@ -1,5 +1,7 @@
 package GUI;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,7 @@ public class InfoPanel extends JPanel {
     private Ships ships;
     private PlayerGrid playerGrid;
     private OpponentGrid opponentGrid;
+    private TickTackToeGrid tickTackToeGrid;
 
     public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
         super(new GridLayout(3, 0));
@@ -32,24 +35,49 @@ public class InfoPanel extends JPanel {
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
     }
 
+    public InfoPanel(TickTackToeGrid tickTackToeGrid) {
+        super(new GridLayout(4, 0));
+        this.tickTackToeGrid = tickTackToeGrid;
+        this.setBorder(BorderFactory.createTitledBorder("Information"));
+        JButton resetButton = new JButton("Reset");
+        resetButton.setPreferredSize(new Dimension(100, 100));
+        resetButton.addActionListener(resetTickTackToeListener());
+
+        this.add(resetButton);
+    }
+
+    private ActionListener resetTickTackToeListener() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (var row : tickTackToeGrid.getGrid()) {
+                    for (var cell : row) {
+                        cell.setText("");
+                        cell.setForeground(Color.black);
+                    }
+                }
+                tickTackToeGrid.setXTurn(true);
+            }
+        };
+    }
+
 
     private ActionListener RotateShipActionListener() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                rotateAllShips();
+                for (var ship : ships.getShips()) {
+                    ship.rotate();
+                }
             }
 
         };
     }
 
-    private void rotateAllShips() {
-        for (var ship : ships.getShips()) {
-            ship.rotate();
-        }
-    }
-
+    
     private ActionListener resetShipsActionListener() {
         return new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 for (var row : playerGrid.getGrid()) {
                     for (var cell : row) {
