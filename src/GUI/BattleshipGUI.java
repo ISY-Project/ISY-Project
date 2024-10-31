@@ -29,7 +29,6 @@ public class BattleshipGUI extends JPanel {
         int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
         this.ships = new Ships(initialShipSizes);
 
-        mainFrame.setSize(1500, 500);
         setLayout(new BorderLayout());
 
         this.playerGrid = new PlayerGrid(gridSize, ships);

@@ -48,7 +48,7 @@ public class WelcomePannel extends JPanel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainFrame.setSize(1000, 500);
+                mainFrame.setSize(1000, 600);
                 mainFrame.showScreen("battleshipGUI");
             }
         };

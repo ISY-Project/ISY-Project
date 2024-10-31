@@ -1,37 +1,44 @@
 package GUI;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionListener;
-
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ChatBox extends JPanel {
-    private static final BorderLayout LAYOUT = new BorderLayout();
     private JTextArea chatView;
     private JTextField chatArea;
 
     public ChatBox() {
-        super(LAYOUT);
+        super(new BorderLayout());
         this.setBorder(BorderFactory.createTitledBorder("Chatbox"));
+        // this.setSize(500, 350);
         this.chatView = new JTextArea();
+        this.chatView.setSize(new Dimension(250, 150));
+        this.chatView.setRows(9);
         this.chatArea = new JTextField();
+        this.chatArea.setPreferredSize(new Dimension(250, 20));
 
         chatView.setEditable(false);
         chatView.setColumns(45);
+        chatView.setLineWrap(true);
+
+        JScrollPane scroll = new JScrollPane(chatView);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         chatArea.setEditable(true);
         chatArea.setColumns(45);
 
-        chatArea.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                addMessage("You", chatArea.getText());
-            }
+        chatArea.addActionListener((java.awt.event.ActionEvent e) -> {
+            addMessage("You", chatArea.getText());
         });
 
-        this.add(chatView, BorderLayout.WEST);
-        this.add(chatArea,  BorderLayout.EAST);
+        this.add(scroll, BorderLayout.NORTH);
+        this.add(chatArea,  BorderLayout.SOUTH);
+        System.out.println("created an chatbox");
     }
 
     public void addMessage(String message) {

@@ -50,18 +50,15 @@ public class InfoPanel extends JPanel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                resetTickTackToe();
+                for (var row : tickTackToeGrid.getGrid()) {
+                    for (var cell : row) {
+                        cell.setText("");
+                        cell.setForeground(Color.black);
+                    }
+                }
+                tickTackToeGrid.setXTurn(true);
             }
         };
-    }
-
-    private void resetTickTackToe() {
-        for (var row : tickTackToeGrid.getGrid()) {
-            for (var cell : row) {
-                cell.setText("");
-                cell.setForeground(Color.black);
-            }
-        }
     }
 
 
@@ -69,18 +66,15 @@ public class InfoPanel extends JPanel {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rotateAllShips();
+                for (var ship : ships.getShips()) {
+                    ship.rotate();
+                }
             }
 
         };
     }
 
-    private void rotateAllShips() {
-        for (var ship : ships.getShips()) {
-            ship.rotate();
-        }
-    }
-
+    
     private ActionListener resetShipsActionListener() {
         return new ActionListener() {
             @Override

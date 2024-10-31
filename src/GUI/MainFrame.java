@@ -27,10 +27,6 @@ public final class MainFrame extends JFrame {
         setVisible(true);  
     }
 
-    public void setScreenSize(int width, int height) {
-        super.setSize(width, height);
-    }
-
     public void showScreen(String screenName) {
         System.out.println(screenName);
         CardLayout layout = (CardLayout) getContentPane().getLayout();
@@ -38,6 +34,6 @@ public final class MainFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        
+        SwingUtilities.invokeLater(() -> new MainFrame());
     }
 }

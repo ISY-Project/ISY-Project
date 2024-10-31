@@ -58,4 +58,8 @@ public class TickTackToeGrid extends JPanel {
             }
         }
     }
+
+    public void setXTurn(boolean isXTurn) {
+        this.isXTurn = isXTurn;
+    }
 }
