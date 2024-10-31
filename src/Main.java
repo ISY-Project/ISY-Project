@@ -13,26 +13,26 @@ public class Main {
     private static final int port = 7789;
     private static final Login login = new Login(name);
     private static final MainFrame GUI_Frame = new MainFrame();
-    private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-    private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
+    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private final Handler eventHandler = new Handler(client, battleshipGUI);
-    private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+    private static final Handler eventHandler = new Handler(client, battleshipGUI);
+    private static final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;
 
 
     @SuppressWarnings("CallToPrintStackTrace")
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
 
-        this.battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+        battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
             client.sendMessage(new Message(msg).get());
         });
 
-        this.tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+        tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
             client.sendMessage(new Message(msg).get());
         });
