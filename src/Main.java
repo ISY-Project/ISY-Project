@@ -26,7 +26,8 @@ public class Main {
 
     public static void main(String[] args) {
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
-        Subscribe subscribe = new Subscribe("battleship");
+        Subscribe subscribe = new Subscribe("battleship"); //TODO Join game Battleship when that button is pressed.
+        // Subscribe subscribe = new Subscribe("ticTacToe"); //TODO Join game TTT when that button is pressed.
 
         JTextField chatAreaBattleship = battleshipGUI.getChatBox().getChatArea();
         JTextField chatAreaTTT = tickTackToeGUI.getChatBox().getChatArea();
