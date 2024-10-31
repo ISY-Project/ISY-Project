@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 // TODO - Add a way to join an leave the game and start the game
 
-public class BattleshipGUI extends JPanel {
+public class BattleshipGUI extends JPanel implements IsyGui {
     private static final int GRIDSIZE = 8;
     private final Ships ships;
     private final PlayerGrid playerGrid;

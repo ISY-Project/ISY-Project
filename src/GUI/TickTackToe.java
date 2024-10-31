@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 // TODO - Add a way to join an leave the game and start the game
 
-public class TickTackToe extends JPanel {
+public class TickTackToe extends JPanel implements IsyGui {
     private final TickTackToeGrid tickTackToeGrid;
     private final InfoPanel TickTackToeInfoPanel;
     private final ChatBox chatBox;

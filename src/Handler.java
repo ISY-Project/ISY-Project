@@ -1,6 +1,6 @@
 package src;
 
-import src.GUI.BattleshipGUI;
+import src.GUI.IsyGui;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
 import src.Telnet.Responses.MoveResponse;
@@ -10,9 +10,9 @@ import src.Telnet.TelnetClient;
 public class Handler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
-    private final BattleshipGUI gui;
+    private IsyGui gui; // Expect any gui. Not just final BattleshipGUI, but also TickTackToeGUI
 
-    public Handler(TelnetClient client, BattleshipGUI gui) {
+    public Handler(TelnetClient client, IsyGui gui) {
         super(client);
         this.gui = gui;
     }

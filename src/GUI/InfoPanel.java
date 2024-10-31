@@ -32,6 +32,7 @@ public class InfoPanel extends JPanel {
         this.add(rotateButton);
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
+        // TODO: add information about turns. (Current, limit, player's turn etc.)
     }
 
     public InfoPanel(TickTackToeGrid tickTackToeGrid) {
