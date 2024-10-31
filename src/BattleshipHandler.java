@@ -1,7 +1,6 @@
 package src;
 
 import src.GUI.BattleshipGUI;
-import src.GUI.MainFrame;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
 import src.Telnet.TelnetClient;
@@ -11,12 +10,10 @@ public class BattleshipHandler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
     private BattleshipGUI gui;
-    private final MainFrame mainFrame;
 
     public BattleshipHandler(TelnetClient client, BattleshipGUI gui) {
         super(client);
         this.gui = gui;
-        this.mainFrame = mainFrame;
     }
 
     @Override

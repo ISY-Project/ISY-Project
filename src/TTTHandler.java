@@ -26,6 +26,16 @@ public class TTTHandler extends EventHandler {
     }
 
     @Override
+    public void onYourTurn(String message) {
+        // TODO Mainframe should be removed, in favor for game engine/state
+        mainFrame.setIsPlayerTurn(true);
+        if (mainFrame.getAlgorithmOn()) {
+            tickTackToeGrid.algMakeMove();
+        }
+        this.showMessage("Your turn: " + message);
+    }
+
+    @Override
     public void onWin() {
         showMessage("Win");
         this.client.sendMessage(logout.get());
