@@ -16,6 +16,8 @@ public class Main {
     private static final TelnetClient client = new TelnetClient();
     private static final Handler eventHandler = new Handler(client, GUI);
     private static final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+    // private static final GameEngine;
+    // private static final Algorithm;
 
 
     public static void main(String[] args) {
