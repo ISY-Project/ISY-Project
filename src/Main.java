@@ -46,12 +46,16 @@ public class Main {
 
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
-            client.sendMessage(new Message(msg).get());
+            if (!msg.isEmpty()) {
+                client.sendMessage(new Message(msg).get());
+            }
         });
 
         tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
-            client.sendMessage(new Message(msg).get());
+            if (!msg.isEmpty()) {
+                client.sendMessage(new Message(msg).get());
+            }
         });
 
         try {

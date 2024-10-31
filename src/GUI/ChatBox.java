@@ -34,7 +34,10 @@ public class ChatBox extends JPanel {
         chatArea.setColumns(45);
 
         chatArea.addActionListener((java.awt.event.ActionEvent e) -> {
-            addMessage("You", chatArea.getText());
+            String msg = chatArea.getText();
+            if (!msg.isEmpty()) {
+                addMessage("You", msg);
+            }
         });
 
         this.add(scroll, BorderLayout.NORTH);
@@ -43,10 +46,10 @@ public class ChatBox extends JPanel {
 
     public void addMessage(String message) {
         String currentText = chatView.getText();
-        if (currentText.isEmpty()) {
-            chatView.setText(message);
-        } else {
+        if (!currentText.isEmpty()) {
             chatView.setText(currentText + "\n" + message);
+        } else {
+            chatView.setText(message);
         }
         chatArea.setText("");
     }
