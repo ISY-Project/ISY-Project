@@ -41,7 +41,7 @@ public class Main {
         return generatedString;
     }
 
-    public static void selectGame(Subscribe game) {
+    public static void joinGameLobby(Subscribe game) {
         client.sendMessage(game.get());
     }
 

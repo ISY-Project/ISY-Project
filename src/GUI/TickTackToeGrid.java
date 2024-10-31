@@ -13,14 +13,12 @@ import src.ALG.Minimax;
 import src.Main;
 import src.Telnet.Move;
 
-public class TickTackToeGrid extends JPanel {
+public class TickTackToeGrid extends PlayerGrid {
     private final JButton[][] grid;
-    private final Main main;
-    private final MainFrame mainFrame;
+    // private final engine engine;
 
-    public TickTackToeGrid(Main main, MainFrame mainFrame) {
-        this.main = main;
-        this.mainFrame = mainFrame;
+    public TickTackToeGrid() {
+        super(3);
         int gridSize = 3;
         super.setLayout(new GridLayout(gridSize, gridSize));
         this.grid = new JButton[gridSize][gridSize];
@@ -38,13 +36,13 @@ public class TickTackToeGrid extends JPanel {
         int row = index / gridSize;
         int col = index % gridSize;
         JButton cell = this.grid[row][col];
-        cell.setText(player.equals(main.getPlayerName()) ? "X" : "O");
+        String playerName = engine.getPlayerName();
+        cell.setText(player.equals(playerName) ? "X" : "O");
         System.out.println(cell.getText());
-        cell.setForeground(player.equals(main.getPlayerName()) ? Color.RED : Color.BLUE);
+        cell.setForeground(player.equals(playerName) ? Color.RED : Color.BLUE);
     }
 
     // Initialize Tic-Tac-Toe grid
-    @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
@@ -54,15 +52,15 @@ public class TickTackToeGrid extends JPanel {
                 cell.setFont(new Font("Arial", Font.BOLD, 60));
                 cell.setFocusPainted(false);
 
-                if (mainFrame.getAlgorithmOn()) {
+                if (engine.getAlgorithmOn()) {
                     cell.setEnabled(false);
                 }
 
                 // Set action listener to toggle between X and O
                 cell.addActionListener((ActionEvent e) -> {
-                    if (!mainFrame.getAlgorithmOn()) {
+                    if (!engine.getAlgorithmOn()) {
                         if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
-                            if (mainFrame.getIsPlayerTurn()) {
+                            if (engine.getIsPlayerTurn()) {
                                 // cell.setText("X");
                                 // cell.setForeground(Color.RED);
                                 for (int i = 0; i < gridSize; i++) {
@@ -71,7 +69,7 @@ public class TickTackToeGrid extends JPanel {
                                             int index = i * gridSize + j;
                                             System.out.println("Index: " + index);
                                             this.main.sendMove(new Move(index));
-                                            this.mainFrame.setIsPlayerTurn(false);
+                                            this.engine.setIsPlayerTurn(false);
                                         }
                                     }
                                 }
@@ -90,6 +88,7 @@ public class TickTackToeGrid extends JPanel {
     }
 
     public void algMakeMove() {
+        // TODO: Use the engine to get move info?
         int gridSize = 3;
         char[] new_grid = new char[gridSize * gridSize];
         for (int i = 0; i < gridSize; i++) {
@@ -103,8 +102,9 @@ public class TickTackToeGrid extends JPanel {
         }
         System.out.println(Arrays.toString(new_grid));
         System.out.println("Algorithm making move " + Minimax.getBestMove(new_grid, 'X'));
+        // TODO: Handler should send the move to the server
         this.main.sendMove(new Move(Minimax.getBestMove(new_grid, 'X')));
-        this.mainFrame.setIsPlayerTurn(false);
+        this.engine.setIsPlayerTurn(false);
         try {
             TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException e) {

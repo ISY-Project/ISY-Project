@@ -22,7 +22,6 @@ public class OpponentGrid extends JPanel {
     }
 
     // Initialize opponent grid (simplified)
-    @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {

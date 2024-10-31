@@ -5,14 +5,13 @@ import javax.swing.*;
 import src.Main;
 import src.Telnet.Subscribe;
 
+// TODO: Mainframe should be the code that handles the interaction between engine and GUI.
 public final class MainFrame extends JFrame {
     private final StartScreen startScreen = new StartScreen(this);
-    private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
-    private final TickTackToe tickTackToe = new TickTackToe(this);
-    private final Main main;
-    private final TickTackToe tickTackToe;
-    private Boolean algorithmOn = false;
-    private Boolean isPlayerTurn = true;
+    private final BattleshipGUI battleshipGUI = new BattleshipGUI();
+    private final TickTackToe tickTackToe = new TickTackToe();
+    // private final Main main;
+    // private final TickTackToe tickTackToe;
 
     public MainFrame() {
         // Set layout and add panels
@@ -35,8 +34,8 @@ public final class MainFrame extends JFrame {
         layout.show(getContentPane(), screenName);
     }
 
-    public void selectGame(Subscribe game) {
-        Main.selectGame(game);
+    public void setGame(Subscribe game) {
+        Main.joinGameLobby(game);
     }
 
     public BattleshipGUI getBattleshipGUI() {
@@ -45,21 +44,5 @@ public final class MainFrame extends JFrame {
 
     public TickTackToe getTickTackToe() {
         return tickTackToe;
-    }
-
-    public Boolean getAlgorithmOn() {
-        return algorithmOn;
-    }
-
-    public void setAlgorithmOn(Boolean algorithmOn) {
-        this.algorithmOn = algorithmOn;
-    }
-
-    public Boolean getIsPlayerTurn() {
-        return this.isPlayerTurn;
-    }
-
-    public void setIsPlayerTurn(Boolean isPlayerTurn) {
-        this.isPlayerTurn = isPlayerTurn;
     }
 }

@@ -15,8 +15,8 @@ public class InfoPanel extends JPanel {
     private Ships ships;
     private PlayerGrid playerGrid;
     private OpponentGrid opponentGrid;
-    private TickTackToeGrid tickTackToeGrid;
 
+    // Battleship infoPanel
     public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
         super(new GridLayout(3, 0));
         this.ships = ships;
@@ -35,21 +35,22 @@ public class InfoPanel extends JPanel {
         // TODO: add information about turns. (Current, limit, player's turn etc.)
     }
 
-    public InfoPanel(TickTackToeGrid tickTackToeGrid) {
+    // TicTacToe infoPanel
+    public InfoPanel(PlayerGrid playerGrid) {
         super(new GridLayout(4, 0));
-        this.tickTackToeGrid = tickTackToeGrid;
+        this.playerGrid = playerGrid;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         JButton resetButton = new JButton("Reset");
         resetButton.setPreferredSize(new Dimension(100, 100));
         resetButton.addActionListener(resetTickTackToeListener());
 
         this.add(resetButton);
+        // TODO: add information about turns. (Current, limit, player's turn etc.)
     }
 
-    @SuppressWarnings("unused")
     private ActionListener resetTickTackToeListener() {
         return (ActionEvent e) -> {
-            for (var row : tickTackToeGrid.getGrid()) {
+            for (var row : playerGrid.getGrid()) {
                 for (var cell : row) {
                     cell.setText("");
                     cell.setForeground(Color.black);
@@ -59,7 +60,6 @@ public class InfoPanel extends JPanel {
     }
 
 
-    @SuppressWarnings("unused")
     private ActionListener RotateShipActionListener() {
         return (ActionEvent e) -> {
             for (var ship : ships.getShips()) {
@@ -68,8 +68,6 @@ public class InfoPanel extends JPanel {
         };
     }
 
-    
-    @SuppressWarnings("unused")
     private ActionListener resetShipsActionListener() {
         return (ActionEvent e) -> {
             for (var row : playerGrid.getGrid()) {

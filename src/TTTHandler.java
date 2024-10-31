@@ -11,6 +11,7 @@ public class TTTHandler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
     private TickTackToe gui; // Expect any gui. Not just final BattleshipGUI, but also TickTackToeGUI
+    private GameEngine engine;
 
     public TTTHandler(TelnetClient client, TickTackToe gui) {
         super(client);
@@ -21,16 +22,16 @@ public class TTTHandler extends EventHandler {
     public void onMove(String player, String move, MoveResponse result) {
         System.out.println("received move: " + move);
         this.showMessage(player + " made a move: " + move + " in " + result);
-        this.gui.getTickTackToeGrid().updateGrid(Integer.parseInt(move), player);
+        this.gui.getPlayerGrid().updateGrid(Integer.parseInt(move), player);
         return;
     }
 
     @Override
     public void onYourTurn(String message) {
         // TODO Mainframe should be removed, in favor for game engine/state
-        mainFrame.setIsPlayerTurn(true);
-        if (mainFrame.getAlgorithmOn()) {
-            tickTackToeGrid.algMakeMove();
+        engine.setIsPlayerTurn(true);
+        if (engine.getAlgorithmOn()) {
+            this.gui.getPlayerGrid().algMakeMove();
         }
         this.showMessage("Your turn: " + message);
     }

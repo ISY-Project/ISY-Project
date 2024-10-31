@@ -12,7 +12,6 @@ public class ChatBox extends JPanel {
     private final JTextArea chatView;
     private final JTextField chatArea;
 
-    @SuppressWarnings("unused")
     public ChatBox() {
         super(new BorderLayout());
         this.setBorder(BorderFactory.createTitledBorder("Chatbox"));

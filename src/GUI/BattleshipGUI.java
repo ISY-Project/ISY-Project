@@ -31,7 +31,7 @@ public class BattleshipGUI extends JPanel implements IsyGui {
 
         setLayout(new BorderLayout());
 
-        this.playerGrid = new PlayerGrid(GRIDSIZE, ships);
+        this.playerGrid = new BattleshipGrid(GRIDSIZE, ships);
         this.opponentGrid = new OpponentGrid(GRIDSIZE);
         this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
         this.chatBox = new ChatBox();
