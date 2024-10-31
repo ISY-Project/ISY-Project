@@ -1,9 +1,9 @@
 package src;
 
 import src.GUI.BattleshipGUI;
+import src.GUI.TickTackToeGrid;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
-import src.Telnet.Responses.MoveResponse;
 import src.Telnet.TelnetClient;
 
 // TODO Remove the showMessage calls, as they are for debugging. Instead show the messages in the GUI
@@ -12,8 +12,8 @@ public class Handler extends EventHandler {
     private TelnetClient client;
     private final BattleshipGUI gui;
 
-    public Handler(TelnetClient client, BattleshipGUI gui) {
-        super(client);
+    public Handler(TelnetClient client, BattleshipGUI gui, TickTackToeGrid tickTackToeGrid) {
+        super(client, tickTackToeGrid, gui.getOpponentGrid(), gui.getPlayerGrid());
         this.gui = gui;
     }
 
@@ -37,10 +37,10 @@ public class Handler extends EventHandler {
         this.showMessage("Your turn: " + message);
     }
 
-    @Override
-    public void onMove(String player, String move, MoveResponse result) {
-        this.showMessage(player + " made a move: " + move + " " + result);
-    }
+    // @Override
+    // public void onMove(String player, String move, MoveResponse result) {
+    //     this.showMessage(player + " made a move: " + move + " " + result);
+    // }
 
     @Override
     public void onWin() {

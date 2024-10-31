@@ -8,11 +8,12 @@ import src.Telnet.Subscribe;
 public final class MainFrame extends JFrame {
     private final StartScreen startScreen = new StartScreen(this);
     private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
-    private final TickTackToe tickTackToe = new TickTackToe(this);
     private final Main main;
+    private final TickTackToe tickTackToe;
 
     public MainFrame(Main main) {
         this.main = main;
+        this.tickTackToe = new TickTackToe(this, main);
         // Set layout and add panels
         setLayout(new CardLayout());
         add(startScreen, "startScreen");

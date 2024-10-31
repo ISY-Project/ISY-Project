@@ -7,12 +7,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import src.Main;
+import src.Telnet.Move;
 
 public class TickTackToeGrid extends JPanel {
     private final JButton[][] grid;
-    private boolean isXTurn = true;  // Track whose turn it is
+    private boolean isYourTurn = true;  // Track whose turn it is
+    private final Main main;
 
-    public TickTackToeGrid() {
+    public TickTackToeGrid(Main main) {
+        this.main = main;
         int gridSize = 3;
         super.setLayout(new GridLayout(gridSize, gridSize));
         this.grid = new JButton[gridSize][gridSize];
@@ -22,6 +26,17 @@ public class TickTackToeGrid extends JPanel {
 
     public JButton[][] getGrid() {
         return this.grid;
+    }
+
+    public void updateGrid(int index, String player) {
+        System.out.println("Updating grid with player: " + player);
+        int gridSize = 3;
+        int row = index / gridSize;
+        int col = index % gridSize;
+        JButton cell = this.grid[row][col];
+        cell.setText(player.equals(main.getPlayerName()) ? "X" : "O");
+        System.out.println(cell.getText());
+        cell.setForeground(player.equals(main.getPlayerName()) ? Color.RED : Color.BLUE);
     }
 
     // Initialize Tic-Tac-Toe grid
@@ -38,14 +53,19 @@ public class TickTackToeGrid extends JPanel {
                 // Set action listener to toggle between X and O
                 cell.addActionListener((ActionEvent e) -> {
                     if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
-                        if (isXTurn) {
-                            cell.setText("X");
-                            cell.setForeground(Color.RED);
-                        } else {
-                            cell.setText("O");
-                            cell.setForeground(Color.BLUE);
+                        if (isYourTurn) {
+                            // cell.setText("X");
+                            // cell.setForeground(Color.RED);
+                            for (int i = 0; i < gridSize; i++) {
+                                for (int j = 0; j < gridSize; j++) {
+                                    if (this.grid[i][j].equals(cell)) {
+                                        int index = i * gridSize + j;
+                                        System.out.println("Index: " + index);
+                                        this.main.sendMove(new Move(index));
+                                    }
+                                }
+                            }
                         }
-                        isXTurn = !isXTurn;  // Toggle turn
                     }
                 });
                 
@@ -56,7 +76,7 @@ public class TickTackToeGrid extends JPanel {
         }
     }
 
-    public void setXTurn(boolean isXTurn) {
-        this.isXTurn = isXTurn;
+    public void setYourTurn(boolean isYourTurn) {
+        this.isYourTurn = isYourTurn;
     }
 }

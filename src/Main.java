@@ -6,6 +6,7 @@ import src.GUI.MainFrame;
 import src.GUI.TickTackToe;
 import src.Telnet.Login;
 import src.Telnet.Message;
+import src.Telnet.Move;
 import src.Telnet.ResponseHandler;
 import src.Telnet.Subscribe;
 import src.Telnet.TelnetClient;
@@ -19,11 +20,14 @@ public class Main {
     private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private final Handler eventHandler = new Handler(client, battleshipGUI);
+    private final Handler eventHandler = new Handler(client, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
     private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;
 
+    public String getPlayerName() {
+        return NAME;
+    }
 
     private String genName() {
         int leftLimit = 97; // letter 'a'
@@ -42,6 +46,10 @@ public class Main {
 
     public void selectGame(Subscribe game) {
         client.sendMessage(game.get());
+    }
+
+    public void sendMove(Move move) {
+        client.sendMessage(move.get());
     }
 
 

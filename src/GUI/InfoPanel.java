@@ -54,7 +54,7 @@ public class InfoPanel extends JPanel {
                     cell.setForeground(Color.black);
                 }
             }
-            tickTackToeGrid.setXTurn(true);
+            tickTackToeGrid.setYourTurn(true);
         };
     }
 

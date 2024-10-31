@@ -69,9 +69,20 @@ public class ResponseHandler {
         char data_start = '{';
         char data_end = '}';
         int start = response.indexOf(data_start);
-        String[] data = response.substring(start + 1).split(",");
         int end = response.indexOf(data_end);
-        System.out.println(end);
-        return data;
+        String[] data = response.substring(start + 1, end).split(",");
+        String[] result = new String[3];
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            char split = '"';
+            if (option.contains(String.valueOf(split) + String.valueOf(split))) {
+                option = "TICKTACKTOE";
+            }
+            if (option.contains(String.valueOf(split))) {
+                option = option.split(String.valueOf(split))[1];
+            }
+            result[i] = option;
+        }
+        return result;
     }
 }
