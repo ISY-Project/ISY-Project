@@ -46,7 +46,6 @@ public class Main {
     }
 
 
-    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public static void main(String[] args) {
         Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
 
