@@ -24,18 +24,18 @@ public class Minimax {
         return GameState.ONGOING;
     }
 
-    private static int minimax(char[] grid, boolean isplayer, char playerSymbol) {
+    private static int minimax(char[] grid, boolean isPlayer, char playerSymbol) {
         switch(gameResult(grid)) {
             case WIN_X -> {
                 // System.out.println("X Won");
-                if (isplayer) {
+                if (isPlayer) {
                     return -10;
                 }
                 return 10;
             }
             case WIN_O -> {
                 // System.out.println("O Won");
-                if (isplayer) {
+                if (isPlayer) {
                     return -10;
                 }
                 return 10;
@@ -61,23 +61,23 @@ public class Minimax {
         ArrayList<Integer> moves = new ArrayList<>();
         for (int i=0; i<9; i++) {
             if (grid[i]==' ') {
-                char[] newgrid = grid.clone();
+                char[] newGrid = grid.clone();
                 moves.add(i);
-                if (isplayer) {
-                    newgrid[i] = playerSymbol;
-                    scores.add(minimax(newgrid, false, playerSymbol));
+                if (isPlayer) {
+                    newGrid[i] = playerSymbol;
+                    scores.add(minimax(newGrid, false, playerSymbol));
                 }
 
                 else {
-                    newgrid[i] = opponentSymbol;
-                    scores.add(minimax(newgrid, true, playerSymbol));
+                    newGrid[i] = opponentSymbol;
+                    scores.add(minimax(newGrid, true, playerSymbol));
                 }
             }
         }
 
         int maxIndex = 0;
         for (int i=0; i<scores.size(); i++) {
-            if (isplayer) {
+            if (isPlayer) {
                 if (scores.get(i) > scores.get(maxIndex)) {
                 maxIndex = i;
                 }
