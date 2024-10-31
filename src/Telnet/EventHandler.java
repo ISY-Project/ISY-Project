@@ -1,8 +1,5 @@
 package src.Telnet;
 
-import src.GUI.OpponentGrid;
-import src.GUI.PlayerGrid;
-import src.GUI.TickTackToeGrid;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.MoveResponse;
@@ -12,15 +9,9 @@ import src.Telnet.Responses.ServerEvent;
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
     final Logout logout = new Logout();
     private final TelnetClient client;
-    private final OpponentGrid battleshipOpponentGrid;
-    private final PlayerGrid battleshipPlayerGrid;
-    private final TickTackToeGrid tickTackToeGrid;
 
-    public EventHandler(TelnetClient client, TickTackToeGrid tickTackToeGrid, OpponentGrid battleshipOpponentGrid, PlayerGrid battleshipPlayerGrid) {
+    public EventHandler(TelnetClient client) {
         this.client = client;
-        this.battleshipOpponentGrid = battleshipOpponentGrid;
-        this.battleshipPlayerGrid = battleshipPlayerGrid;
-        this.tickTackToeGrid = tickTackToeGrid;
     }
 
     @Override
@@ -45,12 +36,6 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
 
     @Override
     public void onMove(String player, String move, MoveResponse result) {
-        if (result.equals(MoveResponse.TICKTACKTOE)) {
-            System.out.println("recived move: " + move);
-            this.showMessage(player + " made a move: " + move + " in " + result);
-            tickTackToeGrid.updateGrid(Integer.parseInt(move), player);
-            return;
-        }
         System.out.println("recived move");
         this.showMessage(player + " made a move: " + move + " " + result);
     }
