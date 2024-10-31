@@ -8,17 +8,22 @@ import Telnet.Subscribe;
 import Telnet.TelnetClient;
 
 public class Main {
+    private static final String name = "SeaCarpetBomber";
+    private static String host = "localhost";
+    private static int port = 7789;
+    private static final Login login = new Login(name);
+    private static final BattleshipGUI GUI = new BattleshipGUI();
+    private static final TelnetClient client = new TelnetClient();
+    private static final Handler eventHandler = new Handler(client, GUI);
+    private static final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+
+
     public static void main(String[] args) {
         String name = "SeaCarpetBomber";
         name += (int) (Math.random() * 10);
 
-        var client = new TelnetClient();
-        var GUI = new BattleshipGUI();
-        Login login = new Login(name);
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
-        Handler eventHandler = new Handler(client, GUI);
-        ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
 
         GUI.getChatBox().getChatArea().addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
