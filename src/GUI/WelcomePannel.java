@@ -1,11 +1,10 @@
 package GUI;
 
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Dimension;
-import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -34,23 +33,16 @@ public class WelcomePannel extends JPanel {
 
 
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setSize(600, 600);
-                mainFrame.showScreen("tickTackToe");
-            }
-
+        return (@SuppressWarnings("unused") ActionEvent e) -> {
+            mainFrame.setSize(600, 600);
+            mainFrame.showScreen("tickTackToe");
         };
     }
 
     private ActionListener battleshipsActionListener(MainFrame mainFrame) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainFrame.setSize(1000, 600);
-                mainFrame.showScreen("battleshipGUI");
-            }
+        return (@SuppressWarnings("unused") ActionEvent e) -> {
+            mainFrame.setSize(1000, 600);
+            mainFrame.showScreen("battleshipGUI");
         };
     }
 

@@ -6,9 +6,9 @@ import javax.swing.JPanel;
 // TODO - Add a way to join an leave the game and start the game
 
 public class TickTackToe extends JPanel {
-    private TickTackToeGrid tickTackToeGrid;
-    private InfoPanel TickTackToeInfoPanel;
-    private ChatBox chatBox;
+    private final TickTackToeGrid tickTackToeGrid;
+    private final InfoPanel TickTackToeInfoPanel;
+    private final ChatBox chatBox;
 
     public TickTackToeGrid getTickTackToeGrid() {
         return tickTackToeGrid;

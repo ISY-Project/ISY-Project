@@ -4,13 +4,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class TickTackToeGrid extends JPanel {
-    private JButton[][] grid;
+    private final JButton[][] grid;
     private boolean isXTurn = true;  // Track whose turn it is
 
     public TickTackToeGrid() {
@@ -26,6 +25,7 @@ public class TickTackToeGrid extends JPanel {
     }
 
     // Initialize Tic-Tac-Toe grid
+    @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
@@ -36,19 +36,16 @@ public class TickTackToeGrid extends JPanel {
                 cell.setFocusPainted(false);
 
                 // Set action listener to toggle between X and O
-                cell.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
-                            if (isXTurn) {
-                                cell.setText("X");
-                                cell.setForeground(Color.RED);
-                            } else {
-                                cell.setText("O");
-                                cell.setForeground(Color.BLUE);
-                            }
-                            isXTurn = !isXTurn;  // Toggle turn
+                cell.addActionListener((ActionEvent e) -> {
+                    if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
+                        if (isXTurn) {
+                            cell.setText("X");
+                            cell.setForeground(Color.RED);
+                        } else {
+                            cell.setText("O");
+                            cell.setForeground(Color.BLUE);
                         }
+                        isXTurn = !isXTurn;  // Toggle turn
                     }
                 });
                 
