@@ -22,7 +22,7 @@ public class TickTackToe extends JPanel implements IsyGui {
     public TickTackToe(MainFrame mainFrame, Main main) {
         setLayout(new BorderLayout());
 
-        this.tickTackToeGrid = new TickTackToeGrid(main);
+        this.tickTackToeGrid = new TickTackToeGrid(main, mainFrame);
         this.TickTackToeInfoPanel = new InfoPanel(this.tickTackToeGrid);
         this.chatBox = new ChatBox();
 

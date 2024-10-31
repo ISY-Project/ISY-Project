@@ -4,19 +4,23 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import src.ALG.Minimax;
 import src.Main;
 import src.Telnet.Move;
 
 public class TickTackToeGrid extends JPanel {
     private final JButton[][] grid;
-    private boolean isYourTurn = true;  // Track whose turn it is
     private final Main main;
+    private final MainFrame mainFrame;
 
-    public TickTackToeGrid(Main main) {
+    public TickTackToeGrid(Main main, MainFrame mainFrame) {
         this.main = main;
+        this.mainFrame = mainFrame;
         int gridSize = 3;
         super.setLayout(new GridLayout(gridSize, gridSize));
         this.grid = new JButton[gridSize][gridSize];
@@ -50,22 +54,31 @@ public class TickTackToeGrid extends JPanel {
                 cell.setFont(new Font("Arial", Font.BOLD, 60));
                 cell.setFocusPainted(false);
 
+                if (mainFrame.getAlgorithmOn()) {
+                    cell.setEnabled(false);
+                }
+
                 // Set action listener to toggle between X and O
                 cell.addActionListener((ActionEvent e) -> {
-                    if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
-                        if (isYourTurn) {
-                            // cell.setText("X");
-                            // cell.setForeground(Color.RED);
-                            for (int i = 0; i < gridSize; i++) {
-                                for (int j = 0; j < gridSize; j++) {
-                                    if (this.grid[i][j].equals(cell)) {
-                                        int index = i * gridSize + j;
-                                        System.out.println("Index: " + index);
-                                        this.main.sendMove(new Move(index));
+                    if (!mainFrame.getAlgorithmOn()) {
+                        if (cell.getText().isEmpty()) {  // Only allow placing on empty cells
+                            if (mainFrame.getIsPlayerTurn()) {
+                                // cell.setText("X");
+                                // cell.setForeground(Color.RED);
+                                for (int i = 0; i < gridSize; i++) {
+                                    for (int j = 0; j < gridSize; j++) {
+                                        if (this.grid[i][j].equals(cell)) {
+                                            int index = i * gridSize + j;
+                                            System.out.println("Index: " + index);
+                                            this.main.sendMove(new Move(index));
+                                            this.mainFrame.setIsPlayerTurn(false);
+                                        }
                                     }
                                 }
                             }
                         }
+                    } else {
+                        System.out.println("Algorithm is on, cannot place move");
                     }
                 });
                 
@@ -76,7 +89,26 @@ public class TickTackToeGrid extends JPanel {
         }
     }
 
-    public void setYourTurn(boolean isYourTurn) {
-        this.isYourTurn = isYourTurn;
+    public void algMakeMove() {
+        int gridSize = 3;
+        char[] new_grid = new char[gridSize * gridSize];
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                if (this.grid[i][j].getText().isEmpty()) {
+                    new_grid[i * gridSize + j] = ' ';
+                } else {
+                    new_grid[i * gridSize + j] = this.grid[i][j].getText().charAt(0);
+                }
+            }
+        }
+        System.out.println(Arrays.toString(new_grid));
+        System.out.println("Algorithm making move " + Minimax.getBestMove(new_grid, 'X'));
+        this.main.sendMove(new Move(Minimax.getBestMove(new_grid, 'X')));
+        this.mainFrame.setIsPlayerTurn(false);
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
