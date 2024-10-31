@@ -25,7 +25,7 @@ public class BattleshipGUI extends JPanel implements IsyGui {
         return chatBox;
     }
 
-    public BattleshipGUI(MainFrame mainFrame) {
+    public BattleshipGUI() {
         int[] initialShipSizes = { 2, 3, 3, 4, 5 };
         this.ships = new Ships(initialShipSizes);
 
