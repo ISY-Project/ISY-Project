@@ -10,7 +10,6 @@ public class TickTackToe extends JPanel implements IsyGui {
     private final TickTackToeGrid tickTackToeGrid;
     private final InfoPanel TickTackToeInfoPanel;
     private final ChatBox chatBox;
-    private final Main main;
 
     public TickTackToeGrid getTickTackToeGrid() {
         return tickTackToeGrid;
@@ -21,7 +20,6 @@ public class TickTackToe extends JPanel implements IsyGui {
     }
 
     public TickTackToe(MainFrame mainFrame, Main main) {
-        this.main = main;
         setLayout(new BorderLayout());
 
         this.tickTackToeGrid = new TickTackToeGrid(main);
