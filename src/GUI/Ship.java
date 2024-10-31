@@ -1,3 +1,4 @@
+package GUI;
 
 public class Ship {
     private boolean isVertical = true; // Ship orientation (vertical/horizontal)
