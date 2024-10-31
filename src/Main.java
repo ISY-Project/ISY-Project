@@ -23,6 +23,7 @@ public class Main {
     private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, battleshipGUI);
     private static final TTTHandler tttHandler = new TTTHandler(client, tickTackToeGUI);
     private static final ResponseHandler responseHandler = new ResponseHandler(client, battleshipHandler);
+    private static final ResponseHandler TTTResponseHandler = new ResponseHandler(client, tttHandler);
     // private static final GameEngine;
     // private static final Algorithm;
 
@@ -78,7 +79,25 @@ public class Main {
     }
 
     private static void runTicTacToeComp(Message message) {
-        
+        try {
+            String response = client.receiveMessage();
+            while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
+                client.showMessage("Received: " + response);
+                TTTResponseHandler.handle(response);
+                response = client.receiveMessage();
+                if (response == null) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                client.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void runBattleshipComp(Message message) {
