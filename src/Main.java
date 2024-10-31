@@ -19,9 +19,6 @@ public class Main {
 
 
     public static void main(String[] args) {
-        String name = "SeaCarpetBomber";
-        name += (int) (Math.random() * 10);
-
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
 
