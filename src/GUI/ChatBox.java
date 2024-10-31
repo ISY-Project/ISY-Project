@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

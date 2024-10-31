@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import src.Telnet.Subscribe;
 
 public class WelcomePannel extends JPanel {
     public WelcomePannel(MainFrame mainFrame) {
@@ -36,6 +37,7 @@ public class WelcomePannel extends JPanel {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
             mainFrame.setSize(600, 600);
             mainFrame.showScreen("tickTackToe");
+            mainFrame.selectGame(Subscribe.TICTACTOE);
         };
     }
 
@@ -43,6 +45,7 @@ public class WelcomePannel extends JPanel {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
             mainFrame.setSize(1000, 600);
             mainFrame.showScreen("battleshipGUI");
+            mainFrame.selectGame(Subscribe.BATTLESHIP);
         };
     }
 

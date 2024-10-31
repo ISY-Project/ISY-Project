@@ -1,14 +1,16 @@
-package Telnet;
+package src.Telnet;
 
-public class Subscribe {
-    private final String command;
+public enum Subscribe {
+    BATTLESHIP("battleship"),
+    TICTACTOE("tic-tac-toe");
 
-    public Subscribe(String game) {
-        // TODO: use a enum.
-        this.command = "subscribe " + game;
+    private final String game;
+
+    Subscribe(String game) {
+        this.game = "subscribe " + game.toLowerCase();
     }
 
     public String get() {
-        return this.command;
+        return this.game;
     }
 }

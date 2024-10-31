@@ -1,8 +1,10 @@
-import GUI.BattleshipGUI;
-import Telnet.EventHandler;
-import Telnet.Logout;
-import Telnet.Responses.MoveResponse;
-import Telnet.TelnetClient;
+package src;
+
+import src.GUI.BattleshipGUI;
+import src.Telnet.EventHandler;
+import src.Telnet.Logout;
+import src.Telnet.Responses.MoveResponse;
+import src.Telnet.TelnetClient;
 
 // TODO Remove the showMessage calls, as they are for debugging. Instead show the messages in the GUI
 public class Handler extends EventHandler {

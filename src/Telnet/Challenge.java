@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 public class Challenge {
     private class Accept{

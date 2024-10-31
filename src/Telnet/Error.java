@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 public interface Error {
     String MESSAGE = "ERR ";

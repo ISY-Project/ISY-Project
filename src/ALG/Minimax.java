@@ -1,4 +1,4 @@
-package ALG;
+package src.ALG;
 
 import java.util.ArrayList;
 import java.util.Objects;

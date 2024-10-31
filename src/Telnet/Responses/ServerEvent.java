@@ -1,4 +1,4 @@
-package Telnet.Responses;
+package src.Telnet.Responses;
 
 public interface ServerEvent {
     String MESSAGE = "SVR ";

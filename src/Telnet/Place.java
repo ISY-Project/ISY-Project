@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 public class Place {
     private final String command;

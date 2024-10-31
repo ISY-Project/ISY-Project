@@ -1,4 +1,5 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
-    "cSpell.language": "en,nl"
+    "cSpell.language": "en,nl",
+    "java.project.referencedLibraries": []
 }

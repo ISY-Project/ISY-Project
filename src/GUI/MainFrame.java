@@ -1,14 +1,18 @@
-package GUI;
+package src.GUI;
 
-import java.awt.*;
+import java.awt.CardLayout;
 import javax.swing.*;
+import src.Main;
+import src.Telnet.Subscribe;
 
 public final class MainFrame extends JFrame {
     private final StartScreen startScreen = new StartScreen(this);
     private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
     private final TickTackToe tickTackToe = new TickTackToe(this);
+    private final Main main;
 
-    public MainFrame() {
+    public MainFrame(Main main) {
+        this.main = main;
         // Set layout and add panels
         setLayout(new CardLayout());
         add(startScreen, "startScreen");
@@ -29,15 +33,16 @@ public final class MainFrame extends JFrame {
         layout.show(getContentPane(), screenName);
     }
 
+    public void selectGame(Subscribe game) {
+        this.main.selectGame(game);
+        
+    }
+
     public BattleshipGUI getBattleshipGUI() {
         return battleshipGUI;
     }
 
     public TickTackToe getTickTackToe() {
         return tickTackToe;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainFrame());
     }
 }

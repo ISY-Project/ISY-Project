@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 public class BattleshipGUI extends JPanel {
     private static final int GRIDSIZE = 8;
-    private final Ships ships; // Ships available to be placed
+    private final Ships ships;
     private final PlayerGrid playerGrid;
     private final OpponentGrid opponentGrid;
     private final InfoPanel infoPanel;
@@ -26,7 +26,7 @@ public class BattleshipGUI extends JPanel {
     }
 
     public BattleshipGUI(MainFrame mainFrame) {
-        int[] initialShipSizes = { 2, 3, 3, 4, 5 }; // Ship sizes available to be placed
+        int[] initialShipSizes = { 2, 3, 3, 4, 5 };
         this.ships = new Ships(initialShipSizes);
 
         setLayout(new BorderLayout());
@@ -36,7 +36,6 @@ public class BattleshipGUI extends JPanel {
         this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
         this.chatBox = new ChatBox();
 
-        // Add components to the frame
         add(this.playerGrid, BorderLayout.WEST);
         add(this.infoPanel, BorderLayout.CENTER);
         add(this.opponentGrid, BorderLayout.EAST);

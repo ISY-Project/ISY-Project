@@ -1,9 +1,9 @@
-package Telnet;
+package src.Telnet;
 
-import Telnet.Responses.ChallengeEvent;
-import Telnet.Responses.GameEvent;
-import Telnet.Responses.MoveResponse;
-import Telnet.Responses.ServerEvent;
+import src.Telnet.Responses.ChallengeEvent;
+import src.Telnet.Responses.GameEvent;
+import src.Telnet.Responses.MoveResponse;
+import src.Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
     // read the server response, and parse the response as a event

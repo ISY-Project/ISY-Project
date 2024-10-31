@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 public class Login {
     private final String command;

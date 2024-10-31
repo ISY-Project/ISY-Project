@@ -1,19 +1,21 @@
-import GUI.BattleshipGUI;
-import GUI.MainFrame;
-import GUI.TickTackToe;
-import Telnet.Login;
-import Telnet.Message;
-import Telnet.ResponseHandler;
-import Telnet.Subscribe;
-import Telnet.TelnetClient;
+package src;
+
 import java.util.Random;
+import src.GUI.BattleshipGUI;
+import src.GUI.MainFrame;
+import src.GUI.TickTackToe;
+import src.Telnet.Login;
+import src.Telnet.Message;
+import src.Telnet.ResponseHandler;
+import src.Telnet.Subscribe;
+import src.Telnet.TelnetClient;
 
 public class Main {
     private final String NAME = genName();
     private static final String HOST = "localhost";
     private static final int PORT = 7789;
     private final Login login = new Login(NAME);
-    private static final MainFrame GUI_Frame = new MainFrame();
+    private final MainFrame GUI_Frame = new MainFrame(this);
     private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
@@ -38,11 +40,14 @@ public class Main {
         return generatedString;
     }
 
+    public void selectGame(Subscribe game) {
+        client.sendMessage(game.get());
+    }
+
 
     @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public void main(String[] args) {
         Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
-        Subscribe subscribe = new Subscribe("battleship");
 
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
@@ -63,7 +68,6 @@ public class Main {
             // TODO: replace these calls with GUI buttons or menu's
             client.sendMessage(login.get());
             client.sendMessage(message.get());
-            client.sendMessage(subscribe.get());
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) {

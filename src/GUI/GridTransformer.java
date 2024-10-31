@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 public class GridTransformer {
     public int[][] toGrid(int[] flatList, int size) {
         int[][] res = new int[flatList.length / size][size];

@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 public class Message {
     private final String command;

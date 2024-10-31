@@ -1,4 +1,4 @@
-package Telnet;
+package src.Telnet;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 
 // Ship class representing a ship to place on the grid
 // TODO: Update the amount of ships available after we placed. (Communicate with engine.)

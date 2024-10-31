@@ -1,4 +1,4 @@
-package ALG;
+package src.ALG;
 
 public enum GameState {
     WIN_X,
