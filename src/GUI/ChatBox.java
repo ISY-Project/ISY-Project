@@ -9,8 +9,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ChatBox extends JPanel {
-    private JTextArea chatView;
-    private JTextField chatArea;
+    private final JTextArea chatView;
+    private final JTextField chatArea;
 
     public ChatBox() {
         super(new BorderLayout());

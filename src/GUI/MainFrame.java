@@ -4,15 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 
 public final class MainFrame extends JFrame {
-    private StartScreen startScreen;
-    private BattleshipGUI battleshipGUI;
-    private TickTackToe tickTackToe;
+    private final StartScreen startScreen = new StartScreen(this);
+    private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
+    private final TickTackToe tickTackToe = new TickTackToe(this);
 
     public MainFrame() {
-        startScreen = new StartScreen(this);
-        battleshipGUI = new BattleshipGUI(this);
-        tickTackToe = new TickTackToe(this);
-
         // Set layout and add panels
         setLayout(new CardLayout());
         add(startScreen, "startScreen");
@@ -31,6 +27,14 @@ public final class MainFrame extends JFrame {
         System.out.println(screenName);
         CardLayout layout = (CardLayout) getContentPane().getLayout();
         layout.show(getContentPane(), screenName);
+    }
+
+    public BattleshipGUI getBattleshipGUI() {
+        return battleshipGUI;
+    }
+
+    public TickTackToe getTickTackToe() {
+        return tickTackToe;
     }
 
     public static void main(String[] args) {

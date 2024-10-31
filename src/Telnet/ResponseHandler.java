@@ -7,14 +7,15 @@ import Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
     // read the server response, and parse the response as a event
-    private TelnetClient client;
-    private EventHandler eventHandler;
+    private final TelnetClient client;
+    private final EventHandler eventHandler;
     
     public ResponseHandler(TelnetClient client, EventHandler eventHandler) {
         this.client = client;
         this.eventHandler = eventHandler;
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void handle() {
         String response = null;
         try {
@@ -70,6 +71,7 @@ public class ResponseHandler {
         int start = response.indexOf(data_start);
         String[] data = response.substring(start + 1).split(",");
         int end = response.indexOf(data_end);
+        System.out.println(end);
         return data;
     }
 }
