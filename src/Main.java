@@ -1,3 +1,5 @@
+import javax.swing.JTextField;
+
 import GUI.BattleshipGUI;
 import GUI.MainFrame;
 import GUI.TickTackToe;
@@ -27,13 +29,16 @@ public class Main {
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
 
-        battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = battleshipGUI.getChatBox().getChatArea().getText();
+        JTextField chatAreaBattleship = battleshipGUI.getChatBox().getChatArea();
+        JTextField chatAreaTTT = tickTackToeGUI.getChatBox().getChatArea();
+
+        chatAreaBattleship.addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = chatAreaBattleship.getText();
             client.sendMessage(new Message(msg).get());
         });
 
-        tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
+        chatAreaTTT.addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = chatAreaTTT.getText();
             client.sendMessage(new Message(msg).get());
         });
 
