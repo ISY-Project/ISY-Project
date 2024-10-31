@@ -9,10 +9,8 @@ public final class MainFrame extends JFrame {
     private final StartScreen startScreen = new StartScreen(this);
     private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
     private final TickTackToe tickTackToe = new TickTackToe(this);
-    private final Main main;
 
-    public MainFrame(Main main) {
-        this.main = main;
+    public MainFrame() {
         // Set layout and add panels
         setLayout(new CardLayout());
         add(startScreen, "startScreen");
@@ -34,8 +32,7 @@ public final class MainFrame extends JFrame {
     }
 
     public void selectGame(Subscribe game) {
-        this.main.selectGame(game);
-        
+        Main.selectGame(game);
     }
 
     public BattleshipGUI getBattleshipGUI() {
