@@ -22,17 +22,17 @@ public class Main {
     // private static final Algorithm;
 
 
-    @SuppressWarnings("CallToPrintStackTrace")
+    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public void main(String[] args) {
         Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
 
-        this.battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+        battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
             client.sendMessage(new Message(msg).get());
         });
 
-        this.tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+        tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
             client.sendMessage(new Message(msg).get());
         });

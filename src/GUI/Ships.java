@@ -3,8 +3,8 @@ package GUI;
 // Ship class representing a ship to place on the grid
 // TODO: Update the amount of ships available after we placed. (Communicate with engine.)
 class Ships {
-    private int numberOfShips;
-    private int[] shipSizes;
+    private final int numberOfShips;
+    private final int[] shipSizes;
     Ship[] ships;
 
     public Ships (int[] shipSizes) {

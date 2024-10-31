@@ -2,7 +2,7 @@ package GUI;
 
 public class Ship {
     private boolean isVertical = true; // Ship orientation (vertical/horizontal)
-    private int size;
+    private final int size;
 
     public Ship(int size) {
         this.size = size;

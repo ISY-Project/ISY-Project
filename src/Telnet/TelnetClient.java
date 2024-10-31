@@ -1,6 +1,7 @@
 package Telnet;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -18,6 +19,10 @@ public class TelnetClient {
     }
 
     public void sendMessage(String message) {
+        if (this.out == null) {
+            System.out.println("Connection not established");
+            return;
+        }
         System.out.println("Sent: " + message);
         out.println(message);
     }
@@ -34,12 +39,11 @@ public class TelnetClient {
         String msg;
         try {
             msg = in.readLine();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return;
-        };
+        }
         System.out.println(msg);
-        return;
     }
 
     public void close() throws Exception {
@@ -48,6 +52,7 @@ public class TelnetClient {
         socket.close();
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public static void main(String[] args) {
         TelnetClient client = new TelnetClient();
         try {
