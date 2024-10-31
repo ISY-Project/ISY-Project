@@ -41,6 +41,11 @@ public class Main {
             client.sendMessage(new Message(msg).get());
         });
 
+        runBattleshipComp(message, subscribe);
+    }
+
+
+    private static void runBattleshipComp(Message message, Subscribe subscribe) {
         try {
             client.connect(host, port);
             // TODO: replace these calls with GUI buttons or menu's
