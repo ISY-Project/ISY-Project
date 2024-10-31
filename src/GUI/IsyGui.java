@@ -1,4 +1,4 @@
-package GUI;
+package src.GUI;
 
 
 public interface IsyGui {
