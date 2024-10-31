@@ -20,7 +20,7 @@ public class Main {
     private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private final Handler eventHandler = new Handler(client, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
+    private final Handler eventHandler = new Handler(client, GUI_Frame, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
     private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;

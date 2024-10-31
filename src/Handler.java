@@ -1,6 +1,7 @@
 package src;
 
 import src.GUI.BattleshipGUI;
+import src.GUI.MainFrame;
 import src.GUI.TickTackToeGrid;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
@@ -11,10 +12,12 @@ public class Handler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
     private final BattleshipGUI gui;
+    private final MainFrame mainFrame;
 
-    public Handler(TelnetClient client, BattleshipGUI gui, TickTackToeGrid tickTackToeGrid) {
-        super(client, tickTackToeGrid, gui.getOpponentGrid(), gui.getPlayerGrid());
+    public Handler(TelnetClient client, MainFrame mainFrame, BattleshipGUI gui, TickTackToeGrid tickTackToeGrid) {
+        super(client, mainFrame, tickTackToeGrid, gui.getOpponentGrid(), gui.getPlayerGrid());
         this.gui = gui;
+        this.mainFrame = mainFrame;
     }
 
     @Override
@@ -32,10 +35,10 @@ public class Handler extends EventHandler {
         this.showMessage("Match started");
     }
 
-    @Override
-    public void onYourTurn(String message) {
-        this.showMessage("Your turn: " + message);
-    }
+    // @Override
+    // public void onYourTurn(String message) {
+    //     this.showMessage("Your turn: " + message);
+    // }
 
     // @Override
     // public void onMove(String player, String move, MoveResponse result) {

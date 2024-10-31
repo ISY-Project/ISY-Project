@@ -10,7 +10,6 @@ public class TickTackToe extends JPanel {
     private final TickTackToeGrid tickTackToeGrid;
     private final InfoPanel TickTackToeInfoPanel;
     private final ChatBox chatBox;
-    private final Main main;
 
     public TickTackToeGrid getTickTackToeGrid() {
         return tickTackToeGrid;
@@ -21,10 +20,9 @@ public class TickTackToe extends JPanel {
     }
 
     public TickTackToe(MainFrame mainFrame, Main main) {
-        this.main = main;
         setLayout(new BorderLayout());
 
-        this.tickTackToeGrid = new TickTackToeGrid(main);
+        this.tickTackToeGrid = new TickTackToeGrid(main, mainFrame);
         this.TickTackToeInfoPanel = new InfoPanel(this.tickTackToeGrid);
         this.chatBox = new ChatBox();
 

@@ -1,5 +1,6 @@
 package src.Telnet;
 
+import src.GUI.MainFrame;
 import src.GUI.OpponentGrid;
 import src.GUI.PlayerGrid;
 import src.GUI.TickTackToeGrid;
@@ -15,12 +16,14 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
     private final OpponentGrid battleshipOpponentGrid;
     private final PlayerGrid battleshipPlayerGrid;
     private final TickTackToeGrid tickTackToeGrid;
+    private final MainFrame mainFrame;
 
-    public EventHandler(TelnetClient client, TickTackToeGrid tickTackToeGrid, OpponentGrid battleshipOpponentGrid, PlayerGrid battleshipPlayerGrid) {
+    public EventHandler(TelnetClient client, MainFrame mainFrame, TickTackToeGrid tickTackToeGrid, OpponentGrid battleshipOpponentGrid, PlayerGrid battleshipPlayerGrid) {
         this.client = client;
         this.battleshipOpponentGrid = battleshipOpponentGrid;
         this.battleshipPlayerGrid = battleshipPlayerGrid;
         this.tickTackToeGrid = tickTackToeGrid;
+        this.mainFrame = mainFrame;
     }
 
     @Override
@@ -40,6 +43,10 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
 
     @Override
     public void onYourTurn(String message) {
+        mainFrame.setIsPlayerTurn(true);
+        if (mainFrame.getAlgorithmOn()) {
+            tickTackToeGrid.algMakeMove();
+        }
         this.showMessage("Your turn: " + message);
     }
 

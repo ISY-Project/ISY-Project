@@ -10,6 +10,8 @@ public final class MainFrame extends JFrame {
     private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
     private final Main main;
     private final TickTackToe tickTackToe;
+    private Boolean algorithmOn = false;
+    private Boolean isPlayerTurn = true;
 
     public MainFrame(Main main) {
         this.main = main;
@@ -45,5 +47,21 @@ public final class MainFrame extends JFrame {
 
     public TickTackToe getTickTackToe() {
         return tickTackToe;
+    }
+
+    public Boolean getAlgorithmOn() {
+        return algorithmOn;
+    }
+
+    public void setAlgorithmOn(Boolean algorithmOn) {
+        this.algorithmOn = algorithmOn;
+    }
+
+    public Boolean getIsPlayerTurn() {
+        return this.isPlayerTurn;
+    }
+
+    public void setIsPlayerTurn(Boolean isPlayerTurn) {
+        this.isPlayerTurn = isPlayerTurn;
     }
 }
