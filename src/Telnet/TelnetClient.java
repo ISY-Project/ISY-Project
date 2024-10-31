@@ -35,6 +35,7 @@ public class TelnetClient {
         System.out.println(message);
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void showMessage() {
         String msg;
         try {

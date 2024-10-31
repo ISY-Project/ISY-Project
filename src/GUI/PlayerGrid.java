@@ -3,17 +3,15 @@ package GUI;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PlayerGrid extends JPanel {
-    private JButton[][] grid;
-    private Ships ships;
+    private final JButton[][] grid;
+    private final Ships ships;
 
     public PlayerGrid(int gridSize, Ships ships) {
         super(new GridLayout(gridSize, gridSize));
@@ -28,44 +26,43 @@ public class PlayerGrid extends JPanel {
     }
 
     // Initialize player grid with buttons
+    @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 int finalRow = row;
                 int finalCol = col;
                 var cell = new GridCell();
-                cell.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // When a player clicks on their grid to place a ship
-                        System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
-                        String placingMessage = "What size ship do you want to place?\nAvailable sizes:"
-                                + Arrays.toString(ships.ShipSizes());
-                        String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
-                        int selectedShipSize = 0;
-                        try {
-                            selectedShipSize = Integer.parseInt(chosenShipSize);
-                            System.out.println("Selected ship size: " + selectedShipSize);
-                        } catch (NumberFormatException err) {
-                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
-                            System.out.println("Invalid ship size: " + chosenShipSize);
-                            return;
-                        }
-
-                        Ship selectedShip = ships.getShipBySize(selectedShipSize);
-                        if (selectedShip == null) {
-                            JOptionPane.showMessageDialog(cell, "Invalid ship size");
-                            return;
-                        }
-
-                        // TODO - Send ship placement message to the engine
-                        // TODO - Wait for response from the engine
-                        // TODO - If the engine accepts the placement, place the ship on the grid
-                        if (!validateGridBorderPlacement(finalRow, finalCol, selectedShip)) {
-                            JOptionPane.showMessageDialog(cell, "Ship cannot be placed here.");
-                            return;
-                        }
-                        placeShip(finalRow, finalCol, selectedShip);
+                cell.addActionListener((ActionEvent e) -> {
+                    // When a player clicks on their grid to place a ship
+                    System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
+                    String placingMessage = "What size ship do you want to place?\nAvailable sizes:"
+                            + Arrays.toString(ships.ShipSizes());
+                    String chosenShipSize = JOptionPane.showInputDialog(placingMessage);
+                    int selectedShipSize;
+                    try {
+                        selectedShipSize = Integer.parseInt(chosenShipSize);
+                        System.out.println("Selected ship size: " + selectedShipSize);
+                    } catch (NumberFormatException err) {
+                        JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                        System.out.println("Invalid ship size: " + chosenShipSize);
+                        return;
                     }
+                    
+                    Ship selectedShip = ships.getShipBySize(selectedShipSize);
+                    if (selectedShip == null) {
+                        JOptionPane.showMessageDialog(cell, "Invalid ship size");
+                        return;
+                    }
+                    
+                    // TODO - Send ship placement message to the engine
+                    // TODO - Wait for response from the engine
+                    // TODO - If the engine accepts the placement, place the ship on the grid
+                    if (!validateGridBorderPlacement(finalRow, finalCol, selectedShip)) {
+                        JOptionPane.showMessageDialog(cell, "Ship cannot be placed here.");
+                        return;
+                    }
+                    placeShip(finalRow, finalCol, selectedShip);
                 });
                 this.add(cell);
                 this.grid[row][col] = cell;

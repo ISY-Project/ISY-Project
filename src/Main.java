@@ -8,10 +8,10 @@ import Telnet.Subscribe;
 import Telnet.TelnetClient;
 
 public class Main {
-    private static final String name = "SeaCarpetBomber";
-    private static final String host = "localhost";
-    private static final int port = 7789;
-    private static final Login login = new Login(name);
+    private static final String NAME = "SeaCarpetBomber";
+    private static final String HOST = "localhost";
+    private static final int PORT = 7789;
+    private static final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();
     private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
@@ -24,7 +24,7 @@ public class Main {
 
     @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public void main(String[] args) {
-        Message message = new Message(name + " Here to win the game!1!"); // TODO: add more messages
+        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
         Subscribe subscribe = new Subscribe("battleship");
 
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
@@ -38,7 +38,7 @@ public class Main {
         });
 
         try {
-            client.connect(host, port);
+            client.connect(HOST, PORT);
             // TODO: replace these calls with GUI buttons or menu's
             client.sendMessage(login.get());
             client.sendMessage(message.get());

@@ -1,7 +1,7 @@
 package Telnet.Responses;
 
 public interface ChallengeEvent {
-    String message = "CHALLENGE ";
+    String MESSAGE = "CHALLENGE ";
     void onChallenge(String playerName, int game, int gameNumber);
     void onCancel(int gameNumber);
 }

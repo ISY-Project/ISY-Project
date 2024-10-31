@@ -1,9 +1,9 @@
 package Telnet.Responses;
 
 public interface GameEvent {
-    String message = "GAME ";
+    String MESSAGE = "GAME ";
     void onMatch();
-    void onYourTurn(String message);
+    void onYourTurn(String MESSAGE);
     void onMove(String player, String move, MoveResponse result);
     void onWin();
     void onLose();

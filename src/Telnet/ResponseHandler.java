@@ -33,30 +33,30 @@ public class ResponseHandler {
             this.eventHandler.onHelp(response);
         }
         else if (response.contains(ServerEvent.message)) {
-            if (response.contains(GameEvent.message)) {
-                if (response.contains(ChallengeEvent.message)) {
+            if (response.contains(GameEvent.MESSAGE)) {
+                if (response.contains(ChallengeEvent.MESSAGE)) {
                     String playerName = response.split(" ")[1];
                     int gameNumber = Integer.parseInt(responseArray[2]);
                     int gameName = Integer.parseInt(responseArray[3]);
                     this.eventHandler.onChallenge(playerName, gameName, gameNumber);
                 }
-                else if (response.contains(GameEvent.message + "MATCH")) {
+                else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
                     this.eventHandler.onMatch();
                 }
-                else if (response.contains(GameEvent.message + "YOURTURN")) {
+                else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
                     this.eventHandler.onYourTurn(responseArray[2]);
                 }
-                else if (response.contains(GameEvent.message + "MOVE")) {
+                else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
                     String[] data = parseMove(response);
                     this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
                 }
-                else if (response.contains(GameEvent.message + "WIN")) {
+                else if (response.contains(GameEvent.MESSAGE + "WIN")) {
                     this.eventHandler.onWin();
                 }
-                else if (response.contains(GameEvent.message + "LOSS")) {
+                else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
                     this.eventHandler.onLose();
                 }
-                else if (response.contains(GameEvent.message + "DRAW")) {
+                else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
                     this.eventHandler.onDraw();
                 }
             }
