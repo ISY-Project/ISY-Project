@@ -4,7 +4,9 @@ import java.util.Random;
 
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
-import src.GUI.TickTackToe;
+import src.GUI.TickTackToeGui;
+import src.GameEngine.BattleshipEngine;
+import src.GameEngine.TTTEngine;
 import src.Telnet.Login;
 import src.Telnet.Message;
 import src.Telnet.ResponseHandler;
@@ -12,21 +14,39 @@ import src.Telnet.Subscribe;
 import src.Telnet.TelnetClient;
 
 public class Main {
-    private final static String NAME = genName();
+    private static final String NAME = genName();
     private static final String HOST = "localhost";
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
-    private static final MainFrame GUI_Frame = new MainFrame();
-    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, battleshipGUI);
-    private static final TTTHandler tttHandler = new TTTHandler(client, tickTackToeGUI);
+    // Engines
+    private static final BattleshipEngine battleshipEngine = new BattleshipEngine(10, "Player1", "Player2");
+    private static final TTTEngine tttEngine = new TTTEngine(3, "PlayerX", "PlayerO");
+    // GUI
+    private static final MainFrame GUI_Frame = new MainFrame();
+    // Battleship
+    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
+    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, battleshipGUI, battleshipEngine);
     private static final ResponseHandler responseHandler = new ResponseHandler(client, battleshipHandler);
+    /// TicTacToe
+    private static final TickTackToeGui tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final TTTHandler tttHandler = new TTTHandler(client, tickTackToeGUI, NAME, tttEngine);
     private static final ResponseHandler TTTResponseHandler = new ResponseHandler(client, tttHandler);
-    // private static final GameEngine;
-    // private static final Algorithm;
 
+    public static void main(String[] args) {
+        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
+
+        initializeChatBoxes();
+        connectToServer(message);
+    }
+
+    public static TTTEngine getTTTEngine() {
+        return tttEngine;
+    }
+
+    public static BattleshipEngine getBattleshipEngine() {
+        return battleshipEngine;
+    }
 
     private static String genName() {
         int leftLimit = 97; // letter 'a'
@@ -46,10 +66,7 @@ public class Main {
         client.sendMessage(game.get());
     }
 
-
-    public static void main(String[] args) {
-        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
-
+    private static void initializeChatBoxes() {
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
@@ -63,12 +80,9 @@ public class Main {
                 client.sendMessage(new Message(msg).get());
             }
         });
-
-        connectToServer(message);
     }
 
     private static void connectToServer(Message message) {
-        // TODO: replace these calls with GUI buttons or menu's. Niet meer nodig???
         try {
             client.connect(HOST, PORT);
             client.sendMessage(login.get());

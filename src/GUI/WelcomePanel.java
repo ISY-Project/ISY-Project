@@ -10,18 +10,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+
 import src.Telnet.Subscribe;
 
-public class WelcomePannel extends JPanel {
-    public WelcomePannel(GameEngine engine) {
+public class WelcomePanel extends JPanel {
+    public WelcomePanel(MainFrame mainframe) {
         super(new GridLayout(6, 0));
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         this.setSize(350, 350);
         JButton tickTackToe = new JButton("Tick Tack Toe");
         JButton battleships = new JButton("Battleships");
 
-        tickTackToe.addActionListener(tickTackToeActionListener(engine));
-        battleships.addActionListener(battleshipsActionListener(engine));
+        tickTackToe.addActionListener(tickTackToeActionListener(mainframe));
+        battleships.addActionListener(battleshipsActionListener(mainframe));
 
         tickTackToe.setPreferredSize(new Dimension(300, 75));
         battleships.setPreferredSize(new Dimension(300, 75));
@@ -33,17 +34,15 @@ public class WelcomePannel extends JPanel {
         sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
 
         JSlider slider = new JSlider(0, 1, 0);
-        slider.setPaintTrack(true);
-        slider.setPaintTicks(true);
-        slider.setMajorTickSpacing(1);
-        slider.setMinorTickSpacing(1);
+        // slider.setPaintTrack(true);
+        // slider.setPaintTicks(true);
+        // slider.setMajorTickSpacing(1);
+        // slider.setMinorTickSpacing(1);
+        // slider.addChangeListener((e) -> {
+        //     String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
+        //     sliderLabel.setText(text);
+        // });
         sliderLabel.setText("Manual");
-        engine.setAlgorithmOn(false);
-        slider.addChangeListener((e) -> {
-            String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
-            sliderLabel.setText(text);
-            engine.setAlgorithmOn(slider.getValue() == 1);
-        });
         this.add(labelOne);
         this.add(labelTwo);
         this.add(tickTackToe);
@@ -52,19 +51,19 @@ public class WelcomePannel extends JPanel {
         this.add(slider);
     }
 
-    private ActionListener tickTackToeActionListener(GameEngine engine) {
+    private ActionListener tickTackToeActionListener(MainFrame mainframe) {
         return (ActionEvent e) -> {
-            engine.setSize(600, 600);
-            engine.showScreen("tickTackToe");
-            engine.setGame(Subscribe.TICTACTOE);
+            mainframe.setSize(600, 600);
+            mainframe.showScreen("tickTackToe");
+            mainframe.setGame(Subscribe.TICTACTOE);
         };
     }
 
-    private ActionListener battleshipsActionListener(GameEngine engine) {
+    private ActionListener battleshipsActionListener(MainFrame mainframe) {
         return (ActionEvent e) -> {
-            engine.setSize(1000, 600);
-            engine.showScreen("battleshipGUI");
-            engine.setGame(Subscribe.BATTLESHIP);
+            mainframe.setSize(1000, 600);
+            mainframe.showScreen("battleshipGUI");
+            mainframe.setGame(Subscribe.BATTLESHIP);
         };
     }
 

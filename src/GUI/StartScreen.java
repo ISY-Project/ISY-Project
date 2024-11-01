@@ -4,10 +4,10 @@ import javax.swing.JPanel;
 
 
 public class StartScreen extends JPanel {
-    private final WelcomePannel WelcomePannel;
+    private final WelcomePanel WelcomePannel;
 
     public StartScreen(MainFrame mainFrame) {
-        this.WelcomePannel = new WelcomePannel(mainFrame);
+        this.WelcomePannel = new WelcomePanel(mainFrame);
 
         // Add components to the frame
         add(this.WelcomePannel);

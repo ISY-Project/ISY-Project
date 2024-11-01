@@ -3,7 +3,8 @@ package src.GUI;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-// TODO - Add a way to join an leave the game and start the game
+import src.Main;
+
 
 public class BattleshipGUI extends JPanel implements IsyGui {
     private static final int GRIDSIZE = 8;
@@ -12,6 +13,7 @@ public class BattleshipGUI extends JPanel implements IsyGui {
     private final OpponentGrid opponentGrid;
     private final InfoPanel infoPanel;
     private final ChatBox chatBox;
+    private final AlgCheckbox algorithmToggle;
 
     public PlayerGrid getPlayerGrid() {
         return playerGrid;
@@ -35,11 +37,13 @@ public class BattleshipGUI extends JPanel implements IsyGui {
         this.opponentGrid = new OpponentGrid(GRIDSIZE);
         this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
         this.chatBox = new ChatBox();
+        this.algorithmToggle = new AlgCheckbox(Main.getBattleshipEngine());
 
         add(this.playerGrid, BorderLayout.WEST);
         add(this.infoPanel, BorderLayout.CENTER);
         add(this.opponentGrid, BorderLayout.EAST);
         add(this.chatBox, BorderLayout.SOUTH);
+        add(this.algorithmToggle, BorderLayout.NORTH);
 
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // setVisible(true);

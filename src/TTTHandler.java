@@ -1,6 +1,7 @@
 package src;
 
-import src.GUI.TickTackToe;
+import src.GUI.TickTackToeGui;
+import src.GameEngine.TTTEngine;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
 import src.Telnet.TelnetClient;
@@ -10,28 +11,30 @@ import src.Telnet.Responses.MoveResponse;
 public class TTTHandler extends EventHandler {
     final Logout logout = new Logout();
     private TelnetClient client;
-    private TickTackToe gui; // Expect any gui. Not just final BattleshipGUI, but also TickTackToeGUI
-    private GameEngine engine;
+    private TickTackToeGui gui;
+    private TTTEngine engine;
+    private String playerName;
 
-    public TTTHandler(TelnetClient client, TickTackToe gui) {
+    public TTTHandler(TelnetClient client, TickTackToeGui gui, String playerName, TTTEngine engine) {
         super(client);
         this.gui = gui;
+        this.playerName = playerName;
+        this.engine = engine;
     }
 
     @Override
     public void onMove(String player, String move, MoveResponse result) {
-        System.out.println("received move: " + move);
-        this.showMessage(player + " made a move: " + move + " in " + result);
-        this.gui.getPlayerGrid().updateGrid(Integer.parseInt(move), player);
+        char playerChar = player.equals(this.playerName) ? 'X' : 'O';
+        this.gui.getPlayerGrid().updateCell(Integer.parseInt(move), playerChar);
+        this.engine.makeMove(Integer.parseInt(move));
         return;
     }
 
     @Override
     public void onYourTurn(String message) {
-        // TODO Mainframe should be removed, in favor for game engine/state
         engine.setIsPlayerTurn(true);
         if (engine.getAlgorithmOn()) {
-            this.gui.getPlayerGrid().algMakeMove();
+            engine.makeMove(engine.getBestMove());
         }
         this.showMessage("Your turn: " + message);
     }

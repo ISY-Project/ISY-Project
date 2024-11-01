@@ -1,16 +1,18 @@
 package src.GUI;
 
 import java.awt.BorderLayout;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
-// TODO - Add a way to join an leave the game and start the game
+import src.Main;
 
-public class TickTackToe extends JPanel implements IsyGui {
+
+public class TickTackToeGui extends JPanel implements IsyGui {
     private final TickTackToeGrid playerGrid;
     private final InfoPanel TickTackToeInfoPanel;
     private final ChatBox chatBox;
-    private Boolean algorithmOn = false;
-    private Boolean isPlayerTurn = true;
+    private final AlgCheckbox algorithmToggle;
 
     public TickTackToeGrid getPlayerGrid() {
         return playerGrid;
@@ -20,35 +22,44 @@ public class TickTackToe extends JPanel implements IsyGui {
         return chatBox;
     }
 
-    public TickTackToe() {
+    public TickTackToeGui() {
         setLayout(new BorderLayout());
 
         this.playerGrid = new TickTackToeGrid();
         this.TickTackToeInfoPanel = new InfoPanel(this.playerGrid);
         this.chatBox = new ChatBox();
+        this.algorithmToggle = new AlgCheckbox(Main.getTTTEngine());
 
         // Add components to the frame
         add(this.playerGrid, BorderLayout.CENTER);
         add(this.TickTackToeInfoPanel, BorderLayout.EAST);
         add(this.chatBox, BorderLayout.SOUTH);
+        add(this.algorithmToggle, BorderLayout.WEST);
 
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // setVisible(true);
+        this.algorithmToggle.addActionListener(actionListener -> {
+            if (this.algorithmToggle.isSelected()) {
+                disableGrid();
+            } else {
+                enableGrid();
+            }
+        });
     }
 
-    public boolean getAlgorithmOn() {
-        return algorithmOn;
+    private void enableGrid() {
+        setGrid(true);
     }
 
-    public void setAlgorithmOn(Boolean algorithmOn) {
-        this.algorithmOn = algorithmOn;
+    private void disableGrid() {
+        setGrid(false);
     }
 
-    public boolean getIsPlayerTurn() {
-        return this.isPlayerTurn;
+    private void setGrid(boolean value) {
+        for (JButton[] row : this.playerGrid.getGrid()) {
+            for (JButton cell : row)
+                cell.setEnabled(value);
+        };
     }
 
-    public void setIsPlayerTurn(Boolean isPlayerTurn) {
-        this.isPlayerTurn = isPlayerTurn;
-    }
 }

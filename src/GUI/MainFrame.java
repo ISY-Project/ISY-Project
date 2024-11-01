@@ -9,7 +9,7 @@ import src.Telnet.Subscribe;
 public final class MainFrame extends JFrame {
     private final StartScreen startScreen = new StartScreen(this);
     private final BattleshipGUI battleshipGUI = new BattleshipGUI();
-    private final TickTackToe tickTackToe = new TickTackToe();
+    private final TickTackToeGui tickTackToe = new TickTackToeGui();
     // private final Main main;
     // private final TickTackToe tickTackToe;
 
@@ -42,7 +42,7 @@ public final class MainFrame extends JFrame {
         return battleshipGUI;
     }
 
-    public TickTackToe getTickTackToe() {
+    public TickTackToeGui getTickTackToe() {
         return tickTackToe;
     }
 }
