@@ -32,11 +32,13 @@ public class BattleshipHandler extends EventHandler {
     @Override
     public void onMatch() {
         this.showMessage("Match started");
+        // TODO Place ships.
     }
 
     @Override
     public void onYourTurn(String message) {
         this.showMessage("Your turn: " + message);
+        // TODO Shoot enemy
     }
 
     @Override
