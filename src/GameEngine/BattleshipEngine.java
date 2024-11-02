@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class BattleshipEngine extends Engine {
     private BattleshipBoard board;
+    private BattleshipBoard opponentBoard;
 
     public BattleshipEngine(int size, String player1Name, String player2Name) {
         super(size, player1Name, player2Name);
@@ -141,6 +142,7 @@ public class BattleshipEngine extends Engine {
     }
 
     public int[] getBestMove() {
+        // this.opponentBoard
         // Implement this method
         return new int[] {0, 0};
     }

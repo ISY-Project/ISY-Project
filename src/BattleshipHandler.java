@@ -5,6 +5,7 @@ import src.GameEngine.BattleshipEngine;
 import src.GameEngine.Ship;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
+import src.Telnet.Move;
 import src.Telnet.Place;
 import src.Telnet.TelnetClient;
 import src.Telnet.Responses.MoveResponse;
@@ -49,8 +50,12 @@ public class BattleshipHandler extends EventHandler {
     public void onYourTurn(String message) {
         this.showMessage("Your turn: " + message);
         int[] bestMove = engine.getBestMove();
+        int x = bestMove[0];
+        int y = bestMove[1];
+        int cell = x * engine.getBoard().getSize() + y;
         engine.shoot(bestMove);
         this.showMessage("Shooting at " + bestMove);
+        this.client.sendMessage(new Move(cell).get());
     }
 
     @Override
