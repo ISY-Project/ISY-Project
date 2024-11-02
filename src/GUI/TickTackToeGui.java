@@ -41,6 +41,7 @@ public class TickTackToeGui extends JPanel implements IsyGui {
         this.algorithmToggle.addActionListener(actionListener -> {
             if (this.algorithmToggle.isSelected()) {
                 disableGrid();
+                this.algorithmToggle.setEnabled(false);
             } else {
                 enableGrid();
             }

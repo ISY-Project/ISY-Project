@@ -52,6 +52,7 @@ public class BattleshipGUI extends JPanel implements IsyGui {
         this.algorithmToggle.addActionListener(actionListener -> {
             if (this.algorithmToggle.isSelected()) {
                 disableGrid();
+                this.algorithmToggle.setEnabled(false);
             } else {
                 enableGrid();
             }
