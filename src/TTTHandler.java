@@ -4,6 +4,7 @@ import src.GUI.TickTackToeGui;
 import src.GameEngine.TTTEngine;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
+import src.Telnet.Move;
 import src.Telnet.TelnetClient;
 import src.Telnet.Responses.MoveResponse;
 
@@ -32,11 +33,14 @@ public class TTTHandler extends EventHandler {
 
     @Override
     public void onYourTurn(String message) {
+        this.showMessage("Your turn: " + message);
         engine.setIsPlayerTurn(true);
         if (engine.getAlgorithmOn()) {
-            engine.makeMove(engine.getBestMove());
+            int bestMove = engine.getBestMove();
+            engine.makeMove(bestMove);
+            this.client.sendMessage(new Move(bestMove).get());
+            this.showMessage("Placing at " + bestMove);
         }
-        this.showMessage("Your turn: " + message);
     }
 
     @Override
