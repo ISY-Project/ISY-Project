@@ -4,13 +4,13 @@ import javax.swing.JPanel;
 
 
 public class StartScreen extends JPanel {
-    private final WelcomePanel WelcomePannel;
+    private final WelcomePanel WelcomePanel;
 
     public StartScreen(MainFrame mainFrame) {
-        this.WelcomePannel = new WelcomePanel(mainFrame);
+        this.WelcomePanel = new WelcomePanel(mainFrame);
 
         // Add components to the frame
-        add(this.WelcomePannel);
+        add(this.WelcomePanel);
 
         setVisible(true);
     }
