@@ -1,6 +1,8 @@
 package src.GUI;
 
 import java.awt.BorderLayout;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import src.Main;
@@ -47,5 +49,33 @@ public class BattleshipGUI extends JPanel implements IsyGui {
 
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // setVisible(true);
+        this.algorithmToggle.addActionListener(actionListener -> {
+            if (this.algorithmToggle.isSelected()) {
+                disableGrid();
+            } else {
+                enableGrid();
+            }
+        });
+    }
+
+    private void enableGrid() {
+        setGrid(true);
+    }
+
+    private void disableGrid() {
+        setGrid(false);
+    }
+
+    private void setGrid(boolean value) {
+        for (JButton[] row : this.playerGrid.getGrid()) {
+            for (JButton cell : row) {
+                cell.setEnabled(value);
+            }
+        }
+        for (JButton[] row : this.opponentGrid.getGrid()) {
+            for (JButton cell : row) {
+                cell.setEnabled(value);
+            }
+        }
     }
 }
