@@ -2,7 +2,7 @@ package src.GameEngine;
 
 public class TTTBoard extends Board<Character> {
     public TTTBoard(int size) {
-        super(size);
+        super(size, ' ');
     }
 
     public boolean checkWin() {

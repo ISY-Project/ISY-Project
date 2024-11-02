@@ -3,11 +3,11 @@ package src.Telnet;
 public class Place {
     private final String command;
 
-    public Place(String game, int start_index, int end_index, String direction) {
+    public Place(int start_index, int end_index, String direction) {
         this.command = "place " + start_index + " " + end_index;
     }
 
-    public Place(String game, int x, int y, Direction direction, int size) {
+    public Place(int x, int y, Direction direction, int size) {
         int start_index = 0;
         int end_index = 0;
         switch (direction) {

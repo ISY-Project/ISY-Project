@@ -2,8 +2,10 @@ package src;
 
 import src.GUI.BattleshipGUI;
 import src.GameEngine.BattleshipEngine;
+import src.GameEngine.Ship;
 import src.Telnet.EventHandler;
 import src.Telnet.Logout;
+import src.Telnet.Place;
 import src.Telnet.TelnetClient;
 import src.Telnet.Responses.MoveResponse;
 
@@ -32,13 +34,23 @@ public class BattleshipHandler extends EventHandler {
     @Override
     public void onMatch() {
         this.showMessage("Match started");
-        // TODO Place ships.
+        int size = 6 ;
+        boolean isHorizontal = true;
+        int[] position = engine.getBestShipSpot(size, isHorizontal);
+        int x = position[0];
+        int y = position[1];
+        String direction = isHorizontal ? "East" : "South";
+        Ship ship = new Ship(size, isHorizontal, x, y);
+        engine.placeShip(ship);
+        this.client.sendMessage(new Place(x, y, direction).get());
     }
 
     @Override
     public void onYourTurn(String message) {
         this.showMessage("Your turn: " + message);
-        // TODO Shoot enemy
+        int[] bestMove = engine.getBestMove();
+        engine.shoot(bestMove);
+        this.showMessage("Shooting at " + bestMove);
     }
 
     @Override

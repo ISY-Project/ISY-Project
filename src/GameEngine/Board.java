@@ -5,12 +5,12 @@ public class Board<T> {
     private int size;
 
     @SuppressWarnings("unchecked")
-    public Board(int size) {
+    public Board(int size, T defaultValue) {
         this.size = size;
         this.board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                this.board[i][j] = new Cell<T>(i, j, null);
+                this.board[i][j] = new Cell<T>(i, j, defaultValue);
             }
         }
     }
@@ -25,5 +25,17 @@ public class Board<T> {
 
     public int getSize() {
         return this.size;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
+                sb.append(this.board[i][j].getValue());
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

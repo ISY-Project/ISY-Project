@@ -1,7 +1,7 @@
 package src.GameEngine;
 
 public class Engine {
-    private Board board;
+    // private Board board;
     private Player player1;
     private Player player2;
     private Player currentPlayer;
@@ -9,7 +9,7 @@ public class Engine {
     private boolean algorithmOn;
 
     public Engine(int size, String player1Name, String player2Name) {
-        this.board = new Board(size);
+        // this.board = new Board(size);
         this.player1 = new Player(player1Name);
         this.player2 = new Player(player2Name);
         this.currentPlayer = this.player1;
@@ -17,9 +17,9 @@ public class Engine {
         this.algorithmOn = false;
     }
 
-    public Board getBoard() {
-        return this.board;
-    }
+    // public Board getBoard() {
+        // return this.board;
+    // }
 
     public Player getPlayer1() {
         return this.player1;
