@@ -30,10 +30,10 @@ public class WelcomePanel extends JPanel {
         labelOne.setFont(new Font("Arial", Font.PLAIN, 24));
         JLabel labelTwo = new JLabel("Available games:");
         labelTwo.setFont(new Font("Arial", Font.PLAIN, 24));
-        JLabel sliderLabel = new JLabel();
-        sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-
-        JSlider slider = new JSlider(0, 1, 0);
+        
+        // JLabel sliderLabel = new JLabel();
+        // sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        // JSlider slider = new JSlider(0, 1, 0);
         // slider.setPaintTrack(true);
         // slider.setPaintTicks(true);
         // slider.setMajorTickSpacing(1);
@@ -42,13 +42,13 @@ public class WelcomePanel extends JPanel {
         //     String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
         //     sliderLabel.setText(text);
         // });
-        sliderLabel.setText("Manual");
+        // sliderLabel.setText("Manual");
         this.add(labelOne);
         this.add(labelTwo);
         this.add(tickTackToe);
         this.add(battleships);
-        this.add(sliderLabel);
-        this.add(slider);
+        // this.add(sliderLabel);
+        // this.add(slider);
     }
 
     private ActionListener tickTackToeActionListener(MainFrame mainframe) {

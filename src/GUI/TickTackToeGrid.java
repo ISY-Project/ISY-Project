@@ -9,6 +9,7 @@ import javax.swing.JButton;
 
 public class TickTackToeGrid extends PlayerGrid {
     private final JButton[][] grid;
+    private boolean isXTurn = true;
 
     public TickTackToeGrid() {
         super(3);
@@ -32,6 +33,23 @@ public class TickTackToeGrid extends PlayerGrid {
         cell.setForeground(player == 'X' ? Color.RED : Color.BLUE);
     }
 
+    private void addCellListener(JButton cell) {
+        cell.addActionListener((e) -> {
+            // Send the move to the server
+            // this.engine.sendMove(index);
+            if (cell.getText().isEmpty()) {  // Only allow placing on empty cells, and maintain colour.
+                if (isXTurn) {
+                    cell.setText("X");
+                    cell.setForeground(Color.RED);
+                } else {
+                    cell.setText("O");
+                    cell.setForeground(Color.BLUE);
+                }
+                isXTurn = !isXTurn;  // Toggle turn
+            }
+        });
+    }
+
     // Initialize Tic-Tac-Toe grid
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
@@ -42,6 +60,7 @@ public class TickTackToeGrid extends PlayerGrid {
                 cell.setFont(new Font("Arial", Font.BOLD, 60));
                 cell.setFocusPainted(false);
                 cell.setEnabled(true);
+                addCellListener(cell);
                 // Add the cell to the grid
                 this.add(cell);
                 this.grid[row][col] = cell;
