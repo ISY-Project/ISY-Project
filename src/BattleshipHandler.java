@@ -1,5 +1,7 @@
 package src;
 
+import java.awt.Color;
+
 import src.GUI.BattleshipGUI;
 import src.GameEngine.BattleshipEngine;
 import src.GameEngine.Ship;
@@ -56,6 +58,10 @@ public class BattleshipHandler extends EventHandler {
         engine.shoot(bestMove);
         this.showMessage("Shooting at " + bestMove);
         this.client.sendMessage(new Move(cell).get());
+        // Plons
+        this.gui.getOpponentGrid().getGrid()[x][y].setBackground(Color.GRAY);
+        // Boem
+        this.gui.getOpponentGrid().getGrid()[x][y].setBackground(Color.RED);
     }
 
     @Override
