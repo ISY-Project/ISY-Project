@@ -9,8 +9,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 
+import src.Main;
 import src.Telnet.Subscribe;
 
 public class WelcomePanel extends JPanel {
@@ -56,6 +56,8 @@ public class WelcomePanel extends JPanel {
             mainframe.setSize(600, 600);
             mainframe.showScreen("tickTackToe");
             mainframe.setGame(Subscribe.TICTACTOE);
+            Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
+            new Thread(() -> Main.runTicTacToeComp()).start();
         };
     }
 
@@ -64,7 +66,8 @@ public class WelcomePanel extends JPanel {
             mainframe.setSize(1000, 600);
             mainframe.showScreen("battleshipGUI");
             mainframe.setGame(Subscribe.BATTLESHIP);
+            Main.getClient().sendMessage(Subscribe.BATTLESHIP.get());
+            new Thread(() -> Main.runTicTacToeComp()).start();
         };
     }
-
 }

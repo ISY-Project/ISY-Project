@@ -38,13 +38,6 @@ public class Main {
 
         initializeChatBoxes();
         connectToServer(message);
-        
-        // These have to happen when we choose TickTackToe
-        client.sendMessage(Subscribe.TICTACTOE.get());
-        runTicTacToeComp(message);
-        // These have to happen when we choose Battleship
-        // client.sendMessage(Subscribe.BATTLESHIP.get());
-        // runBattleshipComp(message);
     }
 
     public static TTTEngine getTTTEngine() {
@@ -103,7 +96,7 @@ public class Main {
         }
     }
 
-    private static void runTicTacToeComp(Message message) {
+    public static void runTicTacToeComp() {
         try {
             String response = client.receiveMessage();
             while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
@@ -125,7 +118,7 @@ public class Main {
         }
     }
 
-    private static void runBattleshipComp(Message message) {
+    public static void runBattleshipComp() {
         // TODO: Replace this with GUI buttons or menu's.
         // TODO: Currently this blocks the gui. It could easily be integrated.
         try {
