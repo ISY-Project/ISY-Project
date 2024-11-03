@@ -100,7 +100,7 @@ public class BattleshipHandler extends EventHandler {
 
     public void showMessage(String message) {
         System.out.println("Received: " + message);
-        this.gui.getChatBox().addMessage("You", message);
+        this.gui.getChatBox().addMessage("Info", message);
     }
 
     @Override
