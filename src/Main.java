@@ -4,6 +4,7 @@ import java.util.Random;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.TickTackToe;
+import src.GameEngine.BattleshipEngine;
 import src.Telnet.Login;
 import src.Telnet.Message;
 import src.Telnet.Move;
@@ -24,6 +25,11 @@ public class Main {
     private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;
+    private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
+
+    public static BattleshipEngine getBattleshipEngine() {
+        return battleshipEngine;
+    }
 
     public String getPlayerName() {
         return NAME;

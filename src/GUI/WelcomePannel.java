@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+
+import src.Main;
 import src.Telnet.Subscribe;
 
 public class WelcomePannel extends JPanel {
@@ -40,17 +42,34 @@ public class WelcomePannel extends JPanel {
 		slider.setMinorTickSpacing(1);
         sliderLabel.setText("Manual");
         mainFrame.setAlgorithmOn(false);
-        slider.addChangeListener((e) -> {
-            String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
-            sliderLabel.setText(text);
-            mainFrame.setAlgorithmOn(slider.getValue() == 1);
-        });
+        // slider.addChangeListener((e) -> {
+        //     String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
+        //     sliderLabel.setText(text);
+        //     mainFrame.setAlgorithmOn(slider.getValue() == 1);
+        // });
         this.add(lableOne);
         this.add(lableTwo);
         this.add(tickTackToe);
         this.add(battleships);
         this.add(sliderLabel);
-        this.add(slider);
+        // this.add(slider);
+
+        AlgCheckbox algorithmToggle = new AlgCheckbox();
+
+        this.add(algorithmToggle);
+
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // setVisible(true);
+        algorithmToggle.addActionListener(actionListener -> {
+            if (algorithmToggle.isSelected()) {
+                // disableGrid();
+                mainFrame.setAlgorithmOn(true);
+                // algorithmToggle.setEnabled(false);
+            } else {
+                mainFrame.setAlgorithmOn(false);
+                // enableGrid();
+            }
+        });
     }
 
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
