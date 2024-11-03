@@ -34,7 +34,7 @@ public class TTTHandler extends EventHandler {
     @Override
     public void onYourTurn(String message) {
         this.showMessage("Your turn: " + message);
-        engine.setAlgorithmOn(true);
+        // engine.setAlgorithmOn(true);
         if (engine.getAlgorithmOn()) {
             int bestMove = engine.getBestMove();
             engine.makeMove(bestMove);
