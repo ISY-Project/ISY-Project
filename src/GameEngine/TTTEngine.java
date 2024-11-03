@@ -24,6 +24,10 @@ public class TTTEngine extends Engine {
         return Minimax.getBestMove(boardArray, determinePlayerSymbol());
     }
 
+    private Player getNextPlayer() {
+        return this.getCurrentPlayer() == this.getPlayer1() ? this.getPlayer2() : this.getPlayer1();
+    }
+
     private char determinePlayerSymbol() {
         return this.getCurrentPlayer() == this.getPlayer1() ? 'X' : 'O';
     }
@@ -32,10 +36,12 @@ public class TTTEngine extends Engine {
         int row = move / 3;
         int col = move % 3;
         this.board.getCell(row, col).setValue(determinePlayerSymbol());
+        this.setCurrentPlayer(getNextPlayer());
     }
 
     public void makeMove(int row, int col) {
         this.board.getCell(row, col).setValue(determinePlayerSymbol());
+        this.setCurrentPlayer(getNextPlayer());
     }
 
     public TTTBoard getBoard() {
