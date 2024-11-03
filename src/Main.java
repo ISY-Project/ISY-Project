@@ -15,7 +15,7 @@ import src.Telnet.TelnetClient;
 
 public class Main {
     private static final String NAME = genName();
-    private static final String HOST = "localhost";
+    private static final String HOST = "65.21.191.106";
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
     private static final TelnetClient client = new TelnetClient();
