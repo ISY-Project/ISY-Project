@@ -8,7 +8,7 @@ import src.Telnet.Responses.ServerEvent;
 // TODO Remove the showMessage calls, as they are for debugging.
 public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
     final Logout logout = new Logout();
-    private final TelnetClient client;
+    protected final TelnetClient client;
 
     public EventHandler(TelnetClient client) {
         this.client = client;
