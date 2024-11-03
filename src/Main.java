@@ -119,9 +119,8 @@ public class Main {
     }
 
     public static void runBattleshipComp() {
-        // TODO: Replace this with GUI buttons or menu's.
-        // TODO: Currently this blocks the gui. It could easily be integrated.
         try {
+            // TODO: Place ships.
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
