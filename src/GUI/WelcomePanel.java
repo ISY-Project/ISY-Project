@@ -30,6 +30,8 @@ public class WelcomePanel extends JPanel {
         labelOne.setFont(new Font("Arial", Font.PLAIN, 24));
         JLabel labelTwo = new JLabel("Available games:");
         labelTwo.setFont(new Font("Arial", Font.PLAIN, 24));
+        AlgCheckbox TTTAlgorithmToggle = new AlgCheckbox(Main.getTTTEngine(), "TTT");
+        AlgCheckbox BattleshipAlgorithmToggle = new AlgCheckbox(Main.getBattleshipEngine(), "Battleship");
         
         // JLabel sliderLabel = new JLabel();
         // sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
@@ -47,6 +49,8 @@ public class WelcomePanel extends JPanel {
         this.add(labelTwo);
         this.add(tickTackToe);
         this.add(battleships);
+        this.add(TTTAlgorithmToggle);
+        this.add(BattleshipAlgorithmToggle);
         // this.add(sliderLabel);
         // this.add(slider);
     }
