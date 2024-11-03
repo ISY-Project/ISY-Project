@@ -47,4 +47,9 @@ public class TTTEngine extends Engine {
     public TTTBoard getBoard() {
         return board;
     }
+
+    @Override
+    public String toString() {
+        return board.toString();
+    }
 }
