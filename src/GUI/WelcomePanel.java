@@ -1,23 +1,26 @@
 package src.GUI;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-import src.Main;
+import src.GameEngine.Engine;
 import src.Telnet.Subscribe;
+import src.Main;
 
 public class WelcomePanel extends JPanel {
+    private final MainFrame mainframe;
+    private final AlgCheckbox algorithmToggle;
+
     public WelcomePanel(MainFrame mainframe) {
         super(new GridLayout(6, 0));
+        this.mainframe = mainframe;
+        this.algorithmToggle = new AlgCheckbox(null, "Use Algorithm");
+
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         this.setSize(350, 350);
+
         JButton tickTackToe = new JButton("Tick Tack Toe");
         JButton battleships = new JButton("Battleships");
 
@@ -26,37 +29,23 @@ public class WelcomePanel extends JPanel {
 
         tickTackToe.setPreferredSize(new Dimension(300, 75));
         battleships.setPreferredSize(new Dimension(300, 75));
-        JLabel labelOne = new JLabel("Chose a game to play!");
+
+        JLabel labelOne = new JLabel("Choose a game to play!");
         labelOne.setFont(new Font("Arial", Font.PLAIN, 24));
         JLabel labelTwo = new JLabel("Available games:");
         labelTwo.setFont(new Font("Arial", Font.PLAIN, 24));
-        AlgCheckbox TTTAlgorithmToggle = new AlgCheckbox(Main.getTTTEngine(), "TTT");
-        AlgCheckbox BattleshipAlgorithmToggle = new AlgCheckbox(Main.getBattleshipEngine(), "Battleship");
-        
-        // JLabel sliderLabel = new JLabel();
-        // sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        // JSlider slider = new JSlider(0, 1, 0);
-        // slider.setPaintTrack(true);
-        // slider.setPaintTicks(true);
-        // slider.setMajorTickSpacing(1);
-        // slider.setMinorTickSpacing(1);
-        // slider.addChangeListener((e) -> {
-        //     String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
-        //     sliderLabel.setText(text);
-        // });
-        // sliderLabel.setText("Manual");
+
         this.add(labelOne);
         this.add(labelTwo);
         this.add(tickTackToe);
         this.add(battleships);
-        this.add(TTTAlgorithmToggle);
-        this.add(BattleshipAlgorithmToggle);
-        // this.add(sliderLabel);
-        // this.add(slider);
+        this.add(algorithmToggle);
     }
 
     private ActionListener tickTackToeActionListener(MainFrame mainframe) {
         return (ActionEvent e) -> {
+            algorithmToggle.setEngine(Main.getTTTEngine());
+            algorithmToggle.doClick();
             mainframe.setSize(600, 600);
             mainframe.showScreen("tickTackToe");
             mainframe.setGame(Subscribe.TICTACTOE);
@@ -67,6 +56,8 @@ public class WelcomePanel extends JPanel {
 
     private ActionListener battleshipsActionListener(MainFrame mainframe) {
         return (ActionEvent e) -> {
+            algorithmToggle.setEngine(Main.getBattleshipEngine());
+            algorithmToggle.doClick();
             mainframe.setSize(1000, 600);
             mainframe.showScreen("battleshipGUI");
             mainframe.setGame(Subscribe.BATTLESHIP);

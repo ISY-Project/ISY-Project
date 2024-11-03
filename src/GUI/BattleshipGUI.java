@@ -39,7 +39,7 @@ public class BattleshipGUI extends JPanel implements IsyGui {
         this.opponentGrid = new OpponentGrid(GRIDSIZE);
         this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
         this.chatBox = new ChatBox();
-        this.algorithmToggle = new AlgCheckbox(Main.getBattleshipEngine());
+        this.algorithmToggle = new AlgCheckbox(Main.getBattleshipEngine(), "Use Algorithm");
 
         add(this.playerGrid, BorderLayout.WEST);
         add(this.infoPanel, BorderLayout.CENTER);
