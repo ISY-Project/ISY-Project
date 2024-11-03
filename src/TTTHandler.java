@@ -11,7 +11,6 @@ import src.Telnet.Responses.MoveResponse;
 
 public class TTTHandler extends EventHandler {
     final Logout logout = new Logout();
-    private TelnetClient client;
     private TickTackToeGui gui;
     private TTTEngine engine;
     private String playerName;
@@ -26,6 +25,7 @@ public class TTTHandler extends EventHandler {
     @Override
     public void onMove(String player, String move, MoveResponse result) {
         char playerChar = player.equals(this.playerName) ? 'X' : 'O';
+        this.showMessage(playerChar + " placed at " + move);
         this.gui.getPlayerGrid().updateCell(Integer.parseInt(move), playerChar);
         this.engine.makeMove(Integer.parseInt(move));
         return;
@@ -34,7 +34,7 @@ public class TTTHandler extends EventHandler {
     @Override
     public void onYourTurn(String message) {
         this.showMessage("Your turn: " + message);
-        engine.setIsPlayerTurn(true);
+        engine.setAlgorithmOn(true);
         if (engine.getAlgorithmOn()) {
             int bestMove = engine.getBestMove();
             engine.makeMove(bestMove);
