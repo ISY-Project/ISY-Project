@@ -21,6 +21,10 @@ public class AlgCheckbox extends JCheckBox {
         });
     }
 
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+
     public AlgCheckbox(Engine engine) {
         super("Algorithm");
         this.engine = engine;
