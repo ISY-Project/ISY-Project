@@ -38,6 +38,13 @@ public class Main {
 
         initializeChatBoxes();
         connectToServer(message);
+        
+        // These have to happen when we choose TickTackToe
+        client.sendMessage(Subscribe.TICTACTOE.get());
+        runTicTacToeComp(message);
+        // These have to happen when we choose Battleship
+        // client.sendMessage(Subscribe.BATTLESHIP.get());
+        // runBattleshipComp(message);
     }
 
     public static TTTEngine getTTTEngine() {
@@ -46,6 +53,10 @@ public class Main {
 
     public static BattleshipEngine getBattleshipEngine() {
         return battleshipEngine;
+    }
+
+    public static TelnetClient getClient() {
+        return client;
     }
 
     private static String genName() {
