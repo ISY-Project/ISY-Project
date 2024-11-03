@@ -110,22 +110,47 @@ public class Minimax {
     }
 
     public static void main(String[] args) {
-        char[] grid = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+        int Win_player_one = 0;
+        int Win_player_two = 0;
+        int Tie = 0;
+        char[] grid;
         int move;
-        while (gameResult(grid).equals(GameState.ONGOING)) {
-            move = getBestMove(grid, 'X');
-            System.out.println(move);
-            grid[move] = 'X';
-            System.out.println("Game is ongoing");
-            move = getBestMove(grid, 'O');
-            System.out.println(move);
-            grid[move] = 'O';
-            System.out.println("Game is ongoing");
+        for (int x = 0; x < 100; x++) {
+            grid = new char[]{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+            while (gameResult(grid).equals(GameState.ONGOING)) {
+                move = getBestMove(grid, 'X');
+                // System.out.println(move);
+                grid[move] = 'X';
+                if (gameResult(grid).equals(GameState.ONGOING)) {
+                    // System.out.println("Game is ongoing");
+                    move = getBestMove(grid, 'O');
+                    // System.out.println(move);
+                    grid[move] = 'O';
+                    // System.out.println("Game is ongoing");
+                }
+            }
+            // System.out.println("Game is not ongoing");
+            System.out.println(gameResult(grid));
+            switch(gameResult(grid)) {
+                case WIN_X -> {
+                    Win_player_one++;
+                }
+                case WIN_O -> {
+                    Win_player_two++;
+                }
+                case TIE -> {
+                    Tie++;
+                }
+                case ONGOING -> {
+                    break;
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                System.out.println(grid[i*3] + " " + grid[i*3+1] + " " + grid[i*3+2]);            
+            }
         }
-        System.out.println("Game is not ongoing");
-        System.out.println(gameResult(grid));
-        for (int i = 0; i < 3; i++) {
-            System.out.println(grid[i*3] + " " + grid[i*3+1] + " " + grid[i*3+2]);            
-        }
+        System.out.println("Wins Player One: " + Win_player_one);
+        System.out.println("Wins Player Two: " + Win_player_two);
+        System.out.println("Ties: " + Tie);
     }
 }
