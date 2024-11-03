@@ -6,10 +6,15 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
+import src.Main;
+import src.Telnet.Move;
+import src.Telnet.TelnetClient;
+
 
 public class TickTackToeGrid extends PlayerGrid {
     private final JButton[][] grid;
     private boolean isXTurn = true;
+    private final TelnetClient client = Main.getClient();
 
     public TickTackToeGrid() {
         super(3);
@@ -33,17 +38,21 @@ public class TickTackToeGrid extends PlayerGrid {
         cell.setForeground(player == 'X' ? Color.RED : Color.BLUE);
     }
 
-    private void addCellListener(JButton cell) {
-        cell.addActionListener((e) -> {
+    private void addCellListener(JButton cell, int x, int y) {
+        cell.addActionListener(e -> {
             // Send the move to the server
             // this.engine.sendMove(index);
+            int location = x*3 + y;
             if (cell.getText().isEmpty()) {  // Only allow placing on empty cells, and maintain colour.
+                String playerMove = new Move(location).get();
                 if (isXTurn) {
                     cell.setText("X");
                     cell.setForeground(Color.RED);
+                    client.sendMessage(playerMove);
                 } else {
                     cell.setText("O");
                     cell.setForeground(Color.BLUE);
+                    client.sendMessage(playerMove);
                 }
                 isXTurn = !isXTurn;  // Toggle turn
             }
@@ -60,7 +69,7 @@ public class TickTackToeGrid extends PlayerGrid {
                 cell.setFont(new Font("Arial", Font.BOLD, 60));
                 cell.setFocusPainted(false);
                 cell.setEnabled(true);
-                addCellListener(cell);
+                addCellListener(cell, row, col);
                 // Add the cell to the grid
                 this.add(cell);
                 this.grid[row][col] = cell;
