@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-
 import src.Main;
 import src.Telnet.Subscribe;
 
@@ -74,17 +73,15 @@ public class WelcomePannel extends JPanel {
 
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
-            mainFrame.setSize(600, 600);
-            mainFrame.showScreen("tickTackToe");
-            mainFrame.selectGame(Subscribe.TICTACTOE);
+            mainFrame.showScreen(Screens.TICK_TACK_TOE);
+            Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
         };
     }
 
     private ActionListener battleshipsActionListener(MainFrame mainFrame) {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
-            mainFrame.setSize(1000, 600);
-            mainFrame.showScreen("battleshipGUI");
-            mainFrame.selectGame(Subscribe.BATTLESHIP);
+            mainFrame.showScreen(Screens.BATTLESHIP_GUI);
+            Main.getClient().sendMessage(Subscribe.BATTLESHIP.get());
         };
     }
 

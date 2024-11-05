@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import src.Main;
+import src.Telnet.Subscribe;
 
 public class InfoPanel extends JPanel {
     private Ships ships;
@@ -25,13 +27,17 @@ public class InfoPanel extends JPanel {
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         JButton resetButton = new JButton("Reset Ships");
         JButton rotateButton = new JButton("Rotate Ship");
+        JButton backButton = new JButton("Back");
         resetButton.addActionListener(resetShipsActionListener());
         rotateButton.addActionListener(RotateShipActionListener());
+        backButton.addActionListener(backBattleListener());
 
-        this.add(resetButton);
-        this.add(rotateButton);
+        
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
+        this.add(resetButton);
+        this.add(backButton);
+        this.add(rotateButton);
     }
 
     public InfoPanel(TickTackToeGrid tickTackToeGrid) {
@@ -39,21 +45,61 @@ public class InfoPanel extends JPanel {
         this.tickTackToeGrid = tickTackToeGrid;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         JButton resetButton = new JButton("Reset");
+        JButton backButton = new JButton("Back");
         resetButton.setPreferredSize(new Dimension(100, 100));
         resetButton.addActionListener(resetTickTackToeListener());
+        backButton.addActionListener(backTicListener());
 
         this.add(resetButton);
+        this.add(backButton);
     }
 
     @SuppressWarnings("unused")
     private ActionListener resetTickTackToeListener() {
         return (ActionEvent e) -> {
-            for (var row : tickTackToeGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setText("");
-                    cell.setForeground(Color.black);
-                }
+            resetTicGrid();
+            Main.getClient().sendMessage("forfeit");
+            Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
+        };
+    }
+
+    private void resetTicGrid() {
+        for (var row : tickTackToeGrid.getGrid()) {
+            for (var cell : row) {
+                cell.setText("");
+                cell.setForeground(Color.black);
             }
+        }
+    }
+
+    private void resetBattleGrid() {
+        for (var row : playerGrid.getGrid()) {
+            for (var cell : row) {
+                cell.setBackground(Color.BLUE);
+            }
+        }
+        for (var row : opponentGrid.getGrid()) {
+            for (var cell : row) {
+                cell.setBackground(Color.BLUE);
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private ActionListener backBattleListener() {
+        return (ActionEvent e) -> {
+            resetBattleGrid();
+            Main.getClient().sendMessage("forfeit");
+            Main.getMainFrame().showScreen(Screens.START_SCREEN);
+        };
+    }
+
+    @SuppressWarnings("unused")
+    private ActionListener backTicListener() {
+        return (ActionEvent e) -> {
+            resetTicGrid();
+            Main.getClient().sendMessage("forfeit");
+            Main.getMainFrame().showScreen(Screens.START_SCREEN);
         };
     }
 
@@ -71,16 +117,9 @@ public class InfoPanel extends JPanel {
     @SuppressWarnings("unused")
     private ActionListener resetShipsActionListener() {
         return (ActionEvent e) -> {
-            for (var row : playerGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setBackground(Color.BLUE);
-                }
-            }
-            for (var row : opponentGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setBackground(Color.BLUE);
-                }
-            }
+            resetBattleGrid();
+            Main.getClient().sendMessage("forfeit");
+            Main.getClient().sendMessage(Subscribe.BATTLESHIP.get());
         };
     }
 

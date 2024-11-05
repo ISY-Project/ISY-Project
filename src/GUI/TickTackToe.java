@@ -2,7 +2,6 @@ package src.GUI;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import src.Main;
 
 // TODO - Add a way to join an leave the game and start the game
 
@@ -19,10 +18,10 @@ public class TickTackToe extends JPanel {
         return chatBox;
     }
 
-    public TickTackToe(MainFrame mainFrame, Main main) {
+    public TickTackToe(MainFrame mainFrame) {
         setLayout(new BorderLayout());
 
-        this.tickTackToeGrid = new TickTackToeGrid(main, mainFrame);
+        this.tickTackToeGrid = new TickTackToeGrid(mainFrame);
         this.TickTackToeInfoPanel = new InfoPanel(this.tickTackToeGrid);
         this.chatBox = new ChatBox();
 
