@@ -18,6 +18,7 @@ public class InfoPanel extends JPanel {
     private PlayerGrid playerGrid;
     private OpponentGrid opponentGrid;
     private TickTackToeGrid tickTackToeGrid;
+    private final JLabel turnLabel = new JLabel("Wait on opponent");
 
     public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
         super(new GridLayout(3, 0));
@@ -35,13 +36,15 @@ public class InfoPanel extends JPanel {
         
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
+        this.add(rotateButton);
+        this.add(this.turnLabel);
         this.add(resetButton);
         this.add(backButton);
-        this.add(rotateButton);
     }
 
     public InfoPanel(TickTackToeGrid tickTackToeGrid) {
         super(new GridLayout(4, 0));
+        setSize(new Dimension(150, 600));
         this.tickTackToeGrid = tickTackToeGrid;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         JButton resetButton = new JButton("Reset");
@@ -52,6 +55,11 @@ public class InfoPanel extends JPanel {
 
         this.add(resetButton);
         this.add(backButton);
+        this.add(this.turnLabel);
+    }
+
+    public void setYourTurnLable(String text) {
+        this.turnLabel.setText(text);
     }
 
     @SuppressWarnings("unused")
@@ -59,6 +67,8 @@ public class InfoPanel extends JPanel {
         return (ActionEvent e) -> {
             resetTicGrid();
             Main.getClient().sendMessage("forfeit");
+            Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
+            setYourTurnLable("Wait on opponent");
             Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
             Main.setInMatch(false);
             Main.toggleTTTGrid();
@@ -78,7 +88,9 @@ public class InfoPanel extends JPanel {
     private ActionListener backBattleListener() {
         return (ActionEvent e) -> {
             Main.getClient().sendMessage("forfeit");
+            Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
+            setYourTurnLable("Wait on opponent");
             Main.setInMatch(false);
             Main.toggleBattleshipGrid();
         };

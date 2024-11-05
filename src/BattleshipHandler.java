@@ -20,6 +20,7 @@ public class BattleshipHandler extends EventHandler {
     private final OpponentGrid opponentGrid;
     private final MainFrame mainFrame;
 
+    // TODO make this handler work with the BattleshipEngine
     public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI) {
         super(client);
         this.battleshipGUI = battleshipGUI;

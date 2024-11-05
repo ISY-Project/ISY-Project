@@ -18,6 +18,10 @@ public class TickTackToe extends JPanel {
         return chatBox;
     }
 
+    public InfoPanel getInformationPanel() {
+        return TickTackToeInfoPanel;
+    }
+
     public TickTackToe(MainFrame mainFrame) {
         setLayout(new BorderLayout());
 
