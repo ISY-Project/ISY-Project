@@ -6,6 +6,7 @@ public enum Messages {
     VICTORY_IS_OURS("Victory is ours!"),
     SHOW_NO_MERCY("We'll Show no mercy!"),
     MOTHER("Even your mother can't save you now!"),
+    GRANDMA("Let's see if you match your grandma's skills!"),
     ;
 
     private final String value;
