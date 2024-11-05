@@ -26,6 +26,11 @@ public class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Err
 
     @Override
     public void onMatch() {
+        this.showMessage("Match started (old method)");
+    }
+
+    @Override
+    public void onMatch(Subscribe game) {
         this.showMessage("Match started");
     }
 

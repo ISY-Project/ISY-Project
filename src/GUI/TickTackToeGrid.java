@@ -30,6 +30,22 @@ public class TickTackToeGrid extends JPanel {
         return this.grid;
     }
 
+    public void enableGrid() {
+        for (JButton[] row : this.grid) {
+            for (JButton cell : row) {
+                cell.setEnabled(true);
+            }
+        }
+    }
+
+    public void disableGrid() {
+        for (JButton[] row : this.grid) {
+            for (JButton cell : row) {
+                cell.setEnabled(false);
+            }
+        }
+    }
+
     public void updateGrid(int index, String player) {
         System.out.println("Updating grid with player: " + player);
         int gridSize = 3;
@@ -79,14 +95,21 @@ public class TickTackToeGrid extends JPanel {
                         System.out.println("Algorithm is on, cannot place move");
                     }
                 });
-                
+
                 // Add the cell to the grid
                 this.add(cell);
                 this.grid[row][col] = cell;
             }
         }
+        if (!Main.isInMatch()) {
+            disableGrid();
+        } else {
+            enableGrid();
+        }
+        
     }
 
+    @SuppressWarnings("CallToPrintStackTrace")
     public void algMakeMove() {
         int gridSize = 3;
         char[] new_grid = new char[gridSize * gridSize];

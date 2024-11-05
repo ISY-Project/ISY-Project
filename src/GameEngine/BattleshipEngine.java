@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class BattleshipEngine extends Engine {
     private BattleshipBoard board;
+    @SuppressWarnings("unused")
     private BattleshipBoard opponentBoard;
 
     public BattleshipEngine(int size, String player1Name, String player2Name) {
@@ -61,21 +62,19 @@ public class BattleshipEngine extends Engine {
         boolean isHorizontal = ship.isHorizontal();
 
         if (x > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y))) {return false;};
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y + 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y))) {return false;}
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y + 1))) {return false;}
         }
         if (y > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y - 1))) {return false;};
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y - 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y - 1))) {return false;}
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y - 1))) {return false;}
         }
         if (x > 0 && y > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y - 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y - 1))) {return false;}
         }
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y + 1))) {return false;};
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y))) {return false;};
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y + 1))) {return false;};
-
-        return true;
+        if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y + 1))) {return false;}
+        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y))) {return false;}
+        return isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y + 1));
     }
 
     public void placeShip(Ship ship) {

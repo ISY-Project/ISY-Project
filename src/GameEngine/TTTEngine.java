@@ -3,7 +3,7 @@ package src.GameEngine;
 import src.ALG.Minimax;
 
 public class TTTEngine extends Engine {
-    private TTTBoard board;
+    private final TTTBoard board;
 
     public TTTEngine(int size, String player1Name, String player2Name) {
         super(size, player1Name, player2Name);
@@ -13,11 +13,11 @@ public class TTTEngine extends Engine {
     public int getBestMove() {
         // Convert the board to a char array
         char[] boardArray = new char[9];
-        TTTBoard board = this.board;
+        TTTBoard tempBoard = this.board;
 
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                boardArray[i * 3 + j] = board.getCell(i, j).getValue();
+        for (int i = 0; i < tempBoard.getSize(); i++) {
+            for (int j = 0; j < tempBoard.getSize(); j++) {
+                boardArray[i * 3 + j] = tempBoard.getCell(i, j).getValue();
             }
         }
 

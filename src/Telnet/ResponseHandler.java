@@ -41,13 +41,18 @@ public class ResponseHandler {
                     this.eventHandler.onChallenge(playerName, gameName, gameNumber);
                 }
                 else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
-                    this.eventHandler.onMatch();
+                    if (response.contains("Battleship")) {
+                        this.eventHandler.onMatch(Subscribe.BATTLESHIP);
+                    } else if (response.contains("Tic-tac-toe")) {
+                        this.eventHandler.onMatch(Subscribe.TICTACTOE);
+                    }
                 }
                 else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
                     this.eventHandler.onYourTurn(responseArray[2]);
                 }
                 else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
                     String[] data = parseMove(response);
+                    System.out.println("Player: " + data[0] + " Move: " + data[1] + " Result: " + data[2]);
                     this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
                 }
                 else if (response.contains(GameEvent.MESSAGE + "WIN")) {

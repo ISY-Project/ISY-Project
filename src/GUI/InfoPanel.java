@@ -60,6 +60,8 @@ public class InfoPanel extends JPanel {
             resetTicGrid();
             Main.getClient().sendMessage("forfeit");
             Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
+            Main.setInMatch(false);
+            Main.toggleTTTGrid();
         };
     }
 
@@ -72,34 +74,25 @@ public class InfoPanel extends JPanel {
         }
     }
 
-    private void resetBattleGrid() {
-        for (var row : playerGrid.getGrid()) {
-            for (var cell : row) {
-                cell.setBackground(Color.BLUE);
-            }
-        }
-        for (var row : opponentGrid.getGrid()) {
-            for (var cell : row) {
-                cell.setBackground(Color.BLUE);
-            }
-        }
-    }
-
     @SuppressWarnings("unused")
     private ActionListener backBattleListener() {
         return (ActionEvent e) -> {
-            resetBattleGrid();
             Main.getClient().sendMessage("forfeit");
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
+            Main.setInMatch(false);
+            Main.toggleBattleshipGrid();
         };
     }
 
     @SuppressWarnings("unused")
     private ActionListener backTicListener() {
         return (ActionEvent e) -> {
+            boolean inMatch;
             resetTicGrid();
             Main.getClient().sendMessage("forfeit");
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
+            Main.setInMatch(false);
+            Main.toggleTTTGrid();
         };
     }
 
@@ -117,10 +110,10 @@ public class InfoPanel extends JPanel {
     @SuppressWarnings("unused")
     private ActionListener resetShipsActionListener() {
         return (ActionEvent e) -> {
-            resetBattleGrid();
             Main.getClient().sendMessage("forfeit");
+            Main.setInMatch(false);
             Main.getClient().sendMessage(Subscribe.BATTLESHIP.get());
+            Main.toggleBattleshipGrid();
         };
     }
-
 }

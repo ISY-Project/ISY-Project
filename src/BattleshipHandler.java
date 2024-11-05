@@ -10,7 +10,7 @@ import src.Telnet.Subscribe;
 import src.Telnet.TelnetClient;
 
 // TODO Remove the showMessage calls, as they are for debugging. Instead show the messages in the GUI
-public class Handler extends EventHandler {
+public class BattleshipHandler extends EventHandler {
     // final Logout logout = new Logout();
     @SuppressWarnings("unused")
     private TelnetClient client;
@@ -19,7 +19,7 @@ public class Handler extends EventHandler {
     private final MainFrame mainFrame;
 
     // , MainFrame mainFrame, TickTackToeGrid tickTackToeGrid, OpponentGrid battleshipOpponentGrid, PlayerGrid battleshipPlayerGrid
-    public Handler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI, TickTackToeGrid tickTackToeGrid) {
+    public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI, TickTackToeGrid tickTackToeGrid) {
         super(client);
         this.battleshipGUI = battleshipGUI;
         this.tickTackToeGrid = tickTackToeGrid;
@@ -45,7 +45,7 @@ public class Handler extends EventHandler {
     public void onMatch(Subscribe game) {
         Main.setInMatch(true);
         if (game.equals(Subscribe.BATTLESHIP)) {
-            // Main.toggleBattleGrid();
+            Main.toggleBattleshipGrid();
         } else if (game.equals(Subscribe.TICTACTOE)) {
             Main.toggleTTTGrid();
         }

@@ -25,6 +25,24 @@ public class PlayerGrid extends JPanel {
         return this.grid;
     }
 
+    public void enableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(true);
+                cell.setBackground(Color.blue);
+            }
+        }
+    }
+
+    public void disableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(false);
+                cell.setBackground(Color.gray);
+            }
+        }
+    }
+
     // Initialize player grid with buttons
     @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
@@ -68,6 +86,7 @@ public class PlayerGrid extends JPanel {
                 this.grid[row][col] = cell;
             }
         }
+        disableGrid();
     }
 
     private void placeHorizontalShip(int row, int col, int size) {

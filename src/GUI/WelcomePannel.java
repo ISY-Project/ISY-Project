@@ -14,6 +14,8 @@ import src.Main;
 import src.Telnet.Subscribe;
 
 public class WelcomePannel extends JPanel {
+    
+
     @SuppressWarnings("unused")
     public WelcomePannel(MainFrame mainFrame) {
         super(new GridLayout(6, 0));

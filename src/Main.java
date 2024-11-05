@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.TickTackToe;
-import src.GameEngine.BattleshipEngine;
 import src.Telnet.Login;
 import src.Telnet.Message;
 import src.Telnet.Move;
@@ -16,16 +15,44 @@ public class Main {
     private static final String NAME = showGetName();
     private static final String HOST = "65.21.191.106";
     private static final int PORT = 7789;
-    private final Login login = new Login(NAME);
+    private static final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();
-    private final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-    private final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
+    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private final Handler eventHandler = new Handler(client, GUI_Frame, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
-    private final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+    private static final TTTHandler eventHandler = new TTTHandler(client, GUI_Frame, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
+    private static final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
     // private static final GameEngine;
     // private static final Algorithm;
-    private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
+    // private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
+    private static boolean inMatch = false;
+
+    public static boolean isInMatch() {
+        return inMatch;
+    }
+
+    public static void setInMatch(boolean inMatch) {
+        Main.inMatch = inMatch;
+    }
+
+    public static void toggleBattleshipGrid() {
+        if (Main.isInMatch()) {
+            GUI_Frame.getBattleshipGUI().getPlayerGrid().enableGrid();
+            GUI_Frame.getBattleshipGUI().getOpponentGrid().enableGrid();
+        } else {
+            GUI_Frame.getBattleshipGUI().getPlayerGrid().disableGrid();
+            GUI_Frame.getBattleshipGUI().getOpponentGrid().disableGrid();
+        }
+    }
+
+    public static void toggleTTTGrid() {
+        if (Main.isInMatch()) {
+            GUI_Frame.getTickTackToe().getTickTackToeGrid().enableGrid();
+        } else {
+            GUI_Frame.getTickTackToe().getTickTackToeGrid().disableGrid();
+        }
+    }
+
 
     public static TelnetClient getClient() {
         return client;
@@ -35,9 +62,9 @@ public class Main {
         return GUI_Frame;
     }
 
-    public static BattleshipEngine getBattleshipEngine() {
-        return battleshipEngine;
-    }
+    // public static BattleshipEngine getBattleshipEngine() {
+    //     return battleshipEngine;
+    // }
 
     public static String getPlayerName() {
         return NAME;
@@ -73,7 +100,7 @@ public class Main {
     @SuppressWarnings({ "static-access", "unused", "CallToPrintStackTrace" })
     public static void main(String[] args) {
         Main main = new Main();
-        GUI_Frame.setTitle(main.NAME); // Set the title of the window
+        GUI_Frame.setTitle(NAME); // Set the title of the window
 
         Message message = new Message(main.NAME + " Here to win the game!1!"); // TODO: add more messages
 

@@ -21,6 +21,23 @@ public class OpponentGrid extends JPanel {
         return this.grid;
     }
 
+    public void enableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(true);
+                cell.setBackground(Color.BLUE);
+            }
+        }
+    }
+
+    public void disableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(false);
+                cell.setBackground(Color.GRAY);
+            }
+        }
+    }
     // Initialize opponent grid (simplified)
     @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
@@ -42,5 +59,6 @@ public class OpponentGrid extends JPanel {
                 this.grid[row][col] = cell;
             }
         }
+        disableGrid();
     }
 }

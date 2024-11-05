@@ -2,7 +2,6 @@ package src.GUI;
 
 import javax.swing.JPanel;
 
-
 public class StartScreen extends JPanel {
     private final WelcomePannel WelcomePannel;
 
