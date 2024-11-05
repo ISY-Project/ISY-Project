@@ -31,8 +31,8 @@ public class Main {
         return inMatch;
     }
 
-    public static void setInMatch(boolean inMatch) {
-        inMatch = inMatch;
+    public static void setInMatch(boolean value) {
+        inMatch = value;
     }
 
     public static void toggleBattleshipGrid() {
