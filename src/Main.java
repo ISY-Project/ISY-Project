@@ -59,34 +59,35 @@ public class Main {
     }
 
 
-    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
-    public void main(String[] args) {
-        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
+    public static void main(String[] args) {
+        Main main = new Main();
 
-        battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = battleshipGUI.getChatBox().getChatArea().getText();
+        Message message = new Message(main.NAME + " Here to win the game!1!"); // TODO: add more messages
+
+        main.battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = main.battleshipGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
                 client.sendMessage(new Message(msg).get());
             }
         });
 
-        tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
+        main.tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = main.tickTackToeGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
                 client.sendMessage(new Message(msg).get());
             }
         });
 
         try {
-            client.connect(HOST, PORT);
+            client.connect(main.HOST, main.PORT);
             // TODO: replace these calls with GUI buttons or menu's
-            client.sendMessage(login.get());
-            client.sendMessage(message.get());
+            main.client.sendMessage(main.login.get());
+            main.client.sendMessage(message.get());
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) {
                 client.showMessage("Received: " + response);
-                responseHandler.handle(response);
+                main.responseHandler.handle(response);
                 response = client.receiveMessage();
                 if (response == null) {break;}
             }
