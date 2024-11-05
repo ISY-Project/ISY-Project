@@ -3,6 +3,7 @@ package src;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
+import src.GUI.Screens;
 import src.GUI.TickTackToeGrid;
 import src.Telnet.EventHandler;
 import src.Telnet.Responses.MoveResponse;
@@ -48,6 +49,7 @@ public class TTTHandler extends EventHandler {
             Main.toggleBattleshipGrid();
         } else if (game.equals(Subscribe.TICTACTOE)) {
             Main.toggleTTTGrid();
+            Main.getMainFrame().showScreen(Screens.TICK_TACK_TOE);
         }
         this.showMessage("Match started");
     }
