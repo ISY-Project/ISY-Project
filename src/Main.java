@@ -119,7 +119,6 @@ public class Main {
 
         try {
             client.connect(HOST, PORT);
-            // TODO: replace these calls with GUI buttons or menu's
             client.sendMessage(login.get());
             client.sendMessage(message.get());
             // handle waiting for the game to start
