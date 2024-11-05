@@ -32,11 +32,11 @@ public class Main {
     }
 
     public static void setInMatch(boolean inMatch) {
-        Main.inMatch = inMatch;
+        inMatch = inMatch;
     }
 
     public static void toggleBattleshipGrid() {
-        if (Main.isInMatch()) {
+        if (isInMatch()) {
             GUI_Frame.getBattleshipGUI().getPlayerGrid().enableGrid();
             GUI_Frame.getBattleshipGUI().getOpponentGrid().enableGrid();
         } else {
@@ -46,7 +46,7 @@ public class Main {
     }
 
     public static void toggleTTTGrid() {
-        if (Main.isInMatch()) {
+        if (isInMatch()) {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().enableGrid();
         } else {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().disableGrid();
@@ -97,37 +97,36 @@ public class Main {
         client.sendMessage(move.get());
     }
 
-    @SuppressWarnings({ "static-access", "unused", "CallToPrintStackTrace" })
+    @SuppressWarnings({ "CallToPrintStackTrace" })
     public static void main(String[] args) {
-        Main main = new Main();
         GUI_Frame.setTitle(NAME); // Set the title of the window
 
-        Message message = new Message(main.NAME + " Here to win the game!1!"); // TODO: add more messages
+        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
 
-        main.battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = main.battleshipGUI.getChatBox().getChatArea().getText();
+        battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = battleshipGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
                 client.sendMessage(new Message(msg).get());
             }
         });
 
-        main.tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
-            String msg = main.tickTackToeGUI.getChatBox().getChatArea().getText();
+        tickTackToeGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
+            String msg = tickTackToeGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
                 client.sendMessage(new Message(msg).get());
             }
         });
 
         try {
-            client.connect(main.HOST, main.PORT);
+            client.connect(HOST, PORT);
             // TODO: replace these calls with GUI buttons or menu's
-            main.client.sendMessage(main.login.get());
-            main.client.sendMessage(message.get());
+            client.sendMessage(login.get());
+            client.sendMessage(message.get());
             // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) {
                 client.showMessage("Received: " + response);
-                main.responseHandler.handle(response);
+                responseHandler.handle(response);
                 response = client.receiveMessage();
                 if (response == null) {break;}
             }
