@@ -58,7 +58,10 @@ public class BattleshipHandler extends EventHandler {
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
         if (mainFrame.getAlgorithmOn()) {
-            // playerGrid.algMakeMove();
+            // First place ships.
+            // Then make a shot.
+            // engine.placeShips();
+            // engine.makeShot();
         }
         this.showMessage("Your turn: " + message);
     }
