@@ -14,7 +14,7 @@ import src.Telnet.TelnetClient;
 
 public class Main {
     private final String NAME = genName();
-    private static final String HOST = "localhost";
+    private static final String HOST = "65.21.191.106";
     private static final int PORT = 7789;
     private final Login login = new Login(NAME);
     private final MainFrame GUI_Frame = new MainFrame(this);
