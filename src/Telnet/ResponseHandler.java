@@ -51,7 +51,10 @@ public class ResponseHandler {
                     this.eventHandler.onYourTurn(responseArray[2]);
                 }
                 else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
+                    long time = System.currentTimeMillis();
                     String[] data = parseMove(response);
+                    long time2 = System.currentTimeMillis();
+                    System.out.println("Time to parse: " + (time2 - time));
                     System.out.println("Player: " + data[0] + " Move: " + data[1] + " Result: " + data[2]);
                     this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
                 }

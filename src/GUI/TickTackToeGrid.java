@@ -123,13 +123,9 @@ public class TickTackToeGrid extends JPanel {
             }
         }
         System.out.println(Arrays.toString(new_grid));
-        System.out.println("Algorithm making move " + Minimax.getBestMove(new_grid, 'X'));
-        Main.getClient().sendMessage((new Move(Minimax.getBestMove(new_grid, 'X')).get()));
+        int bestMove = Minimax.getBestMove(new_grid, 'X');
+        System.out.println("Algorithm making move " + bestMove);
+        Main.getClient().sendMessage((new Move(bestMove).get()));
         this.mainFrame.setIsPlayerTurn(false);
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
