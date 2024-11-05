@@ -101,7 +101,7 @@ public class Main {
     public static void main(String[] args) {
         GUI_Frame.setTitle(NAME); // Set the title of the window
 
-        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
+        Message message = new Message(NAME + Messages.getRandomMessage().getValue());
 
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
