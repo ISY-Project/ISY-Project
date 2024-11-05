@@ -43,9 +43,11 @@ public class BattleshipHandler extends EventHandler {
         int x = position[0];
         int y = position[1];
         String direction = isHorizontal ? "East" : "South";
-        Ship ship = new Ship(size, isHorizontal, x, y);
+        Ship ship = engine.RandomShipSpot(size);
         engine.placeShip(ship);
-        this.client.sendMessage(new Place(x, y, direction).get());
+        int startIndex = x;
+        int endIndex = y;
+        this.client.sendMessage(new Place(startIndex, endIndex, direction).get());
     }
 
     @Override

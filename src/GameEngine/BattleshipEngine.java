@@ -151,6 +151,19 @@ public class BattleshipEngine extends Engine {
         return new int[] {0, 0};
     }
 
+    public Ship RandomShipSpot(int size) {
+        Random random = new Random();
+        while (true) {
+            int x = random.nextInt(this.board.getSize());
+            int y = random.nextInt(this.board.getSize());
+            boolean isHorizontal = random.nextBoolean();
+            Ship ship = new Ship(size, isHorizontal, x, y);
+            if (this.isValidShipPlacement(ship)){
+                return ship;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         BattleshipEngine engine = new BattleshipEngine(10, "Player1", "Player2");
         Random random = new Random();
