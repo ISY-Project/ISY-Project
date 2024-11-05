@@ -3,7 +3,8 @@ package src;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
-import src.GUI.TickTackToeGrid;
+import src.GUI.OpponentGrid;
+import src.GUI.PlayerGrid;
 import src.Telnet.EventHandler;
 import src.Telnet.Responses.MoveResponse;
 import src.Telnet.Subscribe;
@@ -15,15 +16,16 @@ public class BattleshipHandler extends EventHandler {
     @SuppressWarnings("unused")
     private TelnetClient client;
     private final BattleshipGUI battleshipGUI;
-    private final TickTackToeGrid tickTackToeGrid;
+    private final PlayerGrid playerGrid;
+    private final OpponentGrid opponentGrid;
     private final MainFrame mainFrame;
 
-    // , MainFrame mainFrame, TickTackToeGrid tickTackToeGrid, OpponentGrid battleshipOpponentGrid, PlayerGrid battleshipPlayerGrid
-    public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI, TickTackToeGrid tickTackToeGrid) {
+    public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI) {
         super(client);
         this.battleshipGUI = battleshipGUI;
-        this.tickTackToeGrid = tickTackToeGrid;
         this.mainFrame = mainFrame;
+        this.playerGrid = battleshipGUI.getPlayerGrid();
+        this.opponentGrid = battleshipGUI.getOpponentGrid();
     }
 
     @Override
@@ -46,8 +48,8 @@ public class BattleshipHandler extends EventHandler {
         Main.setInMatch(true);
         if (game.equals(Subscribe.BATTLESHIP)) {
             Main.toggleBattleshipGrid();
-        } else if (game.equals(Subscribe.TICTACTOE)) {
-            Main.toggleTTTGrid();
+            playerGrid.resetGrid();
+            opponentGrid.resetGrid();
         }
         this.showMessage("Match started");
     }
@@ -56,7 +58,7 @@ public class BattleshipHandler extends EventHandler {
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
         if (mainFrame.getAlgorithmOn()) {
-            tickTackToeGrid.algMakeMove();
+            // playerGrid.algMakeMove();
         }
         this.showMessage("Your turn: " + message);
     }
@@ -66,7 +68,7 @@ public class BattleshipHandler extends EventHandler {
         if (result.equals(MoveResponse.TICKTACKTOE)) {
             System.out.println("recived move: " + move);
             this.showMessage(player + " made a move: " + move + " in " + result);
-            tickTackToeGrid.updateGrid(Integer.parseInt(move), player);
+            // playerGrid.updateGrid(Integer.parseInt(move), player);
             return;
         }
         System.out.println("recived move");
