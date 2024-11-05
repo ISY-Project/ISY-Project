@@ -1,4 +1,4 @@
-package battleshipbot;
+package src.ALG.battleshipbot;
 
 import java.util.HashSet;
 import java.util.List;
