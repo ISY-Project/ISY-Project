@@ -29,6 +29,14 @@ public class TickTackToeGrid extends JPanel {
         return this.grid;
     }
 
+    public void clearGrid() {
+        for (JButton[] row : this.grid) {
+            for (JButton cell : row) {
+                cell.setText("");
+            }
+        }
+    }
+
     public void enableGrid() {
         for (JButton[] row : this.grid) {
             for (JButton cell : row) {
