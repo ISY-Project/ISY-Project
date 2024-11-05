@@ -25,6 +25,14 @@ public class PlayerGrid extends JPanel {
         return this.grid;
     }
 
+    public void resetGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setBackground(Color.blue);
+            }
+        }
+    }
+
     public void enableGrid() {
         for (var row : this.grid) {
             for (var cell : row) {
