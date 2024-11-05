@@ -1,4 +1,4 @@
-package battleshipbot;
+package src.ALG.battleshipbot;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

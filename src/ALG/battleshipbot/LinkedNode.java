@@ -1,4 +1,4 @@
-package battleshipbot;
+package src.ALG.battleshipbot;
 
 import java.util.Iterator;
 import java.util.List;
