@@ -15,11 +15,9 @@ import src.Telnet.Move;
 
 public class TickTackToeGrid extends JPanel {
     private final JButton[][] grid;
-    private final Main main;
     private final MainFrame mainFrame;
 
-    public TickTackToeGrid(Main main, MainFrame mainFrame) {
-        this.main = main;
+    public TickTackToeGrid(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         int gridSize = 3;
         super.setLayout(new GridLayout(gridSize, gridSize));
@@ -38,9 +36,9 @@ public class TickTackToeGrid extends JPanel {
         int row = index / gridSize;
         int col = index % gridSize;
         JButton cell = this.grid[row][col];
-        cell.setText(player.equals(main.getPlayerName()) ? "X" : "O");
+        cell.setText(player.equals(Main.getPlayerName()) ? "X" : "O");
         System.out.println(cell.getText());
-        cell.setForeground(player.equals(main.getPlayerName()) ? Color.RED : Color.BLUE);
+        cell.setForeground(player.equals(Main.getPlayerName()) ? Color.RED : Color.BLUE);
     }
 
     // Initialize Tic-Tac-Toe grid
@@ -70,7 +68,7 @@ public class TickTackToeGrid extends JPanel {
                                         if (this.grid[i][j].equals(cell)) {
                                             int index = i * gridSize + j;
                                             System.out.println("Index: " + index);
-                                            this.main.sendMove(new Move(index));
+                                            Main.getClient().sendMessage((new Move(index).get()));
                                             this.mainFrame.setIsPlayerTurn(false);
                                         }
                                     }
@@ -103,7 +101,7 @@ public class TickTackToeGrid extends JPanel {
         }
         System.out.println(Arrays.toString(new_grid));
         System.out.println("Algorithm making move " + Minimax.getBestMove(new_grid, 'X'));
-        this.main.sendMove(new Move(Minimax.getBestMove(new_grid, 'X')));
+        Main.getClient().sendMessage((new Move(Minimax.getBestMove(new_grid, 'X')).get()));
         this.mainFrame.setIsPlayerTurn(false);
         try {
             TimeUnit.SECONDS.sleep(3);
