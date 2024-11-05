@@ -45,11 +45,10 @@ public class TTTHandler extends EventHandler {
     @Override
     public void onMatch(Subscribe game) {
         Main.setInMatch(true);
-        if (game.equals(Subscribe.BATTLESHIP)) {
-            Main.toggleBattleshipGrid();
-        } else if (game.equals(Subscribe.TICTACTOE)) {
+        if (game.equals(Subscribe.TICTACTOE)) {
             Main.toggleTTTGrid();
             Main.getMainFrame().showScreen(Screens.TICK_TACK_TOE);
+            tickTackToeGrid.clearGrid();
         }
         this.showMessage("Match started");
     }
