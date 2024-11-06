@@ -19,11 +19,11 @@ public class test1 {
         
 
         // Instantiate gamemaster_battleship_v3 from another file
-        gamemaster_battleship_v3 gameMaster = new gamemaster_battleship_v3(gridshape, ships, rules);
-        System.out.println(Arrays.toString(gameMaster.create_ship()));
-        System.out.println(Arrays.toString(gameMaster.create_ship()));
-        System.out.println(Arrays.toString(gameMaster.create_ship()));
-        System.out.println(Arrays.toString(gameMaster.create_ship()));
+        GameMasterBattleship gameMaster = new GameMasterBattleship(gridshape, ships, rules);
+        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
         int shot = gameMaster.getOptimalShot();
 
         System.out.println(shot);
@@ -34,10 +34,10 @@ public class test1 {
         gameMaster.hit(shot);
 
         System.out.println("Game setup complete.");
-        gameMaster.print_playerfield();
+        gameMaster.printPlayerfield();
         System.out.println();
-        gameMaster.print_opponentfield();
-        gameMaster.print_heatmap();
+        gameMaster.printOpponentField();
+        gameMaster.printHeatmap();
 
     }
 } 

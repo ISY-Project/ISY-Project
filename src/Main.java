@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.TickTackToe;
+import src.GameEngineBattleship.GameMasterBattleship;
 import src.Telnet.Login;
 import src.Telnet.Message;
 import src.Telnet.Move;
@@ -26,6 +27,11 @@ public class Main {
     // private static final GameEngine;
     // private static final Algorithm;
     // private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
+    private static final GameMasterBattleship gameMaster = new GameMasterBattleship(
+        new int[] {8, 8},
+        new int[] {6, 4, 3, 2},
+        new boolean[] {false}
+    );
     private static boolean inMatch = false;
 
     public static boolean isInMatch() {
