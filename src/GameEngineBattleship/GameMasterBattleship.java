@@ -30,7 +30,7 @@ public class GameMasterBattleship{
         heatmap.generate();
     }
 
-    public int[] createRandomShip () {
+    public int[] placeRandomShip () {
         int[] ship = battleship_functions.create_random_ship(playerField, gridShape, ships[ship_count], rules);
         ship_count++;
         return ship;
