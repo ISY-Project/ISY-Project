@@ -20,10 +20,10 @@ public class test1 {
 
         // Instantiate gamemaster_battleship_v3 from another file
         GameMasterBattleship gameMaster = new GameMasterBattleship(gridshape, ships, rules);
-        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
-        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
-        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
-        System.out.println(Arrays.toString(gameMaster.createRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
+        System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
         int shot = gameMaster.getOptimalShot();
 
         System.out.println(shot);
