@@ -21,7 +21,7 @@ public final class MainFrame extends JFrame {
         // Show Screen 1 initially
         showScreen(Screens.START_SCREEN);
 
-        setSize(500, 500);
+        setSize(500, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);  
         
@@ -35,7 +35,7 @@ public final class MainFrame extends JFrame {
     public void showScreen(Screens screen) {
         switch (screen) {
             case START_SCREEN -> {
-                setSize(500, 500);
+                setSize(500, 600);
             }
             case BATTLESHIP_GUI -> {
                 setSize(1000, 600);

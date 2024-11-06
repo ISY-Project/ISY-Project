@@ -15,6 +15,16 @@ import src.Telnet.Move;
 public class TickTackToeGrid extends JPanel {
     private final JButton[][] grid;
     private final MainFrame mainFrame;
+    private boolean isPlayerX = false;
+    private boolean isFirstMove = true;
+
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
+    public void setFirstMove(boolean isFirstMove) {
+        this.isFirstMove = isFirstMove;
+    }
 
     public TickTackToeGrid(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -59,9 +69,19 @@ public class TickTackToeGrid extends JPanel {
         int row = index / gridSize;
         int col = index % gridSize;
         JButton cell = this.grid[row][col];
-        cell.setText(player.equals(Main.getPlayerName()) ? "X" : "O");
-        System.out.println(cell.getText());
-        cell.setForeground(player.equals(Main.getPlayerName()) ? Color.RED : Color.BLUE);
+        if (isPlayerX) {
+            cell.setText(player.equals(Main.getPlayerName()) ? "X" : "O");
+            cell.setForeground(player.equals(Main.getPlayerName()) ? Color.RED : Color.BLUE);
+        } else {
+            cell.setText(player.equals(Main.getPlayerName()) ? "O" : "X");
+            cell.setForeground(player.equals(Main.getPlayerName()) ? Color.BLUE : Color.RED);
+        }
+        if (player.equals(Main.getPlayerName())) {
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLable("Opponent's turn");
+        } else {
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLable("It's Your turn");
+        }
+        
     }
 
     // Initialize Tic-Tac-Toe grid
@@ -134,5 +154,13 @@ public class TickTackToeGrid extends JPanel {
         System.out.println("Algorithm making move " + bestMove);
         Main.getClient().sendMessage((new Move(bestMove).get()));
         this.mainFrame.setIsPlayerTurn(false);
+    }
+
+    public boolean isIsPlayerX() {
+        return isPlayerX;
+    }
+
+    public void setIsPlayerX(boolean isPlayerX) {
+        this.isPlayerX = isPlayerX;
     }
 }

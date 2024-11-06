@@ -20,8 +20,9 @@ public class Main {
     private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private static final TTTHandler eventHandler = new TTTHandler(client, GUI_Frame, battleshipGUI, tickTackToeGUI.getTickTackToeGrid());
-    private static final ResponseHandler responseHandler = new ResponseHandler(client, eventHandler);
+    private static final TTTHandler tttHandler = new TTTHandler(client, GUI_Frame, tickTackToeGUI);
+    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, GUI_Frame, battleshipGUI);
+    private static final ResponseHandler responseHandler = new ResponseHandler(client, tttHandler, battleshipHandler);
     // private static final GameEngine;
     // private static final Algorithm;
     // private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
@@ -97,7 +98,7 @@ public class Main {
         client.sendMessage(move.get());
     }
 
-    @SuppressWarnings({ "CallToPrintStackTrace" })
+    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
     public static void main(String[] args) {
         GUI_Frame.setTitle(NAME); // Set the title of the window
 

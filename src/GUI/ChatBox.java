@@ -66,4 +66,8 @@ public class ChatBox extends JPanel {
         return chatView;
     }
 
+    public void clearChat() {
+        chatView.setText("");
+    }
+
 }

@@ -1,9 +1,7 @@
 package src.ALG.battleshipbot;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 public abstract class Heatmap {
@@ -52,7 +50,18 @@ public abstract class Heatmap {
 
     @Override
     public long getOptimalShot() {
-      return 1;
+      long max = LongStream
+              .range(0, heatmap.length)
+              .filter(i -> !hits.contains(i))
+              .map(i -> heatmap[(int)i])
+              .max().orElse(0);
+
+      List<Long> bestPositions = new ArrayList<>();
+      for (int i = 0; i < width * height; i++) {
+        if (heatmap[i] == max) bestPositions.add((long)i);
+      }
+
+      return bestPositions.get(random.nextInt(bestPositions.size()));
     }
 
     @Override
