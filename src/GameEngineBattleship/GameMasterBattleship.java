@@ -13,8 +13,8 @@ public class GameMasterBattleship{
     private Heatmap heatmap;
     // private int[] enemy_ship_locs; //TODO need this later, not for vrijdag/comp build
     
-    public Heatmap getHeatmap() {
-        return heatmap;
+    public long[] getHeatmap() {
+        return heatmap.getHeatmap();
     }
 
     public GameMasterBattleship(int [] gridShape, int[] ships, boolean[] rules){
