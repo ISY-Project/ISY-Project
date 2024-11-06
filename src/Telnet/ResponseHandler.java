@@ -1,7 +1,5 @@
 package src.Telnet;
 
-import src.BattleshipHandler;
-import src.TTTHandler;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.MoveResponse;
@@ -10,13 +8,11 @@ import src.Telnet.Responses.ServerEvent;
 public class ResponseHandler {
     // read the server response, and parse the response as a event
     private final TelnetClient client;
-    private final TTTHandler tttHandler;
-    private final BattleshipHandler BattleshipHandler;
+    private final EventHandler eventHandler;
     
-    public ResponseHandler(TelnetClient client, TTTHandler tttHandler, BattleshipHandler battleshipHandler) {
+    public ResponseHandler(TelnetClient client, EventHandler eventHandler) {
         this.client = client;
-        this.tttHandler = tttHandler;
-        this.BattleshipHandler = battleshipHandler;
+        this.eventHandler = eventHandler;
     }
 
     @SuppressWarnings("CallToPrintStackTrace")
@@ -33,94 +29,48 @@ public class ResponseHandler {
     public void handle(String response) {
         // TODO: Test
         String[] responseArray = response.split(" ");
-        if (response.contains("Battleship")) {
-            if (response.contains(ServerEvent.HELP)) {
-                this.BattleshipHandler.onHelp(response);
-            }
-            else if (response.contains(ServerEvent.MESSAGE)) {
-                if (response.contains(GameEvent.MESSAGE)) {
-                    if (response.contains(ChallengeEvent.MESSAGE)) {
-                        String playerName = response.split(" ")[1];
-                        int gameNumber = Integer.parseInt(responseArray[2]);
-                        int gameName = Integer.parseInt(responseArray[3]);
-                        this.BattleshipHandler.onChallenge(playerName, gameName, gameNumber);
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
-                        if (response.contains("Battleship")) {
-                            this.BattleshipHandler.onMatch(Subscribe.BATTLESHIP);
-                        } else if (response.contains("Tic-tac-toe")) {
-                            this.BattleshipHandler.onMatch(Subscribe.TICTACTOE);
-                        }
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
-                        this.BattleshipHandler.onYourTurn(responseArray[2]);
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
-                        long time = System.currentTimeMillis();
-                        String[] data = parseMove(response);
-                        long time2 = System.currentTimeMillis();
-                        System.out.println("Time to parse: " + (time2 - time));
-                        System.out.println("Player: " + data[0] + " Move: " + data[1] + " Result: " + data[2]);
-                        this.BattleshipHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "WIN")) {
-                        this.BattleshipHandler.onWin();
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
-                        this.BattleshipHandler.onLose();
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
-                        this.BattleshipHandler.onDraw();
-                    }
-                }
-            } else if (response.contains(ServerEvent.ERROR)) {
-                this.BattleshipHandler.onError(response);
-            }
-        } else { // Let the TTTHandler handle the other responses
-            if (response.contains(ServerEvent.HELP)) {
-                this.tttHandler.onHelp(response);
-            }
-            else if (response.contains(ServerEvent.MESSAGE)) {
-                if (response.contains(GameEvent.MESSAGE)) {
-                    if (response.contains(ChallengeEvent.MESSAGE)) {
-                        String playerName = response.split(" ")[1];
-                        int gameNumber = Integer.parseInt(responseArray[2]);
-                        int gameName = Integer.parseInt(responseArray[3]);
-                        this.tttHandler.onChallenge(playerName, gameName, gameNumber);
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
-                        if (response.contains("Battleship")) {
-                            this.tttHandler.onMatch(Subscribe.BATTLESHIP);
-                        } else if (response.contains("Tic-tac-toe")) {
-                            this.tttHandler.onMatch(Subscribe.TICTACTOE);
-                        }
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
-                        this.tttHandler.onYourTurn(responseArray[2]);
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
-                        long time = System.currentTimeMillis();
-                        String[] data = parseMove(response);
-                        long time2 = System.currentTimeMillis();
-                        System.out.println("Time to parse: " + (time2 - time));
-                        System.out.println("Player: " + data[0] + " Move: " + data[1] + " Result: " + data[2]);
-                        this.tttHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "WIN")) {
-                        this.tttHandler.onWin();
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
-                        this.tttHandler.onLose();
-                    }
-                    else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
-                        this.tttHandler.onDraw();
-                    }
-                }
-            } else if (response.contains(ServerEvent.ERROR)) {
-                this.tttHandler.onError(response);
-            }
+        if (response.contains(ServerEvent.HELP)) {
+            this.eventHandler.onHelp(response);
         }
-
+        else if (response.contains(ServerEvent.MESSAGE)) {
+            if (response.contains(GameEvent.MESSAGE)) {
+                if (response.contains(ChallengeEvent.MESSAGE)) {
+                    String playerName = response.split(" ")[1];
+                    int gameNumber = Integer.parseInt(responseArray[2]);
+                    int gameName = Integer.parseInt(responseArray[3]);
+                    this.eventHandler.onChallenge(playerName, gameName, gameNumber);
+                }
+                else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
+                    if (response.contains("Battleship")) {
+                        this.eventHandler.onMatch(Subscribe.BATTLESHIP);
+                    } else if (response.contains("Tic-tac-toe")) {
+                        this.eventHandler.onMatch(Subscribe.TICTACTOE);
+                    }
+                }
+                else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
+                    this.eventHandler.onYourTurn(responseArray[2]);
+                }
+                else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
+                    long time = System.currentTimeMillis();
+                    String[] data = parseMove(response);
+                    long time2 = System.currentTimeMillis();
+                    System.out.println("Time to parse: " + (time2 - time));
+                    System.out.println("Player: " + data[0] + " Move: " + data[1] + " Result: " + data[2]);
+                    this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
+                }
+                else if (response.contains(GameEvent.MESSAGE + "WIN")) {
+                    this.eventHandler.onWin();
+                }
+                else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
+                    this.eventHandler.onLose();
+                }
+                else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
+                    this.eventHandler.onDraw();
+                }
+            }
+        } else if (response.contains(ServerEvent.ERROR)) {
+            this.eventHandler.onError(response);
+        }
     }
 
     private String[] parseMove(String response) {
