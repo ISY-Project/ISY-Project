@@ -11,7 +11,7 @@ public class GameMasterBattleship{
     private boolean[] rules;
     private int ship_count;
     private Heatmap heatmap;
-    // private int[] enemy_ship_locs; //TODO need this later, not for current build
+    // private int[] enemy_ship_locs; //TODO need this later, not for vrijdag/comp build
     
     public GameMasterBattleship(int [] gridShape, int[] ships, boolean[] rules){
 
