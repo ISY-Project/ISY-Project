@@ -5,7 +5,9 @@ import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.OpponentGrid;
 import src.GUI.PlayerGrid;
+import src.GameEngineBattleship.GameMasterBattleship;
 import src.Telnet.EventHandler;
+import src.Telnet.Place;
 import src.Telnet.Responses.MoveResponse;
 import src.Telnet.Subscribe;
 import src.Telnet.TelnetClient;
@@ -19,14 +21,15 @@ public class BattleshipHandler extends EventHandler {
     private final PlayerGrid playerGrid;
     private final OpponentGrid opponentGrid;
     private final MainFrame mainFrame;
+    private final GameMasterBattleship engine;
 
-    // TODO make this handler work with the BattleshipEngine
-    public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI) {
+    public BattleshipHandler(TelnetClient client, MainFrame mainFrame, BattleshipGUI battleshipGUI, GameMasterBattleship engine) {
         super(client);
         this.battleshipGUI = battleshipGUI;
         this.mainFrame = mainFrame;
         this.playerGrid = battleshipGUI.getPlayerGrid();
         this.opponentGrid = battleshipGUI.getOpponentGrid();
+        this.engine = engine;
     }
 
     @Override
@@ -59,10 +62,10 @@ public class BattleshipHandler extends EventHandler {
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
         if (mainFrame.getAlgorithmOn()) {
-            // First place ships.
-            // Then make a shot.
-            // engine.placeShips();
-            // engine.makeShot();
+            int[] coords = engine.placeRandomShip();
+            int begin = coords[0];
+            int end = coords[1];
+            this.client.sendMessage(new Place(begin, end).get());
         }
         this.showMessage("Your turn: " + message);
     }
