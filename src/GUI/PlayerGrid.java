@@ -12,9 +12,15 @@ import javax.swing.JPanel;
 public class PlayerGrid extends JPanel {
     private final JButton[][] grid;
     private final Ships ships;
+    private final int gridSize;
+
+    public int getGridSize() {
+        return gridSize;
+    }
 
     public PlayerGrid(int gridSize, Ships ships) {
         super(new GridLayout(gridSize, gridSize));
+        this.gridSize = gridSize;
         this.grid = new JButton[gridSize][gridSize];
         this.ships = ships;
         this.setBorder(BorderFactory.createTitledBorder("Player's Grid"));
