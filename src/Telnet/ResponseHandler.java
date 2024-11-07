@@ -29,7 +29,21 @@ public class ResponseHandler {
     }
 
     private GameType determineGameType(String response) {
-        return GameType.valueOf(parseMove(response)[1]);
+        char data_start = '{';
+        char data_end = '}';
+        int start = response.indexOf(data_start);
+        int end = response.indexOf(data_end);
+        if (start == -1 || end == -1) {
+            return null;
+        }
+        String[] data = response.substring(start + 1, end).split(",");
+        GameType result = null;
+        for (String option : data) {
+            result = GameType.valueOf(option);
+            break;
+        }
+        return result;
+        // return GameType.valueOf(parseMove(response)[1]);
     }
 
     private void handleErrorEvent(String response) {

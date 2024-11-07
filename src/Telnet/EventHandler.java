@@ -1,7 +1,6 @@
 package src.Telnet;
 
 import src.GameType;
-import src.Main;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.ServerEvent;
@@ -12,18 +11,10 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
     private final GameType gameType;
 
     public boolean isValidGameType(GameType gameType) {
-        if (gameType == this.gameType) {
-            System.out.println("Found Game Type " + gameType);
-            return true;
+        if (gameType != this.gameType) {
+            return false;
         }
-        return isValidGameType();
-    }
-
-    private boolean isValidGameType() {
-        if (Main.getGameType() == GameType.FIRSTBOOT || Main.getGameType() == this.gameType) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public EventHandler(GameType gameType) {
