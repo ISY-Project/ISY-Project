@@ -124,8 +124,14 @@ public class Main {
             String response = client.receiveMessage();
             while (response.contains("")) {
                 client.showMessage("Received: " + response);
-                tttResponseHandler.handle(response);
-                battleshipResponseHandler.handle(response);
+                if (response.contains("Tic-tac-toe")) {
+                    tttResponseHandler.handle(response);
+                } else if (response.contains("Battleship")) {
+                    battleshipResponseHandler.handle(response);
+                } else {
+                    // let the tic tac toe handler handle the message
+                    tttResponseHandler.handle(response);
+                }
                 if (gameType == GameType.ENDGAME) {gameType = GameType.NONE;} // Reset the gameType after every handler ran.
                 response = client.receiveMessage();
             }
