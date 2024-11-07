@@ -7,6 +7,7 @@ import src.Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
     private final EventHandler eventHandler;
+    private GameType gameType;
     
     public ResponseHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -46,6 +47,7 @@ public class ResponseHandler {
                 result = GameType.BATTLESHIP;
             }
         }
+        this.gameType = result;
         return result;
     }
 
