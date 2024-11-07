@@ -41,7 +41,6 @@ public class WelcomePanel extends JPanel {
         slider.setMajorTickSpacing(1);
 		slider.setMinorTickSpacing(1);
         sliderLabel.setText("Manual");
-        mainFrame.setAlgorithmOn(false);
         this.add(labelOne);
         this.add(labelTwo);
         this.add(tickTackToe);
