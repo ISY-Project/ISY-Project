@@ -2,7 +2,6 @@ package src;
 
 import java.awt.Color;
 import java.util.logging.Logger;
-
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
@@ -57,6 +56,7 @@ public class BattleshipHandler extends EventHandler {
     public void onMatch() {
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
+            System.out.println("forced starting battle game");
             Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
         }
@@ -159,7 +159,7 @@ public class BattleshipHandler extends EventHandler {
     public void onWin() {
         String msg = "You won the game";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
@@ -169,7 +169,7 @@ public class BattleshipHandler extends EventHandler {
     public void onLose() {
         String msg = "You lost the game";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
@@ -179,7 +179,7 @@ public class BattleshipHandler extends EventHandler {
     public void onDraw() {
         String msg = "The game ended in a draw";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
