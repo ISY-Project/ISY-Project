@@ -149,6 +149,7 @@ public class BattleshipHandler extends EventHandler {
         JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
+        placeStage = true;
     }
 
     public void onLose() {
@@ -157,6 +158,7 @@ public class BattleshipHandler extends EventHandler {
         JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
+        placeStage = true;
     }
 
     public void onDraw() {
@@ -165,6 +167,7 @@ public class BattleshipHandler extends EventHandler {
         JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
+        placeStage = true;
     }
 
     public void onHelp(String message) {
