@@ -62,6 +62,7 @@ public class BattleshipHandler extends EventHandler {
         String message2 = "Match started"; // TODO: show opponent name.
         battleshipGUI.getInfoPanel().setYourTurnLabel(message2);
         this.showMessage(message2);
+        engine = createBattleshipMaster();
     }
 
     public void onYourTurn(String message) {
@@ -156,7 +157,6 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
-        engine = createBattleshipMaster();
     }
 
     public void onLose() {
@@ -166,7 +166,6 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
-        engine = createBattleshipMaster();
     }
 
     public void onDraw() {
@@ -176,7 +175,6 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
-        engine = createBattleshipMaster();
     }
 
     public void onHelp(String message) {
