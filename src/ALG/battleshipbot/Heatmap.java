@@ -58,7 +58,7 @@ public abstract class Heatmap {
 
       List<Long> bestPositions = new ArrayList<>();
       for (int i = 0; i < width * height; i++) {
-        if (heatmap[i] == max) bestPositions.add((long)i);
+        if (heatmap[i] == max && !hits.contains((long)i)) bestPositions.add((long)i);
       }
 
       return bestPositions.get(random.nextInt(bestPositions.size()));
