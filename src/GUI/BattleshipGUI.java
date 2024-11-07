@@ -38,7 +38,7 @@ public class BattleshipGUI extends JPanel {
 
         this.playerGrid = new PlayerGrid(GRIDSIZE, ships);
         this.opponentGrid = new OpponentGrid(GRIDSIZE);
-        this.infoPanel = new InfoPanel(ships, playerGrid, opponentGrid);
+        this.infoPanel = new InfoPanel(ships);
         this.chatBox = new ChatBox();
 
         add(this.playerGrid, BorderLayout.WEST);

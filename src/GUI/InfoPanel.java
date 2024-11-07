@@ -19,7 +19,7 @@ public class InfoPanel extends JPanel {
     private TickTackToeGrid tickTackToeGrid;
     private final JLabel turnLabel = new JLabel("Wait on opponent");
 
-    public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
+    public InfoPanel(Ships ships) {
         super(new GridLayout(3, 0));
         this.ships = ships;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
@@ -42,6 +42,7 @@ public class InfoPanel extends JPanel {
         super(new GridLayout(4, 0));
         setSize(new Dimension(150, 600));
         this.setBorder(BorderFactory.createTitledBorder("Information"));
+        this.tickTackToeGrid = tickTackToeGrid;
         JButton resetButton = new JButton("Reset");
         JButton backButton = new JButton("Back");
         resetButton.setPreferredSize(new Dimension(100, 100));
