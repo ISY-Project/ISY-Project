@@ -28,7 +28,7 @@ public class Main {
     // BattleshipEngine(8, "test", "test2");
     private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
     private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
-    private static GameType gameType = GameType.NONE;
+    private static GameType gameType = GameType.FIRSTBOOT;
 
     public static GameType getGameType() {
         return gameType;
