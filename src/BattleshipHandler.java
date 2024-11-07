@@ -1,8 +1,6 @@
 package src;
 
 import java.awt.Color;
-
-import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.OpponentGrid;
@@ -154,7 +152,7 @@ public class BattleshipHandler extends EventHandler {
     public void onWin() {
         String msg = "You won the game";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
@@ -164,7 +162,7 @@ public class BattleshipHandler extends EventHandler {
     public void onLose() {
         String msg = "You lost the game";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
@@ -174,7 +172,7 @@ public class BattleshipHandler extends EventHandler {
     public void onDraw() {
         String msg = "The game ended in a draw";
         showMessage(msg);
-        JOptionPane.showMessageDialog(this.mainFrame, msg);
+        // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;

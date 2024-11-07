@@ -1,6 +1,5 @@
 package src;
 
-import javax.swing.JOptionPane;
 import src.GUI.MainFrame;
 import src.GUI.Screens;
 import src.GUI.TickTackToeGrid;
@@ -77,21 +76,21 @@ public class TTTHandler extends EventHandler {
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("You won the game");
-        JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
+        // JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
     }
 
     public void onLose() {
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("You lost the game");
-        JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
+        // JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
     }
 
     public void onDraw() {
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("The game ended in a draw");
-        JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
+        // JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
     }
 
     public void onHelp(String message) {
