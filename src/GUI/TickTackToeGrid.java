@@ -148,7 +148,7 @@ public class TickTackToeGrid extends JPanel {
             }
         }
         System.out.println(Arrays.toString(new_grid));
-        int bestMove = Minimax.getBestMove(new_grid, 'X');
+        int bestMove = Minimax.getBestMove(new_grid, isPlayerX ? 'X' : 'O');
         System.out.println("Algorithm making move " + bestMove);
         Main.getTelnetClient().sendMessage((new Move(bestMove).get()));
         this.mainFrame.setIsPlayerTurn(false);
