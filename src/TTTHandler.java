@@ -1,13 +1,17 @@
 package src;
 
+import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import src.GUI.MainFrame;
 import src.GUI.Screens;
 import src.GUI.TickTackToeGrid;
+import src.Logging.LoggerFactory;
 import src.Telnet.EventHandler;
 import src.Telnet.Responses.MoveResponse;
 
 public class TTTHandler extends EventHandler {
+    private final Logger logger;
     private final TickTackToeGrid tickTackToeGrid;
     private final MainFrame mainFrame;
 
@@ -15,6 +19,7 @@ public class TTTHandler extends EventHandler {
         super(GameType.TTT);
         this.tickTackToeGrid = tickTackToeGrid;
         this.mainFrame = Main.getMainFrame();
+        this.logger = LoggerFactory.getChildLogger(Main.getLogger(), this.getClass());
     }
 
     public void onChallenge(String playerName, int game, int gameNumber) {
@@ -90,5 +95,4 @@ public class TTTHandler extends EventHandler {
     public void onMessage(String message) {
         Main.getMainFrame().getTickTackToe().getChatBox().addMessage(message);
     }
-
 }

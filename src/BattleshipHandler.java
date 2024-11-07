@@ -1,6 +1,7 @@
 package src;
 
 import java.awt.Color;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
@@ -10,6 +11,7 @@ import src.GUI.PlayerGrid;
 import src.GUI.Screens;
 import src.GUI.Ship;
 import src.GameEngineBattleship.GameMasterBattleship;
+import src.Logging.LoggerFactory;
 import src.Telnet.EventHandler;
 import src.Telnet.Move;
 import src.Telnet.Place;
@@ -17,6 +19,7 @@ import src.Telnet.Responses.MoveResponse;
 import src.Telnet.TelnetClient;
 
 public class BattleshipHandler extends EventHandler {
+    private final Logger logger;
     private final TelnetClient client;
     private final BattleshipGUI battleshipGUI;
     private final PlayerGrid playerGrid;
@@ -33,13 +36,14 @@ public class BattleshipHandler extends EventHandler {
         this.opponentGrid = battleshipGUI.getOpponentGrid();
         this.engine = createBattleshipMaster();
         this.client = Main.getTelnetClient();
+        this.logger = LoggerFactory.getChildLogger(Main.getLogger(), this.getClass());
     }
 
     private GameMasterBattleship createBattleshipMaster() {
         return new GameMasterBattleship(
-        new int[] { 8, 8 },
-        new int[] { 6, 4, 3, 2 },
-        new boolean[] { false });
+                new int[] { 8, 8 },
+                new int[] { 6, 4, 3, 2 },
+                new boolean[] { false });
     }
 
     public void onChallenge(String playerName, int game, int gameNumber) {
@@ -69,12 +73,13 @@ public class BattleshipHandler extends EventHandler {
         mainFrame.setIsPlayerTurn(true);
         if (placeStage) {
             if (mainFrame.getAlgorithmOn()) {
-                for (@SuppressWarnings("unused") int i: engine.getShips()){
+                for (@SuppressWarnings("unused")
+                int i : engine.getShips()) {
                     placeShip();
                 }
                 placeStage = false;
             }
-        } else{
+        } else {
             shoot();
         }
     }
@@ -89,7 +94,7 @@ public class BattleshipHandler extends EventHandler {
         int begin, end, size;
         int[] coords = engine.placeRandomShip();
         begin = coords[0];
-        end = coords[coords.length-1];
+        end = coords[coords.length - 1];
         boolean isVertical = (begin - end) % playerGrid.getGridSize() == 0;
         size = calculateSize(begin, end, isVertical);
         placeShip(begin, end, size);
@@ -112,7 +117,8 @@ public class BattleshipHandler extends EventHandler {
         Ship ship = new Ship(size, isVertical);
         this.playerGrid.placeShip(row, col, ship);
         this.client.sendMessage(new Place(begin, end).get());
-        this.battleshipGUI.getChatBox().addMessage("Info", "Placed ship of size " + size + " at " + begin + " through " + end);
+        this.battleshipGUI.getChatBox().addMessage("Info",
+                "Placed ship of size " + size + " at " + begin + " through " + end);
     }
 
     public void onMove(String[] data) {
@@ -120,7 +126,7 @@ public class BattleshipHandler extends EventHandler {
         int move = Integer.parseInt(data[1]);
         MoveResponse result = MoveResponse.valueOf(data[2]);
         this.showMessage(player + " made a move: " + move + " " + result);
-        if (player.equals(Main.getPlayerName())){
+        if (player.equals(Main.getPlayerName())) {
             if (result.equals(MoveResponse.BOEM)) {
                 updatePlayerTurnLabel(player);
                 this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);

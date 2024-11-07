@@ -1,6 +1,7 @@
 package src;
 
 import java.util.Random;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
@@ -12,6 +13,7 @@ import src.Telnet.ResponseHandler;
 import src.Telnet.TelnetClient;
 
 public class Main {
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
     private static final String NAME = showGetName();
     private static final String HOST = "65.21.191.106";
     private static final int PORT = 7789;
@@ -96,6 +98,10 @@ public class Main {
 
     public void sendMove(Move move) {
         client.sendMessage(move.get());
+    }
+
+    public static Logger getLogger() {
+        return LOGGER;
     }
 
     public static void main(String[] args) throws Exception {
