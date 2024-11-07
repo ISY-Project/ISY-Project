@@ -52,9 +52,8 @@ public class GameMasterBattleship{
         heatmap.sink(length);
     }
 
-    public int getOptimalShot() {
-        int shot = (int) heatmap.getOptimalShot();
-        return shot;
+    public long getOptimalShot() {
+        return heatmap.getOptimalShot();
     }
 
     public int[] getPlayerField() {

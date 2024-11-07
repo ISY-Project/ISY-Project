@@ -24,7 +24,6 @@ public class BattleshipHandler extends EventHandler {
     private final MainFrame mainFrame;
     private final GameMasterBattleship engine;
     private boolean placeStage = true;
-    private int lastShot = -1;
 
     public BattleshipHandler(GameMasterBattleship engine) {
         super(GameType.BATTLESHIP);
@@ -74,8 +73,7 @@ public class BattleshipHandler extends EventHandler {
     }
 
     private void shoot() {
-        int cell = engine.getOptimalShot();
-        lastShot = cell;
+        long cell = engine.getOptimalShot();
         this.client.sendMessage(new Move(cell).get());
         this.battleshipGUI.getChatBox().addMessage("Info", "Shooting at " + cell);
     }
@@ -112,22 +110,23 @@ public class BattleshipHandler extends EventHandler {
 
     public void onMove(String[] data) {
         String player = data[0];
-        String move = data[1];
+        int move = Integer.parseInt(data[1]);
         MoveResponse result = MoveResponse.valueOf(data[2]);
         this.showMessage(player + " made a move: " + move + " " + result);
         if (player.equals(Main.getPlayerName())){
             if (result.equals(MoveResponse.BOEM)) {
                 updatePlayerTurnLabel(player);
-                this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.RED);
-                engine.hit(lastShot);
+                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
+                engine.hit(move);
                 return;
             } else if (result.equals(MoveResponse.PLONS)) {
                 updatePlayerTurnLabel(player);
-                this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.GRAY);
-                engine.miss(lastShot);
+                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.GRAY);
+                engine.miss(move);
                 return;
             } else if (result.equals(MoveResponse.GEZONKEN)) {
-                engine.sink(Integer.parseInt(data[3]));
+                int shipSize = Integer.parseInt(data[3]);
+                engine.sink(shipSize);
                 return;
             }
         } else {
