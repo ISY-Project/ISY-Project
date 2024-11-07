@@ -66,6 +66,7 @@ public class BattleshipHandler extends EventHandler {
                 for (@SuppressWarnings("unused") int i: engine.getShips()){
                     placeShip();
                 }
+                placeStage = false;
             }
         } else{
             shoot();
@@ -74,6 +75,7 @@ public class BattleshipHandler extends EventHandler {
 
     private void shoot() {
         int cell = engine.getOptimalShot();
+        lastShot = cell;
         this.client.sendMessage(new Move(cell).get());
         this.battleshipGUI.getChatBox().addMessage("Info", "Shooting at " + cell);
     }
@@ -108,16 +110,28 @@ public class BattleshipHandler extends EventHandler {
         this.battleshipGUI.getChatBox().addMessage("Info", "Placed ship of size " + size + " at " + begin + " through " + end);
     }
 
-    public void onMove(String player, String move, MoveResponse result) {
+    public void onMove(String[] data) {
+        String player = data[0];
+        String move = data[1];
+        MoveResponse result = MoveResponse.valueOf(data[2]);
         this.showMessage(player + " made a move: " + move + " " + result);
-        if (result.equals(MoveResponse.BOEM)) {
-            updatePlayerTurnLabel(player);
-            this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.RED);
-            return;
-        } else if (result.equals(MoveResponse.PLONS)) {
-            updatePlayerTurnLabel(player);
-            this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.GRAY);
-            return;
+        if (player.equals(Main.getPlayerName())){
+            if (result.equals(MoveResponse.BOEM)) {
+                updatePlayerTurnLabel(player);
+                this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.RED);
+                engine.hit(lastShot);
+                return;
+            } else if (result.equals(MoveResponse.PLONS)) {
+                updatePlayerTurnLabel(player);
+                this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.GRAY);
+                engine.miss(lastShot);
+                return;
+            } else if (result.equals(MoveResponse.GEZONKEN)) {
+                engine.sink(Integer.parseInt(data[3]));
+                return;
+            }
+        } else {
+            // Tegenstander heeft geschoten
         }
     }
 

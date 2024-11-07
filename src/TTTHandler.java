@@ -45,7 +45,10 @@ public class TTTHandler extends EventHandler {
         this.showMessage("Your turn: " + message);
     }
 
-    public void onMove(String player, String move, MoveResponse result) {
+    public void onMove(String[] data) {
+        String player = data[0];
+        String move = data[1];
+        MoveResponse result = MoveResponse.valueOf(data[2]);
         if (result.equals(MoveResponse.TICKTACKTOE)) {
             this.showMessage(player + " made a move: " + move + " in " + result);
             tickTackToeGrid.updateGrid(Integer.parseInt(move), player);

@@ -4,7 +4,6 @@ import src.GameType;
 import src.Main;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
-import src.Telnet.Responses.MoveResponse;
 import src.Telnet.Responses.ServerEvent;
 
 
@@ -28,7 +27,7 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
     public abstract void onCancel(int gameNumber);
     public abstract void onMatch();
     public abstract void onYourTurn(String message);
-    public abstract void onMove(String player, String move, MoveResponse result);
+    public abstract void onMove(String[] data);
     public abstract void onWin();
     public abstract void onLose();
     public abstract void onDraw();

@@ -80,7 +80,7 @@ public class ResponseHandler {
 
     private void handleMoveEvent(String response) {
         String[] data = parseMove(response);
-        this.eventHandler.onMove(data[0], data[1], MoveResponse.valueOf(data[2]));
+        this.eventHandler.onMove(data);
     }
 
     private void handleYourTurnEvent(String[] responseArray) {
@@ -104,7 +104,7 @@ public class ResponseHandler {
         int start = response.indexOf(data_start);
         int end = response.indexOf(data_end);
         String[] data = response.substring(start + 1, end).split(",");
-        String[] result = new String[3];
+        String[] result = new String[data.length];
         for (int i = 0; i < data.length; i++) {
             String option = data[i].trim();
             char split = '"';
