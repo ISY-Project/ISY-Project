@@ -1,5 +1,6 @@
 package src;
 
+import java.io.IOException;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
@@ -135,6 +136,8 @@ public class Main {
                 response = client.receiveMessage();
             }
             JOptionPane.showMessageDialog(GUI_Frame, "Connection lost");
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             client.close();
         }
