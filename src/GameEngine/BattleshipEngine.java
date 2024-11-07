@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class BattleshipEngine extends Engine {
     private BattleshipBoard board;
-    @SuppressWarnings("unused")
-    private BattleshipBoard opponentBoard;
 
     public BattleshipEngine(int size, String player1Name, String player2Name) {
         super(size, player1Name, player2Name);

@@ -14,7 +14,6 @@ import src.Telnet.Responses.MoveResponse;
 import src.Telnet.TelnetClient;
 
 public class BattleshipHandler extends EventHandler {
-    // final Logout logout = new Logout();
     private final TelnetClient client;
     private final BattleshipGUI battleshipGUI;
     private final PlayerGrid playerGrid;

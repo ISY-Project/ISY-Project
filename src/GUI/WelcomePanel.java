@@ -16,8 +16,7 @@ import src.Main;
 import src.Telnet.Subscribe;
 
 public class WelcomePanel extends JPanel {
-    @SuppressWarnings("unused")
-    public WelcomePanel(MainFrame mainFrame) {
+        public WelcomePanel(MainFrame mainFrame) {
         super(new GridLayout(6, 0));
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         this.setSize(350, 350);
@@ -63,7 +62,7 @@ public class WelcomePanel extends JPanel {
     }
 
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
-        return (@SuppressWarnings("unused") ActionEvent e) -> {
+        return (ActionEvent e) -> {
             mainFrame.showScreen(Screens.TTT);
             Main.setGameType(GameType.TTT);
             Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
@@ -71,7 +70,7 @@ public class WelcomePanel extends JPanel {
     }
 
     private ActionListener battleshipsActionListener(MainFrame mainFrame) {
-        return (@SuppressWarnings("unused") ActionEvent e) -> {
+        return (ActionEvent e) -> {
             mainFrame.showScreen(Screens.BATTLESHIP);
             Main.setGameType(GameType.BATTLESHIP);
             Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());

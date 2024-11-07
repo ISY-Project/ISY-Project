@@ -6,12 +6,8 @@ import src.GUI.Screens;
 import src.GUI.TickTackToeGrid;
 import src.Telnet.EventHandler;
 import src.Telnet.Responses.MoveResponse;
-import src.Telnet.TelnetClient;
 
 public class TTTHandler extends EventHandler {
-    // final Logout logout = new Logout();
-    @SuppressWarnings("unused")
-    private TelnetClient client;
     private final TickTackToeGrid tickTackToeGrid;
     private final MainFrame mainFrame;
 
