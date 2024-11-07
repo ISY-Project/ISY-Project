@@ -12,6 +12,7 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
     final Logout logout = new Logout();
     private final GameType gameType;
 
+    // TODO: get a gametype from the SVR GAME MATCH response.
     public boolean isValidGameType() {
         if (Main.getGameType() == GameType.NONE || Main.getGameType() == this.gameType) {
             return true;
