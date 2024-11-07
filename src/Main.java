@@ -1,6 +1,5 @@
 package src;
 
-import java.io.IOException;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
