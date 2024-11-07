@@ -27,11 +27,7 @@ public class Main {
     // private static final Algorithm;
     // private static final BattleshipEngine battleshipEngine = new
     // BattleshipEngine(8, "test", "test2");
-    private static final GameMasterBattleship gameMaster = new GameMasterBattleship(
-        new int[] { 8, 8 },
-        new int[] { 6, 4, 3, 2 },
-        new boolean[] { false });
-        private static final BattleshipHandler battleshipHandler = new BattleshipHandler(gameMaster);
+        private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
         private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
     private static GameType gameType = GameType.NONE;
 

@@ -22,17 +22,24 @@ public class BattleshipHandler extends EventHandler {
     private final PlayerGrid playerGrid;
     private final OpponentGrid opponentGrid;
     private final MainFrame mainFrame;
-    private final GameMasterBattleship engine;
+    private GameMasterBattleship engine;
     private boolean placeStage = true;
 
-    public BattleshipHandler(GameMasterBattleship engine) {
+    public BattleshipHandler() {
         super(GameType.BATTLESHIP);
         this.mainFrame = Main.getMainFrame();
         this.battleshipGUI = mainFrame.getBattleshipGUI();
         this.playerGrid = battleshipGUI.getPlayerGrid();
         this.opponentGrid = battleshipGUI.getOpponentGrid();
-        this.engine = engine;
+        this.engine = createBattleshipMaster();
         this.client = Main.getTelnetClient();
+    }
+
+    private GameMasterBattleship createBattleshipMaster() {
+        return new GameMasterBattleship(
+        new int[] { 8, 8 },
+        new int[] { 6, 4, 3, 2 },
+        new boolean[] { false });
     }
 
     public void onChallenge(String playerName, int game, int gameNumber) {
@@ -150,6 +157,7 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
+        engine = createBattleshipMaster();
     }
 
     public void onLose() {
@@ -159,6 +167,7 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
+        engine = createBattleshipMaster();
     }
 
     public void onDraw() {
@@ -168,6 +177,7 @@ public class BattleshipHandler extends EventHandler {
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
         Main.setGameType(GameType.ENDGAME);
         placeStage = true;
+        engine = createBattleshipMaster();
     }
 
     public void onHelp(String message) {
