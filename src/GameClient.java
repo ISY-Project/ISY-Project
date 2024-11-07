@@ -46,7 +46,7 @@ public class GameClient implements Runnable {
     }
 
     GameClient(String name, String host, int port) {
-        this.name = getUserName();
+        this.name = name;
         this.host = host;
         this.port = port;
         this.login = new Login(name);
