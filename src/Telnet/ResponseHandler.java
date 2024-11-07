@@ -39,8 +39,12 @@ public class ResponseHandler {
         String[] data = response.substring(start + 1, end).split(",");
         GameType result = null;
         for (String option : data) {
-            result = GameType.valueOf(option);
-            break;
+            if (option.contains("TICKTACKTOE")) {
+                result = GameType.TTT;
+            }
+            if (option.contains("BATTLESHIP")) {
+                result = GameType.BATTLESHIP;
+            }
         }
         return result;
         // return GameType.valueOf(parseMove(response)[1]);
