@@ -26,13 +26,13 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onMatch() {
-        Main.setGameType(GameType.TTT);
         Main.toggleTTTGrid();
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             Main.getMainFrame().showScreen(Screens.TTT);
             mainFrame.setAlgorithmOn(true);
         }
+        Main.setGameType(GameType.TTT);
         tickTackToeGrid.clearGrid();
         this.showMessage("Match started"); // TODO: show opponent name.
     }
