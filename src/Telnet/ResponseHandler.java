@@ -47,7 +47,6 @@ public class ResponseHandler {
             }
         }
         return result;
-        // return GameType.valueOf(parseMove(response)[1]);
     }
 
     private void handleErrorEvent(String response) {
