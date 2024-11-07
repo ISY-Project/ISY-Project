@@ -39,10 +39,10 @@ public class ResponseHandler {
         String[] data = response.substring(start + 1, end).split(",");
         GameType result = null;
         for (String option : data) {
-            if (option.contains("TICKTACKTOE")) {
+            if (option.contains("Tic-tac-toe")) {
                 result = GameType.TTT;
             }
-            if (option.contains("BATTLESHIP")) {
+            if (option.contains("Battleship")) {
                 result = GameType.BATTLESHIP;
             }
         }
