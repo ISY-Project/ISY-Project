@@ -27,8 +27,10 @@ public class TTTHandler extends EventHandler {
 
     public void onMatch() {
         tickTackToeGrid.setFirstMove(true);
+        tickTackToeGrid.setIsPlayerX(false);
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
+            System.out.println("forced starting TTT game");
             Main.getMainFrame().showScreen(Screens.TTT);
             mainFrame.setAlgorithmOn(true);
         }
@@ -72,21 +74,24 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onWin() {
+        Main.setGameType(GameType.ENDGAME);
+        Main.toggleTTTGrid();
         this.showServerMessage("You won the game");
         JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
-        Main.setGameType(GameType.ENDGAME);
     }
 
     public void onLose() {
+        Main.setGameType(GameType.ENDGAME);
+        Main.toggleTTTGrid();
         this.showServerMessage("You lost the game");
         JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
-        Main.setGameType(GameType.ENDGAME);
     }
 
     public void onDraw() {
+        Main.setGameType(GameType.ENDGAME);
+        Main.toggleTTTGrid();
         this.showServerMessage("The game ended in a draw");
         JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
-        Main.setGameType(GameType.ENDGAME);
     }
 
     public void onHelp(String message) {

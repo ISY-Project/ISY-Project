@@ -46,7 +46,6 @@ public class InfoPanel extends JPanel {
         this.tickTackToeGrid = tickTackToeGrid;
         JButton resetButton = new JButton("Reset");
         JButton backButton = new JButton("Back");
-        resetButton.setPreferredSize(new Dimension(100, 100));
         resetButton.addActionListener(resetTickTackToeListener());
         backButton.addActionListener(backTicListener());
         this.yourChar.setEnabled(false);
@@ -78,12 +77,15 @@ public class InfoPanel extends JPanel {
         return (ActionEvent e) -> {
             tickTackToeGrid.clearGrid();
             forfeit();
+            tickTackToeGrid.setIsPlayerX(false);
+            tickTackToeGrid.setFirstMove(true);
             Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             setYourTurnLabel("Wait on opponent");
             setPlayerChar(" ");
-            Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
-            Main.setGameType(GameType.TTT);
+            Main.setGameType(GameType.NONE);
             Main.toggleTTTGrid();
+            Main.setGameType(GameType.TTT);
+            Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
         };
     }
 
@@ -93,8 +95,8 @@ public class InfoPanel extends JPanel {
             Main.getMainFrame().getBattleshipGUI().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
             Main.setGameType(GameType.NONE);
-            setYourTurnLabel("Wait on opponent");
             Main.toggleBattleshipGrid();
+            setYourTurnLabel("Wait on opponent");
         };
     }
 
@@ -102,11 +104,14 @@ public class InfoPanel extends JPanel {
         return (ActionEvent e) -> {
             tickTackToeGrid.clearGrid();
             forfeit();
+            tickTackToeGrid.setIsPlayerX(false);
+            tickTackToeGrid.setFirstMove(true);
+            Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
             Main.setGameType(GameType.NONE);
+            Main.toggleTTTGrid();
             setYourTurnLabel("Wait on opponent");
             setPlayerChar(" ");
-            Main.toggleTTTGrid();
         };
     }
 
