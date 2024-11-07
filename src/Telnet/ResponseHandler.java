@@ -1,5 +1,6 @@
 package src.Telnet;
 
+import src.GameType;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.ServerEvent;
@@ -12,7 +13,7 @@ public class ResponseHandler {
     }
 
     public boolean handle(String response) {
-        if (!this.eventHandler.isValidGameType()) {
+        if (!this.eventHandler.isValidGameType(determineGameType(response))) {
             return false;
         }
         String[] responseArray = response.split(" ");
@@ -25,6 +26,10 @@ public class ResponseHandler {
             handleErrorEvent(response);
         }
         return true;
+    }
+
+    private GameType determineGameType(String response) {
+        return GameType.valueOf(parseMove(response)[1]);
     }
 
     private void handleErrorEvent(String response) {
