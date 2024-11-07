@@ -84,6 +84,7 @@ public class ResponseHandler {
 
     private void handleYourTurnEvent(String[] responseArray) {
         this.eventHandler.onYourTurn(responseArray[2]);
+        System.out.println("handleYourTurnEvent");
     }
 
     private void handleMatchEvent(String response) {

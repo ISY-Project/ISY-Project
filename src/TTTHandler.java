@@ -12,6 +12,7 @@ public class TTTHandler extends EventHandler {
 
     public TTTHandler(TickTackToeGrid tickTackToeGrid) {
         super(GameType.TTT);
+        System.out.println("TTTHandler created");
         this.tickTackToeGrid = tickTackToeGrid;
         this.mainFrame = Main.getMainFrame();
     }
@@ -40,6 +41,7 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onYourTurn(String message) {
+        System.out.println("Your turn TTT");
         mainFrame.setIsPlayerTurn(true);
         if (tickTackToeGrid.isFirstMove()) {
             tickTackToeGrid.setIsPlayerX(true);

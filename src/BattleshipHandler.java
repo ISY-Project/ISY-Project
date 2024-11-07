@@ -25,6 +25,7 @@ public class BattleshipHandler extends EventHandler {
 
     public BattleshipHandler() {
         super(GameType.BATTLESHIP);
+        System.out.println("BattleshipHandler created");
         this.mainFrame = Main.getMainFrame();
         this.battleshipGUI = mainFrame.getBattleshipGUI();
         this.playerGrid = battleshipGUI.getPlayerGrid();
@@ -66,6 +67,8 @@ public class BattleshipHandler extends EventHandler {
 
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
+        battleshipGUI.getInfoPanel().setYourTurnLabel("It's Your turn");
+        System.out.println("Your turn Battle");
         if (placeStage) {
             if (mainFrame.getAlgorithmOn()) {
                 for (@SuppressWarnings("unused") int i: engine.getShips()){

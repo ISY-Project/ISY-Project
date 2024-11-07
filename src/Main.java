@@ -125,12 +125,16 @@ public class Main {
             while (response.contains("")) {
                 client.showMessage("Received: " + response);
                 if (response.contains("Tic-tac-toe")) {
+                    System.out.println("Tic-tac-toe");
                     tttResponseHandler.handle(response);
                 } else if (response.contains("Battleship")) {
+                    System.out.println("Battleship");
                     battleshipResponseHandler.handle(response);
                 } else {
+                    System.out.println("Unknown game");
                     // let the tic tac toe handler handle the message
                     tttResponseHandler.handle(response);
+                    battleshipResponseHandler.handle(response);
                 }
                 if (gameType == GameType.ENDGAME) {gameType = GameType.NONE;} // Reset the gameType after every handler ran.
                 response = client.receiveMessage();

@@ -9,17 +9,21 @@ import src.Telnet.Responses.ServerEvent;
 
 public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
     final Logout logout = new Logout();
-    private final GameType gameType;
+    private GameType gameType;
 
     // TODO: get a gametype from the SVR GAME MATCH response.
     public boolean isValidGameType() {
+        System.out.println(Main.getGameType() + " " + this.gameType);
         if (Main.getGameType() == GameType.NONE || Main.getGameType() == this.gameType) {
+            System.out.println("Valid game type");
             return true;
         }
+        System.out.println("Invalid game type");
         return false;
     }
 
     public EventHandler(GameType gameType) {
+        System.out.println(gameType);
         this.gameType = gameType;
     }
 
