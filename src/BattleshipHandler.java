@@ -24,7 +24,7 @@ public class BattleshipHandler extends EventHandler {
     private boolean placeStage = true;
 
     public BattleshipHandler() {
-        super(GameType.BATTLESHIP);
+        super(GameType.Battleship);
         this.mainFrame = Main.getMainFrame();
         this.battleshipGUI = mainFrame.getBattleshipGUI();
         this.playerGrid = battleshipGUI.getPlayerGrid();
@@ -55,7 +55,7 @@ public class BattleshipHandler extends EventHandler {
             Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
         }
-        Main.setGameType(GameType.BATTLESHIP);
+        Main.setGameType(GameType.Battleship);
         Main.toggleBattleshipGrid();
         playerGrid.resetGrid();
         opponentGrid.resetGrid();
