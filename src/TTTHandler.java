@@ -34,7 +34,7 @@ public class TTTHandler extends EventHandler {
         }
         Main.setGameType(GameType.TTT);
         tickTackToeGrid.clearGrid();
-        this.showMessage("Match started"); // TODO: show opponent name.
+        this.showMessage("Match started");
     }
 
     public void onYourTurn(String message) {
