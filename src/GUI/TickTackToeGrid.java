@@ -80,7 +80,7 @@ public class TickTackToeGrid extends JPanel {
         if (player.equals(Main.getPlayerName())) {
             mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("Opponent's turn");
         } else {
-            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("It's Your turn");
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("Your turn");
         }
     }
 

@@ -18,14 +18,15 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onChallenge(String playerName, int game, int gameNumber) {
-        this.showMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
+        this.showServerMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
     }
 
     public void onCancel(int gameNumber) {
-        this.showMessage("Game " + gameNumber + " has been canceled");
+        this.showServerMessage("Game " + gameNumber + " has been canceled");
     }
 
     public void onMatch() {
+        tickTackToeGrid.setFirstMove(true);
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             Main.getMainFrame().showScreen(Screens.TTT);
@@ -34,57 +35,75 @@ public class TTTHandler extends EventHandler {
         Main.setGameType(GameType.TTT);
         Main.toggleTTTGrid();
         tickTackToeGrid.clearGrid();
-        this.showMessage("Match started");
+        this.showServerMessage("Match started");
     }
 
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
+        if (tickTackToeGrid.isFirstMove()) {
+            tickTackToeGrid.setIsPlayerX(true);
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("It's Your turn");
+            this.showServerMessage("You are player X");
+            this.showServerMessage("It's your turn");
+        }
+        mainFrame.getTickTackToe().getInformationPanel().setPlayerChar(tickTackToeGrid.isIsPlayerX() ? "X" : "O");
         if (mainFrame.getAlgorithmOn()) {
             tickTackToeGrid.algMakeMove();
         }
-        this.showMessage("Your turn: " + message);
     }
 
     public void onMove(String[] data) {
+        if (tickTackToeGrid.isFirstMove()) {
+            tickTackToeGrid.setFirstMove(false);
+            if (!tickTackToeGrid.isIsPlayerX()) {
+                this.showServerMessage("It's your turn");
+            }
+        }
         String player = data[0];
         String move = data[1];
         MoveResponse result = MoveResponse.valueOf(data[2]);
         if (result.equals(MoveResponse.TICKTACKTOE)) {
-            this.showMessage(player + " made a move: " + move + " in " + result);
+            // this.showServerMessage(player + " made a move: " + move + " in " + result); 
+            // Niet nodig om te laten zien
             tickTackToeGrid.updateGrid(Integer.parseInt(move), player);
             return;
         }
-        this.showMessage(player + " made a move: " + move + " " + result);
+        this.showServerMessage(player + " made a move: " + move + " " + result);
     }
 
     public void onWin() {
-        showMessage("Win");
+        this.showServerMessage("You won the game");
         JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
         Main.setGameType(GameType.ENDGAME);
     }
 
     public void onLose() {
-        showMessage("Lose");
+        this.showServerMessage("You lost the game");
         JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
         Main.setGameType(GameType.ENDGAME);
     }
 
     public void onDraw() {
-        showMessage("Draw");
+        this.showServerMessage("The game ended in a draw");
         JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
         Main.setGameType(GameType.ENDGAME);
     }
 
     public void onHelp(String message) {
-        showMessage(message);
+        this.showServerMessage(message);
     }
 
     public void onError(String message) {
-        showMessage(message);
+        this.showServerMessage(message);
     }
 
     public void showMessage(String message) {
         Main.getMainFrame().getTickTackToe().getChatBox().addMessage("You", message);
+    }
+
+    public void showServerMessage(String message) {
+        System.out.println("Received: " + message);
+        Main.getMainFrame().getTickTackToe().getChatBox().addMessage("Server", message);
     }
 
     public void onMessage(String message) {

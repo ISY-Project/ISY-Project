@@ -1,6 +1,7 @@
 package src.GUI;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +10,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import src.GameType;
 import src.Main;
 import src.Telnet.Subscribe;
@@ -18,6 +18,7 @@ public class InfoPanel extends JPanel {
     private Ships ships;
     private TickTackToeGrid tickTackToeGrid;
     private final JLabel turnLabel = new JLabel("Wait on opponent");
+    private final JButton yourChar = new JButton(" ");
 
     public InfoPanel(Ships ships) {
         super(new GridLayout(3, 0));
@@ -48,10 +49,18 @@ public class InfoPanel extends JPanel {
         resetButton.setPreferredSize(new Dimension(100, 100));
         resetButton.addActionListener(resetTickTackToeListener());
         backButton.addActionListener(backTicListener());
+        this.yourChar.setEnabled(false);
+        this.yourChar.setFont(new Font("Arial", Font.BOLD, 60));
+        this.yourChar.setFocusPainted(false);
 
         this.add(resetButton);
         this.add(backButton);
+        this.add(this.yourChar);
         this.add(this.turnLabel);
+    }
+
+    public void setPlayerChar(String playerChar) {
+        this.yourChar.setText(playerChar);
     }
 
     public void setYourTurnLabel(String text) {
@@ -71,6 +80,7 @@ public class InfoPanel extends JPanel {
             forfeit();
             Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             setYourTurnLabel("Wait on opponent");
+            setPlayerChar(" ");
             Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
             Main.setGameType(GameType.TTT);
             Main.toggleTTTGrid();
@@ -83,7 +93,7 @@ public class InfoPanel extends JPanel {
             Main.getMainFrame().getBattleshipGUI().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
             Main.setGameType(GameType.NONE);
-            setYourTurnLabel("Not in game");
+            setYourTurnLabel("Wait on opponent");
             Main.toggleBattleshipGrid();
         };
     }
@@ -94,7 +104,8 @@ public class InfoPanel extends JPanel {
             forfeit();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
             Main.setGameType(GameType.NONE);
-            setYourTurnLabel("Not in game");
+            setYourTurnLabel("Wait on opponent");
+            setPlayerChar(" ");
             Main.toggleTTTGrid();
         };
     }
