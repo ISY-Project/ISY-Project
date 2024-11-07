@@ -126,7 +126,7 @@ public class BattleshipHandler extends EventHandler {
                 return;
             } else if (result.equals(MoveResponse.GEZONKEN)) {
                 int shipSize = Integer.parseInt(data[3]);
-                engine.sink(shipSize);
+                engine.sink(shipSize); // CRITICAL: Fix shooting same spot twice after sink. 
                 return;
             }
         } else {
