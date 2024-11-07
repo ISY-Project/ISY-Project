@@ -1,6 +1,7 @@
 package src;
 
 import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
@@ -50,7 +51,7 @@ public class BattleshipHandler extends EventHandler {
     }
 
     public void onMatch() {
-        if (Main.getGameType() == GameType.FIRSTBOOT) {
+        if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
