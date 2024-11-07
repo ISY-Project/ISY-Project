@@ -59,8 +59,9 @@ public class InfoPanel extends JPanel {
     }
 
     private void forfeit() {
-        if (Main.getGameType() != GameType.NONE || Main.getGameType() != GameType.TTT) {
+        if (Main.getGameType() != GameType.NONE) {
             Main.getTelnetClient().sendMessage("forfeit");
+            Main.setGameType(GameType.NONE);
         }
     }
 
@@ -71,7 +72,7 @@ public class InfoPanel extends JPanel {
             Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             setYourTurnLabel("Wait on opponent");
             Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
-            Main.setGameType(GameType.NONE);
+            Main.setGameType(GameType.TTT);
             Main.toggleTTTGrid();
         };
     }
@@ -81,8 +82,8 @@ public class InfoPanel extends JPanel {
             forfeit();
             Main.getMainFrame().getBattleshipGUI().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
-            setYourTurnLabel("Not in game");
             Main.setGameType(GameType.NONE);
+            setYourTurnLabel("Not in game");
             Main.toggleBattleshipGrid();
         };
     }
@@ -111,8 +112,8 @@ public class InfoPanel extends JPanel {
     private ActionListener resetShipsActionListener() {
         return (ActionEvent e) -> {
             forfeit();
-            Main.setGameType(GameType.NONE);
             Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());
+            Main.setGameType(GameType.BATTLESHIP);
             Main.toggleBattleshipGrid();
         };
     }
