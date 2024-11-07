@@ -1,55 +1,83 @@
 package src;
 
 import java.util.Random;
-
+import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
-import src.GUI.TickTackToeGui;
-import src.GameEngine.BattleshipEngine;
-import src.GameEngine.TTTEngine;
+import src.GUI.TickTackToe;
 import src.Telnet.Login;
 import src.Telnet.Message;
+import src.Telnet.Move;
 import src.Telnet.ResponseHandler;
-import src.Telnet.Subscribe;
 import src.Telnet.TelnetClient;
 
 public class Main {
-    private static final String NAME = genName();
+    private static final String NAME = showGetName();
     private static final String HOST = "65.21.191.106";
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
-    private static final TelnetClient client = new TelnetClient();
-    // Engines
-    private static final BattleshipEngine battleshipEngine = new BattleshipEngine(10, "Player1", "Player2");
-    private static final TTTEngine tttEngine = new TTTEngine(3, "PlayerX", "PlayerO");
-    // GUI
     private static final MainFrame GUI_Frame = new MainFrame();
-    // Battleship
     private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, battleshipGUI, battleshipEngine);
-    private static final ResponseHandler responseHandler = new ResponseHandler(client, battleshipHandler);
-    /// TicTacToe
-    private static final TickTackToeGui tickTackToeGUI = GUI_Frame.getTickTackToe();
-    private static final TTTHandler tttHandler = new TTTHandler(client, tickTackToeGUI, NAME, tttEngine);
-    private static final ResponseHandler TTTResponseHandler = new ResponseHandler(client, tttHandler);
+    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final TelnetClient client = new TelnetClient();
+    private static final TTTHandler tttHandler = new TTTHandler(tickTackToeGUI.getTickTackToeGrid());
+    private static final ResponseHandler tttResponseHandler = new ResponseHandler(tttHandler);
+    // private static final GameEngine;
+    // private static final Algorithm;
+    // private static final BattleshipEngine battleshipEngine = new
+    // BattleshipEngine(8, "test", "test2");
+    private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
+    private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
+    private static GameType gameType = GameType.FIRSTBOOT;
 
-    public static void main(String[] args) {
-        Message message = new Message(NAME + " Here to win the game!1!"); // TODO: add more messages
-
-        initializeChatBoxes();
-        connectToServer(message);
+    public static GameType getGameType() {
+        return gameType;
     }
 
-    public static TTTEngine getTTTEngine() {
-        return tttEngine;
+    public static void setGameType(GameType gameType) {
+        Main.gameType = gameType;
     }
 
-    public static BattleshipEngine getBattleshipEngine() {
-        return battleshipEngine;
+    public static void toggleBattleshipGrid() {
+        if (gameType == GameType.BATTLESHIP) {
+            GUI_Frame.getBattleshipGUI().getPlayerGrid().enableGrid();
+            GUI_Frame.getBattleshipGUI().getOpponentGrid().enableGrid();
+        } else {
+            GUI_Frame.getBattleshipGUI().getPlayerGrid().disableGrid();
+            GUI_Frame.getBattleshipGUI().getOpponentGrid().disableGrid();
+        }
     }
 
-    public static TelnetClient getClient() {
+    public static void toggleTTTGrid() {
+        if (gameType == GameType.TTT) {
+            GUI_Frame.getTickTackToe().getTickTackToeGrid().enableGrid();
+        } else {
+            GUI_Frame.getTickTackToe().getTickTackToeGrid().disableGrid();
+        }
+    }
+
+    public static TelnetClient getTelnetClient() {
         return client;
+    }
+
+    public static MainFrame getMainFrame() {
+        return GUI_Frame;
+    }
+
+    // public static BattleshipEngine getBattleshipEngine() {
+    // return battleshipEngine;
+    // }
+
+    public static String getPlayerName() {
+        return NAME;
+    }
+
+    public static String showGetName() {
+        String name = JOptionPane.showInputDialog("What is your game name?");
+        if (name == null || name.isEmpty()) {
+            return genName();
+        }
+        return name;
     }
 
     private static String genName() {
@@ -66,11 +94,15 @@ public class Main {
         return generatedString;
     }
 
-    public static void joinGameLobby(Subscribe game) {
-        client.sendMessage(game.get());
+    public void sendMove(Move move) {
+        client.sendMessage(move.get());
     }
 
-    private static void initializeChatBoxes() {
+    public static void main(String[] args) throws Exception {
+        GUI_Frame.setTitle(NAME); // Set the title of the window
+
+        Message message = new Message(Messages.getRandomMessage().getValue());
+
         battleshipGUI.getChatBox().getChatArea().addActionListener((java.awt.event.ActionEvent e) -> {
             String msg = battleshipGUI.getChatBox().getChatArea().getText();
             if (!msg.isEmpty()) {
@@ -84,61 +116,24 @@ public class Main {
                 client.sendMessage(new Message(msg).get());
             }
         });
-    }
 
-    private static void connectToServer(Message message) {
         try {
             client.connect(HOST, PORT);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void runTicTacToeComp() {
-        try {
             String response = client.receiveMessage();
-            while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
+            while (response.contains("")) {
                 client.showMessage("Received: " + response);
-                TTTResponseHandler.handle(response);
+                tttResponseHandler.handle(response);
+                battleshipResponseHandler.handle(response);
+                if (gameType == GameType.ENDGAME) {gameType = GameType.NONE;} // Reset the gameType after every handler ran.
                 response = client.receiveMessage();
-                if (response == null) {
-                    break;
-                }
             }
+            JOptionPane.showMessageDialog(GUI_Frame, "Connection lost");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                client.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public static void runBattleshipComp() {
-        try {
-            // TODO: Place ships.
-            // handle waiting for the game to start
-            String response = client.receiveMessage();
-            while (response.contains("")) { // replace while loop with calls from the translation layer and GUI
-                client.showMessage("Received: " + response);
-                responseHandler.handle(response);
-                response = client.receiveMessage();
-                if (response == null) {
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                client.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            client.close();
         }
     }
 }

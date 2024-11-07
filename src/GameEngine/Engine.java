@@ -2,8 +2,8 @@ package src.GameEngine;
 
 public class Engine {
     // private Board board;
-    private Player player1;
-    private Player player2;
+    private final Player player1;
+    private final Player player2;
     private Player currentPlayer;
     private boolean isPlayerTurn;
     private boolean algorithmOn;

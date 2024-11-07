@@ -4,7 +4,9 @@ package src.Telnet.Responses;
 public enum MoveResponse {
     PLONS("Plons"),
     BOEM("Boem"),
-    TICKTACKTOE("TickTackToe"),;
+    TICKTACKTOE("TickTackToe"),
+    GEZONKEN("Gezonken"),
+    ;
 
     private final String text;
 

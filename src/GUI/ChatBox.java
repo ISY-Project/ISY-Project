@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+
 public class ChatBox extends JPanel {
     private final JTextArea chatView;
     private final JTextField chatArea;
@@ -36,6 +37,7 @@ public class ChatBox extends JPanel {
             String msg = chatArea.getText();
             if (!msg.isEmpty()) {
                 addMessage("You", msg);
+                // Main.getTelnetClient().sendMessage(msg); // TODO: create a special text field for sending commands.
             }
         });
 
@@ -47,6 +49,7 @@ public class ChatBox extends JPanel {
         String currentText = chatView.getText();
         if (!currentText.isEmpty()) {
             chatView.setText(currentText + "\n" + message);
+            chatView.setCaretPosition(chatView.getDocument().getLength());
         } else {
             chatView.setText(message);
         }
@@ -63,6 +66,10 @@ public class ChatBox extends JPanel {
 
     public JTextArea getChatView() {
         return chatView;
+    }
+
+    public void clearChat() {
+        chatView.setText("");
     }
 
 }

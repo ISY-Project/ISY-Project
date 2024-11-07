@@ -21,11 +21,37 @@ public class OpponentGrid extends JPanel {
         return this.grid;
     }
 
+    public void resetGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setBackground(Color.blue);
+            }
+        }
+    }
+
+    public void enableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(true);
+                cell.setBackground(Color.BLUE);
+            }
+        }
+    }
+
+    public void disableGrid() {
+        for (var row : this.grid) {
+            for (var cell : row) {
+                cell.setEnabled(false);
+                cell.setBackground(Color.GRAY);
+            }
+        }
+    }
     // Initialize opponent grid (simplified)
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 var cell = new GridCell();
+                cell.setText(row * gridSize + col + "");
                 cell.addActionListener((ActionEvent e) -> {
                     // When a player clicks on their grid to place a ship
                     // TODO - Send shot message to the server and wait for response
@@ -41,5 +67,6 @@ public class OpponentGrid extends JPanel {
                 this.grid[row][col] = cell;
             }
         }
+        disableGrid();
     }
 }

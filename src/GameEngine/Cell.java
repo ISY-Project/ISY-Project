@@ -1,8 +1,8 @@
 package src.GameEngine;
 
 public class Cell<T> {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private T Value;
 
     public Cell(int x, int y, T value) {

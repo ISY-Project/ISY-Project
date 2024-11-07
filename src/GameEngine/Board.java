@@ -1,8 +1,8 @@
 package src.GameEngine;
 
 public class Board<T> {
-    private Cell<T>[][] board;
-    private int size;
+    private final Cell<T>[][] board;
+    private final int size;
 
     @SuppressWarnings("unchecked")
     public Board(int size, T defaultValue) {
@@ -10,7 +10,7 @@ public class Board<T> {
         this.board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                this.board[i][j] = new Cell<T>(i, j, defaultValue);
+                this.board[i][j] = new Cell<>(i, j, defaultValue);
             }
         }
     }
@@ -27,6 +27,7 @@ public class Board<T> {
         return this.size;
     }
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < this.size; i++) {

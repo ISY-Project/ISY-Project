@@ -3,33 +3,7 @@ package src.Telnet;
 public class Place {
     private final String command;
 
-    public Place(int start_index, int end_index, String direction) {
-        this.command = "place " + start_index + " " + end_index;
-    }
-
-    public Place(int x, int y, Direction direction, int size) {
-        int start_index = 0;
-        int end_index = 0;
-        switch (direction) {
-            case NORTH -> {
-                start_index = x * (y - size);
-                end_index = x * y;
-            }
-            case EAST -> {
-                start_index = (x - size) * y;
-                end_index = x * y;
-            }
-            case SOUTH -> {
-                start_index = x * y;
-                end_index = x * (y + size);
-            }
-            case WEST -> {
-                start_index = x * y;
-                end_index = (x + size) * y;
-            }
-            default -> {
-            }
-        }
+    public Place(int start_index, int end_index) {
         this.command = "place " + start_index + " " + end_index;
     }
 

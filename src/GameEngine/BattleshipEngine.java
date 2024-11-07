@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class BattleshipEngine extends Engine {
     private BattleshipBoard board;
-    private BattleshipBoard opponentBoard;
 
     public BattleshipEngine(int size, String player1Name, String player2Name) {
         super(size, player1Name, player2Name);
@@ -61,21 +60,19 @@ public class BattleshipEngine extends Engine {
         boolean isHorizontal = ship.isHorizontal();
 
         if (x > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y))) {return false;};
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y + 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y))) {return false;}
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y + 1))) {return false;}
         }
         if (y > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y - 1))) {return false;};
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y - 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y - 1))) {return false;}
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y - 1))) {return false;}
         }
         if (x > 0 && y > 0) {
-            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y - 1))) {return false;};
+            if (!isValidShipPlacement(new Ship(size, isHorizontal, x - 1, y - 1))) {return false;}
         }
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y + 1))) {return false;};
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y))) {return false;};
-        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y + 1))) {return false;};
-
-        return true;
+        if (!isValidShipPlacement(new Ship(size, isHorizontal, x, y + 1))) {return false;}
+        if (!isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y))) {return false;}
+        return isValidShipPlacement(new Ship(size, isHorizontal, x + 1, y + 1));
     }
 
     public void placeShip(Ship ship) {
@@ -149,19 +146,6 @@ public class BattleshipEngine extends Engine {
     public int[] getBestShipSpot(int size, boolean isHorizontal) {
         // Implement this method
         return new int[] {0, 0};
-    }
-
-    public Ship RandomShipSpot(int size) {
-        Random random = new Random();
-        while (true) {
-            int x = random.nextInt(this.board.getSize());
-            int y = random.nextInt(this.board.getSize());
-            boolean isHorizontal = random.nextBoolean();
-            Ship ship = new Ship(size, isHorizontal, x, y);
-            if (this.isValidShipPlacement(ship)){
-                return ship;
-            }
-        }
     }
 
     public static void main(String[] args) {

@@ -9,6 +9,11 @@ public class Ship {
         this.isVertical = true;
     }
 
+    public Ship(int size, boolean isVertical) {
+        this.size = size;
+        this.isVertical = isVertical;
+    }
+
     public boolean isVertical() {
         return isVertical;
     }

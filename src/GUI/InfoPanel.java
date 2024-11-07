@@ -1,7 +1,7 @@
 package src.GUI;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,52 +10,104 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import src.GameType;
+import src.Main;
+import src.Telnet.Subscribe;
 
 public class InfoPanel extends JPanel {
     private Ships ships;
-    private PlayerGrid playerGrid;
-    private OpponentGrid opponentGrid;
+    private TickTackToeGrid tickTackToeGrid;
+    private final JLabel turnLabel = new JLabel("Wait on opponent");
+    private final JButton yourChar = new JButton(" ");
 
-    // Battleship infoPanel
-    public InfoPanel(Ships ships, PlayerGrid playerGrid, OpponentGrid opponentGrid) {
+    public InfoPanel(Ships ships) {
         super(new GridLayout(3, 0));
         this.ships = ships;
-        this.playerGrid = playerGrid;
-        this.opponentGrid = opponentGrid;
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         JButton resetButton = new JButton("Reset Ships");
         JButton rotateButton = new JButton("Rotate Ship");
+        JButton backButton = new JButton("Back");
         resetButton.addActionListener(resetShipsActionListener());
         rotateButton.addActionListener(RotateShipActionListener());
+        backButton.addActionListener(backBattleListener());
 
-        this.add(resetButton);
-        this.add(rotateButton);
         this.add(new JLabel("Select a ship to place on the grid:"));
         this.add(new JLabel("Available Ships:" + Arrays.toString(ships.ShipSizes())));
-        // TODO: add information about turns. (Current, limit, player's turn etc.)
+        this.add(rotateButton);
+        this.add(this.turnLabel);
+        this.add(resetButton);
+        this.add(backButton);
     }
 
-    // TicTacToe infoPanel
-    public InfoPanel(PlayerGrid playerGrid) {
+    public InfoPanel(TickTackToeGrid tickTackToeGrid) {
         super(new GridLayout(4, 0));
-        this.playerGrid = playerGrid;
+        setSize(new Dimension(150, 600));
         this.setBorder(BorderFactory.createTitledBorder("Information"));
+        this.tickTackToeGrid = tickTackToeGrid;
         JButton resetButton = new JButton("Reset");
-        resetButton.setPreferredSize(new Dimension(100, 100));
+        JButton backButton = new JButton("Back");
         resetButton.addActionListener(resetTickTackToeListener());
+        backButton.addActionListener(backTicListener());
+        this.yourChar.setEnabled(false);
+        this.yourChar.setFont(new Font("Arial", Font.BOLD, 60));
+        this.yourChar.setFocusPainted(false);
 
         this.add(resetButton);
-        // TODO: add information about turns. (Current, limit, player's turn etc.)
+        this.add(backButton);
+        this.add(this.yourChar);
+        this.add(this.turnLabel);
+    }
+
+    public void setPlayerChar(String playerChar) {
+        this.yourChar.setText(playerChar);
+    }
+
+    public void setYourTurnLabel(String text) {
+        this.turnLabel.setText(text);
+    }
+
+    private void forfeit() {
+        if (Main.getGameType() != GameType.NONE) {
+            Main.getTelnetClient().sendMessage("forfeit");
+            Main.setGameType(GameType.NONE);
+        }
     }
 
     private ActionListener resetTickTackToeListener() {
         return (ActionEvent e) -> {
-            for (var row : playerGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setText("");
-                    cell.setForeground(Color.black);
-                }
-            }
+            tickTackToeGrid.clearGrid();
+            forfeit();
+            tickTackToeGrid.setIsPlayerX(false);
+            tickTackToeGrid.setFirstMove(true);
+            Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
+            setYourTurnLabel("Wait on opponent");
+            setPlayerChar(" ");
+            Main.toggleTTTGrid();
+            Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
+        };
+    }
+
+    private ActionListener backBattleListener() {
+        return (ActionEvent e) -> {
+            forfeit();
+            Main.getMainFrame().getBattleshipGUI().getChatBox().clearChat();
+            Main.getMainFrame().showScreen(Screens.START_SCREEN);
+            Main.toggleBattleshipGrid();
+            setYourTurnLabel("Wait on opponent");
+        };
+    }
+
+    private ActionListener backTicListener() {
+        return (ActionEvent e) -> {
+            tickTackToeGrid.clearGrid();
+            forfeit();
+            tickTackToeGrid.setIsPlayerX(false);
+            tickTackToeGrid.setFirstMove(true);
+            Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
+            Main.getMainFrame().showScreen(Screens.START_SCREEN);
+            Main.toggleTTTGrid();
+            setYourTurnLabel("Wait on opponent");
+            setPlayerChar(" ");
         };
     }
 
@@ -68,19 +120,12 @@ public class InfoPanel extends JPanel {
         };
     }
 
+    
     private ActionListener resetShipsActionListener() {
         return (ActionEvent e) -> {
-            for (var row : playerGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setBackground(Color.BLUE);
-                }
-            }
-            for (var row : opponentGrid.getGrid()) {
-                for (var cell : row) {
-                    cell.setBackground(Color.BLUE);
-                }
-            }
+            forfeit();
+            Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());
+            Main.toggleBattleshipGrid();
         };
     }
-
 }
