@@ -28,8 +28,8 @@ public class GameClient implements Runnable {
     private final Map<String, JPanel> GUIs = new HashMap<>();
     private final Map<String, BaseEngine> engines = new HashMap<>();
     private final MainFrame GUI_Frame; // TODO: move into GUIs.
-    private final BattleshipGUI battleshipGUI; // TOOD move into GUIs.
-    private final TickTackToeGui tickTackToeGUI; // TOOD move into GUIs.
+    private final BattleshipGUI battleshipGUI; // TODO move into GUIs.
+    private final TickTackToeGui tickTackToeGUI; // TODO move into GUIs.
     private final TelnetClient telnetClient = new TelnetClient();
     private PlayingGameState playingState = PlayingGameState.PRE_GAME_SETUP;
 
