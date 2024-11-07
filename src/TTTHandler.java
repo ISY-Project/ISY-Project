@@ -28,7 +28,7 @@ public class TTTHandler extends EventHandler {
     public void onMatch() {
         tickTackToeGrid.setFirstMove(true);
         tickTackToeGrid.setIsPlayerX(false);
-        if (Main.getGameType() == PlayingGameState.FIRSTBOOT) {
+        if (Main.getGameType() == PlayingGameState.PRE_GAME_SETUP) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             System.out.println("forced starting TTT game");
             mainFrame.setAlgorithmOn(true);

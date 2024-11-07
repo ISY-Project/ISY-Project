@@ -30,7 +30,7 @@ public class Main {
     // BattleshipEngine(8, "test", "test2");
     private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
     private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
-    private static PlayingGameState gameType = PlayingGameState.FIRSTBOOT;
+    private static PlayingGameState gameType = PlayingGameState.PRE_GAME_SETUP;
 
     public static PlayingGameState getGameType() {
         return gameType;

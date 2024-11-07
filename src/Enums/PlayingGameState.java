@@ -3,7 +3,7 @@ package src.Enums;
 public enum PlayingGameState {
     NONE,
     ENDGAME,
-    FIRSTBOOT,
+    PRE_GAME_SETUP,
     BATTLESHIP,
     TTT;
 

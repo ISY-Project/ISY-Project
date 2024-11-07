@@ -1,8 +1,10 @@
 package src.Engines.GameEngineBattleship;
 import src.ALG.battleshipbot.Heatmap;
 import src.ALG.battleshipbot.Positions;
+import src.Engines.BaseEngine;
 
-public class GameMasterBattleship{
+public class GameMasterBattleship extends BaseEngine {
+    // Misschien kunnen de playerField/opponentField/playerShipLocations/opponentShipLocations in een BattleshipField sub-class?
     private int[] playerField;
     private int[] opponentField;
     private int[][] playerShipLocations;
@@ -11,7 +13,7 @@ public class GameMasterBattleship{
     private boolean[] rules;
     private int ship_count;
     private Heatmap heatmap;
-    // private int[] enemy_ship_locs; //TODO need this later, not for vrijdag/comp build
+    // private int[] opponentShipLocations; //TODO need this later, not for vrijdag/comp build
     
     public long[] getHeatmap() {
         return heatmap.getHeatmap();
