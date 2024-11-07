@@ -68,13 +68,24 @@ public class BattleshipHandler extends EventHandler {
         int[] coords = engine.placeRandomShip();
         begin = coords[0];
         end = coords[1];
-        size = end - begin + 1;
+        boolean isVertical = (begin - end) % playerGrid.getGridSize() == 0;
+        size = calculate_size(begin, end, isVertical);
         placeShip(begin, end, size);
     }
 
+    private int calculate_size(int begin, int end, boolean isVertical) {
+        int size;
+        if (isVertical) {
+            size = (end - begin) / playerGrid.getGridSize() + 1;
+        } else {
+            size = (end - begin) + 1;
+        }
+        return size;
+    }
+
     private void placeShip(int begin, int end, int size) {
-        int row = begin / 8;
-        int col = begin % 8;
+        int row = begin / playerGrid.getGridSize();
+        int col = begin % playerGrid.getGridSize();
         boolean isVertical = (begin - end) % 8 == 0;
         Ship ship = new Ship(size, isVertical);
         this.playerGrid.placeShip(row, col, ship);
