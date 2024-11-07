@@ -4,11 +4,11 @@ import java.awt.CardLayout;
 import javax.swing.*;
 
 public final class MainFrame extends JFrame {
+    private Boolean algorithmOn = false;
+    private Boolean isPlayerTurn = false;
     private final StartScreen startScreen = new StartScreen(this);
     private final BattleshipGUI battleshipGUI = new BattleshipGUI(this);
     private final TickTackToe tickTackToe = new TickTackToe(this);
-    private Boolean algorithmOn = false;
-    private Boolean isPlayerTurn = false;
     private static final JOptionPane jOptionPane = new JOptionPane();
 
     public MainFrame() {
