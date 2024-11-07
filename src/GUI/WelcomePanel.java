@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import src.GameType;
 import src.Main;
 import src.Telnet.Subscribe;
 
