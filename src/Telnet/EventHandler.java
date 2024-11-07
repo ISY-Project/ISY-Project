@@ -1,6 +1,8 @@
 package src.Telnet;
 
-import src.GameType;
+import src.Enums.PlayingGameState;
+import src.Telnet.Commands.Logout;
+import src.Telnet.Events.Error;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.ServerEvent;
@@ -8,20 +10,20 @@ import src.Telnet.Responses.ServerEvent;
 
 public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
     final Logout logout = new Logout();
-    private final GameType gameType;
+    private final PlayingGameState gameType;
 
-    public GameType getGameType() {
+    public PlayingGameState getGameType() {
         return gameType;
     }
 
-    public boolean isValidGameType(GameType gameType) {
+    public boolean isValidGameType(PlayingGameState gameType) {
         if (gameType != this.gameType) {
             return false;
         }
         return true;
     }
 
-    public EventHandler(GameType gameType) {
+    public EventHandler(PlayingGameState gameType) {
         this.gameType = gameType;
     }
 

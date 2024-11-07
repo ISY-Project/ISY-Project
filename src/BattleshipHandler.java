@@ -1,18 +1,20 @@
 package src;
 
 import java.awt.Color;
-import src.GUI.BattleshipGUI;
-import src.GUI.MainFrame;
-import src.GUI.OpponentGrid;
-import src.GUI.PlayerGrid;
-import src.GUI.Screens;
-import src.GUI.Ship;
-import src.GameEngineBattleship.GameMasterBattleship;
+
+import src.Engines.GameEngineBattleship.GameMasterBattleship;
+import src.Enums.PlayingGameState;
+import src.Enums.Screens;
+import src.GUI.Components.Ship;
+import src.GUI.Grids.OpponentGrid;
+import src.GUI.Grids.PlayerGrid;
+import src.GUI.Views.BattleshipGUI;
+import src.GUI.Views.MainFrame;
 import src.Telnet.EventHandler;
-import src.Telnet.Move;
-import src.Telnet.Place;
 import src.Telnet.Responses.MoveResponse;
 import src.Telnet.TelnetClient;
+import src.Telnet.Commands.Move;
+import src.Telnet.Commands.Place;
 
 public class BattleshipHandler extends EventHandler {
     private final TelnetClient client;
@@ -24,7 +26,7 @@ public class BattleshipHandler extends EventHandler {
     private boolean placeStage = true;
 
     public BattleshipHandler() {
-        super(GameType.BATTLESHIP);
+        super(PlayingGameState.BATTLESHIP);
         this.mainFrame = Main.getMainFrame();
         this.battleshipGUI = mainFrame.getBattleshipGUI();
         this.playerGrid = battleshipGUI.getPlayerGrid();
@@ -49,13 +51,13 @@ public class BattleshipHandler extends EventHandler {
     }
 
     public void onMatch() {
-        if (Main.getGameType() == GameType.FIRSTBOOT) {
+        if (Main.getGameType() == PlayingGameState.FIRSTBOOT) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             System.out.println("forced starting battle game");
             mainFrame.setAlgorithmOn(true);
         }
         Main.getMainFrame().showScreen(Screens.BATTLESHIP);
-        Main.setGameType(GameType.BATTLESHIP);
+        Main.setGameType(PlayingGameState.BATTLESHIP);
         Main.toggleBattleshipGrid();
         playerGrid.resetGrid();
         opponentGrid.resetGrid();
@@ -155,7 +157,7 @@ public class BattleshipHandler extends EventHandler {
         showMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         placeStage = true;
     }
 
@@ -164,7 +166,7 @@ public class BattleshipHandler extends EventHandler {
         showMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         placeStage = true;
     }
 
@@ -173,7 +175,7 @@ public class BattleshipHandler extends EventHandler {
         showMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, msg);
         battleshipGUI.getInfoPanel().setYourTurnLabel(msg);
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         placeStage = true;
     }
 

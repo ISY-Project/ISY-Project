@@ -1,8 +1,9 @@
 package src;
 
-import src.GUI.MainFrame;
-import src.GUI.Screens;
-import src.GUI.TickTackToeGrid;
+import src.Enums.PlayingGameState;
+import src.Enums.Screens;
+import src.GUI.Grids.TickTackToeGrid;
+import src.GUI.Views.MainFrame;
 import src.Telnet.EventHandler;
 import src.Telnet.Responses.MoveResponse;
 
@@ -11,7 +12,7 @@ public class TTTHandler extends EventHandler {
     private final MainFrame mainFrame;
 
     public TTTHandler(TickTackToeGrid tickTackToeGrid) {
-        super(GameType.TTT);
+        super(PlayingGameState.TTT);
         this.tickTackToeGrid = tickTackToeGrid;
         this.mainFrame = Main.getMainFrame();
     }
@@ -27,15 +28,15 @@ public class TTTHandler extends EventHandler {
     public void onMatch() {
         tickTackToeGrid.setFirstMove(true);
         tickTackToeGrid.setIsPlayerX(false);
-        if (Main.getGameType() == GameType.FIRSTBOOT) {
+        if (Main.getGameType() == PlayingGameState.FIRSTBOOT) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             System.out.println("forced starting TTT game");
             mainFrame.setAlgorithmOn(true);
         }
         Main.getMainFrame().showScreen(Screens.TTT);
-        Main.setGameType(GameType.TTT);
+        Main.setGameType(PlayingGameState.TTT);
         Main.toggleTTTGrid();
-        tickTackToeGrid.clearGrid();
+        tickTackToeGrid.resetGrid();
         this.showServerMessage("Match started");
     }
 
@@ -73,21 +74,21 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onWin() {
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("You won the game");
         // JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
     }
 
     public void onLose() {
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("You lost the game");
         // JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
     }
 
     public void onDraw() {
-        Main.setGameType(GameType.ENDGAME);
+        Main.setGameType(PlayingGameState.ENDGAME);
         Main.toggleTTTGrid();
         this.showServerMessage("The game ended in a draw");
         // JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");

@@ -2,14 +2,16 @@ package src;
 
 import java.util.Random;
 import javax.swing.JOptionPane;
-import src.GUI.BattleshipGUI;
-import src.GUI.MainFrame;
-import src.GUI.TickTackToe;
-import src.Telnet.Login;
-import src.Telnet.Message;
-import src.Telnet.Move;
+
+import src.Enums.PlayingGameState;
+import src.GUI.Views.BattleshipGUI;
+import src.GUI.Views.MainFrame;
+import src.GUI.Views.TickTackToeGui;
 import src.Telnet.ResponseHandler;
 import src.Telnet.TelnetClient;
+import src.Telnet.Commands.Login;
+import src.Telnet.Commands.Message;
+import src.Telnet.Commands.Move;
 
 public class Main {
     private static final String NAME = showGetName();
@@ -18,7 +20,7 @@ public class Main {
     private static final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();
     private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
-    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
+    private static final TickTackToeGui tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
     private static final TTTHandler tttHandler = new TTTHandler(tickTackToeGUI.getTickTackToeGrid());
     private static final ResponseHandler tttResponseHandler = new ResponseHandler(tttHandler);
@@ -28,18 +30,18 @@ public class Main {
     // BattleshipEngine(8, "test", "test2");
     private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
     private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
-    private static GameType gameType = GameType.FIRSTBOOT;
+    private static PlayingGameState gameType = PlayingGameState.FIRSTBOOT;
 
-    public static GameType getGameType() {
+    public static PlayingGameState getGameType() {
         return gameType;
     }
 
-    public static void setGameType(GameType gameType) {
+    public static void setGameType(PlayingGameState gameType) {
         Main.gameType = gameType;
     }
 
     public static void toggleBattleshipGrid() {
-        if (gameType == GameType.BATTLESHIP) {
+        if (gameType == PlayingGameState.BATTLESHIP) {
             GUI_Frame.getBattleshipGUI().getPlayerGrid().enableGrid();
             GUI_Frame.getBattleshipGUI().getOpponentGrid().enableGrid();
         } else {
@@ -49,7 +51,7 @@ public class Main {
     }
 
     public static void toggleTTTGrid() {
-        if (gameType == GameType.TTT) {
+        if (gameType == PlayingGameState.TTT) {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().enableGrid();
         } else {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().disableGrid();
@@ -126,7 +128,7 @@ public class Main {
                 client.showMessage("Received: " + response);
                 tttResponseHandler.handle(response);
                 battleshipResponseHandler.handle(response);
-                if (gameType == GameType.ENDGAME) {gameType = GameType.NONE;} // Reset the gameType after every handler ran.
+                if (gameType == PlayingGameState.ENDGAME) {gameType = PlayingGameState.NONE;} // Reset the gameType after every handler ran.
                 response = client.receiveMessage();
             }
             JOptionPane.showMessageDialog(GUI_Frame, "Connection lost");

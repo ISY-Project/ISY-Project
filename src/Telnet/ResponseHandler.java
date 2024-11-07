@@ -1,7 +1,7 @@
 package src.Telnet;
 
-import src.GameType;
 import src.Main;
+import src.Enums.PlayingGameState;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.ServerEvent;
@@ -29,7 +29,7 @@ public class ResponseHandler {
         return true;
     }
 
-    private GameType determineGameType(String response) {
+    private PlayingGameState determineGameType(String response) {
         char data_start = '{';
         char data_end = '}';
         int start = response.indexOf(data_start);
@@ -37,19 +37,19 @@ public class ResponseHandler {
         if (start == -1 || end == -1) {
             return null;
         }
-        GameType currentGameType = Main.getGameType();
+        PlayingGameState currentGameType = Main.getGameType();
         if (currentGameType == eventHandler.getGameType()) {
             return currentGameType;
         }
         String[] data = response.substring(start + 1, end).split(",");
-        GameType result = null;
+        PlayingGameState result = null;
         for (String option : data) {
             if (option.contains("Tic-tac-toe")) {
-                result = GameType.TTT;
+                result = PlayingGameState.TTT;
                 break;
             }
             if (option.contains("Battleship")) {
-                result = GameType.BATTLESHIP;
+                result = PlayingGameState.BATTLESHIP;
                 break;
             }
         }
