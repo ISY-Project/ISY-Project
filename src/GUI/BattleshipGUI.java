@@ -3,7 +3,6 @@ package src.GUI;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-// TODO - Add a way to join an leave the game and start the game
 
 public class BattleshipGUI extends JPanel {
     private static final int GRIDSIZE = 8;
