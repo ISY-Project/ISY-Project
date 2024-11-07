@@ -1,13 +1,13 @@
 package src.Telnet;
 
 import src.GameType;
+import src.Main;
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
 import src.Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
     private final EventHandler eventHandler;
-    private GameType currentGameType = GameType.NONE;
     
     public ResponseHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -37,6 +37,7 @@ public class ResponseHandler {
         if (start == -1 || end == -1) {
             return null;
         }
+        GameType currentGameType = Main.getGameType();
         if (currentGameType == eventHandler.getGameType()) {
             return currentGameType;
         }
@@ -52,7 +53,6 @@ public class ResponseHandler {
                 break;
             }
         }
-        currentGameType = result;
         return result;
     }
 
