@@ -49,6 +49,7 @@ public class ChatBox extends JPanel {
         String currentText = chatView.getText();
         if (!currentText.isEmpty()) {
             chatView.setText(currentText + "\n" + message);
+            chatView.setCaretPosition(chatView.getDocument().getLength());
         } else {
             chatView.setText(message);
         }
