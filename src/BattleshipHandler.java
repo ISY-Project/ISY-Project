@@ -76,11 +76,11 @@ public class BattleshipHandler extends EventHandler {
     private int calculate_size(int begin, int end, boolean isVertical) {
         int size;
         if (isVertical) {
-            size = (end - begin) / playerGrid.getGridSize() + 1;
+            size = (end - begin) / playerGrid.getGridSize();
         } else {
-            size = (end - begin) + 1;
+            size = (end - begin);
         }
-        return size;
+        return size + 1;
     }
 
     private void placeShip(int begin, int end, int size) {
