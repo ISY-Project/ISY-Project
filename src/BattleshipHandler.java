@@ -40,13 +40,13 @@ public class BattleshipHandler extends EventHandler {
     }
 
     public void onMatch() {
-        Main.toggleBattleshipGrid();
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
         }
         Main.setGameType(GameType.BATTLESHIP);
+        Main.toggleBattleshipGrid();
         playerGrid.resetGrid();
         opponentGrid.resetGrid();
         String message2 = "Match started"; // TODO: show opponent name.
