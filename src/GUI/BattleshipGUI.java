@@ -11,6 +11,11 @@ public class BattleshipGUI extends JPanel {
     private final PlayerGrid playerGrid;
     private final OpponentGrid opponentGrid;
     private final InfoPanel infoPanel;
+
+    public InfoPanel getInfoPanel() {
+        return infoPanel;
+    }
+
     private final ChatBox chatBox;
 
     public PlayerGrid getPlayerGrid() {

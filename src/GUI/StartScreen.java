@@ -3,13 +3,13 @@ package src.GUI;
 import javax.swing.JPanel;
 
 public class StartScreen extends JPanel {
-    private final WelcomePannel WelcomePannel;
+    private final WelcomePanel WelcomePanel;
 
     public StartScreen(MainFrame mainFrame) {
-        this.WelcomePannel = new WelcomePannel(mainFrame);
+        this.WelcomePanel = new WelcomePanel(mainFrame);
 
         // Add components to the frame
-        add(this.WelcomePannel);
+        add(this.WelcomePanel);
 
         setVisible(true);
     }

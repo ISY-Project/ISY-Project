@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import src.ALG.Minimax;
+import src.GameType;
 import src.Main;
 import src.Telnet.Move;
 
@@ -77,11 +78,10 @@ public class TickTackToeGrid extends JPanel {
             cell.setForeground(player.equals(Main.getPlayerName()) ? Color.BLUE : Color.RED);
         }
         if (player.equals(Main.getPlayerName())) {
-            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLable("Opponent's turn");
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("Opponent's turn");
         } else {
-            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLable("It's Your turn");
+            mainFrame.getTickTackToe().getInformationPanel().setYourTurnLabel("It's Your turn");
         }
-        
     }
 
     // Initialize Tic-Tac-Toe grid
@@ -111,7 +111,7 @@ public class TickTackToeGrid extends JPanel {
                                         if (this.grid[i][j].equals(cell)) {
                                             int index = i * gridSize + j;
                                             System.out.println("Index: " + index);
-                                            Main.getClient().sendMessage((new Move(index).get()));
+                                            Main.getTelnetClient().sendMessage((new Move(index).get()));
                                             this.mainFrame.setIsPlayerTurn(false);
                                         }
                                     }
@@ -128,7 +128,7 @@ public class TickTackToeGrid extends JPanel {
                 this.grid[row][col] = cell;
             }
         }
-        if (!Main.isInMatch()) {
+        if (Main.getGameType() != GameType.TTT) {
             disableGrid();
         } else {
             enableGrid();
@@ -152,7 +152,7 @@ public class TickTackToeGrid extends JPanel {
         System.out.println(Arrays.toString(new_grid));
         int bestMove = Minimax.getBestMove(new_grid, 'X');
         System.out.println("Algorithm making move " + bestMove);
-        Main.getClient().sendMessage((new Move(bestMove).get()));
+        Main.getTelnetClient().sendMessage((new Move(bestMove).get()));
         this.mainFrame.setIsPlayerTurn(false);
     }
 

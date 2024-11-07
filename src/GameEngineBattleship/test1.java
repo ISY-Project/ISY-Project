@@ -34,7 +34,7 @@ public class test1 {
         gameMaster.hit(shot);
 
         System.out.println("Game setup complete.");
-        gameMaster.printPlayerfield();
+        gameMaster.printPlayerField();
         System.out.println();
         gameMaster.printOpponentField();
         gameMaster.printHeatmap();

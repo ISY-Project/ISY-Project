@@ -59,6 +59,7 @@ public class PlayerGrid extends JPanel {
                 int finalRow = row;
                 int finalCol = col;
                 var cell = new GridCell();
+                cell.setText(row * gridSize + col + "");
                 cell.addActionListener((ActionEvent e) -> {
                     // When a player clicks on their grid to place a ship
                     System.out.println("Clicked on cell: " + finalRow + ", " + finalCol);
@@ -81,7 +82,6 @@ public class PlayerGrid extends JPanel {
                         return;
                     }
                     
-                    // TODO - Send ship placement message to the engine
                     // TODO - Wait for response from the engine
                     // TODO - If the engine accepts the placement, place the ship on the grid
                     if (!validateGridBorderPlacement(finalRow, finalCol, selectedShip)) {
@@ -109,7 +109,7 @@ public class PlayerGrid extends JPanel {
         }
     }
 
-    private void placeShip(int row, int col, Ship ship) {
+    public void placeShip(int row, int col, Ship ship) {
         if (ship.isVertical()) {
             placeVerticalShip(row, col, ship.getSize());
         } else {

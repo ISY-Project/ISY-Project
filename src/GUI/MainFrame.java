@@ -15,8 +15,8 @@ public final class MainFrame extends JFrame {
         // Set layout and add panels
         setLayout(new CardLayout());
         add(startScreen, Screens.START_SCREEN.get());
-        add(battleshipGUI, Screens.BATTLESHIP_GUI.get());
-        add(tickTackToe, Screens.TICK_TACK_TOE.get());
+        add(battleshipGUI, Screens.BATTLESHIP.get());
+        add(tickTackToe, Screens.TTT.get());
 
         // Show Screen 1 initially
         showScreen(Screens.START_SCREEN);
@@ -37,10 +37,10 @@ public final class MainFrame extends JFrame {
             case START_SCREEN -> {
                 setSize(500, 600);
             }
-            case BATTLESHIP_GUI -> {
-                setSize(1000, 600);
+            case BATTLESHIP -> {
+                setSize(1280, 720);
             }
-            case TICK_TACK_TOE -> {
+            case TTT -> {
                 setSize(600, 600);
             }
             default -> throw new AssertionError();

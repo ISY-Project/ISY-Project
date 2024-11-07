@@ -21,29 +21,30 @@ public class Main {
     private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
     private static final TelnetClient client = new TelnetClient();
-    private static final TTTHandler tttHandler = new TTTHandler(client, GUI_Frame, tickTackToeGUI);
-    private static final BattleshipHandler battleshipHandler = new BattleshipHandler(client, GUI_Frame, battleshipGUI);
-    private static final ResponseHandler responseHandler = new ResponseHandler(client, tttHandler, battleshipHandler);
+    private static final TTTHandler tttHandler = new TTTHandler(tickTackToeGUI.getTickTackToeGrid());
+    private static final ResponseHandler tttResponseHandler = new ResponseHandler(tttHandler);
     // private static final GameEngine;
     // private static final Algorithm;
-    // private static final BattleshipEngine battleshipEngine = new BattleshipEngine(8, "test", "test2");
+    // private static final BattleshipEngine battleshipEngine = new
+    // BattleshipEngine(8, "test", "test2");
     private static final GameMasterBattleship gameMaster = new GameMasterBattleship(
-        new int[] {8, 8},
-        new int[] {6, 4, 3, 2},
-        new boolean[] {false}
-    );
-    private static boolean inMatch = false;
+        new int[] { 8, 8 },
+        new int[] { 6, 4, 3, 2 },
+        new boolean[] { false });
+        private static final BattleshipHandler battleshipHandler = new BattleshipHandler(gameMaster);
+        private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
+    private static GameType gameType = GameType.NONE;
 
-    public static boolean isInMatch() {
-        return inMatch;
+    public static GameType getGameType() {
+        return gameType;
     }
 
-    public static void setInMatch(boolean value) {
-        inMatch = value;
+    public static void setGameType(GameType gameType) {
+        Main.gameType = gameType;
     }
 
     public static void toggleBattleshipGrid() {
-        if (isInMatch()) {
+        if (gameType == GameType.BATTLESHIP) {
             GUI_Frame.getBattleshipGUI().getPlayerGrid().enableGrid();
             GUI_Frame.getBattleshipGUI().getOpponentGrid().enableGrid();
         } else {
@@ -53,15 +54,14 @@ public class Main {
     }
 
     public static void toggleTTTGrid() {
-        if (isInMatch()) {
+        if (gameType == GameType.TTT) {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().enableGrid();
         } else {
             GUI_Frame.getTickTackToe().getTickTackToeGrid().disableGrid();
         }
     }
 
-
-    public static TelnetClient getClient() {
+    public static TelnetClient getTelnetClient() {
         return client;
     }
 
@@ -70,7 +70,7 @@ public class Main {
     }
 
     // public static BattleshipEngine getBattleshipEngine() {
-    //     return battleshipEngine;
+    // return battleshipEngine;
     // }
 
     public static String getPlayerName() {
@@ -92,8 +92,7 @@ public class Main {
         Random random = new Random();
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int) 
-            (random.nextFloat() * (rightLimit - leftLimit + 1));
+            int randomLimitedInt = leftLimit + (int) (random.nextFloat() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
         String generatedString = buffer.toString();
@@ -104,8 +103,7 @@ public class Main {
         client.sendMessage(move.get());
     }
 
-    @SuppressWarnings({ "CallToPrintStackTrace", "unused" })
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         GUI_Frame.setTitle(NAME); // Set the title of the window
 
         Message message = new Message(Messages.getRandomMessage().getValue());
@@ -128,23 +126,17 @@ public class Main {
             client.connect(HOST, PORT);
             client.sendMessage(login.get());
             client.sendMessage(message.get());
-            // handle waiting for the game to start
             String response = client.receiveMessage();
             while (response.contains("")) {
                 client.showMessage("Received: " + response);
-                responseHandler.handle(response);
+                tttResponseHandler.handle(response);
+                battleshipResponseHandler.handle(response);
+                if (gameType == GameType.ENDGAME) {gameType = GameType.NONE;} // Reset the gameType after every handler ran.
                 response = client.receiveMessage();
-                if (response == null) {break;}
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finally {
-            try {
-                client.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            JOptionPane.showMessageDialog(GUI_Frame, "Connection lost");
+        } finally {
+            client.close();
         }
     }
 }

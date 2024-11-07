@@ -10,14 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+
+import src.GameType;
 import src.Main;
 import src.Telnet.Subscribe;
 
-public class WelcomePannel extends JPanel {
-    
-
+public class WelcomePanel extends JPanel {
     @SuppressWarnings("unused")
-    public WelcomePannel(MainFrame mainFrame) {
+    public WelcomePanel(MainFrame mainFrame) {
         super(new GridLayout(6, 0));
         this.setBorder(BorderFactory.createTitledBorder("Information"));
         this.setSize(350, 350);
@@ -29,10 +29,10 @@ public class WelcomePannel extends JPanel {
 
         tickTackToe.setPreferredSize(new Dimension(300, 75));
         battleships.setPreferredSize(new Dimension(300, 75));
-        JLabel lableOne = new JLabel("Chose a game to play!");
-        lableOne.setFont(new Font("Arial", Font.PLAIN, 24));
-        JLabel lableTwo = new JLabel("Available games:");
-        lableTwo.setFont(new Font("Arial", Font.PLAIN, 24));
+        JLabel labelOne = new JLabel("Chose a game to play!");
+        labelOne.setFont(new Font("Arial", Font.PLAIN, 24));
+        JLabel labelTwo = new JLabel("Available games:");
+        labelTwo.setFont(new Font("Arial", Font.PLAIN, 24));
         JLabel sliderLabel = new JLabel();
         sliderLabel.setFont(new Font("Arial", Font.PLAIN, 24));
 
@@ -43,47 +43,38 @@ public class WelcomePannel extends JPanel {
 		slider.setMinorTickSpacing(1);
         sliderLabel.setText("Manual");
         mainFrame.setAlgorithmOn(false);
-        // slider.addChangeListener((e) -> {
-        //     String text = slider.getValue() == 0 ? "Manual" : "Algorithm";
-        //     sliderLabel.setText(text);
-        //     mainFrame.setAlgorithmOn(slider.getValue() == 1);
-        // });
-        this.add(lableOne);
-        this.add(lableTwo);
+        this.add(labelOne);
+        this.add(labelTwo);
         this.add(tickTackToe);
         this.add(battleships);
         this.add(sliderLabel);
-        // this.add(slider);
 
         AlgCheckbox algorithmToggle = new AlgCheckbox();
 
         this.add(algorithmToggle);
 
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // setVisible(true);
         algorithmToggle.addActionListener(actionListener -> {
             if (algorithmToggle.isSelected()) {
-                // disableGrid();
                 mainFrame.setAlgorithmOn(true);
-                // algorithmToggle.setEnabled(false);
             } else {
                 mainFrame.setAlgorithmOn(false);
-                // enableGrid();
             }
         });
     }
 
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
-            mainFrame.showScreen(Screens.TICK_TACK_TOE);
-            Main.getClient().sendMessage(Subscribe.TICTACTOE.get());
+            mainFrame.showScreen(Screens.TTT);
+            Main.setGameType(GameType.TTT);
+            Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
         };
     }
 
     private ActionListener battleshipsActionListener(MainFrame mainFrame) {
         return (@SuppressWarnings("unused") ActionEvent e) -> {
-            mainFrame.showScreen(Screens.BATTLESHIP_GUI);
-            Main.getClient().sendMessage(Subscribe.BATTLESHIP.get());
+            mainFrame.showScreen(Screens.BATTLESHIP);
+            Main.setGameType(GameType.BATTLESHIP);
+            Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());
         };
     }
 

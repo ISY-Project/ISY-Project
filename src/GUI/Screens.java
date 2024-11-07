@@ -2,8 +2,8 @@ package src.GUI;
 
 public enum Screens {
     START_SCREEN("startScreen"),
-    BATTLESHIP_GUI("battleshipGUI"),
-    TICK_TACK_TOE("tickTackToe");
+    BATTLESHIP("battleshipGUI"),
+    TTT("tickTackToe");
 
     private final String screen;
 

@@ -2,7 +2,7 @@ package src.Telnet;
 
 public enum Subscribe {
     BATTLESHIP("battleship"),
-    TICTACTOE("tic-tac-toe");
+    TTT("tic-tac-toe");
 
     private final String game;
 

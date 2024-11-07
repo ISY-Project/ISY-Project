@@ -52,6 +52,7 @@ public class OpponentGrid extends JPanel {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
                 var cell = new GridCell();
+                cell.setText(row * gridSize + col + "");
                 cell.addActionListener((ActionEvent e) -> {
                     // When a player clicks on their grid to place a ship
                     // TODO - Send shot message to the server and wait for response

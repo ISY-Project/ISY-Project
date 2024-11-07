@@ -73,7 +73,7 @@ public class GameMasterBattleship{
         return rules;
     }
 
-    public void printPlayerfield() {
+    public void printPlayerField() {
         battleship_functions.print_playerfield(playerField, gridShape);
     }
 
