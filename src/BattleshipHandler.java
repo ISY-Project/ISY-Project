@@ -57,9 +57,9 @@ public class BattleshipHandler extends EventHandler {
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
         if (mainFrame.getAlgorithmOn()) {
-            // for (@SuppressWarnings("unused") int i: engine.getShips()){
+            for (@SuppressWarnings("unused") int i: engine.getShips()){
                 placeShip();
-            // }
+            }
         }
     }
 
@@ -67,7 +67,7 @@ public class BattleshipHandler extends EventHandler {
         int begin, end, size;
         int[] coords = engine.placeRandomShip();
         begin = coords[0];
-        end = coords[1];
+        end = coords[coords.length-1];
         boolean isVertical = (begin - end) % playerGrid.getGridSize() == 0;
         size = calculateSize(begin, end, isVertical);
         placeShip(begin, end, size);
