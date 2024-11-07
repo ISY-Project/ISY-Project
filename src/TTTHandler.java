@@ -30,9 +30,9 @@ public class TTTHandler extends EventHandler {
         if (Main.getGameType() == GameType.FIRSTBOOT) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             System.out.println("forced starting TTT game");
-            Main.getMainFrame().showScreen(Screens.TTT);
             mainFrame.setAlgorithmOn(true);
         }
+        Main.getMainFrame().showScreen(Screens.TTT);
         Main.setGameType(GameType.TTT);
         Main.toggleTTTGrid();
         tickTackToeGrid.clearGrid();

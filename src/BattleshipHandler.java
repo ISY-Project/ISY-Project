@@ -52,9 +52,9 @@ public class BattleshipHandler extends EventHandler {
         if (Main.getGameType() == GameType.FIRSTBOOT) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
             System.out.println("forced starting battle game");
-            Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
         }
+        Main.getMainFrame().showScreen(Screens.BATTLESHIP);
         Main.setGameType(GameType.BATTLESHIP);
         Main.toggleBattleshipGrid();
         playerGrid.resetGrid();
