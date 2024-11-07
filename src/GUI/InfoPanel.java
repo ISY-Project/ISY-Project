@@ -82,9 +82,7 @@ public class InfoPanel extends JPanel {
             Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             setYourTurnLabel("Wait on opponent");
             setPlayerChar(" ");
-            Main.setGameType(GameType.NONE);
             Main.toggleTTTGrid();
-            Main.setGameType(GameType.TTT);
             Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
         };
     }
@@ -94,7 +92,6 @@ public class InfoPanel extends JPanel {
             forfeit();
             Main.getMainFrame().getBattleshipGUI().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
-            Main.setGameType(GameType.NONE);
             Main.toggleBattleshipGrid();
             setYourTurnLabel("Wait on opponent");
         };
@@ -108,7 +105,6 @@ public class InfoPanel extends JPanel {
             tickTackToeGrid.setFirstMove(true);
             Main.getMainFrame().getTickTackToe().getChatBox().clearChat();
             Main.getMainFrame().showScreen(Screens.START_SCREEN);
-            Main.setGameType(GameType.NONE);
             Main.toggleTTTGrid();
             setYourTurnLabel("Wait on opponent");
             setPlayerChar(" ");
@@ -129,7 +125,6 @@ public class InfoPanel extends JPanel {
         return (ActionEvent e) -> {
             forfeit();
             Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());
-            Main.setGameType(GameType.BATTLESHIP);
             Main.toggleBattleshipGrid();
         };
     }

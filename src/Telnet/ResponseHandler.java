@@ -7,7 +7,7 @@ import src.Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
     private final EventHandler eventHandler;
-    private GameType gameType;
+    private GameType currentGameType = GameType.NONE;
     
     public ResponseHandler(EventHandler eventHandler) {
         this.eventHandler = eventHandler;
@@ -37,17 +37,22 @@ public class ResponseHandler {
         if (start == -1 || end == -1) {
             return null;
         }
+        if (currentGameType == eventHandler.getGameType()) {
+            return currentGameType;
+        }
         String[] data = response.substring(start + 1, end).split(",");
         GameType result = null;
         for (String option : data) {
             if (option.contains("Tic-tac-toe")) {
                 result = GameType.TTT;
+                break;
             }
             if (option.contains("Battleship")) {
                 result = GameType.BATTLESHIP;
+                break;
             }
         }
-        this.gameType = result;
+        currentGameType = result;
         return result;
     }
 

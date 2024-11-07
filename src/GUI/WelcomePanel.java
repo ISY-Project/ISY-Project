@@ -63,7 +63,6 @@ public class WelcomePanel extends JPanel {
     private ActionListener tickTackToeActionListener(MainFrame mainFrame) {
         return (ActionEvent e) -> {
             mainFrame.showScreen(Screens.TTT);
-            Main.setGameType(GameType.TTT);
             Main.getTelnetClient().sendMessage(Subscribe.TTT.get());
         };
     }
@@ -71,7 +70,6 @@ public class WelcomePanel extends JPanel {
     private ActionListener battleshipsActionListener(MainFrame mainFrame) {
         return (ActionEvent e) -> {
             mainFrame.showScreen(Screens.BATTLESHIP);
-            Main.setGameType(GameType.BATTLESHIP);
             Main.getTelnetClient().sendMessage(Subscribe.BATTLESHIP.get());
         };
     }

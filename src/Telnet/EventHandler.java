@@ -10,6 +10,10 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
     final Logout logout = new Logout();
     private final GameType gameType;
 
+    public GameType getGameType() {
+        return gameType;
+    }
+
     public boolean isValidGameType(GameType gameType) {
         if (gameType != this.gameType) {
             return false;
