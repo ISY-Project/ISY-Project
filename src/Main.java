@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
 import src.GUI.TickTackToe;
-import src.GameEngineBattleship.GameMasterBattleship;
 import src.Telnet.Login;
 import src.Telnet.Message;
 import src.Telnet.Move;
@@ -27,8 +26,8 @@ public class Main {
     // private static final Algorithm;
     // private static final BattleshipEngine battleshipEngine = new
     // BattleshipEngine(8, "test", "test2");
-        private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
-        private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
+    private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
+    private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
     private static GameType gameType = GameType.NONE;
 
     public static GameType getGameType() {
