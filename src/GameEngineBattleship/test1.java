@@ -24,12 +24,12 @@ public class test1 {
         System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
         System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
         System.out.println(Arrays.toString(gameMaster.placeRandomShip()));
-        int shot = gameMaster.getOptimalShot();
+        int shot = (int)gameMaster.getOptimalShot();
 
         System.out.println(shot);
         gameMaster.miss(shot);
 
-        shot = gameMaster.getOptimalShot();
+        shot = (int)gameMaster.getOptimalShot();
         System.out.println(shot);
         gameMaster.hit(shot);
 

@@ -48,7 +48,8 @@ public class GameMasterBattleship{
         heatmap.miss(hit_loc);
     }
 
-    public void sink (int length) {     
+    public void sink (int hit_loc, int length) {
+        heatmap.hit(hit_loc);
         heatmap.sink(length);
     }
 

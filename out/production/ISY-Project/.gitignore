@@ -1,0 +1,8 @@
+lib/
+zeeslag release v1/*
+gameserver.log
+server.properties
+/JavaFX visualistaion/battleships/target
+/JavaFX visualistaion/battleships/target/classes
+/JavaFX visualistaion/battleships/target/classes/com
+newgameserver-battleship-release-V1.jar

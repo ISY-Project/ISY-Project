@@ -125,8 +125,9 @@ public class BattleshipHandler extends EventHandler {
                 engine.miss(move);
                 return;
             } else if (result.equals(MoveResponse.GEZONKEN)) {
+                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
                 int shipSize = Integer.parseInt(data[3]);
-                engine.sink(shipSize); // CRITICAL: Fix shooting same spot twice after sink. 
+                engine.sink(move, shipSize); // CRITICAL: Fix shooting same spot twice after sink.
                 return;
             }
         } else {
