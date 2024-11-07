@@ -53,6 +53,7 @@ public class BattleshipHandler extends EventHandler {
     public void onMatch() {
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
+            System.out.println("forced starting battle game");
             Main.getMainFrame().showScreen(Screens.BATTLESHIP);
             mainFrame.setAlgorithmOn(true);
         }
