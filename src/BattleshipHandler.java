@@ -1,5 +1,7 @@
 package src;
 
+import java.awt.Color;
+
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
 import src.GUI.MainFrame;
@@ -9,6 +11,7 @@ import src.GUI.Screens;
 import src.GUI.Ship;
 import src.GameEngineBattleship.GameMasterBattleship;
 import src.Telnet.EventHandler;
+import src.Telnet.Move;
 import src.Telnet.Place;
 import src.Telnet.Responses.MoveResponse;
 import src.Telnet.TelnetClient;
@@ -20,6 +23,8 @@ public class BattleshipHandler extends EventHandler {
     private final OpponentGrid opponentGrid;
     private final MainFrame mainFrame;
     private final GameMasterBattleship engine;
+    private boolean placeStage = true;
+    private int lastShot = -1;
 
     public BattleshipHandler(GameMasterBattleship engine) {
         super(GameType.BATTLESHIP);
@@ -56,11 +61,21 @@ public class BattleshipHandler extends EventHandler {
 
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
-        if (mainFrame.getAlgorithmOn()) {
-            for (@SuppressWarnings("unused") int i: engine.getShips()){
-                placeShip();
+        if (placeStage) {
+            if (mainFrame.getAlgorithmOn()) {
+                for (@SuppressWarnings("unused") int i: engine.getShips()){
+                    placeShip();
+                }
             }
+        } else{
+            shoot();
         }
+    }
+
+    private void shoot() {
+        int cell = engine.getOptimalShot();
+        this.client.sendMessage(new Move(cell).get());
+        this.battleshipGUI.getChatBox().addMessage("Info", "Shooting at " + cell);
     }
 
     private void placeShip() {
@@ -97,9 +112,11 @@ public class BattleshipHandler extends EventHandler {
         this.showMessage(player + " made a move: " + move + " " + result);
         if (result.equals(MoveResponse.BOEM)) {
             updatePlayerTurnLabel(player);
+            this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.RED);
             return;
         } else if (result.equals(MoveResponse.PLONS)) {
             updatePlayerTurnLabel(player);
+            this.battleshipGUI.getOpponentGrid().getGrid()[lastShot / 8][lastShot % 8].setBackground(Color.GRAY);
             return;
         }
     }
