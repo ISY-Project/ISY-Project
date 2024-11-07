@@ -2,7 +2,6 @@ package src.Telnet;
 
 import src.Telnet.Responses.ChallengeEvent;
 import src.Telnet.Responses.GameEvent;
-import src.Telnet.Responses.MoveResponse;
 import src.Telnet.Responses.ServerEvent;
 
 public class ResponseHandler {
