@@ -136,7 +136,7 @@ public class Main {
                 response = client.receiveMessage();
             }
             JOptionPane.showMessageDialog(GUI_Frame, "Connection lost");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             client.close();
