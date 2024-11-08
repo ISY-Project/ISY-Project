@@ -98,6 +98,7 @@ public class Main {
         client.sendMessage(move.get());
     }
 
+    @SuppressWarnings({"unused", "CallToPrintStackTrace"})
     public static void main(String[] args) throws Exception {
         GUI_Frame.setTitle(NAME); // Set the title of the window
 

@@ -3,14 +3,14 @@ import src.ALG.battleshipbot.Heatmap;
 import src.ALG.battleshipbot.Positions;
 
 public class GameMasterBattleship{
-    private int[] playerField;
-    private int[] opponentField;
-    private int[][] playerShipLocations;
-    private int[] gridShape;
-    private int[] ships;
-    private boolean[] rules;
+    private final int[] playerField;
+    private final int[] opponentField;
+    private final int[][] playerShipLocations;
+    private final int[] gridShape;
+    private final int[] ships;
+    private final boolean[] rules;
     private int ship_count;
-    private Heatmap heatmap;
+    private final Heatmap heatmap;
     // private int[] enemy_ship_locs; //TODO need this later, not for vrijdag/comp build
     
     public long[] getHeatmap() {
