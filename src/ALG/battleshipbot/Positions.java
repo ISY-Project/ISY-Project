@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Positions {
+  @SuppressWarnings("PointlessBitwiseExpression")
   public static class PlacementRules {
     public static final int NONE = 0 << 0;
     public static final int ALONGSIDE = 1 << 0;
@@ -27,12 +28,12 @@ public class Positions {
     }
   }
 
-  private PlacementRules placementRules;
-  private long width;
-  private long height;
+  private final PlacementRules placementRules;
+  private final long width;
+  private final long height;
 
-  private Map<Long, List<Long[]>> longCache = new HashMap<>();
-  private Map<Long, List<BigInteger[]>> bigintCache = new HashMap<>();
+  private final Map<Long, List<Long[]>> longCache = new HashMap<>();
+  private final Map<Long, List<BigInteger[]>> bigintCache = new HashMap<>();
   
   public Positions(long width, long height, PlacementRules placementRules) {
     this.width = width;

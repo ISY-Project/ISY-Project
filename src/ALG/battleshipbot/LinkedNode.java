@@ -6,7 +6,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class LinkedNode<T> implements Iterable<T> {
-  private T value;
+  private final T value;
   private LinkedNode<T> next;
 
   public LinkedNode(T value) {
@@ -134,7 +134,7 @@ public class LinkedNode<T> implements Iterable<T> {
     LinkedNode<T> head = null;
     LinkedNode<T> tail = null;
     for (T item : list) {
-      LinkedNode<T> node = new LinkedNode<T>(item);
+      LinkedNode<T> node = new LinkedNode<>(item);
       if (head == null) head = node;
       if (tail != null) tail.stitch(node);
       tail = node.getTail();

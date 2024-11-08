@@ -22,19 +22,41 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
     }
 
     public EventHandler(GameType gameType) {
+        System.out.println(gameType);
         this.gameType = gameType;
     }
 
+    @Override
     public abstract void onChallenge(String playerName, int game, int gameNumber);
+
+    @Override
     public abstract void onCancel(int gameNumber);
+
+    @Override
     public abstract void onMatch();
+
+    @Override
     public abstract void onYourTurn(String message);
+
+    @Override
     public abstract void onMove(String[] data);
+
+    @Override
     public abstract void onWin();
+
+    @Override
     public abstract void onLose();
+
+    @Override
     public abstract void onDraw();
+
+    @Override
     public abstract void onHelp(String message);
+
+    @Override
     public abstract void onError(String message);
+
+    @Override
     public abstract void onMessage(String message);
 
     public void showMessage(String message) {

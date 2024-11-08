@@ -14,6 +14,7 @@ import src.GameType;
 import src.Main;
 import src.Telnet.Subscribe;
 
+@SuppressWarnings("unused")
 public class InfoPanel extends JPanel {
     private Ships ships;
     private TickTackToeGrid tickTackToeGrid;

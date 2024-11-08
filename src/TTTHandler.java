@@ -12,18 +12,22 @@ public class TTTHandler extends EventHandler {
 
     public TTTHandler(TickTackToeGrid tickTackToeGrid) {
         super(GameType.TTT);
+        // System.out.println("TTTHandler created");
         this.tickTackToeGrid = tickTackToeGrid;
         this.mainFrame = Main.getMainFrame();
     }
 
+    @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
         this.showServerMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
     }
 
+    @Override
     public void onCancel(int gameNumber) {
         this.showServerMessage("Game " + gameNumber + " has been canceled");
     }
 
+    @Override
     public void onMatch() {
         tickTackToeGrid.setFirstMove(true);
         tickTackToeGrid.setIsPlayerX(false);
@@ -39,7 +43,9 @@ public class TTTHandler extends EventHandler {
         this.showServerMessage("Match started");
     }
 
+    @Override
     public void onYourTurn(String message) {
+        // System.out.println("Your turn TTT");
         mainFrame.setIsPlayerTurn(true);
         if (tickTackToeGrid.isFirstMove()) {
             tickTackToeGrid.setIsPlayerX(true);
@@ -53,6 +59,7 @@ public class TTTHandler extends EventHandler {
         }
     }
 
+    @Override
     public void onMove(String[] data) {
         if (tickTackToeGrid.isFirstMove()) {
             tickTackToeGrid.setFirstMove(false);
@@ -72,35 +79,47 @@ public class TTTHandler extends EventHandler {
         this.showServerMessage(player + " made a move: " + move + " " + result);
     }
 
+    @Override
     public void onWin() {
+        String msg = "You won the game";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("You won the game");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
     }
 
+    @Override
     public void onLose() {
+        String msg = "You lost the game";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("You lost the game");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
     }
 
+    @Override
     public void onDraw() {
+        String msg = "The game ended in a draw";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("The game ended in a draw");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
     }
 
+    @Override
     public void onHelp(String message) {
         this.showServerMessage(message);
     }
 
+    @Override
     public void onError(String message) {
         this.showServerMessage(message);
     }
 
+    @Override
     public void showMessage(String message) {
         Main.getMainFrame().getTickTackToe().getChatBox().addMessage("You", message);
     }
@@ -110,6 +129,7 @@ public class TTTHandler extends EventHandler {
         Main.getMainFrame().getTickTackToe().getChatBox().addMessage("Server", message);
     }
 
+    @Override
     public void onMessage(String message) {
         Main.getMainFrame().getTickTackToe().getChatBox().addMessage(message);
     }

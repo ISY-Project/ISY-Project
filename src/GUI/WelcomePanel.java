@@ -10,10 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import src.GameType;
 
 import src.Main;
 import src.Telnet.Subscribe;
 
+@SuppressWarnings("unused")
 public class WelcomePanel extends JPanel {
         public WelcomePanel(MainFrame mainFrame) {
         super(new GridLayout(6, 0));

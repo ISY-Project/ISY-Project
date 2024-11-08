@@ -58,6 +58,7 @@ public class PlayerGrid extends JPanel {
     }
 
     // Initialize player grid with buttons
+    @SuppressWarnings("unused")
     private void fillGrid(int gridSize) {
         for (int row = 0; row < gridSize; row++) {
             for (int col = 0; col < gridSize; col++) {
