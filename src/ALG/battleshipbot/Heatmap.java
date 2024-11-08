@@ -15,6 +15,7 @@ public abstract class Heatmap {
 
     private LinkedNode<Long> stack;
     private Set<Long> hits = new HashSet<>();
+    private Set<Long> misses = new HashSet<>();
     private long lastHit;
 
     public LongHeatmap(int width, int height, int[] ships, int placementRules) {
@@ -58,7 +59,7 @@ public abstract class Heatmap {
 
       List<Long> bestPositions = new ArrayList<>();
       for (int i = 0; i < width * height; i++) {
-        if (heatmap[i] == max && !hits.contains((long)i)) bestPositions.add((long)i);
+        if (heatmap[i] == max && !hits.contains((long)i) && !misses.contains((long)i)) bestPositions.add((long)i);
       }
 
       return bestPositions.get(random.nextInt(bestPositions.size()));
@@ -95,6 +96,8 @@ public abstract class Heatmap {
     public void miss(long position) {
       LinkedNode<Long> current = stack;
       LinkedNode<Long> previous = null;
+
+      misses.add(position);
 
       long mask = 1L << position;
       while (current != null) {

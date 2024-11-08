@@ -13,7 +13,7 @@ import src.Telnet.TelnetClient;
 
 public class Main {
     private static final String NAME = showGetName();
-    private static final String HOST = "65.21.191.106";
+    private static final String HOST = "65.21.191.106"; // official IP "172.201.112.199";
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();

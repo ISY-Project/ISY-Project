@@ -132,6 +132,7 @@ public class BattleshipHandler extends EventHandler {
                 updatePlayerTurnLabel(player);
                 this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.GRAY);
                 engine.miss(move);
+                engine.printHeatmap();
                 return;
             } else if (result.equals(MoveResponse.GEZONKEN)) {
                 this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
