@@ -13,7 +13,7 @@ import src.Telnet.TelnetClient;
 
 public class Main {
     private static final String NAME = showGetName();
-    private static final String HOST = "65.21.191.106"; // official IP "172.201.112.199";
+    private static final String HOST = "172.201.112.199";// <- official IP // "localhost"; // "65.21.191.106"; 
     private static final int PORT = 7789;
     private static final Login login = new Login(NAME);
     private static final MainFrame GUI_Frame = new MainFrame();
@@ -75,7 +75,7 @@ public class Main {
     public static String showGetName() {
         String name = JOptionPane.showInputDialog("What is your game name?");
         if (name == null || name.isEmpty()) {
-            return genName();
+            return "Klas2Groep4";
         }
         return name;
     }
@@ -122,7 +122,13 @@ public class Main {
             client.sendMessage(login.get());
             client.sendMessage(message.get());
             String response = client.receiveMessage();
+            long time = System.currentTimeMillis();
+            long alive_counter = time + 100000;
             while (response.contains("")) {
+                if (System.currentTimeMillis() > alive_counter) {
+                    client.sendMessage(new Message("keep-alive").get());
+                    alive_counter = System.currentTimeMillis() + 100000;
+                }
                 client.showMessage("Received: " + response);
                 if (response.contains("Tic-tac-toe")) {
                     System.out.println("Tic-tac-toe");
