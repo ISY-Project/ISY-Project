@@ -75,7 +75,7 @@ public class Main {
     public static String showGetName() {
         String name = JOptionPane.showInputDialog("What is your game name?");
         if (name == null || name.isEmpty()) {
-            return "Klas2Groep4"; // genName();
+            return genName(); // "Klas2Groep4"; // genName();
         }
         return name;
     }

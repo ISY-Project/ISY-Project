@@ -75,23 +75,29 @@ public class TTTHandler extends EventHandler {
     }
 
     public void onWin() {
+        String msg = "You won the game";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("You won the game");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "You won the game");
     }
 
     public void onLose() {
+        String msg = "You lost the game";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("You lost the game");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "You lost the game");
     }
 
     public void onDraw() {
+        String msg = "The game ended in a draw";
         Main.setGameType(GameType.ENDGAME);
         Main.toggleTTTGrid();
-        this.showServerMessage("The game ended in a draw");
+        Main.getMainFrame().getTickTackToe().getInformationPanel().setYourTurnLabel(msg);
+        this.showServerMessage(msg);
         // JOptionPane.showMessageDialog(this.mainFrame, "The game ended in a draw");
     }
 

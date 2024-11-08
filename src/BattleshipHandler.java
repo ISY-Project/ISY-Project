@@ -41,14 +41,17 @@ public class BattleshipHandler extends EventHandler {
         new boolean[] { false });
     }
 
+    @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
         this.showMessage(playerName + " has challenged you to a game of " + game + " with game number " + gameNumber);
     }
 
+    @Override
     public void onCancel(int gameNumber) {
         this.showMessage("Game " + gameNumber + " has been canceled");
     }
 
+    @Override
     public void onMatch() {
         if (Main.getGameType() == GameType.NONE) {
             // If we didn't start the game ourselves, we move to it and turn on comp.
@@ -60,11 +63,12 @@ public class BattleshipHandler extends EventHandler {
         Main.toggleBattleshipGrid();
         playerGrid.resetGrid();
         opponentGrid.resetGrid();
-        String message2 = "Match started"; // TODO: show opponent name.
+        String message2 = "Wait on opponent"; // TODO: show opponent name.
         battleshipGUI.getInfoPanel().setYourTurnLabel(message2);
         this.showMessage(message2);
     }
 
+    @Override
     public void onYourTurn(String message) {
         mainFrame.setIsPlayerTurn(true);
         battleshipGUI.getInfoPanel().setYourTurnLabel("It's Your turn");
@@ -117,30 +121,34 @@ public class BattleshipHandler extends EventHandler {
         this.battleshipGUI.getChatBox().addMessage("Info", "Placed ship of size " + size + " at " + begin + " through " + end);
     }
 
+    @Override
     public void onMove(String[] data) {
         String player = data[0];
         int move = Integer.parseInt(data[1]);
         MoveResponse result = MoveResponse.valueOf(data[2]);
         this.showMessage(player + " made a move: " + move + " " + result);
         if (player.equals(Main.getPlayerName())){
-            if (result.equals(MoveResponse.BOEM)) {
-                updatePlayerTurnLabel(player);
-                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
-                engine.hit(move);
-                engine.printHeatmap();
-                return;
-            } else if (result.equals(MoveResponse.PLONS)) {
-                updatePlayerTurnLabel(player);
-                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.GRAY);
-                engine.miss(move);
-                engine.printHeatmap();
-                return;
-            } else if (result.equals(MoveResponse.GEZONKEN)) {
-                this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
-                int shipSize = Integer.parseInt(data[3]);
-                engine.sink(move, shipSize); // CRITICAL: Fix shooting same spot twice after sink.
-                engine.printHeatmap();
-                return;
+            switch (result) {
+                case BOEM -> {
+                    updatePlayerTurnLabel(player);
+                    this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
+                    engine.hit(move);
+                    engine.printHeatmap();
+                }
+                case PLONS -> {
+                    updatePlayerTurnLabel(player);
+                    this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.GRAY);
+                    engine.miss(move);
+                    engine.printHeatmap();
+                }
+                case GEZONKEN -> {
+                    this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
+                    int shipSize = Integer.parseInt(data[3]);
+                    engine.sink(move, shipSize); // TODO CRITICAL: Fix shooting same spot twice after sink.
+                    engine.printHeatmap();
+                }
+                default -> {
+                }
             }
         } else {
             // Tegenstander heeft geschoten
@@ -155,6 +163,7 @@ public class BattleshipHandler extends EventHandler {
         }
     }
 
+    @Override
     public void onWin() {
         String msg = "You won the game";
         showMessage(msg);
@@ -165,6 +174,7 @@ public class BattleshipHandler extends EventHandler {
         engine = createBattleshipMaster();
     }
 
+    @Override
     public void onLose() {
         String msg = "You lost the game";
         showMessage(msg);
@@ -175,6 +185,7 @@ public class BattleshipHandler extends EventHandler {
         engine = createBattleshipMaster();
     }
 
+    @Override
     public void onDraw() {
         String msg = "The game ended in a draw";
         showMessage(msg);
@@ -185,18 +196,22 @@ public class BattleshipHandler extends EventHandler {
         engine = createBattleshipMaster();
     }
 
+    @Override
     public void onHelp(String message) {
         showMessage(message);
     }
 
+    @Override
     public void onError(String message) {
         showMessage(message);
     }
 
+    @Override
     public void showMessage(String message) {
         this.battleshipGUI.getChatBox().addMessage("Server", message);
     }
 
+    @Override
     public void onMessage(String message) {
         this.battleshipGUI.getChatBox().addMessage(message);
     }
