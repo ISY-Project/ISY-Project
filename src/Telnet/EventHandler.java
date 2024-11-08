@@ -13,12 +13,12 @@ public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeE
 
     // TODO: get a gametype from the SVR GAME MATCH response.
     public boolean isValidGameType() {
-        System.out.println(Main.getGameType() + " " + this.gameType);
+        // System.out.println(Main.getGameType() + " " + this.gameType);
         if (Main.getGameType() == GameType.NONE || Main.getGameType() == this.gameType) {
-            System.out.println("Valid game type");
+            // System.out.println("Valid game type");
             return true;
         }
-        System.out.println("Invalid game type");
+        // System.out.println("Invalid game type");
         return false;
     }
 

@@ -127,6 +127,7 @@ public class BattleshipHandler extends EventHandler {
                 updatePlayerTurnLabel(player);
                 this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
                 engine.hit(move);
+                engine.printHeatmap();
                 return;
             } else if (result.equals(MoveResponse.PLONS)) {
                 updatePlayerTurnLabel(player);
@@ -138,6 +139,7 @@ public class BattleshipHandler extends EventHandler {
                 this.battleshipGUI.getOpponentGrid().getGrid()[move / 8][move % 8].setBackground(Color.RED);
                 int shipSize = Integer.parseInt(data[3]);
                 engine.sink(move, shipSize); // CRITICAL: Fix shooting same spot twice after sink.
+                engine.printHeatmap();
                 return;
             }
         } else {
