@@ -1,5 +1,6 @@
 package src;
 
+import java.util.Arrays;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import src.GUI.BattleshipGUI;
@@ -12,10 +13,10 @@ import src.Telnet.ResponseHandler;
 import src.Telnet.TelnetClient;
 
 public class Main {
-    private static final String NAME = showGetName();
-    private static final String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106"; 
-    private static final int PORT = 7789;
-    private static final Login login = new Login(NAME);
+    private static String NAME;
+    private static String HOST;  
+    private static int PORT;
+    private static Login login;
     private static final MainFrame GUI_Frame = new MainFrame();
     private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
     private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
@@ -29,6 +30,64 @@ public class Main {
     private static final BattleshipHandler battleshipHandler = new BattleshipHandler();
     private static final ResponseHandler battleshipResponseHandler = new ResponseHandler(battleshipHandler);
     private static GameType gameType = GameType.FIRSTBOOT;
+
+    public static String[] parse_args(String[] args) throws Exception {
+        String[] out = new String[3];
+        out[0] = "";
+        out[1] = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
+        out[2] = "7789";
+        if (args.length == 0) {
+            out[0] = showGetName();
+            return out;
+        }
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].contains("-n") || args[i].contains("--name")) {
+                out[0] = args[i + 1];
+                i += 1;
+            } else if (args[i].equals("-h")  || args[i].contains("--host")) {
+                out[1] = args[i + 1];
+                i += 1;
+            } else if (args[i].equals("-p")  || args[i].contains("--port")) {
+                out[2] = args[i + 1];
+                i += 1;
+            } else if (args[i].contains("-help") || args[i].contains("--help")) {
+                printHelpMenu();
+                System.exit(0);
+            } else {
+                throw new Exception("Invalid argument");
+            }
+        }
+        if (out[0].equals("")) {
+            System.out.println("Getting name from player");
+            out[0] = showGetName();
+        }
+        return out;
+    }
+
+    @SuppressWarnings("CallToPrintStackTrace")
+    public Main(String[] args) {
+        try {
+            String[] out = parse_args(args);
+            Main.NAME = out[0];
+            Main.HOST = out[1];
+            Main.PORT = Integer.parseInt(out[2]);
+            Main.login = new Login(Main.NAME);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("One or more invalid argument(s): " + Arrays.toString(args));
+            printHelpMenu();
+            System.exit(1);
+        }
+    }
+
+    public static void printHelpMenu() {
+        System.out.println("Usage: java -jar <jarfile> [options]");
+        System.out.println("Options:");
+        System.out.println("  -n, --name <name>    Set the name of the player");
+        System.out.println("  -h, --host <host>    Set the host of the server");
+        System.out.println("  -p, --port <port>    Set the port of the server");
+        System.out.println("  -help, --help        Print this help menu");
+    }
 
     public static GameType getGameType() {
         return gameType;
@@ -100,6 +159,7 @@ public class Main {
 
     @SuppressWarnings({"unused", "CallToPrintStackTrace"})
     public static void main(String[] args) throws Exception {
+        Main main = new Main(args);
         GUI_Frame.setTitle(NAME); // Set the title of the window
 
         Message message = new Message(Messages.getRandomMessage().getValue());
