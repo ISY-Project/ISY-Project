@@ -1,5 +1,17 @@
 # ISY-Project
 
+## how to compile
+### Prerequisites
+- Java 23 SDK - [download here](https://www.oracle.com/java/technologies/downloads/)
+- Apache Maven 3.9.9 - [download here](https://maven.apache.org/download.cgi)
+
+1. Clone the repository: `git clone https://github.com/ISY-Project/ISY-Project.git`
+2. Cd into the project directory: `cd ./ISY-Project`
+3. Compile the java project: `mvn clean compile`
+4. Compile the java project into a .jar file: `mvn package`
+5. Run the .jar file: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar [-options] [arguments]`
+6. Verify the installation by running the following command: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar --help`
+
 ## Regels
 
 Voor het ontwikkelen van Zeeslagje willen we graag dat de volgende spelregels worden gebruikt:
