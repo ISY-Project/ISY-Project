@@ -1,13 +1,13 @@
 package org.bitshifters.gameclient;
 
-// used for parsing command line arguments
-// documentation: https://jcommander.org/
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.JCommander;
-
 import java.util.Arrays;
 
-//import java.util.Arrays;
+import org.bitshifters.gameclient.arguments.Flags;
+
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
+
 //import java.util.Random;
 //import javax.swing.JOptionPane;
 //import org.bitshifters.GUI.BattleshipGUI;
@@ -19,17 +19,61 @@ import java.util.Arrays;
 //import org.bitshifters.Telnet.ResponseHandler;
 //import org.bitshifters.Telnet.TelnetClient;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class Main {
-    @Parameter(names = {"-n", "--name"}, description = "Set the name of the player")
-    private static String NAME = "test";
-    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server")
-    private static String HOST = "localhost";
-    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server")
-    private static int PORT = 7789;
-//    private static String NAME;
-//    private static String HOST;
-//    private static int PORT;
-//    private static Login login;
+    // command line variables
+    @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
+    private static String NAME = "Klas2Groep4";
+    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2)
+    private static String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
+    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3)
+    private static Integer PORT = 7789;
+
+    // command line flags
+    private static Flags FLAGS = new Flags();
+
+
+    /* 
+     * This is the main method of the program. It will parse the command line arguments and run the program.
+     * If the help flag is set, it will print the help menu and exit the program.
+     * It will run the run method once the command line arguments are parsed.
+     * @param args The command line arguments
+     * @return void
+     */
+    public static void main(String[] args){
+        Main main = new Main();
+        JCommander jc = JCommander.newBuilder()
+                    .addObject(Main.FLAGS)
+                    .addObject(main)
+                    .build();
+        jc.setProgramName("BitShifters.jar");
+        try {
+            jc.parse(args);
+        } catch (ParameterException e) {
+            jc.usage();
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
+        if (Flags.HELP) {
+            jc.usage();
+            System.exit(0);
+        }
+        main.run(args);
+    }
+
+    public void run(String[] args) {
+        if (Flags.DEBUG) {
+            System.out.println("\n=== Debug mode enabled ===\n");
+            System.out.println("args = " + Arrays.toString(args));
+        } if (Flags.VERBOSE > 1) {
+            System.out.println("\n==== Verbose level: " + Flags.VERBOSE + " ====\n");
+        } if (Flags.VERBOSE > 1 || Flags.DEBUG) {
+            System.out.println("Client name: " + Main.NAME);
+            System.out.println("Server Host: " + Main.HOST);
+            System.out.println("Server Port: " + Main.PORT);
+        }
+        
+    }
 //    private static final MainFrame GUI_Frame = new MainFrame();
 //    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();
 //    private static final TickTackToe tickTackToeGUI = GUI_Frame.getTickTackToe();
@@ -172,22 +216,9 @@ public class Main {
 //    public void sendMove(Move move) {
 //        client.sendMessage(move.get());
 //    }
-
-    public static void main(String[] args){
-        Main main = new Main();
-        JCommander.newBuilder()
-                .addObject(main)
-                .build()
-                .parse(args);
-        System.out.println("args = " + Arrays.toString(args));
-        main.run();
-    }
-
-    public void run() {
-        System.out.println(Main.NAME);
-        System.out.println(Main.HOST);
-        System.out.println(Main.PORT);
-    }
+//
+//
+// public static void main(String[] args){
 //        Main main = new Main(args);
 //        GUI_Frame.setTitle(NAME); // Set the title of the window
 //
