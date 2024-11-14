@@ -26,7 +26,7 @@ public class Main {
     private static String NAME = "Klas2Groep4";
     @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2)
     private static String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
-    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3)
+    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.gameclient.arguments.IntValidator.class)
     private static Integer PORT = 7789;
 
     // command line flags
@@ -72,7 +72,6 @@ public class Main {
             System.out.println("Server Host: " + Main.HOST);
             System.out.println("Server Port: " + Main.PORT);
         }
-        
     }
 //    private static final MainFrame GUI_Frame = new MainFrame();
 //    private static final BattleshipGUI battleshipGUI = GUI_Frame.getBattleshipGUI();

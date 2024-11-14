@@ -3,7 +3,7 @@ package org.bitshifters.gameclient.arguments;
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
-public class VerboseLevel implements IParameterValidator {
+public class VerboseLevelValidator implements IParameterValidator {
     @Override
     public void validate(String name, String value) throws ParameterException {
         int n = Integer.parseInt(value);

@@ -13,9 +13,9 @@ public class Flags {
     @Parameter(names = {"-help", "--help"}, help = true, description="Show this help menu", order=0)
     public static boolean HELP = false;
 
-    @Parameter(names = {"-debug", "--debug"}, help = true, description = "Debug output will be shown", order=0)
+    @Parameter(names = {"-debug", "--debug"}, help = true, description = "Debug output will be shown", order=0, arity=1)
     public static boolean DEBUG = false;
 
-    @Parameter(names = { "-log", "-verbose" }, validateWith = VerboseLevel.class, description = "Level of verbosity\n         1 is low to none, 2 is medium, 3 high", order=0)
+    @Parameter(names = { "-log", "-verbose" }, validateWith = { IntValidator.class, VerboseLevelValidator.class } , description = "Level of verbosity\n         1 is low to none, 2 is medium, 3 high", order=0)
     public static Integer VERBOSE = 1;
 }
