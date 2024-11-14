@@ -3,6 +3,7 @@ package org.bitshifters.gameclient;
 import java.util.Arrays;
 
 import org.bitshifters.gameclient.arguments.Flags;
+import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -65,9 +66,9 @@ public class Main {
         if (Flags.DEBUG) {
             System.out.println("\n=== Debug mode enabled ===\n");
             System.out.println("args = " + Arrays.toString(args));
-        } if (Flags.VERBOSE > 1) {
+        } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH) {
             System.out.println("\n==== Verbose level: " + Flags.VERBOSE + " ====\n");
-        } if (Flags.VERBOSE > 1 || Flags.DEBUG) {
+        } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH || Flags.DEBUG) {
             System.out.println("Client name: " + Main.NAME);
             System.out.println("Server Host: " + Main.HOST);
             System.out.println("Server Port: " + Main.PORT);

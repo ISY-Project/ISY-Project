@@ -1,5 +1,7 @@
 package org.bitshifters.gameclient.arguments;
 
+import org.bitshifters.gameclient.enums.VerboseLevel;
+
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
@@ -16,6 +18,6 @@ public class Flags {
     @Parameter(names = {"-debug", "--debug"}, help = true, description = "Debug output will be shown", order=0)
     public static boolean DEBUG = false;
 
-    @Parameter(names = { "-log", "-verbose" }, validateWith = { IntValidator.class, VerboseLevelValidator.class } , description = "Level of verbosity\n         1 is low to none, 2 is medium, 3 high", order=0)
-    public static Integer VERBOSE = 1;
+    @Parameter(names = { "-log", "-verbose" }, converter = VerboseConverter.class, validateWith = VerboseLevelValidator.class, description = "Level of verbosity\n         1 is low to none, 2 is medium, 3 high", order=0)
+    public static VerboseLevel VERBOSE = VerboseLevel.LOW;
 }
