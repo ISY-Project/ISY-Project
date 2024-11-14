@@ -1,7 +1,9 @@
 # ISY-Project
 
 ## how to compile
+
 ### Prerequisites
+
 - Java 23 SDK - [download here](https://www.oracle.com/java/technologies/downloads/)
 - Apache Maven 3.9.9 - [download here](https://maven.apache.org/download.cgi)
 
