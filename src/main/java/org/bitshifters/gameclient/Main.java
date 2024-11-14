@@ -25,7 +25,7 @@ public class Main {
     // command line variables
     @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
     private static String NAME = "Klas2Groep4";
-    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2)
+    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.gameclient.arguments.IPValidator.class)
     private static String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
     @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.gameclient.arguments.IntValidator.class)
     private static Integer PORT = 7789;
