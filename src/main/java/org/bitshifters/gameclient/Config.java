@@ -32,7 +32,7 @@ public class Config implements IConfigFile {
             for (final Map.Entry<String, String> entry : config.entrySet()) {
                 final String k = entry.getKey();
                 final String v = entry.getValue();
-                writer.append(k).append("=").append(v);
+                writer.append(k).append("=").append(v).append("\n");
             }
         } catch (final IOException e) {
             e.printStackTrace();

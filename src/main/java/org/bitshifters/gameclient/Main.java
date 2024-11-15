@@ -39,6 +39,7 @@ public class Main {
         arguments = argParser.getJc();
         flags = argParser.getFlags();
         config = new Config(Path.of("config.ini"));
+        config.write(); // instantly write the config, with default values.
         try {
             setConfigArgs();
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
