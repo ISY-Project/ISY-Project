@@ -1,5 +1,6 @@
 package org.bitshifters.gameclient;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 
 import org.bitshifters.gameclient.arguments.Flags;
@@ -22,17 +23,8 @@ import com.beust.jcommander.ParameterException;
 
 @SuppressWarnings("FieldMayBeFinal")
 public class Main {
-    // command line variables
-    @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
-    private static String NAME = "Klas2Groep4";
-    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.gameclient.arguments.IPValidator.class)
-    private static String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
-    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.gameclient.arguments.IntValidator.class)
-    private static Integer PORT = 7789;
-
-    // command line flags
-    private static Flags FLAGS = new Flags();
-
+    private static ConfigFile configFile;
+    private static ArgParser arguments;
 
     /* 
      * This is the main method of the program. It will parse the command line arguments and run the program.
@@ -43,27 +35,9 @@ public class Main {
      */
     public static void main(String[] args){
         Main main = new Main();
-        handleArgs(args, main);
+        arguments = new ArgParser(args, main);
+        configFile = new ConfigFile(Path.of("config.ini"));
         main.run(args);
-    }
-
-    private static void handleArgs(String[] args, Main main) {
-        JCommander jc = JCommander.newBuilder()
-                    .addObject(Main.FLAGS)
-                    .addObject(main)
-                    .build();
-        jc.setProgramName("BitShifters.jar");
-        try {
-            jc.parse(args);
-        } catch (ParameterException e) {
-            jc.usage();
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
-        if (Flags.HELP) {
-            jc.usage();
-            System.exit(0);
-        }
     }
 
     public void run(String[] args) {
@@ -73,9 +47,9 @@ public class Main {
         } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH) {
             System.out.println("\n==== Verbose level: " + Flags.VERBOSE + " ====\n");
         } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH || Flags.DEBUG) {
-            System.out.println("Client name: " + Main.NAME);
-            System.out.println("Server Host: " + Main.HOST);
-            System.out.println("Server Port: " + Main.PORT);
+            System.out.println("Client name: " + configFile.getValue("username"));
+            System.out.println("Server Host: " + configFile.getValue("host"));
+            System.out.println("Server Port: " + configFile.getValue("port"));
         }
     }
 //    private static final MainFrame GUI_Frame = new MainFrame();
