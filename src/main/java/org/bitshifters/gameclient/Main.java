@@ -47,8 +47,6 @@ public class Main {
      * @return void
      */
     private static void setConfigArgs() {
-        // get the values out of the argparser, and set them in the config.
-        // configFile.setValue("username", arguments.username);
         var fields = arguments.getFields();
         for (var field : fields.entrySet()) {
             var key = field.getKey();
