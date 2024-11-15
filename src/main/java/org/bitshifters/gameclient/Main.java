@@ -39,7 +39,12 @@ public class Main {
         arguments = argParser.getJc();
         flags = argParser.getFlags();
         config = new Config(Path.of("config.ini"));
-        setConfigArgs();
+        try {
+            setConfigArgs();
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         main.run(args);
     }
 
@@ -47,7 +52,7 @@ public class Main {
      * This method will set the values from the command line arguments into the config without editing the config file.
      * @return void
      */
-    private static void setConfigArgs() {
+    private static void setConfigArgs() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         var fields = arguments.getFields();
         for (var field : fields.entrySet()) {
             var key = field.getKey();
@@ -61,14 +66,10 @@ public class Main {
             }
             if (config.containsKey(key.getName())) {
                 Field varField;
-                try {
-                    varField = obj.getClass().getDeclaredField(key.getName());
-                    varField.setAccessible(true);
-                    var varValue = varField.get(obj);
-                    config.setValue(key.getName(), varValue.toString());
-                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                varField = obj.getClass().getDeclaredField(key.getName());
+                varField.setAccessible(true);
+                var varValue = varField.get(obj);
+                config.setValue(key.getName(), varValue.toString());
             }
         }
     }
