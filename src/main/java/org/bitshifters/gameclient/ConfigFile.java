@@ -1,4 +1,4 @@
-package org.bitshifters;
+package org.bitshifters.gameclient;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -57,7 +57,7 @@ public class ConfigFile implements IConfigFile {
     public <T> T getValue(final String key, final Class<T> target) {
         final String value = config.get(key);
         if (value == null) {
-            throw new IllegalArgumentException("Key not found");
+            throw new IllegalArgumentException("Key not found %s".formatted(key));
         }
         if (target == String.class) {
             return target.cast(value);
@@ -112,6 +112,7 @@ public class ConfigFile implements IConfigFile {
     private void setDefaultValues() {
         config.put("host", "65.21.191.106");
         config.put("port", "7789");
+        config.put("username", "Klas2Groep4");
     }
 
     private void generateDefaultConfigFile() {
