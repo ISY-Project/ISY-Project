@@ -28,7 +28,7 @@ public class Config implements IConfigFile {
 
     @Override
     public void write() {
-        try (FileWriter writer = new FileWriter(path.toFile(), true)) {
+        try (FileWriter writer = new FileWriter(path.toFile())) {
             for (final Map.Entry<String, String> entry : config.entrySet()) {
                 final String k = entry.getKey();
                 final String v = entry.getValue();
