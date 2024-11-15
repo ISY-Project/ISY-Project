@@ -1,3 +1,8 @@
 {
-    "cSpell.language": "en,nl"
+    "cSpell.language": "en,nl",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "java.autobuild.enabled": true,
+    "cSpell.words": [
+        "bitshifters"
+    ],
 }
