@@ -43,6 +43,11 @@ public class Main {
      */
     public static void main(String[] args){
         Main main = new Main();
+        handleArgs(args, main);
+        main.run(args);
+    }
+
+    private static void handleArgs(String[] args, Main main) {
         JCommander jc = JCommander.newBuilder()
                     .addObject(Main.FLAGS)
                     .addObject(main)
@@ -59,7 +64,6 @@ public class Main {
             jc.usage();
             System.exit(0);
         }
-        main.run(args);
     }
 
     public void run(String[] args) {
