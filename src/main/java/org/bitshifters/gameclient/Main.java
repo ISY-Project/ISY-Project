@@ -7,8 +7,6 @@ import org.bitshifters.gameclient.arguments.Flags;
 import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.ParameterException;
 
 //import java.util.Random;
 //import javax.swing.JOptionPane;
@@ -23,8 +21,9 @@ import com.beust.jcommander.ParameterException;
 
 @SuppressWarnings("FieldMayBeFinal")
 public class Main {
-    private static ConfigFile configFile;
-    private static ArgParser arguments;
+    private static Config config;
+    private static JCommander arguments;
+    private static Flags flags;
 
     /* 
      * This is the main method of the program. It will parse the command line arguments and run the program.
@@ -35,21 +34,48 @@ public class Main {
      */
     public static void main(String[] args){
         Main main = new Main();
-        arguments = new ArgParser(args, main);
-        configFile = new ConfigFile(Path.of("config.ini"));
+        ArgParser argParser = new ArgParser(args);
+        arguments = argParser.getJc();
+        flags = argParser.getFlags();
+        config = new Config(Path.of("config.ini"));
+        setConfigArgs();
         main.run(args);
     }
 
+    /**
+     * This method will set the values from the command line arguments into the config without editing the config file.
+     * @return void
+     */
+    private static void setConfigArgs() {
+        // get the values out of the argparser, and set them in the config.
+        // configFile.setValue("username", arguments.username);
+        var fields = arguments.getFields();
+        for (var field : fields.entrySet()) {
+            var key = field.getKey();
+            var value = field.getValue();
+            if (!value.isAssigned()) {
+                continue;
+            }
+            var obj = value.getObject();
+            if (obj == null) {
+                continue;
+            }
+            if (config.containsKey(key.getName())) {
+                config.setValue(key.getName(), value.toString());
+            }
+        }
+    }
+
     public void run(String[] args) {
-        if (Flags.DEBUG) {
+        if (flags.DEBUG) {
             System.out.println("\n=== Debug mode enabled ===\n");
             System.out.println("args = " + Arrays.toString(args));
-        } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH) {
-            System.out.println("\n==== Verbose level: " + Flags.VERBOSE + " ====\n");
-        } if (Flags.VERBOSE == VerboseLevel.MEDIUM || Flags.VERBOSE == VerboseLevel.HIGH || Flags.DEBUG) {
-            System.out.println("Client name: " + configFile.getValue("username"));
-            System.out.println("Server Host: " + configFile.getValue("host"));
-            System.out.println("Server Port: " + configFile.getValue("port"));
+        } if (flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH) {
+            System.out.println("\n==== Verbose level: " + flags.VERBOSE + " ====\n");
+        } if (flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH || flags.DEBUG) {
+            System.out.println("Client name: " + config.getValue("username"));
+            System.out.println("Server Host: " + config.getValue("host"));
+            System.out.println("Server Port: " + config.getValue("port"));
         }
     }
 //    private static final MainFrame GUI_Frame = new MainFrame();

@@ -9,24 +9,28 @@ import com.beust.jcommander.ParameterException;
 public class ArgParser {
     // command line variables
     @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
-    private static String NAME = "Klas2Groep4";
+    private String name = "Klas2Groep4";
     @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.gameclient.arguments.IPValidator.class)
-    private static String HOST = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
+    private String host = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
     @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.gameclient.arguments.IntValidator.class)
-    private static Integer PORT = 7789;
+    private Integer port = 7789;
     // command line flags
-    private static Flags FLAGS = new Flags();
+    private Flags flags = new Flags();
 
-    private static JCommander jc;
+    public Flags getFlags() {
+        return flags;
+    }
 
-    public static JCommander getJc() {
+    private JCommander jc;
+
+    public JCommander getJc() {
         return jc;
     }
 
-    public ArgParser (String[] args, Main main) {
+    public ArgParser(String[] args) {
         jc = JCommander.newBuilder()
-                    .addObject(FLAGS)
-                    .addObject(main)
+                    .addObject(flags)
+                    .addObject(this)
                     .build();
         jc.setProgramName("BitShifters.jar");
         try {
@@ -36,10 +40,9 @@ public class ArgParser {
             System.err.println(e.getMessage());
             System.exit(1);
         }
-        if (Flags.HELP) {
+        if (flags.HELP) {
             jc.usage();
             System.exit(0);
         }
     }
-
 }
