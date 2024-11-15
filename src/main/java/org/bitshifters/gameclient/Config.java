@@ -6,18 +6,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 import org.bitshifters.gameclient.interfaces.IConfigFile;
 
-public class ConfigFile implements IConfigFile {
+public class Config implements IConfigFile {
     private final Path path;
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
 
-    public ConfigFile(final Path of) {
+    public Config(final Path of) {
         this.path = of;
         initializeConverters();
         setDefaultValues();
@@ -35,6 +37,22 @@ public class ConfigFile implements IConfigFile {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String[] getNames() {
+        final List<String> names = new ArrayList<>();
+        for (final String k : config.keySet()) {
+            names.add(k);
+        }
+        return names.toArray(new String[0]);
+    }
+
+    public String[] getValues() {
+        final List<String> values = new ArrayList<>();
+        for (final String v : config.values()) {
+            values.add(v);
+        }
+        return values.toArray(new String[0]);
     }
 
     @Override
@@ -126,5 +144,9 @@ public class ConfigFile implements IConfigFile {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean containsKey(String key) {
+        return config.containsKey(key);
     }
 }
