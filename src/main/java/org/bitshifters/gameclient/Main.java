@@ -1,5 +1,6 @@
 package org.bitshifters.gameclient;
 
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.Arrays;
 
@@ -59,7 +60,15 @@ public class Main {
                 continue;
             }
             if (config.containsKey(key.getName())) {
-                config.setValue(key.getName(), value.toString());
+                Field varField;
+                try {
+                    varField = obj.getClass().getDeclaredField(key.getName());
+                    varField.setAccessible(true);
+                    var varValue = varField.get(obj);
+                    config.setValue(key.getName(), varValue.toString());
+                } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
