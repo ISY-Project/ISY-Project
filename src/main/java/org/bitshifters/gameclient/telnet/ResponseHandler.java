@@ -54,6 +54,10 @@ public class ResponseHandler {
                 result = GameTypes.BattleShip;
                 break;
             }
+            if (option.contains("Stratego")) {
+                result = GameTypes.Stratego;
+                break;
+            }
         }
         return result;
     }
