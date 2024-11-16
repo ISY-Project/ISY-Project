@@ -1,6 +1,8 @@
 package org.bitshifters.gameclient.games;
 
-public abstract class GameMaster {
+import org.bitshifters.gameclient.interfaces.IGameMaster;
+
+public abstract class GameMaster implements IGameMaster {
     protected GameTypes GameType;
     public abstract GameTypes getGameType();
 }
