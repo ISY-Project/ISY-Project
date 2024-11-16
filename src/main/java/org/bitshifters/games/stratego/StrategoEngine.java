@@ -1,8 +1,8 @@
 package org.bitshifters.games.stratego;
 
-import org.bitshifters.games.GridEngine;
-import org.bitshifters.games.Player;
 import org.bitshifters.games.components.Grid;
+import org.bitshifters.games.components.GridEngine;
+import org.bitshifters.games.components.Player;
 
 public class StrategoEngine extends GridEngine<StrategoCell> {
     private static final Player MOVEMENT_GRID_PLAYER = new Player("MovementGrid");

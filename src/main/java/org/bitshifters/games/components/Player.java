@@ -1,4 +1,4 @@
-package org.bitshifters.games;
+package org.bitshifters.games.components;
 
 public class Player {
     private String name;

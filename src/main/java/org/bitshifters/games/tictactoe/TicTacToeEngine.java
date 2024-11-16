@@ -2,8 +2,8 @@ package org.bitshifters.games.tictactoe;
 
 import java.util.HashMap;
 
-import org.bitshifters.games.GridEngine;
-import org.bitshifters.games.Player;
+import org.bitshifters.games.components.GridEngine;
+import org.bitshifters.games.components.Player;
 
 public class TicTacToeEngine extends GridEngine<TTTCell> {
     Player player1;

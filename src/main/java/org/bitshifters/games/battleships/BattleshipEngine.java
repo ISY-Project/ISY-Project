@@ -2,8 +2,8 @@ package org.bitshifters.games.battleships;
 
 import java.util.HashMap;
 
-import org.bitshifters.games.GridEngine;
-import org.bitshifters.games.Player;
+import org.bitshifters.games.components.GridEngine;
+import org.bitshifters.games.components.Player;
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
     int rows;

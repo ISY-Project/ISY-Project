@@ -1,8 +1,6 @@
-package org.bitshifters.games;
+package org.bitshifters.games.components;
 
 import java.util.Map;
-
-import org.bitshifters.games.components.Grid;
 
 public abstract class GridEngine<Cell> extends Engine {
     protected Map<Player, Grid<Cell>> grids;
