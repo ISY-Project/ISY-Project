@@ -1,0 +1,151 @@
+package org.bitshifters.gameclient.telnet;
+
+import org.bitshifters.gameclient.GameClient;
+import org.bitshifters.gameclient.games.States;
+import org.bitshifters.gameclient.telnet.Responses.ChallengeEvent;
+import org.bitshifters.gameclient.telnet.Responses.GameEvent;
+import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
+
+public class ResponseHandler {
+    private final EventHandler eventHandler;
+    private final GameClient gameClient;
+
+    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) {
+        this.eventHandler = eventHandler;
+        this.gameClient = gameClient;
+    }
+
+    public boolean handle(final String response) {
+        if (!this.eventHandler.isValidGameType(determineGameType(response))) {
+            return false;
+        }
+        final String[] responseArray = response.split(" ");
+        if (response.contains(ServerEvent.HELP)) {
+            handleHelpEvent(response);
+        }
+        else if (response.contains(ServerEvent.ID)) {
+            handleServerEvent(response, responseArray);
+        } else if (response.contains(ServerEvent.ERROR)) {
+            handleErrorEvent(response);
+        }
+        return true;
+    }
+
+    private States determineGameType(final String response) {
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        if (start == -1 || end == -1) {
+            return null;
+        }
+        final States currentGameType = gameClient.getGameType(); // use the game client.
+        if (currentGameType == eventHandler.getGameType()) {
+            return currentGameType;
+        }
+        final String[] data = response.substring(start + 1, end).split(",");
+        States result = null;
+        for (final String option : data) {
+            if (option.contains("Tic-tac-toe")) {
+                result = States.TicTacToe;
+                break;
+            }
+            if (option.contains("Battleship")) {
+                result = States.BattleShip;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private void handleErrorEvent(final String response) {
+        this.eventHandler.onError(response);
+    }
+
+    private void handleHelpEvent(final String response) {
+        this.eventHandler.onHelp(response);
+    }
+
+    private void handleServerEvent(final String response, final String[] responseArray) {
+        if (response.contains(GameEvent.MESSAGE)) {
+            handleGameEvent(response, responseArray);
+        }
+    }
+
+    private void handleGameEvent(final String response, final String[] responseArray) {
+        if (response.contains(ChallengeEvent.MESSAGE)) {
+            handleChallengeEvent(response, responseArray);
+        }
+        else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
+            handleMatchEvent(response);
+        }
+        else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
+            handleYourTurnEvent(responseArray);
+        }
+        else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
+            handleMoveEvent(response);
+        }
+        else if (response.contains(GameEvent.MESSAGE + "WIN")) {
+            handleWinEvent();
+        }
+        else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
+            handleLossEvent();
+        }
+        else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
+            handleDrawEvent();
+        }
+    }
+
+    private void handleDrawEvent() {
+        this.eventHandler.onDraw();
+    }
+
+    private void handleLossEvent() {
+        this.eventHandler.onLose();
+    }
+
+    private void handleWinEvent() {
+        this.eventHandler.onWin();
+    }
+
+    private void handleMoveEvent(final String response) {
+        final String[] data = parseMove(response);
+        this.eventHandler.onMove(data);
+    }
+
+    private void handleYourTurnEvent(final String[] responseArray) {
+        this.eventHandler.onYourTurn(responseArray[2]);
+    }
+
+    private void handleMatchEvent(final String response) {
+        this.eventHandler.onMatch();
+    }
+
+    private void handleChallengeEvent(final String response, final String[] responseArray) {
+        final String playerName = response.split(" ")[1];
+        final int gameNumber = Integer.parseInt(responseArray[2]);
+        final int gameName = Integer.parseInt(responseArray[3]);
+        this.eventHandler.onChallenge(playerName, gameName, gameNumber);
+    }
+
+    private String[] parseMove(final String response) {
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final String[] result = new String[data.length];
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = '"';
+            if (option.contains(String.valueOf(split) + String.valueOf(split))) {
+                option = "TICKTACKTOE";
+            }
+            if (option.contains(String.valueOf(split))) {
+                option = option.split(String.valueOf(split))[1];
+            }
+            result[i] = option;
+        }
+        return result;
+    }
+}
