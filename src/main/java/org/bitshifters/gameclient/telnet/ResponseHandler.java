@@ -1,7 +1,7 @@
 package org.bitshifters.gameclient.telnet;
 
 import org.bitshifters.gameclient.GameClient;
-import org.bitshifters.gameclient.games.States;
+import org.bitshifters.gameclient.games.GameTypes;
 import org.bitshifters.gameclient.telnet.Responses.ChallengeEvent;
 import org.bitshifters.gameclient.telnet.Responses.GameEvent;
 import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
@@ -31,7 +31,7 @@ public class ResponseHandler {
         return true;
     }
 
-    private States determineGameType(final String response) {
+    private GameTypes determineGameType(final String response) {
         final char data_start = '{';
         final char data_end = '}';
         final int start = response.indexOf(data_start);
@@ -39,19 +39,19 @@ public class ResponseHandler {
         if (start == -1 || end == -1) {
             return null;
         }
-        final States currentGameType = gameClient.getGameType(); // use the game client.
+        final GameTypes currentGameType = gameClient.getGameType(); // use the game client.
         if (currentGameType == eventHandler.getGameType()) {
             return currentGameType;
         }
         final String[] data = response.substring(start + 1, end).split(",");
-        States result = null;
+        GameTypes result = null;
         for (final String option : data) {
             if (option.contains("Tic-tac-toe")) {
-                result = States.TicTacToe;
+                result = GameTypes.TicTacToe;
                 break;
             }
             if (option.contains("Battleship")) {
-                result = States.BattleShip;
+                result = GameTypes.BattleShip;
                 break;
             }
         }

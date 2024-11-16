@@ -1,7 +1,7 @@
 package org.bitshifters.gameclient.games;
 
-public enum States {
+public enum GameTypes {
     BattleShip,
     TicTacToe,
-    Strategom,
+    Stratego,
 }

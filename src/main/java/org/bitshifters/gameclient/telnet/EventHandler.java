@@ -5,24 +5,24 @@ import org.bitshifters.gameclient.telnet.Responses.GameEvent;
 import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
 import org.bitshifters.gameclient.telnet.Commands.Logout;
 import org.bitshifters.gameclient.telnet.Events.Error;
-import org.bitshifters.gameclient.games.States;
+import org.bitshifters.gameclient.games.GameTypes;
 
 public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
     final Logout logout = new Logout();
-    private final States gameType;
+    private final GameTypes gameType;
 
-    public States getGameType() {
+    public GameTypes getGameType() {
         return gameType;
     }
 
-    public boolean isValidGameType(States gameType) {
+    public boolean isValidGameType(GameTypes gameType) {
         if (gameType != this.gameType) {
             return false;
         }
         return true;
     }
 
-    public EventHandler(States gameType) {
+    public EventHandler(GameTypes gameType) {
         this.gameType = gameType;
     }
 
