@@ -1,5 +1,5 @@
 package org.bitshifters.gameclient.games;
 
-public class GameMaster {
+public abstract class GameMaster {
     private String Name;
 }
