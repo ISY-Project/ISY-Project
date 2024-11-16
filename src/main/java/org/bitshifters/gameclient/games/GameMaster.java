@@ -1,5 +1,6 @@
 package org.bitshifters.gameclient.games;
 
 public abstract class GameMaster {
-    private String Name;
+    protected GameTypes GameType;
+    public abstract GameTypes getGameType();
 }
