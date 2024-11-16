@@ -1,7 +1,7 @@
-package org.bitshifters.gameclient.telnet.Responses;
+package org.bitshifters.gameclient.telnet.Events;
 
 
-public interface GameEvent {
+public interface Game {
     String MESSAGE = "GAME ";
     void onMatch();
     void onYourTurn(String MESSAGE);

@@ -2,10 +2,12 @@ package org.bitshifters.gameclient.telnet;
 
 import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.games.GameTypes;
+import org.bitshifters.gameclient.telnet.Events.Challenge;
+import org.bitshifters.gameclient.telnet.Events.Game;
+import org.bitshifters.gameclient.telnet.Events.Help;
+import org.bitshifters.gameclient.telnet.Events.Server;
 import org.bitshifters.gameclient.telnet.Exceptions.TypeMismatchException;
-import org.bitshifters.gameclient.telnet.Responses.ChallengeEvent;
-import org.bitshifters.gameclient.telnet.Responses.GameEvent;
-import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
+import org.bitshifters.gameclient.telnet.Events.Error;
 
 public class ResponseHandler {
     private final EventHandler eventHandler;
@@ -27,12 +29,12 @@ public class ResponseHandler {
             return false;
         }
         final String[] responseArray = response.split(" ");
-        if (response.contains(ServerEvent.HELP)) {
+        if (response.contains(Help.MESSAGE)) {
             handleHelpEvent(response);
         }
-        else if (response.contains(ServerEvent.ID)) {
+        else if (response.contains(Server.MESSAGE)) {
             handleServerEvent(response, responseArray);
-        } else if (response.contains(ServerEvent.ERROR)) {
+        } else if (response.contains(Error.MESSAGE)) {
             handleErrorEvent(response);
         }
         return true;
@@ -78,31 +80,31 @@ public class ResponseHandler {
     }
 
     private void handleServerEvent(final String response, final String[] responseArray) {
-        if (response.contains(GameEvent.MESSAGE)) {
+        if (response.contains(Game.MESSAGE)) {
             handleGameEvent(response, responseArray);
         }
     }
 
     private void handleGameEvent(final String response, final String[] responseArray) {
-        if (response.contains(ChallengeEvent.MESSAGE)) {
+        if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
         }
-        else if (response.contains(GameEvent.MESSAGE + "MATCH")) {
+        else if (response.contains(Game.MESSAGE + "MATCH")) {
             handleMatchEvent(response);
         }
-        else if (response.contains(GameEvent.MESSAGE + "YOURTURN")) {
+        else if (response.contains(Game.MESSAGE + "YOURTURN")) {
             handleYourTurnEvent(responseArray);
         }
-        else if (response.contains(GameEvent.MESSAGE + "MOVE")) {
+        else if (response.contains(Game.MESSAGE + "MOVE")) {
             handleMoveEvent(response);
         }
-        else if (response.contains(GameEvent.MESSAGE + "WIN")) {
+        else if (response.contains(Game.MESSAGE + "WIN")) {
             handleWinEvent();
         }
-        else if (response.contains(GameEvent.MESSAGE + "LOSS")) {
+        else if (response.contains(Game.MESSAGE + "LOSS")) {
             handleLossEvent();
         }
-        else if (response.contains(GameEvent.MESSAGE + "DRAW")) {
+        else if (response.contains(Game.MESSAGE + "DRAW")) {
             handleDrawEvent();
         }
     }

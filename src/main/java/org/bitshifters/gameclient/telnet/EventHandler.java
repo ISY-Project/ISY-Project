@@ -1,12 +1,12 @@
 package org.bitshifters.gameclient.telnet;
 
-import org.bitshifters.gameclient.telnet.Responses.ChallengeEvent;
-import org.bitshifters.gameclient.telnet.Responses.GameEvent;
-import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
+import org.bitshifters.gameclient.telnet.Events.Challenge;
 import org.bitshifters.gameclient.telnet.Events.Error;
+import org.bitshifters.gameclient.telnet.Events.Game;
+import org.bitshifters.gameclient.telnet.Events.Server;
 import org.bitshifters.gameclient.games.GameTypes;
 
-public abstract class EventHandler implements ServerEvent, GameEvent, ChallengeEvent, Error {
+public abstract class EventHandler implements Server, Game, Challenge, Error {
     private final GameTypes gameType;
 
     public EventHandler(final GameTypes gameType) {
