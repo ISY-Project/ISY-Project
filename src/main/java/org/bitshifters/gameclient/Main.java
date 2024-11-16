@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import org.bitshifters.gameclient.arguments.ArgParser;
 import org.bitshifters.gameclient.arguments.Flags;
-import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.JCommander;
@@ -26,7 +25,6 @@ public class Main {
      */
     public static void main(final String[] args){
         final Main main = new Main();
-        final GameClient gameClient = new GameClient();
         final ArgParser argParser = new ArgParser(args);
         arguments = argParser.getJc();
         flags = argParser.getFlags();
@@ -39,7 +37,6 @@ public class Main {
             System.exit(1);
         }
         main.run(args);
-        gameClient.run();
     }
 
     /**
