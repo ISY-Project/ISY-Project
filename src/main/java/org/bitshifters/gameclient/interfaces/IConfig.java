@@ -2,7 +2,7 @@ package org.bitshifters.gameclient.interfaces;
 
 import java.util.function.Function;
 
-public interface IConfigFile {
+public interface IConfig {
 
     void write();
 

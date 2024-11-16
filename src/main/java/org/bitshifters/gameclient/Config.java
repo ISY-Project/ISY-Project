@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.bitshifters.gameclient.interfaces.IConfigFile;
+import org.bitshifters.gameclient.interfaces.IConfig;
 
-public class Config implements IConfigFile {
+public class Config implements IConfig {
     private final Path path;
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
