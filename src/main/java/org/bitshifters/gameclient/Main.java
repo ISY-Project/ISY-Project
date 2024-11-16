@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.bitshifters.gameclient.arguments.ArgParser;
 import org.bitshifters.gameclient.arguments.Flags;
+import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.JCommander;

@@ -1,10 +1,11 @@
-package org.bitshifters.gameclient;
+package org.bitshifters.gameclient.clients.tictactoe;
 
+import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.games.GameTypes;
-import org.bitshifters.gameclient.interfaces.IGameClient;
 
-public class GameClient implements Runnable, IGameClient {
+public class Client extends GameClient {
 
+    @Override
     public GameTypes getGameType() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getGameType'");
