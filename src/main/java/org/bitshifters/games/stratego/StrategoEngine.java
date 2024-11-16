@@ -6,16 +6,16 @@ import org.bitshifters.games.components.Grid;
 
 public class StrategoEngine extends GridEngine<StrategoCell> {
     private static final Player MOVEMENT_GRID_PLAYER = new Player("MovementGrid");
-    private int playerRows;
-    private int playerCols;
-    private int totalRows;
-    private int totalCols;
+    private final int playerRows;
+    private final int playerCols;
+    private final int totalRows;
+    private final int totalCols;
 
-    public StrategoEngine(Player[] players) {
+    public StrategoEngine(final Player[] players) {
         this(4, 7, players);
     }
 
-    public StrategoEngine(int playerRows, int playerColumns, Player[] players) {
+    public StrategoEngine(final int playerRows, final int playerColumns, final Player[] players) {
         this.playerRows = playerRows;
         this.playerCols = playerColumns;
         // Add one to the total players to account for the movement grid.
@@ -30,7 +30,7 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * Generate the grids for each player, and a grid between all players for movement.
      * @param players
      */
-    private void generateGrids(Player[] players) {
+    private void generateGrids(final Player[] players) {
         generatePlayerGrids(players);
         generateMovementGrid(players);
     }
@@ -39,9 +39,9 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * Generate the player grids.
      * @param players
      */
-    private void generatePlayerGrids(Player[] players) {
-        for (var player : players) {
-            var grid = new Grid<StrategoCell>(playerRows, playerCols, StrategoCell.Empty);
+    private void generatePlayerGrids(final Player[] players) {
+        for (final var player : players) {
+            final var grid = new Grid<StrategoCell>(playerRows, playerCols, StrategoCell.Empty);
             grids.put(player, grid);
         }
     }
@@ -51,7 +51,7 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * This grid occupies the entire board, and is used to move units between player grids.
      * @param players
      */
-    private void generateMovementGrid(Player[] players) {
+    private void generateMovementGrid(final Player[] players) {
         grids.put(
             MOVEMENT_GRID_PLAYER,
             new Grid<StrategoCell>(totalRows, totalCols, null)
@@ -73,8 +73,8 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * @param player
      * @return
      */
-    public boolean validateMove(int row, int col, Player player) {
-        var cell = getCell(row, col, player);
+    public boolean validateMove(final int row, final int col, final Player player) {
+        final var cell = getCell(row, col, player);
         boolean valid = true;
         if (cell != StrategoCell.Empty) {
             valid = false;

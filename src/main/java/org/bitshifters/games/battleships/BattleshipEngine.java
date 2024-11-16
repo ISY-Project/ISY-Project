@@ -9,7 +9,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     int rows;
     int cols;
 
-    public BattleshipEngine(int rows, int cols) {
+    public BattleshipEngine(final int rows, final int cols) {
         this.rows = rows;
         this.cols = cols;
         this.grids = new HashMap<>();
@@ -19,7 +19,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
      * Validate the shot location for the player.
      */
     public boolean validateMove(final int row, final int col, final Player player) {
-        var cell = getCell(row, col, player);
+        final var cell = getCell(row, col, player);
         boolean valid = true;
         if (cell != BattleshipCell.EMPTY) {
             valid = false;

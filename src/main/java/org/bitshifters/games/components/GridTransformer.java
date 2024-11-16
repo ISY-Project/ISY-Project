@@ -3,8 +3,9 @@ package org.bitshifters.games.components;
 import java.lang.reflect.Array;
 
 public class GridTransformer<T> {
-    public T[][] toGrid(T[] flatList, int size, Class<T> clazz) {
+    public T[][] toGrid(final T[] flatList, final int size, final Class<T> clazz) {
         @SuppressWarnings("unchecked")
+        final
         T[][] res = (T[][]) Array.newInstance(clazz, flatList.length / size, size);
         for (int i = 0; i < flatList.length; i++) {
             res[i / size][i % size] = flatList[i];
@@ -12,8 +13,9 @@ public class GridTransformer<T> {
         return res;
     }
 
-    public T[] toList(T[][] grid, Class<T> clazz) {
+    public T[] toList(final T[][] grid, final Class<T> clazz) {
         @SuppressWarnings("unchecked")
+        final
         T[] res = (T[]) Array.newInstance(clazz, grid.length * grid[0].length);
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[0].length; j++) {
@@ -30,7 +32,7 @@ public class GridTransformer<T> {
      * @param size
      * @return
      */
-    public int[] toCoordinates(int index, int size) {
+    public int[] toCoordinates(final int index, final int size) {
         return new int[] { index / size, index % size };
     }
 
@@ -41,7 +43,7 @@ public class GridTransformer<T> {
      * @param size
      * @return
      */
-    public int toIndex(int row, int col, int size) {
+    public int toIndex(final int row, final int col, final int size) {
         return row * size + col;
     }
 }

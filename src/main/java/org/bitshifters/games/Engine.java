@@ -7,7 +7,7 @@ public class Engine {
         return activePlayer;
     }
 
-    public void setActivePlayer(Player activePlayer) {
+    public void setActivePlayer(final Player activePlayer) {
         this.activePlayer = activePlayer;
     }
 }
