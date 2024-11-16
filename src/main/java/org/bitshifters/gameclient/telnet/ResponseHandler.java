@@ -2,6 +2,7 @@ package org.bitshifters.gameclient.telnet;
 
 import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.games.GameTypes;
+import org.bitshifters.gameclient.telnet.Exceptions.TypeMismatchException;
 import org.bitshifters.gameclient.telnet.Responses.ChallengeEvent;
 import org.bitshifters.gameclient.telnet.Responses.GameEvent;
 import org.bitshifters.gameclient.telnet.Responses.ServerEvent;
@@ -10,11 +11,11 @@ public class ResponseHandler {
     private final EventHandler eventHandler;
     private final GameClient gameClient;
 
-    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) throws IllegalArgumentException {
+    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) throws TypeMismatchException {
         this.eventHandler = eventHandler;
         this.gameClient = gameClient;
         if (!this.IsMatchingGameType())
-            throw new IllegalArgumentException("Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType());
+            throw new TypeMismatchException("Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType());
     }
 
     private boolean IsMatchingGameType() {
