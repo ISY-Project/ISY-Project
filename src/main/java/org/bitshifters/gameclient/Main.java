@@ -65,6 +65,9 @@ public class Main {
         }
     }
 
+    /**
+     * @param args The command line arguments
+     */
     public void run(final String[] args) {
         if (flags.DEBUG) {
             System.out.println("\n=== Debug mode enabled ===\n");
