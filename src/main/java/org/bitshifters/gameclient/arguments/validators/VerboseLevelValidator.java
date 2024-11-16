@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.arguments;
+package org.bitshifters.gameclient.arguments.validators;
 
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;

@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.arguments;
+package org.bitshifters.gameclient.arguments.converters;
 
 import org.bitshifters.gameclient.enums.VerboseLevel;
 

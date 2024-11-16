@@ -1,5 +1,7 @@
 package org.bitshifters.gameclient.arguments;
 
+import org.bitshifters.gameclient.arguments.converters.VerboseConverter;
+import org.bitshifters.gameclient.arguments.validators.VerboseLevelValidator;
 import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.Parameter;
