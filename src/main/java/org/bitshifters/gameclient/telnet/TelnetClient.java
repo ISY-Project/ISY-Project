@@ -13,17 +13,23 @@ public class TelnetClient {
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
+    private String server;
+    private int port;
 
-    public void connect(String server, int port) throws Exception {
-        socket = new Socket(server, port);
+    public TelnetClient(final String server, final int port) {
+        this.server = server;
+        this.port = port;
+    }
+
+    public void connect() throws Exception {
+        socket = new Socket(this.server, this.port);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    public void sendMessage(SendableCommand message) {
+    public void sendMessage(final SendableCommand message) throws IllegalStateException {
         if (this.out == null) {
-            System.out.println("Connection not established");
-            return;
+            throw new IllegalStateException("Connection not established");
         }
         System.out.println("Sent: " + message);
         out.println(message);
@@ -33,7 +39,7 @@ public class TelnetClient {
         return in.readLine();
     }
 
-    public void showMessage(String message) {
+    public void showMessage(final String message) {
         System.out.println(message);
     }
 
