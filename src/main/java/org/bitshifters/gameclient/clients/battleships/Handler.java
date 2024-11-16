@@ -1,11 +1,11 @@
-package org.bitshifters.gameclient.clients.stratego;
+package org.bitshifters.gameclient.clients.battleships;
 
 import org.bitshifters.gameclient.clients.GameClient;
 import org.bitshifters.gameclient.telnet.EventHandler;
 import org.bitshifters.gameclient.telnet.ResponseHandler;
 
-public class GameHandler extends ResponseHandler {
-    GameHandler(final EventHandler eventHandler, final GameClient gameClient) {
+public class Handler extends ResponseHandler {
+    Handler(final EventHandler eventHandler, final GameClient gameClient) {
         super(eventHandler, gameClient);
     }
 }
