@@ -10,9 +10,15 @@ public class ResponseHandler {
     private final EventHandler eventHandler;
     private final GameClient gameClient;
 
-    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) {
+    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) throws IllegalArgumentException {
         this.eventHandler = eventHandler;
         this.gameClient = gameClient;
+        if (!this.IsMatchingGameType())
+            throw new IllegalArgumentException("Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType());
+    }
+
+    private boolean IsMatchingGameType() {
+        return this.eventHandler.getGameType() == this.gameClient.getGameType();
     }
 
     public boolean handle(final String response) {
