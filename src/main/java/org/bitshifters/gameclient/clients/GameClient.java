@@ -1,5 +1,6 @@
 package org.bitshifters.gameclient.clients;
 
+import org.bitshifters.gameclient.games.GameMaster;
 import org.bitshifters.gameclient.games.GameTypes;
 import org.bitshifters.gameclient.interfaces.IGameClient;
 import org.bitshifters.gameclient.telnet.ResponseHandler;
@@ -9,6 +10,7 @@ public abstract class GameClient implements Runnable, IGameClient {
     protected GameTypes gameType;
     protected TelnetClient telnetClient;
     protected ResponseHandler responseHandler;
+    protected GameMaster gameMaster;
 
     public abstract GameTypes getGameType();
     @Override
