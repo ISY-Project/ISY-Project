@@ -4,17 +4,15 @@ public class Grid<T> {
     private T[][] grid;
     private int rowCount;
     private int columnCount;
+    private T defaultValue;
 
     @SuppressWarnings("unchecked")
     public Grid(final int rowCount, final int columnCount, final T defaultValue) {
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.grid = (T[][]) new Object[rowCount][columnCount];
-        for (int i = 0; i < rowCount; i++) {
-            for (int j = 0; j < columnCount; j++) {
-                grid[i][j] = defaultValue;
-            }
-        }
+        this.defaultValue = defaultValue;
+        reset();
     }
 
     public Grid(final int rowCount, final int columnCount) {
@@ -35,6 +33,10 @@ public class Grid<T> {
 
     public int getColumnCount() {
         return columnCount;
+    }
+
+    public void reset() {
+        reset(defaultValue);
     }
 
     public void reset(final T defaultValue) {

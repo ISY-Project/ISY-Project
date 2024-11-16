@@ -6,8 +6,6 @@ import org.bitshifters.games.GridEngine;
 import org.bitshifters.games.Player;
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
-    Player player1;
-    Player player2;
     int rows;
     int cols;
 
@@ -17,6 +15,9 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         this.grids = new HashMap<>();
     }
 
+    /**
+     * Validate the shot location for the player.
+     */
     public boolean validateMove(final int row, final int col, final Player player) {
         var cell = getCell(row, col, player);
         boolean valid = true;
