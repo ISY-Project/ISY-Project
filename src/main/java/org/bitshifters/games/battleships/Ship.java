@@ -34,16 +34,16 @@ public class Ship {
         return !horizontal;
     }
 
-    public boolean isAt(final int x, final int y) {
+    public boolean isAt(final int row, final int col) {
         if (horizontal) {
-            return y == this.col && x >= this.row && x < this.row + length;
+            return col == this.col && row >= this.row && row < this.row + length;
         } else {
-            return x == this.row && y >= this.col && y < this.col + length;
+            return row == this.row && col >= this.col && col < this.col + length;
         }
     }
 
-    public boolean isHit(final int x, final int y) {
-        if (isAt(x, y)) {
+    public boolean isHit(final int row, final int col) {
+        if (isAt(row, col)) {
             return true;
         }
         return false;
