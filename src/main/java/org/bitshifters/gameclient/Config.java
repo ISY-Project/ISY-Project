@@ -44,7 +44,7 @@ public class Config implements IConfig {
         for (final String k : config.keySet()) {
             names.add(k);
         }
-        return names.toArray(new String[0]);
+        return names.toArray(String[]::new);
     }
 
     public String[] getValues() {
@@ -52,7 +52,7 @@ public class Config implements IConfig {
         for (final String v : config.values()) {
             values.add(v);
         }
-        return values.toArray(new String[0]);
+        return values.toArray(String[]::new);
     }
 
     @Override
@@ -89,13 +89,13 @@ public class Config implements IConfig {
     }
 
     private void initializeConverters() {
-        addConverter(Byte.class, (final String i) -> {return Byte.parseByte(i);});
-        addConverter(Short.class, (final String i) -> {return Short.parseShort(i);});
-        addConverter(Integer.class, (final String i) -> {return Integer.parseInt(i);});
-        addConverter(Long.class, (final String i) -> {return Long.parseLong(i);});
-        addConverter(Float.class, (final String i) -> {return Float.parseFloat(i);});
-        addConverter(Double.class, (final String i) -> {return Double.parseDouble(i);});
-        addConverter(Boolean.class, (final String i) -> {return Boolean.parseBoolean(i);});
+        addConverter(Byte.class, (final String i) -> {return Byte.valueOf(i);});
+        addConverter(Short.class, (final String i) -> {return Short.valueOf(i);});
+        addConverter(Integer.class, (final String i) -> {return Integer.valueOf(i);});
+        addConverter(Long.class, (final String i) -> {return Long.valueOf(i);});
+        addConverter(Float.class, (final String i) -> {return Float.valueOf(i);});
+        addConverter(Double.class, (final String i) -> {return Double.valueOf(i);});
+        addConverter(Boolean.class, (final String i) -> {return Boolean.valueOf(i);});
     }
 
     private <T> T convert(final String value, final Class<T> target) {
