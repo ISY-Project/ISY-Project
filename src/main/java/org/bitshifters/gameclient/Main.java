@@ -16,7 +16,7 @@ public class Main {
     private static JCommander arguments;
     private static Flags flags;
 
-    /* 
+    /** 
      * This is the main method of the program. It will parse the command line arguments and run the program.
      * If the help flag is set, it will print the help menu and exit the program.
      * It will run the run method once the command line arguments are parsed.
