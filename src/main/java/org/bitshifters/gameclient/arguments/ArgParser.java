@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
+@SuppressWarnings("FieldMayBeFinal") // <- this is a false positive, the fields are not final because JCommander requires them to be mutable
 public class ArgParser {
     // command line variables
     @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
