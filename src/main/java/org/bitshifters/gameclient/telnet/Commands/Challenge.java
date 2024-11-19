@@ -9,6 +9,7 @@ public class Challenge implements SendableCommand {
             this.command = challengeString + acceptedString + gameNumber;
         }
 
+        @Override
         public String get() {
             return this.command;
         }
@@ -25,6 +26,7 @@ public class Challenge implements SendableCommand {
         return accept;
     }
 
+    @Override
     public String get() {
         return this.command;
     }

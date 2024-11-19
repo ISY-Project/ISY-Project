@@ -7,6 +7,7 @@ public class Message implements SendableCommand {
         this.command = "message \"" + message + "\"";
     }
 
+    @Override
     public String get() {
         return this.command;
     }

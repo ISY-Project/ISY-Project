@@ -7,6 +7,7 @@ public class Login implements SendableCommand {
         this.command = "login " + name;
     }
 
+    @Override
     public String get() {
         return this.command;
     }

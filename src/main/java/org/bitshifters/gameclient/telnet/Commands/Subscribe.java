@@ -10,6 +10,7 @@ public enum Subscribe implements SendableCommand {
         this.game = "subscribe " + game.toLowerCase();
     }
 
+    @Override
     public String get() {
         return this.game;
     }

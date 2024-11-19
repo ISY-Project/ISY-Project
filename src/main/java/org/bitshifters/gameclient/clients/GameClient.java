@@ -12,7 +12,9 @@ public abstract class GameClient implements Runnable, IGameClient {
     protected ResponseHandler responseHandler;
     protected GameMaster gameMaster;
 
+    @Override
     public abstract GameTypes getGameType();
+    
     @Override
     public abstract void run();
 }

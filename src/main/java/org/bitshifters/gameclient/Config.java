@@ -83,6 +83,7 @@ public class Config implements IConfig {
         return convert(value, target);
     }
 
+    @Override
     public void addConverter(final Class<?> target, final Function<String, ?> converter) {
         converters.put(target.getName(), converter);
     }

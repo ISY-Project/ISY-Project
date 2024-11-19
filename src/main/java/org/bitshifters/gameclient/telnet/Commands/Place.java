@@ -7,6 +7,7 @@ public class Place implements SendableCommand {
         this.command = "place " + start_index + " " + end_index;
     }
 
+    @Override
     public String get() {
         return this.command;
     }
