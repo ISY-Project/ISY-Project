@@ -26,10 +26,14 @@ public class ArgParser {
     }
 
     public ArgParser(String[] args) {
+        initializeJCommander(args);
+    }
+
+    private void initializeJCommander(String[] args) {
         jc = JCommander.newBuilder()
-                    .addObject(flags)
-                    .addObject(this)
-                    .build();
+                .addObject(flags)
+                .addObject(this)
+                .build();
         jc.setProgramName("BitShifters.jar");
         try {
             jc.parse(args);
