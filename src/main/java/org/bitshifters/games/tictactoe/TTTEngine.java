@@ -5,15 +5,15 @@ import java.util.HashMap;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
-public class TicTacToeEngine extends GridEngine<TTTCell> {
+public class TTTEngine extends GridEngine<TTTCell> {
     int rows;
     int cols;
 
-    public TicTacToeEngine() {
+    public TTTEngine() {
         this(3, 3);
     }
 
-    public TicTacToeEngine(int rows, int cols) {
+    public TTTEngine(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         this.grids = new HashMap<>();

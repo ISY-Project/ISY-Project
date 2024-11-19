@@ -4,8 +4,8 @@ import org.bitshifters.gameclient.games.GameTypes;
 import org.bitshifters.gameclient.telnet.EventHandler;
 
 public class TTTHandler extends EventHandler {
-    TTTHandler(GameTypes gameType) {
-        super(gameType);
+    TTTHandler() {
+        super(GameTypes.TicTacToe);
     }
 
     @Override
