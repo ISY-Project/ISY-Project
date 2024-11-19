@@ -9,6 +9,7 @@ public class Get implements SendableCommand {
         this.command = "get " + name.label;
     }
 
+    @Override
     public String get() {
         return this.command;
     }
