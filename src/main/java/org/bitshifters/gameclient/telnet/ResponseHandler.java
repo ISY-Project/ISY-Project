@@ -6,7 +6,7 @@ import org.bitshifters.gameclient.telnet.Events.Game;
 import org.bitshifters.gameclient.telnet.Events.Help;
 import org.bitshifters.gameclient.telnet.Events.Server;
 import org.bitshifters.gameclient.telnet.Exceptions.TypeMismatchException;
-import org.bitshifters.games.GameClient;
+import org.bitshifters.gameclient.ui.GameClient;
 import org.bitshifters.gameclient.telnet.Events.Error;
 
 public class ResponseHandler {
