@@ -6,8 +6,6 @@ import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class TicTacToeEngine extends GridEngine<TTTCell> {
-    Player player1;
-    Player player2;
     int rows;
     int cols;
 
