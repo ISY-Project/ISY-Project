@@ -29,4 +29,16 @@ public class TTTEngine extends GridEngine<TTTCell> {
         }
         return false;
     }
+
+    @Override
+    public boolean isGameOver() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+    }
+
+    @Override
+    public Player getWinner() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWinner'");
+    }
 }

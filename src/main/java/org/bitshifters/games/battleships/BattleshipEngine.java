@@ -71,4 +71,16 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
             playerShips.add(ship);
         }
     }
+
+    @Override
+    public boolean isGameOver() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+    }
+
+    @Override
+    public Player getWinner() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getWinner'");
+    }
 }
