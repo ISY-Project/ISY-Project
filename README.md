@@ -9,11 +9,19 @@
 
 ## How to run
 
+### Via maven
+
+1. Clone the repository: `git clone https://github.com/ISY-Project/ISY-Project.git`
+2. Cd into the project directory: `cd ./ISY-Project`
+3. To run the project uses `mvn clean javafx:run`
+
+### Via VSCode
+
 1. Clone the repository: `git clone https://github.com/ISY-Project/ISY-Project.git`
 2. Cd into the project directory: `cd ./ISY-Project`
 3. Copy `launch.json.example` to `launch.json`
 4. Edit the `launch.json` to use the JavaFX SDK by replacing `<path to JavaFX SDK lib version 23.0.1>` with the path to your JavaFX SDK installation.
-5. To run the project uses `mvn clean javafx:run`
+5. Use the VSCode run option in order to run the program.
 
 ## How to compile
 
