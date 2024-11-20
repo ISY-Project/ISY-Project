@@ -9,7 +9,7 @@ import org.bitshifters.games.components.Player;
 
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
-    private final HashMap<Player, List<Ship>> placedShips;
+    private final HashMap<Player, List<Ship>> placedShipsMap;
     private final ArrayList<Integer> validShipLengths;
     public boolean noSurroundingShips = true;
     private final int rows;
@@ -21,7 +21,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         this.noSurroundingShips = noSurroundingShips;
         this.validShipLengths = validShipLengths;
         this.grids = new HashMap<>();
-        this.placedShips = new HashMap<>();
+        this.placedShipsMap = new HashMap<>();
     }
 
     public void placeShip(final int row, final int col, final int length, final boolean horizontal, final Player player) {
@@ -80,7 +80,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
 
     private int countShipOccurrences(final Player player, final int length) {
         int count = 0;
-        for (final Ship ship : placedShips.get(player)) {
+        for (final Ship ship : placedShipsMap.get(player)) {
             if (ship.getLength() == length){
                 count++;
             }
@@ -120,11 +120,11 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     }
 
     public boolean allShipsPlaced(final Player player) {
-        return placedShips.get(player).size() == validShipLengths.size();
+        return placedShipsMap.get(player).size() == validShipLengths.size();
     }
 
     public boolean allShipsSunk(final Player player) {
-        for (final Ship ship : placedShips.get(player)) {
+        for (final Ship ship : placedShipsMap.get(player)) {
             if (!ship.isSunk()){
                 return false;
             }
@@ -147,23 +147,12 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return true;
     }
 
-    /**
-     * Mark a given location as hit.
-     * @param row
-     * @param col
-     * @param player
-     */
-    public void markHit(final int row, final int col, final Player player) {
-        setCell(row, col, BattleshipCell.HIT, player);
-    }
-
-    // TODO moet schot verwerken
     public BattleshipCell shot(final int row, final int col, final Player player) {
         if (getCell(row, col, player) == BattleshipCell.EMPTY) {
             setCell(row, col, BattleshipCell.MISS, player);
         } else if (getCell(row, col, player) == BattleshipCell.SHIP) {
             setCell(row, col, BattleshipCell.HIT, player);
-            for (final Ship ship : placedShips.get(player)) {
+            for (final Ship ship : placedShipsMap.get(player)) {
                 if (ship.isHit(row, col)){
                     ship.hit();
                 }
@@ -174,34 +163,31 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
 
 
     public void addShip(final Ship ship, final Player player) {
-        var playerShips = placedShips.get(player);
+        var playerShips = placedShipsMap.get(player);
         if (playerShips == null) {
             playerShips = new ArrayList<>();
-            placedShips.put(player, playerShips);
+            placedShipsMap.put(player, playerShips);
         } else {
             playerShips.add(ship);
         }
     }
 
     public boolean hasPlacedAllShips(final Player player) {
-        return placedShips.get(player).size() == validShipLengths.size();
+        return placedShipsMap.get(player).size() == validShipLengths.size();
     }
 
     @Override
     public boolean isGameOver() {
-        if (getWinner() != null) {
-            return true;
+        for (Player player : placedShipsMap.keySet()) {
+            if (allShipsSunk(player)){
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public Player getWinner() {
-        for (final Player player : placedShips.keySet()) {
-            if (allShipsSunk(player)) {
-                return player;
-            }
-        }
         return null;
     }
 
