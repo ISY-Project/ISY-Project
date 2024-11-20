@@ -3,21 +3,24 @@ package org.bitshifters.games.battleships;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Gatherer.Integrator;
 
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
-    private final HashMap<Player, List<Integer>> placedShips;
+    private final HashMap<Player, List<Ship>> placedShips;
     private final ArrayList<Integer> validShipLengths;
     public boolean noSurroundingShips = true;
     private int rows;
     private int cols;
 
-    public BattleshipEngine(final int rows, final int cols) {
+    public BattleshipEngine(final boolean noSurroundingShips, final int rows, final int cols, final ArrayList<Integer> validShipLengths) {
         this.rows = rows;
         this.cols = cols;
+        this.noSurroundingShips = noSurroundingShips;
+        this.validShipLengths = validShipLengths;
         this.grids = new HashMap<>();
         this.placedShips = new HashMap<>();
     }
@@ -35,49 +38,58 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
      * Validate a single cell for a ship being placed.
      */
     public boolean validatePlacementCell(final int row, final int col, final Player player) {
-        boolean valid = true;
         // Not placed before
         // if (placedShips.containsKey(player)) {
-        //     valid = false;
+        //     return false;
         // }
         // Not outside the grid
         if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            valid = false;
+            return false;
         }
         var cell = getCell(row, col, player);
         if (cell.contains(BattleshipCell.SHIP)) {
-            valid = false;
+            return false;
         }
         if (noSurroundingShips) {
             if (row != rows - 1) {
                 cell = getCell(row + 1, col, player); 
                 if (cell.contains(BattleshipCell.SHIP)) {
-                    valid = false;
+                    return false;
                 }
             }
             if (col != cols - 1) {
                 cell = getCell(row, col + 1, player);
                 if (cell.contains(BattleshipCell.SHIP)) {
-                    valid = false;
+                    return false;
                 }
             }
             if (row != 0){
                 cell = getCell(row - 1, col, player);
                 if (cell.contains(BattleshipCell.SHIP)) {
-                    valid = false;
+                    return false;
                 }
             }
             if (col != 0) {
                 cell = getCell(row, col - 1, player);
                 if (cell.contains(BattleshipCell.SHIP)) {
-                    valid = false;
+                    return false;
                 }
             }
         }
-        return valid;
+        return true;
     }
 
-    private <T> int countOccurrences(List<T> elements, int target) {
+    private int countShipOccurrences(Player player, int length) {
+        int count = 0;
+        for (Ship ship : placedShips.get(player)) {
+            if (ship.getLength() == length){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int countIntOccurrences(List<Integer> elements, int target) {
         int count = 0;
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).equals(target)) {
@@ -91,22 +103,21 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
      * Validate the ship placement for the player.
      */
     public boolean validateShipPlacement(final int row, final int col, final int length, final boolean horizontal, final Player player) {
-        boolean valid = true;
-        if (countOccurrences(placedShips.get(player), length) == countOccurrences(validShipLengths, length)) {
-            valid = false;
+        if (countShipOccurrences(player, length) == countIntOccurrences(validShipLengths, length)) {
+            return false;
         }
         for (int i = 0; i < length; i++) {
             if (horizontal){
                 if (!validatePlacementCell(row, col + i, player)) {
-                    valid = false;                    
+                    return false;                    
                 }
             } else {
                 if (!validatePlacementCell(row + i, col, player)) {
-                    valid = false;
+                    return false;
                 }
             }
         }
-        return valid;
+        return true;
     }
 
     public boolean allShipsPlaced(final Player player) {
@@ -114,19 +125,12 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     }
 
     public boolean allShipsSunk(final Player player) {
-        int ship_tiles = 0;
-        var grid = grids.get(player);
-        for (int i = 0; i < grid.getRowCount(); i++) {
-            for (int j = 0; j < grid.getColumnCount(); j++) {
-                if (grid.get(i, j).contains(BattleshipCell.SHIP)) {
-                    ship_tiles++;
-                }
+        for (Ship ship : placedShips.get(player)) {
+            if (!ship.isSunk()){
+                return false;
             }
         }
-        if (ship_tiles == 0) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public boolean validateMove(final int row, final int col, final Player player) {
@@ -138,12 +142,37 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
      */
     public boolean validateShot(final int row, final int col, final Player player) {
         final var cell = getCell(row, col, player);
-        boolean valid = true;
-        if (cell != BattleshipCell.EMPTY) {
-            valid = false;
+        if (cell == BattleshipCell.HIT || cell == BattleshipCell.MISS) {
+            return false;
         }
-        return valid;
+        return true;
     }
+
+    /**
+     * Mark a given location as hit.
+     * @param row
+     * @param col
+     * @param player
+     */
+    public void markHit(final int row, final int col, final Player player) {
+        setCell(row, col, BattleshipCell.HIT, player);
+    }
+
+    // TODO moet schot verwerken
+    public BattleshipCell shot(final int row, final int col, final Player player) {
+        if (getCell(row, col, player) == BattleshipCell.EMPTY) {
+            setCell(row, col, BattleshipCell.MISS, player);
+        } else if (getCell(row, col, player) == BattleshipCell.SHIP) {
+            setCell(row, col, BattleshipCell.HIT, player);
+            for (Ship ship : placedShips.get(player)) {
+                if (ship.isHit(row, col)){
+                    ship.hit();
+                }
+            }
+        }
+        return getCell(row, col, player);
+    }
+
 
     public void addShip(final Ship ship, final Player player) {
         var playerShips = placedShips.get(player);
@@ -151,7 +180,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
             playerShips = new ArrayList<>();
             placedShips.put(player, playerShips);
         } else {
-            playerShips.add(ship.getLength());
+            playerShips.add(ship);
         }
     }
 

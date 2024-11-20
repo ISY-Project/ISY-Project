@@ -7,6 +7,10 @@ public class Ship {
     private final boolean horizontal;
     private int hits = 0;
 
+    public Ship(final int length) {
+        this(0, 0, length, true);
+    }
+
     public Ship(final int row, final int col, final int length, final boolean horizontal) {
         this.row = row;
         this.col = col;
@@ -54,6 +58,10 @@ public class Ship {
     }
 
     public void hit() {
+        hits++;
+    }
+
+    public void hit(final int row, final int col) {
         hits++;
     }
 }
