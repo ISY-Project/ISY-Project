@@ -10,11 +10,27 @@ import org.bitshifters.gameclient.enums.VerboseLevel;
 
 import com.beust.jcommander.JCommander;
 
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
-public class Main {
+
+public class Main extends Application{
     private static Config config;
     private static JCommander arguments;
     private static Flags flags;
+
+    @Override
+    public void start(Stage stage) {
+        String javaVersion = System.getProperty("java.version");
+        String javafxVersion = System.getProperty("javafx.version");
+        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
+        Scene scene = new Scene(new StackPane(l), 640, 480);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     /** 
      * This is the main method of the program. It will parse the command line arguments and run the program.
@@ -79,5 +95,6 @@ public class Main {
             System.out.println("Server Host: " + config.getValue("host"));
             System.out.println("Server Port: " + config.getValue("port"));
         }
+        launch();
     }
 }
