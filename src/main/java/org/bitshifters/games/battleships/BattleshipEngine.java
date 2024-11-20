@@ -9,7 +9,8 @@ import org.bitshifters.games.components.Player;
 
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
-    private final HashMap<Player, List<Ship>> placedShips;
+    private final HashMap<Player, List<Integer>> placedShips;
+    private final ArrayList<Integer> validShipLengths;
     public boolean noSurroundingShips = true;
     private int rows;
     private int cols;
@@ -76,11 +77,24 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return valid;
     }
 
+    private <T> int countOccurrences(List<T> elements, int target) {
+        int count = 0;
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).equals(target)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     /**
      * Validate the ship placement for the player.
      */
     public boolean validateShipPlacement(final int row, final int col, final int length, final boolean horizontal, final Player player) {
         boolean valid = true;
+        if (countOccurrences(placedShips.get(player), length) == countOccurrences(validShipLengths, length)) {
+            valid = false;
+        }
         for (int i = 0; i < length; i++) {
             if (horizontal){
                 if (!validatePlacementCell(row, col + i, player)) {
