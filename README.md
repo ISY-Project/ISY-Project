@@ -1,11 +1,21 @@
 # ISY-Project
 
-## how to compile
 
-### Prerequisites
+## Prerequisites
 
 - Java 23 SDK - [download here](https://www.oracle.com/java/technologies/downloads/)
 - Apache Maven 3.9.9 - [download here](https://maven.apache.org/download.cgi)
+- JavaFX SDK 23.0.1 - [download here](https://gluonhq.com/products/javafx/)
+
+## How to run
+
+1. Clone the repository: `git clone https://github.com/ISY-Project/ISY-Project.git`
+2. Cd into the project directory: `cd ./ISY-Project`
+3. Copy `launch.json.example` to `launch.json`
+4. Edit the `launch.json` to use the JavaFX SDK by replacing `<path to JavaFX SDK lib version 23.0.1>` with the path to your JavaFX SDK installation.
+5. To run the project uses `mvn clean javafx:run`
+
+## How to compile
 
 1. Clone the repository: `git clone https://github.com/ISY-Project/ISY-Project.git`
 2. Cd into the project directory: `cd ./ISY-Project`
@@ -14,8 +24,8 @@
 5. Run the .jar file: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar [-options] [arguments]`
 6. Verify the installation by running the following command: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar --help`
 7. You can run the file with the paramaters set in an file by adding `@.\<parameters_file>` as the only argument
-   - Every argument should be separated with an new line, this includes the parameter and value (look at `run_parameters`)
-   - Other arguments can be added, but it may result in conflicts (adding `-debug` twice turns debug back off)
+    - Every argument should be separated with an new line, this includes the parameter and value (look at `run_parameters`)
+    - Other arguments can be added, but it may result in conflicts (adding `-debug` twice turns debug back off)
 
 ## Regels
 
