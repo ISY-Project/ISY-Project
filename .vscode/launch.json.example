@@ -7,6 +7,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "mvn javafx:run",
+            "name": "BitShifters",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "type": "java",
             "name": "BitShifters",
             "request": "launch",
