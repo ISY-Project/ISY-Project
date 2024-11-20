@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.ui;
+package org.bitshifters;
 
 import javax.swing.JFrame;
 
