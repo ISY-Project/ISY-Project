@@ -109,16 +109,37 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return valid;
     }
 
+    public boolean allShipsPlaced(final Player player) {
+        return placedShips.get(player).size() == validShipLengths.size();
+    }
+
+    public boolean allShipsSunk(final Player player) {
+        int ship_tiles = 0;
+        var grid = grids.get(player);
+        for (int i = 0; i < grid.getRowCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                if (grid.get(i, j).contains(BattleshipCell.SHIP)) {
+                    ship_tiles++;
+                }
+            }
+        }
+        if (ship_tiles == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validateMove(final int row, final int col, final Player player) {
+        return validateShot(rows, cols, activePlayer);
+    }
+
     /**
      * Validate the shot location for the player.
      */
-    public boolean validateMove(final int row, final int col, final Player player) {
+    public boolean validateShot(final int row, final int col, final Player player) {
         final var cell = getCell(row, col, player);
         boolean valid = true;
         if (cell != BattleshipCell.EMPTY) {
-            valid = false;
-        }
-        if (player != activePlayer) {
             valid = false;
         }
         return valid;
@@ -130,8 +151,12 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
             playerShips = new ArrayList<>();
             placedShips.put(player, playerShips);
         } else {
-            playerShips.add(ship);
+            playerShips.add(ship.getLength());
         }
+    }
+
+    public boolean hasPlacedAllShips(final Player player) {
+        return placedShips.get(player).size() == validShipLengths.size();
     }
 
     @Override
