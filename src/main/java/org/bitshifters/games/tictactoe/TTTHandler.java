@@ -1,12 +1,11 @@
-package org.bitshifters.gameclient.clients.stratego;
+package org.bitshifters.games.tictactoe;
 
-import org.bitshifters.gameclient.clients.GameClient;
-import org.bitshifters.gameclient.clients.GameHandler;
 import org.bitshifters.gameclient.games.GameTypes;
+import org.bitshifters.gameclient.telnet.EventHandler;
 
-public class Handler extends GameHandler {
-    Handler(GameTypes gameType, GameClient gameClient) {
-        super(gameType, gameClient);
+public class TTTHandler extends EventHandler {
+    TTTHandler() {
+        super(GameTypes.TicTacToe);
     }
 
     @Override
