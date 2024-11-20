@@ -3,7 +3,6 @@ package org.bitshifters.games.battleships;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Gatherer.Integrator;
 
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
@@ -13,8 +12,8 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     private final HashMap<Player, List<Ship>> placedShips;
     private final ArrayList<Integer> validShipLengths;
     public boolean noSurroundingShips = true;
-    private int rows;
-    private int cols;
+    private final int rows;
+    private final int cols;
 
     public BattleshipEngine(final boolean noSurroundingShips, final int rows, final int cols, final ArrayList<Integer> validShipLengths) {
         this.rows = rows;
@@ -37,7 +36,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     /**
      * Validate a single cell for a ship being placed.
      */
-    public boolean validatePlacementCell(final int row, final int col, final Player player) {
+    private boolean validatePlacementCell(final int row, final int col, final Player player) {
         // Not placed before
         // if (placedShips.containsKey(player)) {
         //     return false;
@@ -79,9 +78,9 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return true;
     }
 
-    private int countShipOccurrences(Player player, int length) {
+    private int countShipOccurrences(final Player player, final int length) {
         int count = 0;
-        for (Ship ship : placedShips.get(player)) {
+        for (final Ship ship : placedShips.get(player)) {
             if (ship.getLength() == length){
                 count++;
             }
@@ -89,7 +88,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return count;
     }
 
-    private int countIntOccurrences(List<Integer> elements, int target) {
+    private int countIntOccurrences(final List<Integer> elements, final int target) {
         int count = 0;
         for (int i = 0; i < elements.size(); i++) {
             if (elements.get(i).equals(target)) {
@@ -125,7 +124,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     }
 
     public boolean allShipsSunk(final Player player) {
-        for (Ship ship : placedShips.get(player)) {
+        for (final Ship ship : placedShips.get(player)) {
             if (!ship.isSunk()){
                 return false;
             }
@@ -164,7 +163,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
             setCell(row, col, BattleshipCell.MISS, player);
         } else if (getCell(row, col, player) == BattleshipCell.SHIP) {
             setCell(row, col, BattleshipCell.HIT, player);
-            for (Ship ship : placedShips.get(player)) {
+            for (final Ship ship : placedShips.get(player)) {
                 if (ship.isHit(row, col)){
                     ship.hit();
                 }
@@ -190,14 +189,20 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
 
     @Override
     public boolean isGameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+        if (getWinner() != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Player getWinner() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWinner'");
+        for (final Player player : placedShips.keySet()) {
+            if (allShipsSunk(player)) {
+                return player;
+            }
+        }
+        return null;
     }
 
 
