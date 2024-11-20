@@ -1,6 +1,5 @@
 # ISY-Project
 
-
 ## Prerequisites
 
 - Java 23 SDK - [download here](https://www.oracle.com/java/technologies/downloads/)
@@ -30,10 +29,10 @@
 3. Compile the java project: `mvn clean compile`
 4. Compile the java project into a .jar file: `mvn package`
 5. Run the .jar file: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar [-options] [arguments]`
-6. Verify the installation by running the following command: `java -jar target/BitShifters-full-vX.X.X-alpha-jar-with-dependencies.jar --help`
+6. Verify the installation by running the following command: `java -jar target/BitShifters-full-vX.X.X-alpha-shaded.jar --help`
 7. You can run the file with the paramaters set in an file by adding `@.\<parameters_file>` as the only argument
-    - Every argument should be separated with an new line, this includes the parameter and value (look at `run_parameters`)
-    - Other arguments can be added, but it may result in conflicts (adding `-debug` twice turns debug back off)
+   - Every argument should be separated with an new line, this includes the parameter and value (look at `run_parameters`)
+   - Other arguments can be added, but it may result in conflicts (adding `-debug` twice turns debug back off)
 
 ## Regels
 
