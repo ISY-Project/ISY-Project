@@ -10,15 +10,13 @@ import org.bitshifters.games.components.Player;
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
     private final HashMap<Player, List<Ship>> placedShipsMap;
     private final ArrayList<Integer> validShipLengths;
-    public boolean noSurroundingShips = true;
+    public boolean allowSurroundingShips = false;
     private final int rows;
     private final int cols;
 
-    public BattleshipEngine(final boolean noSurroundingShips, final int rows, final int cols,
-            final ArrayList<Integer> validShipLengths) {
+    public BattleshipEngine(final int rows, final int cols, final ArrayList<Integer> validShipLengths) {
         this.rows = rows;
         this.cols = cols;
-        this.noSurroundingShips = noSurroundingShips;
         this.validShipLengths = validShipLengths;
         this.grids = new HashMap<>();
         this.placedShipsMap = new HashMap<>();
@@ -138,7 +136,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         if (cell.contains(BattleshipCell.SHIP)) {
             return false;
         }
-        if (noSurroundingShips) {
+        if (!allowSurroundingShips) {
             if (row != rows - 1) {
                 cell = getCell(row + 1, col, player);
                 if (cell.contains(BattleshipCell.SHIP)) {
