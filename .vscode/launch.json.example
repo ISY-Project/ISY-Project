@@ -12,14 +12,16 @@
             "request": "launch",
             "vmArgs": "--module-path \"<path to JavaFX SDK lib version 23.0.1>\" --add-modules javafx.controls,javafx.fxml,javafx.web",
             "mainClass": "org.bitshifters.gameclient.Main",
-            "projectName": "gameclient"
+            "projectName": "gameclient",
+            // "args": "@.\\<parameters_file>"
         },
               {
             "type": "java",
             "name": "Current File",
             "request": "launch",
             "vmArgs": "--module-path \"<path to JavaFX SDK lib version 23.0.1>\" --add-modules javafx.controls,javafx.fxml,javafx.web",
-            "mainClass": "${file}"
+            "mainClass": "${file}",
+            // "args": "@.\\<parameters_file>"
         },
     ]
 }
