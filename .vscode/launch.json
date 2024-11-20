@@ -13,7 +13,7 @@
             "vmArgs": "--module-path \"<path to JavaFX SDK lib version 23.0.1>\" --add-modules javafx.controls,javafx.fxml,javafx.web",
             "mainClass": "org.bitshifters.gameclient.Main",
             "projectName": "gameclient"
-        }
+        },
               {
             "type": "java",
             "name": "Current File",
