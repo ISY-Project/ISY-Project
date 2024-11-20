@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient;
+package org.bitshifters;
 
 import java.lang.reflect.Field;
 import java.nio.file.Path;
@@ -7,30 +7,19 @@ import java.util.Arrays;
 import org.bitshifters.gameclient.arguments.ArgParser;
 import org.bitshifters.gameclient.arguments.Flags;
 import org.bitshifters.gameclient.enums.VerboseLevel;
+import org.bitshifters.ui.MainFrame;
 
 import com.beust.jcommander.JCommander;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-
-public class Main extends Application{
+/**
+ * This is the main class of the program. It will parse the command line arguments and run the program.
+ * If the help flag is set, it will print the help menu and exit the program.
+ * It will run the run method once the command line arguments are parsed.
+ */
+public class Main{
     private static Config config;
     private static JCommander arguments;
     private static Flags flags;
-
-    @Override
-    public void start(Stage stage) {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
-        Scene scene = new Scene(new StackPane(l), 640, 480);
-        stage.setScene(scene);
-        stage.show();
-    }
 
     /** 
      * This is the main method of the program. It will parse the command line arguments and run the program.
@@ -95,6 +84,7 @@ public class Main extends Application{
             System.out.println("Server Host: " + config.getValue("host"));
             System.out.println("Server Port: " + config.getValue("port"));
         }
-        launch();
+        // launch the JavaFX application
+        MainFrame.main(args);
     }
 }

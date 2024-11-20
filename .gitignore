@@ -37,3 +37,5 @@ build/
 ### Mac OS ###
 .DS_Store
 .vscode/launch.json
+dependency-reduced-pom.xml
+config.ini
