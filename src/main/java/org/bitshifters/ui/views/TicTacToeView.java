@@ -1,4 +1,5 @@
 package org.bitshifters.ui.views;
 
-public class __temp__ {
+public class TicTacToeView {
+
 }
