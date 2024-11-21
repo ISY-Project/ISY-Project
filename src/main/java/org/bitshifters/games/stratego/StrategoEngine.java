@@ -271,107 +271,33 @@ public class StrategoEngine extends GridEngine<Unit> {
         }
 
         return false;
-    }
+        }
 
-    public boolean validateAllUnitsPlaced(final Player player) {
+        public boolean validateAllUnitsPlaced(final Player player) {
         var playerGrid = grids.get(player);
-        int bombCounter = 0;
-        int flagCounter = 0;
-        int spyCounter = 0;
-        int scoutCounter = 0;
-        int minerCounter = 0;
-        int sergeantCounter = 0;
-        int lieutenantCounter = 0;
-        int captainCounter = 0;
-        int majorCounter = 0;
-        int colonelCounter = 0;
-        int generalCounter = 0;
-        int marshalCounter = 0;
+        HashMap<StrategoCell, Integer> unitCounter = new HashMap<>();
+        for (StrategoCell cell : StrategoCell.values()) {
+            unitCounter.put(cell, 0);
+        }
+
         for (int row = 0; row < playerGrid.getRowCount(); row++) {
             for (int col = 0; col < playerGrid.getColumnCount(); col++) {
-                final Unit cell = playerGrid.get(row, col);
-                if (cell.getRank() == StrategoCell.Bomb) {
-                    bombCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Flag) {
-                    flagCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Spy) {
-                    spyCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Scout) {
-                    scoutCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Miner) {
-                    minerCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Sergeant) {
-                    sergeantCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Lieutenant) {
-                    lieutenantCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Captain) {
-                    captainCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Major) {
-                    majorCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Colonel) {
-                    colonelCounter++;
-                }
-                if (cell.getRank() == StrategoCell.General) {
-                    generalCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Marshal) {
-                    marshalCounter++;
-                }
-                if (cell.getRank() == StrategoCell.Lake) {
-                    return false;
-                }
-                if (cell.getRank() == StrategoCell.Win) {
-                    return false;
-                }
+            final Unit cell = playerGrid.get(row, col);
+            unitCounter.put(cell.getRank(), unitCounter.get(cell.getRank()) + 1);
+            if (cell.getRank() == StrategoCell.Lake || cell.getRank() == StrategoCell.Win) {
+                return false;
+            }
             }
         }
-        if (bombCounter != unitCounts.bombCount) {
+
+        for (StrategoCell cell : unitSet.keySet()) {
+            if (!unitCounter.get(cell).equals(unitSet.get(cell))) {
             return false;
+            }
         }
-        if (flagCounter != unitCounts.flagCount) {
-            return false;
-        }
-        if (spyCounter != unitCounts.spyCount) {
-            return false;
-        }
-        if (scoutCounter != unitCounts.scoutCount) {
-            return false;
-        }
-        if (minerCounter != unitCounts.minerCount) {
-            return false;
-        }
-        if (sergeantCounter != unitCounts.sergeantCount) {
-            return false;
-        }
-        if (lieutenantCounter != unitCounts.lieutenantCount) {
-            return false;
-        }
-        if (captainCounter != unitCounts.captainCount) {
-            return false;
-        }
-        if (majorCounter != unitCounts.majorCount) {
-            return false;
-        }
-        if (colonelCounter != unitCounts.colonelCount) {
-            return false;
-        }
-        if (generalCounter != unitCounts.generalCount) {
-            return false;
-        }
-        if (marshalCounter != unitCounts.marshalCount) {
-            return false;
-        }
+
         return true;
-    }
+        }
 
     // TODO
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
