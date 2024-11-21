@@ -70,4 +70,14 @@ public class Grid<T> {
         }
         return false;
     }
+
+    public Grid<T> asRotated() {
+        final var mirrored = new Grid<T>(rowCount, columnCount);
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
+                mirrored.set(rowCount - row, columnCount - col, get(row, col));
+            }
+        }
+        return mirrored;
+    }
 }

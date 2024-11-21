@@ -1,10 +1,12 @@
 package org.bitshifters.games.stratego;
 
+
 import org.bitshifters.games.components.Player;
 
 public class Unit {
+    private final MovementTracker movementTracker = new MovementTracker();
     private final StrategoCell rank;
-    private final Player player;
+    private Player player;
     private int row;
     private int col;
 
@@ -19,8 +21,8 @@ public class Unit {
     public Unit(StrategoCell rank, Player player, int row, int col) {
         this.rank = rank;
         this.player = player;
-        this.row = -1;
-        this.col = -1;
+        this.row = row;
+        this.col = col;
     }
 
     public boolean isPlaced() {
@@ -35,6 +37,10 @@ public class Unit {
         return player;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public int getRow() {
         return row;
     }
@@ -44,20 +50,25 @@ public class Unit {
     }
 
     public void setRow(int row) {
-        this.row = row;
+        setCoordinate(this.col, row);
     }
 
     public void setCol(int col) {
-        this.col = col;
+        setCoordinate(col, this.row);
     }
 
     public void setCoordinate(int row, int col) {
+        this.movementTracker.addToTrack(this, row, col);
         this.row = row;
         this.col = col;
     }
-
+    
     public void remove() {
         this.row = -1;
         this.col = -1;
+    }
+
+    public Unit asRotated(int totalRows, int totalCols) {
+        return new Unit(rank, player, totalRows - row, totalCols - col);
     }
 }
