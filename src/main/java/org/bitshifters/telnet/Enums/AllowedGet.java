@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Enums;
+package org.bitshifters.telnet.Enums;
 
 public enum AllowedGet {
     GAMELIST("gamelist"),

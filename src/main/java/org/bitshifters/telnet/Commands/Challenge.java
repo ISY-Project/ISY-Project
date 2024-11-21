@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Commands;
+package org.bitshifters.telnet.Commands;
 
 public class Challenge implements SendableCommand {
     private class Accept implements SendableCommand {

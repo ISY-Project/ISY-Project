@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Commands;
+package org.bitshifters.telnet.Commands;
 
 public interface SendableCommand {
     String get();

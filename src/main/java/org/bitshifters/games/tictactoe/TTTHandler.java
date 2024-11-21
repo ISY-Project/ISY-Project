@@ -1,7 +1,7 @@
 package org.bitshifters.games.tictactoe;
 
 import org.bitshifters.gameclient.games.GameTypes;
-import org.bitshifters.gameclient.telnet.EventHandler;
+import org.bitshifters.telnet.EventHandler;
 
 public class TTTHandler extends EventHandler {
     TTTHandler() {

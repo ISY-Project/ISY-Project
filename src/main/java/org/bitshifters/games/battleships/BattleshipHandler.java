@@ -1,7 +1,7 @@
 package org.bitshifters.games.battleships;
 
 import org.bitshifters.gameclient.games.GameTypes;
-import org.bitshifters.gameclient.telnet.EventHandler;
+import org.bitshifters.telnet.EventHandler;
 
 public class BattleshipHandler extends EventHandler {
     BattleshipHandler() {

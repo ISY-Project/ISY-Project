@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Responses;
+package org.bitshifters.telnet.Responses;
 
 
 public enum MoveResponse {

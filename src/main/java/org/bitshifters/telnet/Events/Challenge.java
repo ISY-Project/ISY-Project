@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Events;
+package org.bitshifters.telnet.Events;
 
 public interface Challenge {
     String MESSAGE = "CHALLENGE ";

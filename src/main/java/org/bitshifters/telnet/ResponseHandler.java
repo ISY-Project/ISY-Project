@@ -1,13 +1,13 @@
-package org.bitshifters.gameclient.telnet;
+package org.bitshifters.telnet;
 
 import org.bitshifters.GameClient;
 import org.bitshifters.gameclient.games.GameTypes;
-import org.bitshifters.gameclient.telnet.Events.Challenge;
-import org.bitshifters.gameclient.telnet.Events.Game;
-import org.bitshifters.gameclient.telnet.Events.Help;
-import org.bitshifters.gameclient.telnet.Events.Server;
-import org.bitshifters.gameclient.telnet.Exceptions.TypeMismatchException;
-import org.bitshifters.gameclient.telnet.Events.Error;
+import org.bitshifters.telnet.Events.Challenge;
+import org.bitshifters.telnet.Events.Error;
+import org.bitshifters.telnet.Events.Game;
+import org.bitshifters.telnet.Events.Help;
+import org.bitshifters.telnet.Events.Server;
+import org.bitshifters.telnet.Exceptions.TypeMismatchException;
 
 public class ResponseHandler {
     private final EventHandler eventHandler;

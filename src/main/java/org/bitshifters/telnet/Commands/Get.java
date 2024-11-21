@@ -1,6 +1,6 @@
-package org.bitshifters.gameclient.telnet.Commands;
+package org.bitshifters.telnet.Commands;
 
-import org.bitshifters.gameclient.telnet.Enums.AllowedGet;
+import org.bitshifters.telnet.Enums.AllowedGet;
 
 public class Get implements SendableCommand {
     private final String command;

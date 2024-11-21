@@ -2,7 +2,7 @@ package org.bitshifters.games.stratego;
 
 
 import org.bitshifters.gameclient.games.GameTypes;
-import org.bitshifters.gameclient.telnet.EventHandler;
+import org.bitshifters.telnet.EventHandler;
 
 public class StrategoHandler extends EventHandler {
     StrategoHandler() {

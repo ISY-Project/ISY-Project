@@ -1,11 +1,11 @@
-package org.bitshifters.gameclient.telnet;
+package org.bitshifters.telnet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.bitshifters.gameclient.telnet.Commands.SendableCommand;
+import org.bitshifters.telnet.Commands.SendableCommand;
 
 
 public class TelnetClient {

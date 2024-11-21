@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.telnet.Exceptions;
+package org.bitshifters.telnet.Exceptions;
 
 public class TypeMismatchException extends Exception {
 
