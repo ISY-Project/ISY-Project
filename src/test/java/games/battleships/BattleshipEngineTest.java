@@ -4,7 +4,6 @@ package games.battleships;
 import org.bitshifters.games.battleships.BattleshipCell;
 import org.bitshifters.games.battleships.BattleshipEngine;
 import org.bitshifters.games.components.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class BattleshipEngineTest {
     private Player player1;
     private Player player2;
 
-    @BeforeEach
     public void setUp() {
         ArrayList<Integer> validShipLengths = new ArrayList<>();
         validShipLengths.add(2);
