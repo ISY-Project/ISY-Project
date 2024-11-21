@@ -1,18 +1,22 @@
 package org.bitshifters.games.stratego;
 
+import java.util.HashMap;
+
 import org.bitshifters.games.components.Grid;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class StrategoEngine extends GridEngine<StrategoCell> {
-    private static final Player MOVEMENT_GRID_PLAYER = new Player("MovementGrid");
+    private static final Player MOVEMENT_GRID = new Player("MovementGrid");
+    private final HashMap<StrategoCell, Integer> unitSet = new HashMap<>();
+    private UnitCounts unitCounts = new UnitCounts();
     private final int playerRows;
     private final int playerCols;
     private final int totalRows;
     private final int totalCols;
 
     public StrategoEngine(final Player[] players) {
-        this(4, 7, players);
+        this(4, 10, players);
     }
 
     public StrategoEngine(final int playerRows, final int playerColumns, final Player[] players) {
@@ -21,9 +25,29 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
         // Add one to the total players to account for the movement grid.
         // TODO: calculate the total rows and columns based on the number of players.
         // See the generateMovementGrid method for more information on how to overlay the player grids.
-        this.totalRows = playerRows * players.length + 3;
-        this.totalCols = playerCols * players.length + 3;
+        this.totalRows = playerRows * players.length;
+        this.totalCols = playerCols * players.length;
         generateGrids(players);
+    }
+
+    public void setDefaultUnitSet() {
+        unitSet.put(StrategoCell.Bomb, unitCounts.bombCount);
+        unitSet.put(StrategoCell.Flag, unitCounts.flagCount);
+        unitSet.put(StrategoCell.Spy, unitCounts.spyCount);
+        unitSet.put(StrategoCell.Scout, unitCounts.scoutCount);
+        unitSet.put(StrategoCell.Miner, unitCounts.minerCount);
+        unitSet.put(StrategoCell.Sergeant, unitCounts.sergeantCount);
+        unitSet.put(StrategoCell.Lieutenant, unitCounts.lieutenantCount);
+        unitSet.put(StrategoCell.Captain, unitCounts.captainCount);
+        unitSet.put(StrategoCell.Major, unitCounts.majorCount);
+        unitSet.put(StrategoCell.Colonel, unitCounts.colonelCount);
+        unitSet.put(StrategoCell.General, unitCounts.generalCount);
+        unitSet.put(StrategoCell.Marshal, unitCounts.marshalCount);
+
+    }
+
+    public HashMap<StrategoCell, Integer> getUnitSet() {
+        return unitSet;
     }
 
     /**
@@ -52,9 +76,10 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * @param players
      */
     private void generateMovementGrid(final Player[] players) {
+        var gameGrid = new Grid<StrategoCell>(totalRows, totalCols, StrategoCell.Empty);
         grids.put(
-            MOVEMENT_GRID_PLAYER,
-            new Grid<StrategoCell>(totalRows, totalCols, null)
+            MOVEMENT_GRID,
+            gameGrid
         );
         // TODO: Implement the algorithm to overlay the player grids onto the movement grid.
         // With 2 players, its simply in between. (easy)
@@ -81,6 +106,62 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
             valid = true;
         }
         return valid;
+    }
+
+    public boolean validateAllUnitsPlaced(final Grid<StrategoCell> placementGrid) {
+        int bombCount = 0;
+        int flagCount = 0;
+        int spyCount = 0;
+        int scoutCount = 0;
+        int minerCount = 0;
+        int sergeantCount = 0;
+        int lieutenantCount = 0;
+        int captainCount = 0;
+        int majorCount = 0;
+        int colonelCount = 0;
+        int generalCount = 0;
+        int marshalCount = 0;
+        for (int row = 0; row < placementGrid.getRowCount(); row++) {
+            for (int col = 0; col < placementGrid.getColumnCount(); col++) {
+                StrategoCell cell = placementGrid.get(row, col);
+                if (cell == StrategoCell.Bomb) {bombCount++;}
+                if (cell == StrategoCell.Flag) {flagCount++;}
+                if (cell == StrategoCell.Spy) {spyCount++;}
+                if (cell == StrategoCell.Scout) {scoutCount++;}
+                if (cell == StrategoCell.Miner) {minerCount++;}
+                if (cell == StrategoCell.Sergeant) {sergeantCount++;}
+                if (cell == StrategoCell.Lieutenant) {lieutenantCount++;}
+                if (cell == StrategoCell.Captain) {captainCount++;}
+                if (cell == StrategoCell.Major) {majorCount++;}
+                if (cell == StrategoCell.Colonel) {colonelCount++;}
+                if (cell == StrategoCell.General) {generalCount++;}
+                if (cell == StrategoCell.Marshal) {marshalCount++;}
+                if (cell == StrategoCell.Lake) {return false;}
+                if (cell == StrategoCell.Win) {return false;}
+            }
+        }
+        if (bombCount != unitCounts.bombCount) {return false;}
+        if (flagCount != unitCounts.flagCount) {return false;}
+        if (spyCount != unitCounts.spyCount) {return false;}
+        if (scoutCount != unitCounts.scoutCount) {return false;}
+        if (minerCount != unitCounts.minerCount) {return false;}
+        if (sergeantCount != unitCounts.sergeantCount) {return false;}
+        if (lieutenantCount != unitCounts.lieutenantCount) {return false;}
+        if (captainCount != unitCounts.captainCount) {return false;}
+        if (majorCount != unitCounts.majorCount) {return false;}
+        if (colonelCount != unitCounts.colonelCount) {return false;}
+        if (generalCount != unitCounts.generalCount) {return false;}
+        if (marshalCount != unitCounts.marshalCount) {return false;}
+        return true;
+    }
+
+
+    public void validatePlaceUnit(final Player player){
+        Grid<StrategoCell> placementGrid = grids.get(player);
+    }
+
+    public void placeUnit (final Unit unit, final int row, final int col, final Player player) {
+
     }
 
 
