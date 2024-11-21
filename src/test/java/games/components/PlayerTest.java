@@ -17,4 +17,19 @@ public class PlayerTest {
     void testIncrementScore() {
 
     }
+
+    @Test
+    void testGetName2() {
+        
+    }
+
+    @Test
+    void testGetScore2() {
+        
+    }
+
+    @Test
+    void testIncrementScore2() {
+        
+    }
 }

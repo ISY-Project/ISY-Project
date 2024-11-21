@@ -6,6 +6,7 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.StrategoCell;
 import org.bitshifters.games.stratego.Unit;
+import org.bitshifters.games.stratego.UnitCounts;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +45,7 @@ public class StrategoEngineTest {
     @Test
     void testGetUnitSet() {
         setUp();
-        engine.setDefaultUnitSet();
+        engine.setDefaultUnitCounts();
         assertNotNull(engine.getUnitSet());
         assertEquals(12, engine.getUnitSet().size());
     }
@@ -81,8 +82,21 @@ public class StrategoEngineTest {
     @Test
     void testSetDefaultUnitSet() {
         setUp();
-        engine.setDefaultUnitSet();
-        assertEquals(8, engine.getUnitSet().get(StrategoCell.Scout));
+        UnitCounts unitCounts = new UnitCounts();
+        engine.setUnitCounts(unitCounts);
+        assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Scout));
+        assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Bomb));
+        assertEquals(unitCounts.flagCount, engine.getUnitSet().get(StrategoCell.Flag));
+        assertEquals(unitCounts.spyCount, engine.getUnitSet().get(StrategoCell.Spy));
+        assertEquals(unitCounts.scoutCount, engine.getUnitSet().get(StrategoCell.Scout));
+        assertEquals(unitCounts.minerCount, engine.getUnitSet().get(StrategoCell.Miner));
+        assertEquals(unitCounts.sergeantCount, engine.getUnitSet().get(StrategoCell.Sergeant));
+        assertEquals(unitCounts.lieutenantCount, engine.getUnitSet().get(StrategoCell.Lieutenant));
+        assertEquals(unitCounts.captainCount, engine.getUnitSet().get(StrategoCell.Captain));
+        assertEquals(unitCounts.majorCount, engine.getUnitSet().get(StrategoCell.Major));
+        assertEquals(unitCounts.colonelCount, engine.getUnitSet().get(StrategoCell.Colonel));
+        assertEquals(unitCounts.generalCount, engine.getUnitSet().get(StrategoCell.General));
+        assertEquals(unitCounts.marshalCount, engine.getUnitSet().get(StrategoCell.Marshal));
     }
 
     @Test

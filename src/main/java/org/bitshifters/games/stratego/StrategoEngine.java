@@ -35,7 +35,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         generateGrids(players);
     }
 
-    public void setDefaultUnitSet() {
+    public void setDefaultUnitCounts() {
         unitSet.put(StrategoCell.Bomb, unitCounts.bombCount);
         unitSet.put(StrategoCell.Flag, unitCounts.flagCount);
         unitSet.put(StrategoCell.Spy, unitCounts.spyCount);
@@ -48,7 +48,21 @@ public class StrategoEngine extends GridEngine<Unit> {
         unitSet.put(StrategoCell.Colonel, unitCounts.colonelCount);
         unitSet.put(StrategoCell.General, unitCounts.generalCount);
         unitSet.put(StrategoCell.Marshal, unitCounts.marshalCount);
+    }
 
+    public void setUnitCounts(final UnitCounts unitCounts) {
+        unitSet.put(StrategoCell.Bomb, unitCounts.bombCount);
+        unitSet.put(StrategoCell.Flag, unitCounts.flagCount);
+        unitSet.put(StrategoCell.Spy, unitCounts.spyCount);
+        unitSet.put(StrategoCell.Scout, unitCounts.scoutCount);
+        unitSet.put(StrategoCell.Miner, unitCounts.minerCount);
+        unitSet.put(StrategoCell.Sergeant, unitCounts.sergeantCount);
+        unitSet.put(StrategoCell.Lieutenant, unitCounts.lieutenantCount);
+        unitSet.put(StrategoCell.Captain, unitCounts.captainCount);
+        unitSet.put(StrategoCell.Major, unitCounts.majorCount);
+        unitSet.put(StrategoCell.Colonel, unitCounts.colonelCount);
+        unitSet.put(StrategoCell.General, unitCounts.generalCount);
+        unitSet.put(StrategoCell.Marshal, unitCounts.marshalCount);
     }
 
     public HashMap<StrategoCell, Integer> getUnitSet() {

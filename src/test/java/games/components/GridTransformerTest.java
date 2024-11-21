@@ -22,4 +22,24 @@ public class GridTransformerTest {
     void testToList() {
 
     }
+
+    @Test
+    void testToCoordinates2() {
+        
+    }
+
+    @Test
+    void testToGrid2() {
+        
+    }
+
+    @Test
+    void testToIndex2() {
+        
+    }
+
+    @Test
+    void testToList2() {
+        
+    }
 }
