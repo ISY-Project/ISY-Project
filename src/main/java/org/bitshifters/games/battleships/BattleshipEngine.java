@@ -35,8 +35,9 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     /**
      * Validate the ship placement for the player.
      */
+    // TODO exceed grid wordt niet gecheckt
     public boolean validateShipPlacement(final int row, final int col, final int length, final boolean horizontal,
-            final Player player) {
+        final Player player) {
         if (countShipOccurrences(player, length) == countIntOccurrences(validShipLengths, length)) {
             return false;
         }

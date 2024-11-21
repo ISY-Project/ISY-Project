@@ -62,19 +62,20 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param players
      */
     private void generateGrids(final Player[] players) {
-        generatePlayerGrids(players);
+        initializePlayers(players);
         generateMovementGrid(players);
     }
 
     /**
      * Generate the player grids.
-     * 
+     * Add the movement tracker for each player.
      * @param players
      */
-    private void generatePlayerGrids(final Player[] players) {
+    private void initializePlayers(final Player[] players) {
         for (final var player : players) {
             final var grid = new Grid<>(playerRows, playerCols, new Unit(StrategoCell.Empty));
             grids.put(player, grid);
+            movementTrackers.put(player, new MovementTracker());
         }
     }
 
@@ -144,10 +145,8 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param player
      */
     public void moveUnit(final Unit unit, final int row, final int col, final Player player) {
-        final Grid<Unit> grid = grids.get(GameGrid);
-        movementTrackers.get(player).addToTrack(unit, row, col);
-        grid.set(row, col, unit);
-        grid.set(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty));
+        setCell(row, col, unit, GameGrid);
+        setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty), GameGrid);
         unit.setCoordinate(row, col);
     }
 
@@ -260,7 +259,8 @@ public class StrategoEngine extends GridEngine<Unit> {
         return false;
     }
 
-    public boolean validateAllUnitsPlaced(final Grid<Unit> playerGrid) {
+    public boolean validateAllUnitsPlaced(final Player player) {
+        var playerGrid = grids.get(player);
         int bombCounter = 0;
         int flagCounter = 0;
         int spyCounter = 0;
@@ -458,4 +458,12 @@ public class StrategoEngine extends GridEngine<Unit> {
         throw new UnsupportedOperationException(
                 "Unimplemented method 'validateMove' with row, col and player for Stratego");
     }
+
+	public int getTotalRows() {
+        return totalRows;
+	}
+
+	public int getTotalCols() {
+        return totalCols;
+	}
 }
