@@ -27,8 +27,14 @@
             <artifactId>javafx-controls</artifactId>
             <version>23.0.1</version>
         </dependency>
+        <!-- https://github.com/junit-team/junit5/ -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.11.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>base</finalName>
         <plugins>
