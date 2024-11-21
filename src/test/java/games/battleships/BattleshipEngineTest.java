@@ -34,6 +34,7 @@ public class BattleshipEngineTest {
 
     @Test
     public void testPlaceShip() {
+        setUp();
         engine.placeShip(0, 0, 3, true, player1);
         assertEquals(BattleshipCell.SHIP, engine.getCell(0, 0, player1));
         assertEquals(BattleshipCell.SHIP, engine.getCell(0, 1, player1));
@@ -42,6 +43,7 @@ public class BattleshipEngineTest {
 
     @Test
     public void testHitAndMiss() {
+        setUp();
         engine.placeShip(0, 0, 3, true, player1);
         engine.shot(0, 0, player1);
         engine.shot(1, 1, player1);
@@ -52,6 +54,7 @@ public class BattleshipEngineTest {
 
     @Test
     public void testFullGameplay() {
+        setUp();
         setupGameplay();
 
         // Check hits and misses
@@ -91,13 +94,5 @@ public class BattleshipEngineTest {
         engine.shot(0, 0, player1);
         engine.shot(0, 1, player1);
         engine.shot(0, 2, player1);
-    }
-
-    public static void main(String[] args) {
-        var test = new BattleshipEngineTest();
-        test.setUp();
-        System.out.println(test.engine.getGrid(test.player1));
-        System.out.println(test.engine.getGrid(test.player2));
-        test.testFullGameplay();
     }
 }
