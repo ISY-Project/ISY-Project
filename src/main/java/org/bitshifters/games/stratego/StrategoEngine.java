@@ -82,22 +82,33 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
         }
         return valid;
     }
-    
-    public  StrategoCell battleResult(final StrategoCell attacker, final StrategoCell defender) {
-        // Same piece
-        if (attacker == defender) {return StrategoCell.Empty;}
+
+
+    public boolean validateAttack(final Unit attacker, final Unit defender) {
+        if (attacker.getPlayer() == defender.getPlayer()) {return false;}
+        if (attacker.getRank() == StrategoCell.Empty || defender.getRank() == StrategoCell.Empty) {return false;}
+        if (attacker.getRank() == StrategoCell.Lake || defender.getRank() == StrategoCell.Lake) {return false;}
+        if (attacker.getRank() == StrategoCell.Win || defender.getRank() == StrategoCell.Win) {return false;}
+        return true;
+    }
+
+    public Unit battleResult(final Unit attacker, final Unit defender) {
+        StrategoCell attackerRank = attacker.getRank();
+        StrategoCell defenderRank = defender.getRank();
         // Empty Cell
-        if (attacker == StrategoCell.Empty) {return defender;}
-        if (defender == StrategoCell.Empty) {return attacker;}
+        if (defenderRank == StrategoCell.Empty) {return attacker;}
+        if (attackerRank == StrategoCell.Empty) {return defender;}
         // Spy
-        if (attacker == StrategoCell.Spy && defender == StrategoCell.Marshal ) {return attacker;}
+        if (attackerRank == StrategoCell.Spy && defenderRank == StrategoCell.Marshal ) {return attacker;}
         // Bomb && Miner
-        if (defender == StrategoCell.Bomb && attacker == StrategoCell.Miner) {return attacker;}
-        if (defender == StrategoCell.Bomb) {return StrategoCell.Empty;}
+        if (defenderRank == StrategoCell.Bomb && attackerRank == StrategoCell.Miner) {return attacker;}
+        if (defenderRank == StrategoCell.Bomb) {return null;}
         // Flag
-        if (defender == StrategoCell.Flag) {return StrategoCell.Win;} // win game
+        if (defenderRank == StrategoCell.Flag) {return new Unit(StrategoCell.Win);} // win game
         // Rank comparison
-        if (attacker.getInt() > defender.getInt()) {return attacker;}
+        if (attackerRank.getInt() > defenderRank.getInt()) {return attacker;} 
+        if (attackerRank.getInt() < defenderRank.getInt()) {return defender;}
+        // Same piece
         return null;
     }
 
