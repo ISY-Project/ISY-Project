@@ -73,13 +73,38 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
      * @param player
      * @return
      */
+    // TODO fix
     public boolean validateMove(final int row, final int col, final Player player) {
         final var cell = getCell(row, col, player);
         boolean valid = true;
-        if (cell != StrategoCell.Empty) {
-            valid = false;
+        if (cell == StrategoCell.Empty) {
+            valid = true;
         }
         return valid;
+    }
+
+    public  StrategoCell battleResult(final StrategoCell attacker, final StrategoCell defender) {
+        // Same piece
+        if (attacker == defender) {return StrategoCell.Empty;}
+        // Empty Cell
+        if (attacker == StrategoCell.Empty) {return defender;}
+        if (defender == StrategoCell.Empty) {return attacker;}
+        // Spy
+        if (attacker == StrategoCell.Spy && defender == StrategoCell.Marshal ) {
+            return attacker;
+        }
+        // Bomb && Miner
+        if (defender == StrategoCell.Bomb && attacker != StrategoCell.Miner) {
+            return StrategoCell.Empty;
+        } else if (defender == StrategoCell.Bomb && attacker == StrategoCell.Miner) {
+            return attacker;
+        }
+        if (defender == StrategoCell.Bomb) {return StrategoCell.Empty;}
+        // Flag
+        if (defender == StrategoCell.Flag) {return StrategoCell.Win;} // win game
+        // Rank comparison
+        if (attacker.getInt() > defender.getInt()) {return attacker;}
+        return null;
     }
 
     @Override
