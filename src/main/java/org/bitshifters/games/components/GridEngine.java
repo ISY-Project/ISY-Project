@@ -21,7 +21,7 @@ public abstract class GridEngine<Cell> extends Engine {
         grids.remove(player);
     }
 
-    public void setCell(final int row, final int col, final Cell cell, final Player player) {
+    protected void setCell(final int row, final int col, final Cell cell, final Player player) {
         grids.get(player).set(row, col, cell);
     }
 

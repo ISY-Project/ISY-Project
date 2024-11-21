@@ -1,4 +1,4 @@
-package games;
+package games.battleships;
 
 
 import org.bitshifters.games.battleships.BattleshipCell;
@@ -43,8 +43,8 @@ public class BattleshipEngineTest {
     @Test
     public void testHitAndMiss() {
         engine.placeShip(0, 0, 3, true, player1);
-        engine.setCell(0, 0, BattleshipCell.HIT, player1);
-        engine.setCell(1, 1, BattleshipCell.MISS, player1);
+        engine.shot(0, 0, player1);
+        engine.shot(1, 1, player1);
 
         assertEquals(BattleshipCell.HIT, engine.getCell(0, 0, player1));
         assertEquals(BattleshipCell.MISS, engine.getCell(1, 1, player1));
@@ -68,7 +68,7 @@ public class BattleshipEngineTest {
 
     @Test
     public void testFullGameplay() {
-        initializeGameplay();
+        setupGameplay();
 
         // Check hits and misses
         assertEquals(BattleshipCell.HIT, engine.getCell(1, 1, player2));
@@ -79,15 +79,18 @@ public class BattleshipEngineTest {
 
         // Check game over conditions
         assertFalse(engine.isGameOver());
-        engine.setCell(2, 2, BattleshipCell.HIT, player1);
-        engine.setCell(3, 2, BattleshipCell.HIT, player1);
-        engine.setCell(4, 2, BattleshipCell.HIT, player1);
-        engine.setCell(5, 2, BattleshipCell.HIT, player1);
+        engine.shot(0, 0, player1);
+        engine.shot(0, 1, player1);
+        engine.shot(0, 2, player1);
+        engine.shot(2, 2, player1);
+        engine.shot(3, 2, player1);
+        engine.shot(4, 2, player1);
+        engine.shot(5, 2, player1);
         assertTrue(engine.isGameOver());
-        assertEquals(player1, engine.getWinner());
+        assertEquals(player2, engine.getWinner());
     }
 
-    private void initializeGameplay() {
+    private void setupGameplay() {
         // Player 1 places ships
         engine.placeShip(0, 0, 3, true, player1);
         engine.placeShip(2, 2, 4, false, player1);
@@ -97,20 +100,20 @@ public class BattleshipEngineTest {
         engine.placeShip(3, 3, 5, false, player2);
 
         // Player 1 hits Player 2's ship
-        engine.setCell(1, 1, BattleshipCell.HIT, player2);
-        engine.setCell(1, 2, BattleshipCell.HIT, player2);
+        engine.shot(1, 1, player2);
+        engine.shot(1, 2, player2);
 
         // Player 2 hits Player 1's ship
-        engine.setCell(0, 0, BattleshipCell.HIT, player1);
-        engine.setCell(0, 1, BattleshipCell.HIT, player1);
-        engine.setCell(0, 2, BattleshipCell.HIT, player1);
+        engine.shot(0, 0, player1);
+        engine.shot(0, 1, player1);
+        engine.shot(0, 2, player1);
     }
 
     public static void main(String[] args) {
         var test = new BattleshipEngineTest();
         test.setUp();
-        test.initializeGameplay();
         System.out.println(test.engine.getGrid(test.player1));
         System.out.println(test.engine.getGrid(test.player2));
+        test.testFullGameplay();
     }
 }

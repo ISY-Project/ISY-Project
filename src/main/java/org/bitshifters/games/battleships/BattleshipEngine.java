@@ -83,17 +83,18 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     }
 
     public BattleshipCell shot(final int row, final int col, final Player player) {
-        if (getCell(row, col, player) == BattleshipCell.EMPTY) {
+        final BattleshipCell cell = getCell(row, col, player);
+        if (cell == BattleshipCell.EMPTY) {
             setCell(row, col, BattleshipCell.MISS, player);
-        } else if (getCell(row, col, player) == BattleshipCell.SHIP) {
+        } else if (cell == BattleshipCell.SHIP) {
             setCell(row, col, BattleshipCell.HIT, player);
             for (final Ship ship : placedShipsMap.get(player)) {
-                if (ship.isHit(row, col)) {
-                    ship.hit();
+                if (ship.isAt(row, col)) {
+                    ship.hit(row, col);
                 }
             }
         }
-        return getCell(row, col, player);
+        return cell;
     }
 
     public void addShip(final Ship ship, final Player player) {
@@ -101,6 +102,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         if (playerShips == null) {
             playerShips = new ArrayList<>();
             placedShipsMap.put(player, playerShips);
+            playerShips.add(ship);
         } else {
             playerShips.add(ship);
         }
@@ -122,7 +124,14 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
 
     @Override
     public Player getWinner() {
-        return null;
+        Player winner = null;
+        for (final Player player : placedShipsMap.keySet()) {
+            if (allShipsSunk(player)) {
+                continue;
+            }
+            winner = player;
+        }
+        return winner;
     }
 
     /**
