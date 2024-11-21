@@ -68,22 +68,7 @@ public class BattleshipEngineTest {
 
     @Test
     public void testFullGameplay() {
-        // Player 1 places ships
-        engine.placeShip(0, 0, 3, true, player1);
-        engine.placeShip(2, 2, 4, false, player1);
-
-        // Player 2 places ships
-        engine.placeShip(1, 1, 2, true, player2);
-        engine.placeShip(3, 3, 5, false, player2);
-
-        // Player 1 hits Player 2's ship
-        engine.setCell(1, 1, BattleshipCell.HIT, player2);
-        engine.setCell(1, 2, BattleshipCell.HIT, player2);
-
-        // Player 2 hits Player 1's ship
-        engine.setCell(0, 0, BattleshipCell.HIT, player1);
-        engine.setCell(0, 1, BattleshipCell.HIT, player1);
-        engine.setCell(0, 2, BattleshipCell.HIT, player1);
+        initializeGameplay();
 
         // Check hits and misses
         assertEquals(BattleshipCell.HIT, engine.getCell(1, 1, player2));
@@ -102,9 +87,29 @@ public class BattleshipEngineTest {
         assertEquals(player1, engine.getWinner());
     }
 
+    private void initializeGameplay() {
+        // Player 1 places ships
+        engine.placeShip(0, 0, 3, true, player1);
+        engine.placeShip(2, 2, 4, false, player1);
+
+        // Player 2 places ships
+        engine.placeShip(1, 1, 2, true, player2);
+        engine.placeShip(3, 3, 5, false, player2);
+
+        // Player 1 hits Player 2's ship
+        engine.setCell(1, 1, BattleshipCell.HIT, player2);
+        engine.setCell(1, 2, BattleshipCell.HIT, player2);
+
+        // Player 2 hits Player 1's ship
+        engine.setCell(0, 0, BattleshipCell.HIT, player1);
+        engine.setCell(0, 1, BattleshipCell.HIT, player1);
+        engine.setCell(0, 2, BattleshipCell.HIT, player1);
+    }
+
     public static void main(String[] args) {
         var test = new BattleshipEngineTest();
         test.setUp();
+        test.initializeGameplay();
         System.out.println(test.engine.getGrid(test.player1));
         System.out.println(test.engine.getGrid(test.player2));
     }
