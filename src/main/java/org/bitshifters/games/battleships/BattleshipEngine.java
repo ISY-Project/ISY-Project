@@ -26,9 +26,9 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
             final Player player) {
         addShip(new Ship(row, col, length, horizontal), player);
         for (int i = 0; i < length; i++) {
-            final var x = horizontal ? row : row + i;
-            final var y = horizontal ? col + i : col;
-            setCell(x, y, BattleshipCell.SHIP, player);
+            final var targetRow = horizontal ? row : row + i;
+            final var targetCol = horizontal ? col + i : col;
+            setCell(targetRow, targetCol, BattleshipCell.SHIP, player);
         }
     }
 
