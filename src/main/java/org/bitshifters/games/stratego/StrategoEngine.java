@@ -82,7 +82,7 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
         }
         return valid;
     }
-
+    
     public  StrategoCell battleResult(final StrategoCell attacker, final StrategoCell defender) {
         // Same piece
         if (attacker == defender) {return StrategoCell.Empty;}
@@ -90,15 +90,9 @@ public class StrategoEngine extends GridEngine<StrategoCell> {
         if (attacker == StrategoCell.Empty) {return defender;}
         if (defender == StrategoCell.Empty) {return attacker;}
         // Spy
-        if (attacker == StrategoCell.Spy && defender == StrategoCell.Marshal ) {
-            return attacker;
-        }
+        if (attacker == StrategoCell.Spy && defender == StrategoCell.Marshal ) {return attacker;}
         // Bomb && Miner
-        if (defender == StrategoCell.Bomb && attacker != StrategoCell.Miner) {
-            return StrategoCell.Empty;
-        } else if (defender == StrategoCell.Bomb && attacker == StrategoCell.Miner) {
-            return attacker;
-        }
+        if (defender == StrategoCell.Bomb && attacker == StrategoCell.Miner) {return attacker;}
         if (defender == StrategoCell.Bomb) {return StrategoCell.Empty;}
         // Flag
         if (defender == StrategoCell.Flag) {return StrategoCell.Win;} // win game
