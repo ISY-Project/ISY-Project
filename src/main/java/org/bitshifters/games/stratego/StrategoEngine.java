@@ -164,103 +164,60 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @return
      */
     public boolean validateMove(final Unit unit, final int row, final int col, final Player player) {
-        if (unit.getPlayer() != player) {
-            return false;
-        }
-        if (unit.getRank() == StrategoCell.Bomb) {
-            return false;
-        }
-        if (unit.getRank() == StrategoCell.Flag) {
-            return false;
-        }
-        if (unit.getRank() == StrategoCell.Empty) {
-            return false;
-        }
-        if (unit.getRank() == StrategoCell.Win) {
-            return false;
-        }
-        if (unit.getRank() == StrategoCell.Lake) {
-            return false;
-        }
-        if (movementTrackers.get(player).isRepeating(unit, row, col)) {
-            return false;
-        }
-        if (col >= totalCols) {
-            return false;
-        }
-        if (row >= totalRows) {
-            return false;
-        }
-        if (col < 0) {
-            return false;
-        }
-        if (row < 0) {
+        if (unit.getPlayer() != player || isInvalidRank(unit.getRank()) || isOutOfBounds(row, col)
+                || movementTrackers.get(player).isRepeating(unit, row, col)) {
             return false;
         }
 
         if (unit.getRank() != StrategoCell.Scout) {
-            if (unit.getRow() == row) {
-                if (unit.getCol() == col + 1) {
-                    return true;
-                }
-                if (unit.getCol() == col - 1) {
-                    return true;
-                }
-                return false;
-            }
-            if (unit.getCol() == col) {
-                if (unit.getRow() == row + 1) {
-                    return true;
-                }
-                if (unit.getRow() == row - 1) {
-                    return true;
-                }
-                return false;
-            }
-            return false;
+            return isAdjacentMove(unit, row, col);
         }
 
+        return isValidScoutMove(unit, row, col);
+    }
+
+    private boolean isInvalidRank(StrategoCell rank) {
+        return rank == StrategoCell.Bomb || rank == StrategoCell.Flag || rank == StrategoCell.Empty
+                || rank == StrategoCell.Win || rank == StrategoCell.Lake;
+    }
+
+    private boolean isOutOfBounds(int row, int col) {
+        return row < 0 || row >= totalRows || col < 0 || col >= totalCols;
+    }
+
+    private boolean isAdjacentMove(Unit unit, int row, int col) {
         if (unit.getRow() == row) {
-            if (unit.getCol() > col) {
-                for (int i = 1; i < unit.getCol() - col; i++) {
-                    if (getCell(row, col + i, GameGrid).getRank() != StrategoCell.Empty) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (unit.getCol() < col) {
-                for (int i = 1; i < col - unit.getCol(); i++) {
-                    if (getCell(row, col - i, GameGrid).getRank() != StrategoCell.Empty) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
+            return Math.abs(unit.getCol() - col) == 1;
         }
-
         if (unit.getCol() == col) {
-            if (unit.getRow() > row) {
-                for (int i = 1; i < unit.getRow() - row; i++) {
-                    if (getCell(row + i, col, GameGrid).getRank() != StrategoCell.Empty) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (unit.getRow() < row) {
-                for (int i = 1; i < row - unit.getRow(); i++) {
-                    if (getCell(row - i, col, GameGrid).getRank() != StrategoCell.Empty) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
+            return Math.abs(unit.getRow() - row) == 1;
         }
-
         return false;
+    }
+
+    private boolean isValidScoutMove(Unit unit, int row, int col) {
+        if (unit.getRow() == row) {
+            return isPathClear(row, Math.min(unit.getCol(), col), Math.max(unit.getCol(), col), true);
+        }
+        if (unit.getCol() == col) {
+            return isPathClear(col, Math.min(unit.getRow(), row), Math.max(unit.getRow(), row), false);
+        }
+        return false;
+    }
+
+    private boolean isPathClear(int fixed, int start, int end, boolean isRowFixed) {
+        for (int i = start + 1; i < end; i++) {
+            if (isRowFixed) {
+                if (getCell(fixed, i, GameGrid).getRank() != StrategoCell.Empty) {
+                    return false;
+                }
+            } else {
+                if (getCell(i, fixed, GameGrid).getRank() != StrategoCell.Empty) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean validateAllUnitsPlaced(final Player player) {
