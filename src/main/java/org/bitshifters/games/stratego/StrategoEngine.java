@@ -35,19 +35,8 @@ public class StrategoEngine extends GridEngine<Unit> {
         generateGrids(players);
     }
 
-    public void setDefaultUnitCounts() {
-        unitSet.put(StrategoCell.Bomb, unitCounts.bombCount);
-        unitSet.put(StrategoCell.Flag, unitCounts.flagCount);
-        unitSet.put(StrategoCell.Spy, unitCounts.spyCount);
-        unitSet.put(StrategoCell.Scout, unitCounts.scoutCount);
-        unitSet.put(StrategoCell.Miner, unitCounts.minerCount);
-        unitSet.put(StrategoCell.Sergeant, unitCounts.sergeantCount);
-        unitSet.put(StrategoCell.Lieutenant, unitCounts.lieutenantCount);
-        unitSet.put(StrategoCell.Captain, unitCounts.captainCount);
-        unitSet.put(StrategoCell.Major, unitCounts.majorCount);
-        unitSet.put(StrategoCell.Colonel, unitCounts.colonelCount);
-        unitSet.put(StrategoCell.General, unitCounts.generalCount);
-        unitSet.put(StrategoCell.Marshal, unitCounts.marshalCount);
+    public void setUnitCounts() {
+        setUnitCounts(new UnitCounts());
     }
 
     public void setUnitCounts(final UnitCounts unitCounts) {
@@ -83,6 +72,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     /**
      * Generate the player grids.
      * Add the movement tracker for each player.
+     * 
      * @param players
      */
     private void initializePlayers(final Player[] players) {
@@ -132,8 +122,8 @@ public class StrategoEngine extends GridEngine<Unit> {
         for (int i = 0; i < totalCols; i++) {
             for (int j = 0; j < totalRows; j++) {
                 movementGrid.set(i, j, player1Grid.get(i, j));
-                movementGrid.set(totalCols-i, totalRows-j, player2Grid.get(i,j));
-                player2Grid.get(i,j).asRotated(totalRows,totalCols);
+                movementGrid.set(totalCols - i, totalRows - j, player2Grid.get(i, j));
+                player2Grid.get(i, j).asRotated(totalRows, totalCols);
             }
         }
         // TODO place playergrids on the gameGrid.
@@ -144,15 +134,15 @@ public class StrategoEngine extends GridEngine<Unit> {
         // TODO test
         // Rotate enemy movements, so you face towards their army.
         moveUnit(
-            unit.asRotated(totalRows, totalCols),
-            totalRows - row,
-            totalCols - col,
-            player
-        );
+                unit.asRotated(totalRows, totalCols),
+                totalRows - row,
+                totalCols - col,
+                player);
     }
 
     /**
      * Place a given unit on the given location, and track the movement on the unit.
+     * 
      * @param unit
      * @param row
      * @param col
@@ -271,9 +261,9 @@ public class StrategoEngine extends GridEngine<Unit> {
         }
 
         return false;
-        }
+    }
 
-        public boolean validateAllUnitsPlaced(final Player player) {
+    public boolean validateAllUnitsPlaced(final Player player) {
         var playerGrid = grids.get(player);
         HashMap<StrategoCell, Integer> unitCounter = new HashMap<>();
         for (StrategoCell cell : StrategoCell.values()) {
@@ -282,27 +272,31 @@ public class StrategoEngine extends GridEngine<Unit> {
 
         for (int row = 0; row < playerGrid.getRowCount(); row++) {
             for (int col = 0; col < playerGrid.getColumnCount(); col++) {
-            final Unit cell = playerGrid.get(row, col);
-            unitCounter.put(cell.getRank(), unitCounter.get(cell.getRank()) + 1);
-            if (cell.getRank() == StrategoCell.Lake || cell.getRank() == StrategoCell.Win) {
-                return false;
-            }
+                final Unit cell = playerGrid.get(row, col);
+                unitCounter.put(cell.getRank(), unitCounter.get(cell.getRank()) + 1);
+                if (cell.getRank() == StrategoCell.Lake || cell.getRank() == StrategoCell.Win) {
+                    return false;
+                }
             }
         }
 
         for (StrategoCell cell : unitSet.keySet()) {
             if (!unitCounter.get(cell).equals(unitSet.get(cell))) {
-            return false;
+                return false;
             }
         }
 
         return true;
-        }
+    }
 
     // TODO
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
-        if (row < 0 || row >= playerRows) {return false;}
-        if (col < 0 || col >= playerCols) {return false;}
+        if (row < 0 || row >= playerRows) {
+            return false;
+        }
+        if (col < 0 || col >= playerCols) {
+            return false;
+        }
         return false;
     }
 
@@ -363,7 +357,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             win.setPlayer(attacker.getPlayer());
             return win;
         } // win game
-        // Rank comparison
+          // Rank comparison
         if (attackerRank.getInt() > defenderRank.getInt()) {
             return attacker;
         }
@@ -399,11 +393,11 @@ public class StrategoEngine extends GridEngine<Unit> {
                 "Unimplemented method 'validateMove' with row, col and player for Stratego");
     }
 
-	public int getTotalRows() {
+    public int getTotalRows() {
         return totalRows;
-	}
+    }
 
-	public int getTotalCols() {
+    public int getTotalCols() {
         return totalCols;
-	}
+    }
 }

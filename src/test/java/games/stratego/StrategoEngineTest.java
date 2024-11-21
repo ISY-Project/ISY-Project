@@ -45,7 +45,7 @@ public class StrategoEngineTest {
     @Test
     void testGetUnitSet() {
         setUp();
-        engine.setDefaultUnitCounts();
+        engine.setUnitCounts();
         assertNotNull(engine.getUnitSet());
         assertEquals(12, engine.getUnitSet().size());
     }
