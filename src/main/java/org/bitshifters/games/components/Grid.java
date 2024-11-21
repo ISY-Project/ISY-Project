@@ -59,4 +59,15 @@ public class Grid<T> {
         }
         return sb.toString();
     }
+
+    public boolean contains(final T value) {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                if (grid[i][j] == value) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
