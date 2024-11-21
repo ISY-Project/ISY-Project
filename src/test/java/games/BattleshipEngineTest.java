@@ -101,4 +101,11 @@ public class BattleshipEngineTest {
         assertTrue(engine.isGameOver());
         assertEquals(player1, engine.getWinner());
     }
+
+    public static void main(String[] args) {
+        var test = new BattleshipEngineTest();
+        test.setUp();
+        System.out.println(test.engine.getGrid(test.player1));
+        System.out.println(test.engine.getGrid(test.player2));
+    }
 }

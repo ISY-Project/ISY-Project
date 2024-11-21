@@ -46,4 +46,17 @@ public class Grid<T> {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        final var sb = new StringBuilder();
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                sb.append(grid[i][j]);
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
