@@ -11,7 +11,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private static final Player GameGrid = new Player("GameGrid");
     private final HashMap<StrategoCell, Integer> unitSet = new HashMap<>();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
-    private UnitCounts unitCounts = new UnitCounts();
+    private final UnitCounts unitCounts = new UnitCounts();
     private final int playerRows;
     private final int playerCols;
     private final int totalRows;
@@ -87,7 +87,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param players
      */
     private void generateMovementGrid(final Player[] players) {
-        var strategoBoard = new Grid<>(totalRows, totalCols, new Unit(StrategoCell.Empty));
+        final var strategoBoard = new Grid<>(totalRows, totalCols, new Unit(StrategoCell.Empty));
         grids.put(GameGrid, strategoBoard);
         strategoBoard.set(4, 2, new Unit(StrategoCell.Lake));
         strategoBoard.set(4, 3, new Unit(StrategoCell.Lake));
@@ -110,10 +110,10 @@ public class StrategoEngine extends GridEngine<Unit> {
      * Start the game by placing the player grids on the game grid.
      * Rotate the opponents grid 180 degrees.
      */
-    public void startGame(Player[] players) {
-        Grid<Unit> movementGrid = grids.get(GameGrid);
-        Grid<Unit> player1Grid = grids.get(players[0]);
-        Grid<Unit> player2Grid = grids.get(players[1]);
+    public void startGame(final Player[] players) {
+        final Grid<Unit> movementGrid = grids.get(GameGrid);
+        final Grid<Unit> player1Grid = grids.get(players[0]);
+        final Grid<Unit> player2Grid = grids.get(players[1]);
         for (int i = 0; i < totalCols; i++) {
             for (int j = 0; j < totalRows; j++) {
                 movementGrid.set(i, j, player1Grid.get(i, j));
@@ -144,7 +144,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param player
      */
     public void moveUnit(final Unit unit, final int row, final int col, final Player player) {
-        Grid<Unit> grid = grids.get(GameGrid);
+        final Grid<Unit> grid = grids.get(GameGrid);
         movementTrackers.get(player).addToTrack(unit, row, col);
         grid.set(row, col, unit);
         grid.set(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty));
@@ -275,7 +275,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         int marshalCounter = 0;
         for (int row = 0; row < playerGrid.getRowCount(); row++) {
             for (int col = 0; col < playerGrid.getColumnCount(); col++) {
-                Unit cell = playerGrid.get(row, col);
+                final Unit cell = playerGrid.get(row, col);
                 if (cell.getRank() == StrategoCell.Bomb) {
                     bombCounter++;
                 }
@@ -367,8 +367,8 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public void PlaceUnit(final Player player, final int row, final int col, final StrategoCell rank) {
-        Grid<Unit> playerGrid = grids.get(player);
-        Unit unit = new Unit(rank, player, row, col);
+        final Grid<Unit> playerGrid = grids.get(player);
+        final Unit unit = new Unit(rank, player, row, col);
         playerGrid.set(row, col, unit);
     }
 
@@ -398,8 +398,8 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public Unit battleResult(final Unit attacker, final Unit defender) {
-        StrategoCell attackerRank = attacker.getRank();
-        StrategoCell defenderRank = defender.getRank();
+        final StrategoCell attackerRank = attacker.getRank();
+        final StrategoCell defenderRank = defender.getRank();
         // Empty Cell
         if (defenderRank == StrategoCell.Empty) {
             return attacker;
@@ -453,7 +453,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     @Override
-    public boolean validateMove(int row, int col, Player player) {
+    public boolean validateMove(final int row, final int col, final Player player) {
         // Engine wilt deze zien, maar bevat niet de juiste informatie.
         throw new UnsupportedOperationException(
                 "Unimplemented method 'validateMove' with row, col and player for Stratego");
