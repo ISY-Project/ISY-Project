@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 public class BaseGrid extends GridPane {
-    private Button[][] grid;
+    private final Button[][] grid;
     private final int gridHeight;
     private final int gridWidth;
 
