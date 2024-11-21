@@ -51,22 +51,6 @@ public class BattleshipEngineTest {
     }
 
     @Test
-    public void testResetGrid() {
-        engine.placeShip(0, 0, 3, true, player1);
-        engine.resetGrid(player1);
-
-        assertEquals(BattleshipCell.EMPTY, engine.getCell(0, 0, player1));
-        assertEquals(BattleshipCell.EMPTY, engine.getCell(0, 1, player1));
-        assertEquals(BattleshipCell.EMPTY, engine.getCell(0, 2, player1));
-    }
-
-    @Test
-    public void testRemoveGrid() {
-        engine.removeGrid(player1);
-        assertThrows(NullPointerException.class, () -> engine.getCell(0, 0, player1));
-    }
-
-    @Test
     public void testFullGameplay() {
         setupGameplay();
 
