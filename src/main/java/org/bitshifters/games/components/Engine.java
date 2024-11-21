@@ -15,6 +15,10 @@ public abstract class Engine {
         this.activePlayer = activePlayer;
     }
 
+    protected boolean isPlayerTurn(final Player player) {
+        return activePlayer == player;
+    }
+
     public abstract boolean validateMove(final int row, final int col, final Player player);
     public abstract boolean isGameOver();
     public abstract Player getWinner();

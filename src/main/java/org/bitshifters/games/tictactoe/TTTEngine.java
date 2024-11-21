@@ -28,21 +28,18 @@ public class TTTEngine extends GridEngine<TTTCell> {
 
     public boolean validateMove(final int row, final int col, final Player player) {
         var cell = getCell(row, col, player);
-        if (cell == TTTCell.EMPTY) {
-            return true;
+        if (cell != TTTCell.EMPTY) {
+            return false;
         }
-        if (player == activePlayer) {
-            return true;
-        }
-        return false;
+        return isPlayerTurn(player);
     }
 
-    public void makeMove(final int row, final int col, final Player player) {
+    public void makeMove(final int row, final int col) {
         if (activePlayer == playerX) {
-            setCell(row, col, TTTCell.X, player);
+            setCell(row, col, TTTCell.X, tttGrid);
             activePlayer = playerO;
         } else {
-            setCell(row, col, TTTCell.O, player);
+            setCell(row, col, TTTCell.O, tttGrid);
             activePlayer = playerX;
         }
     }
@@ -50,6 +47,10 @@ public class TTTEngine extends GridEngine<TTTCell> {
     @Override
     public boolean isGameOver() {
         Grid<TTTCell> grid = grids.get(tttGrid);
+        Player winner = getWinner();
+        if (winner == null) {
+            return false;
+        }
         for (int rows = 0; rows < grid.getRowCount(); rows++) {
             for (int cols = 0; cols < grid.getColumnCount(); cols++) {
                 if (grid.get(rows, cols) == TTTCell.EMPTY) {
@@ -63,24 +64,23 @@ public class TTTEngine extends GridEngine<TTTCell> {
     @Override
     public Player getWinner() {
         Grid<TTTCell> grid = grids.get(tttGrid);
-        Player winner = checkWinner(grid, playerX, TTTCell.X);
-        if (winner != null) {return winner;}
-        winner = checkWinner(grid, playerO, TTTCell.O);
-        return winner;
-    }
-
-    private Player checkWinner(Grid<TTTCell> grid, Player player, TTTCell symbol) {
-        if (
-            checkRows(grid, player, symbol)
-            || checkColumns(grid, player, symbol)
-            || checkDiagonals(grid, player, symbol)
-        ) {
-            return player;
-        }
+        if (checkWinner(grid, playerX, TTTCell.X)) {return playerX;}
+        if (checkWinner(grid, playerO, TTTCell.O)) {return playerO;}
         return null;
     }
 
-    private boolean checkRows(Grid<TTTCell> grid, Player player, TTTCell symbol) {
+    private boolean checkWinner(Grid<TTTCell> grid, Player player, TTTCell symbol) {
+        if (
+            checkRows(grid, symbol)
+            || checkColumns(grid, symbol)
+            || checkDiagonals(grid, symbol)
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkRows(Grid<TTTCell> grid, TTTCell symbol) {
         for (int row = 0; row < rows; row++) {
             if (grid.get(row, 0) == symbol && grid.get(row, 1) == symbol && grid.get(row, 2) == symbol) {
                 return true;
@@ -89,7 +89,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return false;
     }
 
-    private boolean checkColumns(Grid<TTTCell> grid, Player player, TTTCell symbol) {
+    private boolean checkColumns(Grid<TTTCell> grid, TTTCell symbol) {
         for (int col = 0; col < cols; col++) {
             if (grid.get(0, col) == symbol && grid.get(1, col) == symbol && grid.get(2, col) == symbol) {
                 return true;
@@ -98,7 +98,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return false;
     }
 
-    private boolean checkDiagonals(Grid<TTTCell> grid, Player player, TTTCell symbol) {
+    private boolean checkDiagonals(Grid<TTTCell> grid, TTTCell symbol) {
         if (
             (grid.get(0, 0) == symbol
             && grid.get(1, 1) == symbol
