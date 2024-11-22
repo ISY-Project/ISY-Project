@@ -17,40 +17,45 @@ public class TicTacToeView extends BorderPane {
     }
 
     public TicTacToeView(MainFrame mainFrame) {
-        HBox hBox = new HBox();
+        HBox hGridBox = new HBox();
         VBox vBox = new VBox();
+        HBox hButtonBox = new HBox();
+
         this.baseGrid = new BaseGrid(3);
-        hBox.getChildren().addAll(this.baseGrid);
 
         fillGrid();
 
         Button battleshipButton = new Button("Battleship");
         Button ticTacToeButton = new Button("Tic Tac Toe");
         Button strategoButton = new Button("Stratego");
-        HBox hBox2 = new HBox();
 
         battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
 
-        hBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
+        hGridBox.getChildren().addAll(this.baseGrid);
+        hButtonBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
 
-        vBox.getChildren().addAll(hBox, hBox2);
+        vBox.getChildren().addAll(hGridBox, hButtonBox);
+
         this.setCenter(vBox);
     }
 
     public final void fillGrid() {
+        int buttonSize = 100;
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
         for (Button[] row : buttonGrid) {
             for (Button cell : row) {
-                cell.setMinSize(50, 50);
-                cell.setMaxSize(50, 50);
-                cell.setStyle("-fx-font-size: 20");
+                cell.setMinSize(buttonSize, buttonSize);
+                cell.setMaxSize(buttonSize, buttonSize);
+                cell.setStyle("-fx-font-size: 3.5em; "); // IMPORTAINT every time setStyle is called, it overrides the previous style
                 cell.setOnAction(_ -> {
                     if (cell.getText().isEmpty()) {
                         cell.setText("X");
+                        cell.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 3.5em;");
                     } else {
                         cell.setText("O");
+                        cell.setStyle("-fx-text-fill: #0000ff; -fx-font-size: 3.5em;");
                     }
                 });
             }

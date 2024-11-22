@@ -21,25 +21,27 @@ public class StrategoView extends BorderPane {
     private final BaseGrid baseGrid;
 
     public StrategoView(MainFrame mainFrame) {
-        HBox hBox = new HBox();
+        HBox hGridBox = new HBox();
         VBox vBox = new VBox();
+        HBox hButtonBox = new HBox();
+        
         this.baseGrid = new BaseGrid(10);
-        hBox.getChildren().addAll(this.baseGrid);
 
         fillGrid();
 
         Button battleshipButton = new Button("Battleship");
         Button ticTacToeButton = new Button("Tic Tac Toe");
         Button strategoButton = new Button("Stratego");
-        HBox hBox2 = new HBox();
 
         battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
 
-        hBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
+        hGridBox.getChildren().addAll(this.baseGrid);
+        hButtonBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
 
-        vBox.getChildren().addAll(hBox, hBox2);
+        vBox.getChildren().addAll(hGridBox, hButtonBox);
+
         this.setCenter(vBox);
     }
 
@@ -60,6 +62,7 @@ public class StrategoView extends BorderPane {
             for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
                 for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
                     Button button = buttonGrid[row][col];
+                    button.setStyle("-fx-background-color: #aaddaa");
                     if (row >= 0 && row <= 3) {
                         Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
                         pawns.remove(pawn);
@@ -80,8 +83,6 @@ public class StrategoView extends BorderPane {
                         button.setStyle("-fx-background-color: #aaaadd");
                     } else if (col >= 6 && col <= 7) {
                         button.setStyle("-fx-background-color: #aaaadd");
-                    } else {
-                        button.setStyle("-fx-background-color: #aaddaa");
                     }
                     button.setMinSize(buttonSize, buttonSize);
                     button.setMaxSize(buttonSize, buttonSize);
