@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -18,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class StrategoView extends BorderPane {
+    private static final BsLogger logger = new BsLogger(StrategoView.class);
     private final BaseGrid baseGrid;
 
     public StrategoView(MainFrame mainFrame) {
@@ -36,6 +38,7 @@ public class StrategoView extends BorderPane {
     }
 
     public final void fillGrid() {
+        logger.debug("Filling grid");
         Random rand = new Random();
         ArrayList<Pawns> pawns = new ArrayList<>();
         for (Pawns pawn : Pawns.values()) {
@@ -83,6 +86,7 @@ public class StrategoView extends BorderPane {
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e);
+            logger.error(e);
             for (Button[] row : buttonGrid) {
                 for (Button cell : row) {
                     cell.setStyle("-fx-background-color: #aaddaa");

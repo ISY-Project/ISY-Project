@@ -2,8 +2,13 @@ package org.bitshifters.games.components;
 
 import java.lang.reflect.Array;
 
+import org.bitshifters.logging.BsLogger;
+
 public class GridTransformer<T> {
+    private static final BsLogger logger = new BsLogger(GridTransformer.class);
+
     public T[][] toGrid(final T[] flatList, final int size, final Class<T> clazz) {
+        logger.debug("Converting flat list to grid with size: " + size);
         @SuppressWarnings("unchecked")
         final
         T[][] res = (T[][]) Array.newInstance(clazz, flatList.length / size, size);
@@ -14,6 +19,7 @@ public class GridTransformer<T> {
     }
 
     public T[] toList(final T[][] grid, final Class<T> clazz) {
+        logger.debug("Converting grid to flat list with row count: " + grid.length + " and column count: " + grid[0].length);
         @SuppressWarnings("unchecked")
         final
         T[] res = (T[]) Array.newInstance(clazz, grid.length * grid[0].length);
@@ -33,6 +39,7 @@ public class GridTransformer<T> {
      * @return
      */
     public int[] toCoordinates(final int index, final int size) {
+        logger.debug("Converting index: " + index + " to coordinates with size: " + size);
         return new int[] { index / size, index % size };
     }
 
@@ -44,6 +51,7 @@ public class GridTransformer<T> {
      * @return
      */
     public int toIndex(final int row, final int col, final int size) {
+        logger.debug("Converting row: " + row + " and column: " + col + " to index with size: " + size);
         return row * size + col;
     }
 }

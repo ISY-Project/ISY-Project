@@ -1,5 +1,6 @@
 package org.bitshifters.ui.views;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -10,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class TicTacToeView extends BorderPane {
+    private static final BsLogger logger = new BsLogger(TicTacToeView.class);
     private final BaseGrid baseGrid;
 
     public BaseGrid getBaseGrid() {
@@ -32,6 +34,7 @@ public class TicTacToeView extends BorderPane {
     }
 
     public final void fillGrid() {
+        logger.debug("Filling grid");
         int buttonSize = 100;
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
         for (Button[] row : buttonGrid) {

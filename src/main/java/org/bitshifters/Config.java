@@ -13,8 +13,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.bitshifters.interfaces.IConfig;
+import org.bitshifters.logging.BsLogger;
 
 public class Config implements IConfig {
+    private static final BsLogger logger = new BsLogger(Config.class);
     private final Path path;
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
@@ -28,6 +30,7 @@ public class Config implements IConfig {
 
     @Override
     public void write() {
+        logger.info("Writing configuration file");
         try (FileWriter writer = new FileWriter(path.toFile())) {
             for (final Map.Entry<String, String> entry : config.entrySet()) {
                 final String k = entry.getKey();
@@ -40,6 +43,7 @@ public class Config implements IConfig {
     }
 
     public String[] getNames() {
+        logger.debug("Getting configuration names");
         final List<String> names = new ArrayList<>();
         for (final String k : config.keySet()) {
             names.add(k);
@@ -48,6 +52,7 @@ public class Config implements IConfig {
     }
 
     public String[] getValues() {
+        logger.debug("Getting configuration values");
         final List<String> values = new ArrayList<>();
         for (final String v : config.values()) {
             values.add(v);
@@ -57,6 +62,7 @@ public class Config implements IConfig {
 
     @Override
     public void setValue(final String key, final String value) {
+        logger.debug("Setting value for key: " + key + " to: " + value);
         config.put(key, value);
     }
 
@@ -73,6 +79,7 @@ public class Config implements IConfig {
 
     @Override
     public <T> T getValue(final String key, final Class<T> target) {
+        logger.debug("Getting value for key: " + key);
         final String value = config.get(key);
         if (value == null) {
             throw new IllegalArgumentException("Key not found %s".formatted(key));
@@ -85,10 +92,12 @@ public class Config implements IConfig {
 
     @Override
     public void addConverter(final Class<?> target, final Function<String, ?> converter) {
+        logger.debug("Adding converter for target: " + target.getName());
         converters.put(target.getName(), converter);
     }
 
     private void initializeConverters() {
+        logger.debug("Initializing default converters");
         addConverter(Byte.class, (final String i) -> {return Byte.valueOf(i);});
         addConverter(Short.class, (final String i) -> {return Short.valueOf(i);});
         addConverter(Integer.class, (final String i) -> {return Integer.valueOf(i);});
@@ -99,12 +108,14 @@ public class Config implements IConfig {
     }
 
     private <T> T convert(final String value, final Class<T> target) {
+        logger.debug("Converting value: " + value + " to target: " + target.getName());
         final Function<String, ?> f = converters.get(target.getName());
         final var result = f.apply(value);
         return target.cast(result);
     }
 
     private void read() {
+        logger.info("Reading configuration file");
         final File file = path.toFile();
         if (!file.exists()) {
             generateDefaultConfigFile();
@@ -129,12 +140,14 @@ public class Config implements IConfig {
     }
 
     private void setDefaultValues() {
+        logger.info("Setting default config values");
         config.put("host", "65.21.191.106");
         config.put("port", "7789");
         config.put("username", "Klas2Groep4");
     }
 
     private void generateDefaultConfigFile() {
+        logger.info("Generating default configuration file");
         try {
             final File file = path.toFile();
             if (file.createNewFile()) {
@@ -148,6 +161,7 @@ public class Config implements IConfig {
     }
 
     public boolean containsKey(String key) {
+        logger.debug("Checking if key exists: " + key);
         return config.containsKey(key);
     }
 }

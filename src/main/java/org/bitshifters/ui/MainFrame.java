@@ -1,5 +1,6 @@
 package org.bitshifters.ui;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -18,6 +19,7 @@ import javafx.stage.StageStyle;
  * @param args The command line arguments
  */
 public class MainFrame extends Application {
+    private static final BsLogger logger = new BsLogger(MainFrame.class);
     private final StartView startView = new StartView(this);
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
@@ -40,7 +42,7 @@ public class MainFrame extends Application {
         // this.stage.setFullScreen(true);
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED,  (event) -> {
-            System.out.println("Key pressed: " + event.getCode());
+            logger.debug("Key pressed: " + event.getCode());
 
             switch(event.getCode().getCode()) {
                 case 27 ->  { // 27 = ESC key
@@ -55,10 +57,12 @@ public class MainFrame extends Application {
     }
 
     public static void run(String[] args) {
+        logger.info("Starting GUI");
         launch();
     }
 
     public void showScreen(Screens screen) {
+        logger.info("Showing screen: " + screen);
         startView.setVisible(false);
         battleshipsView.setVisible(false);
         ticTacToeView.setVisible(false);
