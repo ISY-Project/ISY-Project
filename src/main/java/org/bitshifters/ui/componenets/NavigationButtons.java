@@ -7,9 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 
 public class NavigationButtons extends HBox {
-    private static final Button battleshipButton = new Button("Battleship");
-    private static final Button ticTacToeButton = new Button("Tic Tac Toe");
-    private static final Button strategoButton = new Button("Stratego");
+    private final Button battleshipButton = new Button("Battleship");
+    private final Button ticTacToeButton = new Button("Tic Tac Toe");
+    private final Button strategoButton = new Button("Stratego");
 
     public NavigationButtons(MainFrame mainFrame) {
         super();
@@ -19,15 +19,15 @@ public class NavigationButtons extends HBox {
         getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
     }
 
-    public static Button getBattleshipbutton() {
+    public Button getBattleshipbutton() {
         return battleshipButton;
     }
 
-    public static Button getTictactoebutton() {
+    public Button getTictactoebutton() {
         return ticTacToeButton;
     }
 
-    public static Button getStrategobutton() {
+    public Button getStrategobutton() {
         return strategoButton;
     }
 }
