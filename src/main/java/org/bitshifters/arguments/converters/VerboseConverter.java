@@ -1,6 +1,6 @@
-package org.bitshifters.gameclient.arguments.converters;
+package org.bitshifters.arguments.converters;
 
-import org.bitshifters.gameclient.enums.VerboseLevel;
+import org.bitshifters.enums.VerboseLevel;
 
 import com.beust.jcommander.IStringConverter;
 

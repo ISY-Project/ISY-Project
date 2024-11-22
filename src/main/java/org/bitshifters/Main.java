@@ -4,9 +4,9 @@ import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import org.bitshifters.gameclient.arguments.ArgParser;
-import org.bitshifters.gameclient.arguments.Flags;
-import org.bitshifters.gameclient.enums.VerboseLevel;
+import org.bitshifters.arguments.ArgParser;
+import org.bitshifters.arguments.Flags;
+import org.bitshifters.enums.VerboseLevel;
 import org.bitshifters.ui.MainFrame;
 
 import com.beust.jcommander.JCommander;

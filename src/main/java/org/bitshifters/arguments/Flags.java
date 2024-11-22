@@ -1,8 +1,8 @@
-package org.bitshifters.gameclient.arguments;
+package org.bitshifters.arguments;
 
-import org.bitshifters.gameclient.arguments.converters.VerboseConverter;
-import org.bitshifters.gameclient.arguments.validators.VerboseLevelValidator;
-import org.bitshifters.gameclient.enums.VerboseLevel;
+import org.bitshifters.arguments.converters.VerboseConverter;
+import org.bitshifters.arguments.validators.VerboseLevelValidator;
+import org.bitshifters.enums.VerboseLevel;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;

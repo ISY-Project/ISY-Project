@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.logging;
+package org.bitshifters.logging;
 
 import java.util.logging.Logger;
 

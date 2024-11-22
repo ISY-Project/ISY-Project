@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.bitshifters.gameclient.interfaces.IConfig;
+import org.bitshifters.interfaces.IConfig;
 
 public class Config implements IConfig {
     private final Path path;

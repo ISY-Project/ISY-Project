@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.interfaces;
+package org.bitshifters.interfaces;
 
 import java.util.function.Function;
 

@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.arguments;
+package org.bitshifters.arguments;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -9,9 +9,9 @@ public class ArgParser {
     // command line variables
     @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
     private String name = "Klas2Groep4";
-    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.gameclient.arguments.validators.IPValidator.class)
+    @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.arguments.validators.IPValidator.class)
     private String host = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
-    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.gameclient.arguments.validators.IntValidator.class)
+    @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.arguments.validators.IntValidator.class)
     private Integer port = 7789;
     // command line flags
     private Flags flags = new Flags();
