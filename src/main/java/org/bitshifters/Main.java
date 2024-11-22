@@ -42,6 +42,7 @@ public class Main{
             System.exit(1);
         }
         main.run(args);
+        MainFrame.run(args);
     }
 
     /**
@@ -84,7 +85,5 @@ public class Main{
             System.out.println("Server Host: " + config.getValue("host"));
             System.out.println("Server Port: " + config.getValue("port"));
         }
-        // launch the JavaFX application
-        MainFrame.run(args);
     }
 }
