@@ -34,7 +34,7 @@ public class MainFrame extends Application {
         // stage.initStyle(StageStyle.DECORATED); // normal view with status bar and close button
         stage.initStyle(StageStyle.UTILITY); // No status bar and only close button
 
-        Scene scene = new Scene(root, 1200, 800);
+        Scene scene = new Scene(root, 1300, 800);
         this.stage.setScene(scene);
         this.stage.show();
         // this.stage.setFullScreen(true);
