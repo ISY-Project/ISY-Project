@@ -3,6 +3,7 @@ package org.bitshifters.ui.componenets;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
 
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class NavigationButtons extends VBox {
@@ -10,34 +11,12 @@ public class NavigationButtons extends VBox {
     private final CustomButton ticTacToeButton;
     private final CustomButton strategoButton;
     private final CustomButton backButton;
+    private final Boolean isHorizontal;
 
-    /** 
-     * Create a new NavigationButtons object
-     * @param mainFrame the main frame
-     */
-    public NavigationButtons(MainFrame mainFrame) {
+    public NavigationButtons(MainFrame mainFrame, Boolean enableBackButton, Boolean isHorizontal) {
         super(5);
         setPrefWidth(80);
-
-        String style = ""; // defualt button style
-
-        this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
-        this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
-        this.strategoButton = new CustomButton("Stratego", getPrefWidth(), style);
-        this.backButton = null;
-
-        battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
-        ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
-        strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
-
-        setAlignment(javafx.geometry.Pos.CENTER);
-        
-        getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
-    }
-
-    public NavigationButtons(MainFrame mainFrame, Boolean enableBackButton) {
-        super(5);
-        setPrefWidth(80);
+        this.isHorizontal = isHorizontal;
 
         String style = ""; // defualt button style
 
@@ -49,15 +28,27 @@ public class NavigationButtons extends VBox {
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
 
-        getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
-
-        // add back button last to make sure it is at the bottom
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
             backButton.setOnAction(_ -> mainFrame.showScreen(Screens.START_SCREEN));
-            getChildren().add(backButton);
         } else {
             this.backButton = null;
+        }
+
+        if (isHorizontal) {
+            HBox hBox = new HBox();
+            hBox.setSpacing(5);
+            hBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
+            if (backButton != null) {
+                hBox.getChildren().add(backButton);
+            }
+            getChildren().add(hBox);
+        } else {
+            if (backButton != null) {
+                getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton, backButton);
+            } else {
+                getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
+            }
         }
     }
 
@@ -66,12 +57,23 @@ public class NavigationButtons extends VBox {
      * @param width the width of the buttons
      */
     public void setButtonWidth(double width) {
-        setPrefWidth(width);
-        battleshipButton.setPrefWidth(width);
-        ticTacToeButton.setPrefWidth(width);
-        strategoButton.setPrefWidth(width);
-        if (backButton != null) {
-            backButton.setPrefWidth(width);
+        if (isHorizontal) {
+            setPrefWidth(width*3);
+            battleshipButton.setPrefWidth(width);
+            ticTacToeButton.setPrefWidth(width);
+            strategoButton.setPrefWidth(width);
+            if (backButton != null) {
+                setPrefWidth(width*4);
+                backButton.setPrefWidth(width);
+            }
+        } else {
+            setPrefWidth(width);
+            battleshipButton.setPrefWidth(width);
+            ticTacToeButton.setPrefWidth(width);
+            strategoButton.setPrefWidth(width);
+            if (backButton != null) {
+                backButton.setPrefWidth(width);
+            }
         }
     }
 

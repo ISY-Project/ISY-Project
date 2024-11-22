@@ -26,6 +26,7 @@ public class StartView extends BorderPane {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
+        NavigationButtons hButtonBox = new NavigationButtons(mainFrame, false, true);
 
         hButtonBox.setButtonStyle(" -fx-font-size: 4em; -fx-text-fill: #000000;");
         hButtonBox.setButtonSize(400, 100);
