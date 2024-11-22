@@ -24,6 +24,7 @@ public class NavigationButtons extends VBox {
         this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
         this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
         this.strategoButton = new CustomButton("Stratego", getPrefWidth(), style);
+        this.backButton = null;
 
         battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
@@ -32,11 +33,44 @@ public class NavigationButtons extends VBox {
         getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
     }
 
+    public NavigationButtons(MainFrame mainFrame, Boolean enableBackButton) {
+        super(5);
+        setPrefWidth(80);
+
+        String style = ""; // defualt button style
+
+        this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
+        this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
+        this.strategoButton = new CustomButton("Stratego", getPrefWidth(), style);
+
+        battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
+        ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
+        strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
+
+        getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
+
+        // add back button last to make sure it is at the bottom
+        if (enableBackButton) {
+            this.backButton = new CustomButton("Back", getPrefWidth(), style);
+            backButton.setOnAction(_ -> mainFrame.showScreen(Screens.START_SCREEN));
+            getChildren().add(backButton);
+        } else {
+            this.backButton = null;
+        }
+    }
+
+    /** 
+     * Set the width of the buttons
+     * @param width the width of the buttons
+     */
     public void setButtonWidth(double width) {
         setPrefWidth(width);
         battleshipButton.setPrefWidth(width);
         ticTacToeButton.setPrefWidth(width);
         strategoButton.setPrefWidth(width);
+        if (backButton != null) {
+            backButton.setPrefWidth(width);
+        }
     }
 
     /** 
@@ -47,6 +81,9 @@ public class NavigationButtons extends VBox {
         battleshipButton.setPrefHeight(height);
         ticTacToeButton.setPrefHeight(height);
         strategoButton.setPrefHeight(height);
+        if (backButton != null) {
+            backButton.setPrefHeight(height);
+        }
     }
 
     /** 
@@ -57,6 +94,10 @@ public class NavigationButtons extends VBox {
     public void setButtonSize(double width, double height) {
         setButtonWidth(width);
         setButtonHeight(height);
+        if (backButton != null) {
+            backButton.setPrefWidth(width);
+            backButton.setPrefHeight(height);
+        }
     }
 
     /** 
@@ -67,6 +108,9 @@ public class NavigationButtons extends VBox {
         battleshipButton.setStyle(style);
         ticTacToeButton.setStyle(style);
         strategoButton.setStyle(style);
+        if (backButton != null) {
+            backButton.setStyle(style);
+        }
     }
 
     /** 
@@ -91,5 +135,13 @@ public class NavigationButtons extends VBox {
      */
     public CustomButton getStrategoButton() {
         return strategoButton;
+    }
+
+    /** 
+     * Get the back button
+     * @return the back button | null if the back button is not enabled
+     */
+    public CustomButton getBackButton() {
+        return backButton;
     }
 }

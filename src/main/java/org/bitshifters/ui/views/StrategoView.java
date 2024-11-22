@@ -23,7 +23,7 @@ public class StrategoView extends BorderPane {
     public StrategoView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame);
+        VBox hButtonBox = new NavigationButtons(mainFrame, true);
         
         this.baseGrid = new BaseGrid(10);
 

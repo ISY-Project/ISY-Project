@@ -22,7 +22,7 @@ public class BattleshipsView extends BorderPane {
     public BattleshipsView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame);
+        VBox hButtonBox = new NavigationButtons(mainFrame, true);
 
         this.playerGrid = new BaseGrid(GRIDSIZE);
         this.opponentGrid = new BaseGrid(GRIDSIZE);
