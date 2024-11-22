@@ -3,7 +3,6 @@ package org.bitshifters.ui.componenets;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class NavigationButtons extends VBox {
@@ -20,7 +19,7 @@ public class NavigationButtons extends VBox {
         this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
         this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
         this.strategoButton = new CustomButton("Stratego", getPrefWidth(), style);
-        
+
         battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
@@ -28,15 +27,38 @@ public class NavigationButtons extends VBox {
         getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
     }
 
-    public Button getBattleshipbutton() {
+    public void setButtonWidth(double width) {
+        battleshipButton.setPrefWidth(width);
+        ticTacToeButton.setPrefWidth(width);
+        strategoButton.setPrefWidth(width);
+    }
+
+    public void setButtonHeight(double height) {
+        battleshipButton.setPrefHeight(height);
+        ticTacToeButton.setPrefHeight(height);
+        strategoButton.setPrefHeight(height);
+    }
+
+    public void setButtonSize(double width, double height) {
+        setButtonWidth(width);
+        setButtonHeight(height);
+    }
+
+    public void setButtonStyle(String style) {
+        battleshipButton.setStyle(style);
+        ticTacToeButton.setStyle(style);
+        strategoButton.setStyle(style);
+    }
+
+    public CustomButton getBattleshipbutton() {
         return battleshipButton;
     }
 
-    public Button getTictactoebutton() {
+    public CustomButton getTictactoebutton() {
         return ticTacToeButton;
     }
 
-    public Button getStrategobutton() {
+    public CustomButton getStrategobutton() {
         return strategoButton;
     }
 }
