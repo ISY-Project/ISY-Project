@@ -5,6 +5,10 @@ import java.util.Map;
 public abstract class GridEngine<Cell> extends Engine {
     protected Map<Player, Grid<Cell>> grids;
 
+    public Grid<Cell> getGrid(final Player player) {
+        return grids.get(player);
+    }
+
     public void addGrid(final Player player, final int rows, final int cols, final Cell defaultValue) {
         grids.put(player, new Grid<Cell>(rows, cols, defaultValue));
     }
@@ -17,7 +21,7 @@ public abstract class GridEngine<Cell> extends Engine {
         grids.remove(player);
     }
 
-    public void setCell(final int row, final int col, final Cell cell, final Player player) {
+    protected void setCell(final int row, final int col, final Cell cell, final Player player) {
         grids.get(player).set(row, col, cell);
     }
 

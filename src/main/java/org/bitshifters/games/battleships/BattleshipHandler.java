@@ -1,10 +1,10 @@
-package org.bitshifters.games.tictactoe;
+package org.bitshifters.games.battleships;
 
 import org.bitshifters.gameclient.games.GameTypes;
 import org.bitshifters.telnet.EventHandler;
 
-public class TTTHandler extends EventHandler {
-    TTTHandler() {
+public class BattleshipHandler extends EventHandler {
+    BattleshipHandler() {
         super(GameTypes.TicTacToe);
     }
 

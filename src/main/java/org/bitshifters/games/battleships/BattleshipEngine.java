@@ -8,79 +8,190 @@ import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class BattleshipEngine extends GridEngine<BattleshipCell> {
-    private final HashMap<Player, List<Ship>> placedShips;
-    int rows;
-    int cols;
+    private final HashMap<Player, List<Ship>> placedShipsMap;
+    private final ArrayList<Integer> validShipLengths;
+    public boolean allowSurroundingShips = false;
+    private final int rows;
+    private final int cols;
 
-    public BattleshipEngine(final int rows, final int cols) {
+    public BattleshipEngine(final int rows, final int cols, final ArrayList<Integer> validShipLengths) {
         this.rows = rows;
         this.cols = cols;
+        this.validShipLengths = validShipLengths;
         this.grids = new HashMap<>();
-        this.placedShips = new HashMap<>();
+        this.placedShipsMap = new HashMap<>();
     }
 
-    public void placeShip(final int row, final int col, final int length, final boolean horizontal, final Player player) {
-        final Ship ship = new Ship(row, col, length, horizontal);
-        addShip(ship, player);
+    public void placeShip(final int row, final int col, final int length, final boolean horizontal,
+            final Player player) {
+        addShip(new Ship(row, col, length, horizontal), player);
         for (int i = 0; i < length; i++) {
-            final var x = horizontal ? row : row + i;
-            final var y = horizontal ? col + i : col;
-            setCell(x, y, BattleshipCell.SHIP, player);
+            final var targetRow = horizontal ? row : row + i;
+            final var targetCol = horizontal ? col + i : col;
+            setCell(targetRow, targetCol, BattleshipCell.SHIP, player);
         }
     }
 
     /**
-     * Validate the shot location for the player.
+     * Validate the ship placement for the player.
      */
-    public boolean validatePlacementCell(final int row, final int col, final Player player) {
-        boolean valid = true;
-        if (placedShips.containsKey(player)) {
-            valid = false;
+    // TODO exceed grid wordt niet gecheckt
+    public boolean validateShipPlacement(final int row, final int col, final int length, final boolean horizontal,
+        final Player player) {
+        if (countShipOccurrences(player, length) == countIntOccurrences(validShipLengths, length)) {
+            return false;
         }
-        if (row < 0 || row >= rows || col < 0 || col >= cols) {
-            valid = false;
+        for (int i = 0; i < length; i++) {
+            if (horizontal) {
+                if (!validatePlacementCell(row, col + i, player)) {
+                    return false;
+                }
+            } else {
+                if (!validatePlacementCell(row + i, col, player)) {
+                    return false;
+                }
+            }
         }
-        final var cell = getCell(row, col, player);
-        if (cell.contains(BattleshipCell.SHIP)) {
-            valid = false;
-        }
-        return valid;
+        return true;
     }
 
-    /**
-     * Validate the shot location for the player.
-     */
+    public boolean allShipsPlaced(final Player player) {
+        return placedShipsMap.get(player).size() == validShipLengths.size();
+    }
+
+    public boolean allShipsSunk(final Player player) {
+        for (final Ship ship : placedShipsMap.get(player)) {
+            if (!ship.isSunk()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean validateMove(final int row, final int col, final Player player) {
-        final var cell = getCell(row, col, player);
-        boolean valid = true;
-        if (cell != BattleshipCell.EMPTY) {
-            valid = false;
-        }
-        if (player != activePlayer) {
-            valid = false;
-        }
-        return valid;
+        return validateShot(rows, cols, activePlayer);
     }
 
-    private void addShip(final Ship ship, final Player player) {
-        var playerShips = placedShips.get(player);
+    /**
+     * Validate the shot location for the player.
+     */
+    public boolean validateShot(final int row, final int col, final Player player) {
+        final var cell = getCell(row, col, player);
+        if (cell == BattleshipCell.HIT || cell == BattleshipCell.MISS) {
+            return false;
+        }
+        return true;
+    }
+
+    public BattleshipCell shot(final int row, final int col, final Player player) {
+        final BattleshipCell cell = getCell(row, col, player);
+        if (cell == BattleshipCell.EMPTY) {
+            setCell(row, col, BattleshipCell.MISS, player);
+        } else if (cell == BattleshipCell.SHIP) {
+            setCell(row, col, BattleshipCell.HIT, player);
+            for (final Ship ship : placedShipsMap.get(player)) {
+                if (ship.isAt(row, col)) {
+                    ship.hit(row, col);
+                }
+            }
+        }
+        return cell;
+    }
+
+    public void addShip(final Ship ship, final Player player) {
+        var playerShips = placedShipsMap.get(player);
         if (playerShips == null) {
             playerShips = new ArrayList<>();
-            placedShips.put(player, playerShips);
+            placedShipsMap.put(player, playerShips);
+            playerShips.add(ship);
         } else {
             playerShips.add(ship);
         }
     }
 
+    public boolean hasPlacedAllShips(final Player player) {
+        return placedShipsMap.get(player).size() == validShipLengths.size();
+    }
+
     @Override
     public boolean isGameOver() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
+        for (final Player player : placedShipsMap.keySet()) {
+            if (allShipsSunk(player)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public Player getWinner() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getWinner'");
+        Player winner = null;
+        for (final Player player : placedShipsMap.keySet()) {
+            if (allShipsSunk(player)) {
+                continue;
+            }
+            winner = player;
+        }
+        return winner;
+    }
+
+    /**
+     * Validate a single cell for a ship being placed.
+     */
+    private boolean validatePlacementCell(final int row, final int col, final Player player) {
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            return false;
+        }
+        var cell = getCell(row, col, player);
+        if (cell.contains(BattleshipCell.SHIP)) {
+            return false;
+        }
+        if (!allowSurroundingShips) {
+            if (row != rows - 1) {
+                cell = getCell(row + 1, col, player);
+                if (cell.contains(BattleshipCell.SHIP)) {
+                    return false;
+                }
+            }
+            if (col != cols - 1) {
+                cell = getCell(row, col + 1, player);
+                if (cell.contains(BattleshipCell.SHIP)) {
+                    return false;
+                }
+            }
+            if (row != 0) {
+                cell = getCell(row - 1, col, player);
+                if (cell.contains(BattleshipCell.SHIP)) {
+                    return false;
+                }
+            }
+            if (col != 0) {
+                cell = getCell(row, col - 1, player);
+                if (cell.contains(BattleshipCell.SHIP)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private int countShipOccurrences(final Player player, final int length) {
+        int count = 0;
+        for (final Ship ship : placedShipsMap.get(player)) {
+            if (ship.getLength() == length) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int countIntOccurrences(final List<Integer> elements, final int target) {
+        int count = 0;
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).equals(target)) {
+                count++;
+            }
+        }
+        return count;
     }
 }

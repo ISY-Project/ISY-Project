@@ -5,13 +5,18 @@ public class Ship {
     private final int col;
     private final int length;
     private final boolean horizontal;
-    private int hits = 0;
+    private final boolean[] hits;
+
+    public Ship(final int length) {
+        this(0, 0, length, true);
+    }
 
     public Ship(final int row, final int col, final int length, final boolean horizontal) {
         this.row = row;
         this.col = col;
         this.length = length;
         this.horizontal = horizontal;
+        this.hits = new boolean[length];
     }
 
     public int getRow() {
@@ -36,9 +41,17 @@ public class Ship {
 
     public boolean isAt(final int row, final int col) {
         if (horizontal) {
-            return col == this.col && row >= this.row && row < this.row + length;
+            return (
+                col >= this.col
+                && col <= this.col + this.length
+                && row == this.row
+            );
         } else {
-            return row == this.row && col >= this.col && col < this.col + length;
+            return (
+                col == this.col
+                && row >= this.row
+                && row < this.row + length
+            );
         }
     }
 
@@ -50,10 +63,15 @@ public class Ship {
     }
 
     public boolean isSunk() {
-        return hits == length;
+        for (boolean hit : hits) {
+            if (!hit) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public void hit() {
-        hits++;
+    public void hit(final int row, final int col) {
+        hits[horizontal ? col - this.col : row - this.row] = true;
     }
 }

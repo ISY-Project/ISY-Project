@@ -46,4 +46,38 @@ public class Grid<T> {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        final var sb = new StringBuilder();
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                sb.append(grid[i][j]);
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    public boolean contains(final T value) {
+        for (int i = 0; i < rowCount; i++) {
+            for (int j = 0; j < columnCount; j++) {
+                if (grid[i][j] == value) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Grid<T> asRotated() {
+        final var mirrored = new Grid<T>(rowCount, columnCount);
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < columnCount; col++) {
+                mirrored.set(rowCount - row, columnCount - col, get(row, col));
+            }
+        }
+        return mirrored;
+    }
 }
