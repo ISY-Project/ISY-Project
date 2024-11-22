@@ -5,11 +5,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.telnet.Commands.SendableCommand;
 
 
 public class TelnetClient {
-
+    private static final BsLogger logger = new BsLogger(TelnetClient.class);
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;
@@ -22,6 +23,7 @@ public class TelnetClient {
     }
 
     public void connect() throws Exception {
+        logger.info("Connecting to server: " + this.server + ":" + this.port);
         socket = new Socket(this.server, this.port);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -42,6 +44,7 @@ public class TelnetClient {
     }
 
     public void close() throws Exception {
+        logger.info("Closing connection with server: " + this.server + ":" + this.port);
         in.close();
         out.close();
         socket.close();
