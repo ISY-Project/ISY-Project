@@ -85,6 +85,6 @@ public class Main{
             System.out.println("Server Port: " + config.getValue("port"));
         }
         // launch the JavaFX application
-        MainFrame.main(args);
+        MainFrame.run(args);
     }
 }
