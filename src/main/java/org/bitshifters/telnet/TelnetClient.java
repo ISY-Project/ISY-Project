@@ -36,12 +36,9 @@ public class TelnetClient {
         out.println(message);
     }
 
-    public String receiveMessage() throws Exception {
+    public String receive() throws Exception {
+        logger.debug("Receiving message");
         return in.readLine();
-    }
-
-    public void showMessage(final String message) {
-        System.out.println(message);
     }
 
     public void close() throws Exception {
