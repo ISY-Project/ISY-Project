@@ -2,7 +2,7 @@ package org.bitshifters.ui.views;
 
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
-import org.bitshifters.ui.enums.Screens;
+import org.bitshifters.ui.componenets.NavigationButtons;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -19,23 +19,13 @@ public class TicTacToeView extends BorderPane {
     public TicTacToeView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        HBox hButtonBox = new HBox();
+        HBox hButtonBox = new NavigationButtons(mainFrame);
 
         this.baseGrid = new BaseGrid(3);
 
         fillGrid();
 
-        Button battleshipButton = new Button("Battleship");
-        Button ticTacToeButton = new Button("Tic Tac Toe");
-        Button strategoButton = new Button("Stratego");
-
-        battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
-        ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
-        strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
-
         hGridBox.getChildren().addAll(this.baseGrid);
-        hButtonBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
-
         vBox.getChildren().addAll(hGridBox, hButtonBox);
 
         this.setCenter(vBox);

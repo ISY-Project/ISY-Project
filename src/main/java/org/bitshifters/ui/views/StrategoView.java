@@ -7,8 +7,8 @@ import java.util.Random;
 
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
+import org.bitshifters.ui.componenets.NavigationButtons;
 import org.bitshifters.ui.enums.Pawns;
-import org.bitshifters.ui.enums.Screens;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -23,23 +23,13 @@ public class StrategoView extends BorderPane {
     public StrategoView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        HBox hButtonBox = new HBox();
+        HBox hButtonBox = new NavigationButtons(mainFrame);
         
         this.baseGrid = new BaseGrid(10);
 
         fillGrid();
 
-        Button battleshipButton = new Button("Battleship");
-        Button ticTacToeButton = new Button("Tic Tac Toe");
-        Button strategoButton = new Button("Stratego");
-
-        battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
-        ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
-        strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
-
         hGridBox.getChildren().addAll(this.baseGrid);
-        hButtonBox.getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
-
         vBox.getChildren().addAll(hGridBox, hButtonBox);
 
         this.setCenter(vBox);
