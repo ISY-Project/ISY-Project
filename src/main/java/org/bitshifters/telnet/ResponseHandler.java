@@ -1,7 +1,7 @@
 package org.bitshifters.telnet;
 
 import org.bitshifters.GameClient;
-import org.bitshifters.gameclient.games.GameTypes;
+import org.bitshifters.gameclient.GameTypes;
 import org.bitshifters.telnet.Events.Challenge;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;

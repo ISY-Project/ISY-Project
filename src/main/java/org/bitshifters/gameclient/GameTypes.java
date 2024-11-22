@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.games;
+package org.bitshifters.gameclient;
 
 public enum GameTypes {
     BattleShip,
