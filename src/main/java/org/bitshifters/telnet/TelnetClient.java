@@ -27,7 +27,8 @@ public class TelnetClient {
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    public void sendMessage(final SendableCommand message) throws IllegalStateException {
+    public void send(final SendableCommand message) throws IllegalStateException {
+        logger.debug("Sending message: " + message.get());
         if (this.out == null) {
             throw new IllegalStateException("Connection not established");
         }
