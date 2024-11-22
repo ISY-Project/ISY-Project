@@ -9,12 +9,17 @@ public class NavigationButtons extends VBox {
     private final CustomButton battleshipButton;
     private final CustomButton ticTacToeButton;
     private final CustomButton strategoButton;
+    private final CustomButton backButton;
 
+    /** 
+     * Create a new NavigationButtons object
+     * @param mainFrame the main frame
+     */
     public NavigationButtons(MainFrame mainFrame) {
         super(5);
         setPrefWidth(80);
 
-        String style = ""; // button style
+        String style = ""; // defualt button style
 
         this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
         this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
@@ -28,37 +33,63 @@ public class NavigationButtons extends VBox {
     }
 
     public void setButtonWidth(double width) {
+        setPrefWidth(width);
         battleshipButton.setPrefWidth(width);
         ticTacToeButton.setPrefWidth(width);
         strategoButton.setPrefWidth(width);
     }
 
+    /** 
+     * Set the height of the buttons
+     * @param height the height of the buttons
+     */
     public void setButtonHeight(double height) {
         battleshipButton.setPrefHeight(height);
         ticTacToeButton.setPrefHeight(height);
         strategoButton.setPrefHeight(height);
     }
 
+    /** 
+     * Set the size of the buttons
+     * @param width the width of the buttons
+     * @param height the height of the buttons
+     */
     public void setButtonSize(double width, double height) {
         setButtonWidth(width);
         setButtonHeight(height);
     }
 
+    /** 
+     * Set the style of the buttons
+     * @param style the style string of the buttons
+     */
     public void setButtonStyle(String style) {
         battleshipButton.setStyle(style);
         ticTacToeButton.setStyle(style);
         strategoButton.setStyle(style);
     }
 
-    public CustomButton getBattleshipbutton() {
+    /** 
+     * Get the battleship button
+     * @return the battleship button
+     */
+    public CustomButton getBattleshipButton() {
         return battleshipButton;
     }
 
-    public CustomButton getTictactoebutton() {
+    /** 
+     * Get the tic tac toe button
+     * @return the tic tac toe button
+     */
+    public CustomButton getTicTacToeButton() {
         return ticTacToeButton;
     }
 
-    public CustomButton getStrategobutton() {
+    /** 
+     * Get the stratego button
+     * @return the stratego button
+     */
+    public CustomButton getStrategoButton() {
         return strategoButton;
     }
 }

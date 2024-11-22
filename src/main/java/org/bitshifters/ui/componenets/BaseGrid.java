@@ -10,6 +10,10 @@ public class BaseGrid extends GridPane {
     private final int gridHeight;
     private final int gridWidth;
 
+    /**
+     * Create a new BaseGrid object, The grid will be a square
+     * @param gridSize the size of the grid
+     */
     public BaseGrid(int gridSize) {
         this.gridHeight = gridSize;
         this.gridWidth = gridSize;
@@ -18,6 +22,11 @@ public class BaseGrid extends GridPane {
         fillGrid();
     }
 
+    /**
+     * Create a new BaseGrid object, The grid will be a rectangle
+     * @param gridWidth the width of the grid
+     * @param gridHeight the height of the grid
+     */
     public BaseGrid(int gridWidth, int gridHeight) {
         this.gridHeight = gridHeight;
         this.gridWidth = gridWidth;
@@ -26,6 +35,9 @@ public class BaseGrid extends GridPane {
         fillGrid();
     }
 
+    /**
+     * Fill the grid with buttons
+     */
     private void fillGrid() {
         for (int row = 0; row < this.gridHeight; row++) {
             for (int col = 0; col < this.gridWidth; col++) {
@@ -38,18 +50,33 @@ public class BaseGrid extends GridPane {
         }
     }
 
+    /**
+     * Get the width of the grid
+     * @return the width of the grid
+     */
     public int getGridWidth() {	
         return this.gridWidth;
     }
 
+    /**
+     * Get the height of the grid
+     * @return the height of the grid
+     */
     public int getGridHeight() {
         return this.gridHeight;
     }
 
+    /**
+     * Get the grid
+     * @return the grid
+     */
     public Button[][] getButtonGrid() {
         return this.grid;
     }
 
+    /**
+     * Clear the text of the grid
+     */
     public void clearGrid() {
         for (Button[] row : this.grid) {
             for (Button cell : row) {
@@ -58,6 +85,9 @@ public class BaseGrid extends GridPane {
         }
     }
 
+    /**
+     * Enable the grid
+     */
     public void enableGrid() {
         for (Button[] row : this.grid) {
             for (Button cell : row) {
@@ -66,6 +96,9 @@ public class BaseGrid extends GridPane {
         }
     }
 
+    /**
+     * Disable the grid
+     */
     public void disableGrid() {
         for (Button[] row : this.grid) {
             for (Button cell : row) {
