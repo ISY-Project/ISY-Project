@@ -30,7 +30,10 @@ public class StrategoView extends BorderPane {
         fillGrid();
 
         hGridBox.getChildren().addAll(this.baseGrid);
+        hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
+
         vBox.getChildren().addAll(hGridBox);
+        vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
         this.setRight(hButtonBox);

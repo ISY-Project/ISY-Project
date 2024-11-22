@@ -19,6 +19,7 @@ public class StartView extends BorderPane {
         hButtonBox.setButtonStyle("-fx-background-color: #aaddaa; -fx-font-size: 4em; -fx-text-fill: #000000;");
         hButtonBox.setButtonSize(400, 100);
 
+        grid.setAlignment(javafx.geometry.Pos.CENTER);
         grid.add(hButtonBox, 0, 0);
         this.setCenter(grid);
     }

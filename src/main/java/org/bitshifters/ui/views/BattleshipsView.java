@@ -30,7 +30,10 @@ public class BattleshipsView extends BorderPane {
         fillGrid();
 
         hGridBox.getChildren().addAll(this.playerGrid, this.opponentGrid);
+        hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
+
         vBox.getChildren().addAll(hGridBox);
+        vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
         this.setRight(hButtonBox);

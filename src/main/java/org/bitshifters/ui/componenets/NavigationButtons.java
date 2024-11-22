@@ -30,6 +30,8 @@ public class NavigationButtons extends VBox {
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
 
+        setAlignment(javafx.geometry.Pos.CENTER);
+        
         getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
     }
 
