@@ -19,16 +19,17 @@ public class TicTacToeView extends BorderPane {
     public TicTacToeView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        HBox hButtonBox = new NavigationButtons(mainFrame);
+        VBox hButtonBox = new NavigationButtons(mainFrame);
 
         this.baseGrid = new BaseGrid(3);
 
         fillGrid();
 
         hGridBox.getChildren().addAll(this.baseGrid);
-        vBox.getChildren().addAll(hGridBox, hButtonBox);
+        vBox.getChildren().addAll(hGridBox);
 
         this.setCenter(vBox);
+        this.setRight(hButtonBox);
     }
 
     public final void fillGrid() {

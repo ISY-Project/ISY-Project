@@ -4,18 +4,27 @@ import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
 
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class NavigationButtons extends HBox {
-    private final Button battleshipButton = new Button("Battleship");
-    private final Button ticTacToeButton = new Button("Tic Tac Toe");
-    private final Button strategoButton = new Button("Stratego");
+public class NavigationButtons extends VBox {
+    private final CustomButton battleshipButton;
+    private final CustomButton ticTacToeButton;
+    private final CustomButton strategoButton;
 
     public NavigationButtons(MainFrame mainFrame) {
-        super();
+        super(5);
+        setPrefWidth(80);
+
+        String style = ""; // button style
+
+        this.battleshipButton = new CustomButton("Battleship", getPrefWidth(), style);
+        this.ticTacToeButton = new CustomButton("TicTacToe", getPrefWidth(), style);
+        this.strategoButton = new CustomButton("Stratego", getPrefWidth(), style);
+        
         battleshipButton.setOnAction(_ -> mainFrame.showScreen(Screens.BATTLESHIP));
         ticTacToeButton.setOnAction(_ -> mainFrame.showScreen(Screens.TICTACTOE));
         strategoButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGO));
+
         getChildren().addAll(battleshipButton, ticTacToeButton, strategoButton);
     }
 
