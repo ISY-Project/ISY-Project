@@ -9,6 +9,7 @@ public class CustomButton extends Button {
      */
     public CustomButton(String text) {
         super(text);
+        setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
     /**
@@ -19,6 +20,7 @@ public class CustomButton extends Button {
     public CustomButton(String text,String style) {
         super(text);
         setStyle(style);
+        setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
     /**
@@ -29,6 +31,7 @@ public class CustomButton extends Button {
     public CustomButton(String text, double width) {
         super(text);
         setPrefWidth(width);
+        setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
     /**
@@ -41,6 +44,7 @@ public class CustomButton extends Button {
         super(text);
         setPrefWidth(width);
         setStyle(style);
+        setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
     /**
@@ -57,6 +61,7 @@ public class CustomButton extends Button {
             setPrefWidth(width);
             setPrefHeight(height);
         }
+        setFocusTraversable(false); // remove the focus from the button to make it look better
         
     }
 
@@ -76,6 +81,7 @@ public class CustomButton extends Button {
             setPrefHeight(height);
         }
         setStyle(style);
+        setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
 }
