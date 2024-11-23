@@ -42,16 +42,14 @@ public class MovementTracker {
         if (moves.size() < turns) {
             return false;
         }
-        if (turns < 2) {
-            throw new IllegalArgumentException("Turns must be greater than 2");
+        if (turns <= 3) {
+            throw new IllegalArgumentException("Turns must be greater than 3");
         }
         var qSize = moves.size();
         int windowSize = turns - 1;
-        for (int i = qSize; i - windowSize > 0; i--) {
-            for (int j = 0; j < windowSize / 2; j++) {
-                if (!moves.get(i - windowSize + j).equals(moves.get(i - windowSize + j + 2))) {
-                    return false;
-                }
+        for (int i = qSize; i - windowSize > qSize - turns; i--) {
+            if (!moves.get(i - windowSize).equals(moves.get(i - windowSize + 2))) {
+                return false;
             }
         }
         return true;
