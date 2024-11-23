@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StrategoEngineTest {
 
     private StrategoEngine engine;
-    private Player strategoPlayer;
     private Player player1;
     private Player player2;
 
@@ -74,8 +73,17 @@ public class StrategoEngineTest {
     void testMoveUnitRotated() {
         setUp();
         Unit unit = new Unit(StrategoCell.Scout, player2, 0, 0);
+        Unit targetUnit = unit.asRotated(engine.getTotalRows(), engine.getTotalCols());
+        targetUnit.setCoordinate(8, 8);
         engine.moveUnitRotated(unit, 1, 1, player2);
-        assertEquals(unit.asRotated(engine.getTotalRows(), engine.getTotalCols()), engine.getCell(engine.getTotalRows() - 1, engine.getTotalRows() - 1, strategoPlayer));
+        // -1 because the rotated to avoid the border. And -1 is for the movement to 1, 1
+        Unit placedUnit = engine.getCell(
+            engine.getTotalRows() - 2,
+            engine.getTotalRows() - 2,
+            StrategoEngine.GameGrid);
+        assertEquals(targetUnit.getRow(), placedUnit.getRow());
+        assertEquals(targetUnit.getCol(), placedUnit.getCol());
+        assertEquals(targetUnit.getRank(), placedUnit.getRank());
     }
 
     @Test
