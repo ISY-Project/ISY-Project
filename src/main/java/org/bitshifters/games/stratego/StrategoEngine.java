@@ -254,7 +254,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         if (col < 0 || col >= playerCols) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public void PlaceUnit(final Player player, final int row, final int col, final StrategoCell rank) {
