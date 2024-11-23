@@ -84,7 +84,6 @@ public class StrategoEngineTest {
         setUp();
         UnitCounts unitCounts = new UnitCounts();
         engine.setUnitCounts(unitCounts);
-        assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Scout));
         assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Bomb));
         assertEquals(unitCounts.flagCount, engine.getUnitSet().get(StrategoCell.Flag));
         assertEquals(unitCounts.spyCount, engine.getUnitSet().get(StrategoCell.Spy));
