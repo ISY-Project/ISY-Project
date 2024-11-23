@@ -67,6 +67,8 @@ public class Unit {
     }
 
     public Unit asRotated(int totalRows, int totalCols) {
+        totalRows--;
+        totalCols--;
         return new Unit(rank, player, totalRows - row, totalCols - col);
     }
 

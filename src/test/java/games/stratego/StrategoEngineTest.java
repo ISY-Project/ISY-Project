@@ -19,7 +19,6 @@ public class StrategoEngineTest {
 
     @BeforeEach
     void setUp() {
-        strategoPlayer = new Player("StrategoPlayer");
         player1 = new Player("Player1");
         player2 = new Player("Player2");
         Player[] players = {player1, player2};
@@ -68,7 +67,7 @@ public class StrategoEngineTest {
         setUp();
         Unit unit = new Unit(StrategoCell.Scout, player1, 0, 0);
         engine.moveUnit(unit, 1, 1, player1);
-        assertEquals(unit, engine.getCell(1, 1, player1));
+        assertEquals(unit, engine.getCell(1, 1, StrategoEngine.GameGrid));
     }
 
     @Test

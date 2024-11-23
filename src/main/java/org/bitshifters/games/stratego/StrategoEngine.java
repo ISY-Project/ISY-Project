@@ -8,7 +8,7 @@ import org.bitshifters.games.components.Player;
 public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
     private int turnCount = 0;
-    private static final Player GameGrid = new Player("GameGrid");
+    public static final Player GameGrid = new Player("GameGrid");
     private final HashMap<StrategoCell, Integer> unitSet = new HashMap<>();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
     private final int playerRows;
@@ -151,8 +151,8 @@ public class StrategoEngine extends GridEngine<Unit> {
         // Rotate enemy movements, so you face towards their army.
         moveUnit(
                 unit.asRotated(totalRows, totalCols),
-                totalRows - row,
-                totalCols - col,
+                totalRows - row - 1,
+                totalCols - col - 1,
                 player);
     }
 
