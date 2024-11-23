@@ -1,6 +1,7 @@
 package games.stratego;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,25 +32,41 @@ public class MovementTrackerTest {
     }
 
     @Test
+    void testisREpeatingEmpty() {
+        setUp();
+        assertFalse(movementTracker.isRepeating());
+    }
+
+    @Test
+    void testIsRepeatingTooFew() {
+        setUp();
+        movementTracker.add(0, 1);
+        movementTracker.add(0, 0);
+        movementTracker.add(0, 1);
+        movementTracker.add(0, 0);
+        assertThrowsExactly(IllegalArgumentException.class, () -> movementTracker.isRepeating(3));
+    }
+
+    @Test
     void testIsRepeating2Units() {
         setUp();
-        movementTracker.add(1, 1);
-        movementTracker.add(1, 0);
-        movementTracker.add(1, 1);
-        movementTracker.add(1, 0);
-        movementTracker.add(1, 1);
-        movementTracker.add(1, 0);
-        movementTracker.add(1, 1);
-        movementTracker.add(1, 0);
+        movementTracker.add(0, 1);
+        movementTracker.add(0, 0);
+        movementTracker.add(0, 1);
+        movementTracker.add(0, 0);
+        assertTrue(movementTracker.isRepeating(4));
+    }
+
+    @Test
+    void testIsRepeating2Units2() {
+        setUp();
         movementTracker.add(0, 1);
         movementTracker.add(0, 0);
         movementTracker.add(0, 1);
         movementTracker.add(0, 0);
         movementTracker.add(0, 1);
         movementTracker.add(0, 0);
-        movementTracker.add(0, 1);
-        movementTracker.add(0, 0);
-        assertTrue(movementTracker.isRepeating());
+        assertTrue(movementTracker.isRepeating(6));
     }
 
     @Test
