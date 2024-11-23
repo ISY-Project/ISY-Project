@@ -71,4 +71,9 @@ public class Unit {
     public Unit asRotated(int totalRows, int totalCols) {
         return new Unit(rank, player, totalRows - row, totalCols - col);
     }
+
+    @Override
+    public String toString() {
+        return rank + " at (" + row + ", " + col + ")";
+    }
 }
