@@ -108,8 +108,25 @@ public class StrategoEngineTest {
     @Test
     void testValidateAllUnitsPlaced() {
         setUp();
+        engine.setUnitCounts();
         assertFalse(engine.validateAllUnitsPlaced(player1));
-        assertFalse(engine.validateAllUnitsPlaced(player2));
+
+        placeAllRequiredUnits(player1);
+        assertTrue(engine.validateAllUnitsPlaced(player1));
+        placeAllRequiredUnits(player2);
+        assertTrue(engine.validateAllUnitsPlaced(player2));
+    }
+
+    private void placeAllRequiredUnits(Player player) {
+        int index = 0;
+        for ( StrategoCell i : engine.getUnitSet().keySet()) {
+            int row = index / engine.getTotalCols();
+            int col = index % engine.getTotalCols();
+            for (int j = 0; j < engine.getUnitSet().get(i); j++){
+                engine.PlaceUnit(player, row, col, i);
+                index++;
+            }
+        }
     }
 
     @Test
@@ -123,8 +140,16 @@ public class StrategoEngineTest {
     @Test
     void testValidateMove() {
         setUp();
-        Unit unit = new Unit(StrategoCell.Scout, player1, 0, 0);
-        assertTrue(engine.validateMove(unit, 1, 1, player1));
+        Unit unit = new Unit(StrategoCell.Marshal, player1, 0, 0);
+        assertFalse(engine.validateMove(unit, 1, 1, player1));
+        assertTrue(engine.validateMove(unit, 0, 1, player1));
+        assertTrue(engine.validateMove(unit, 1, 0, player1));
+
+        unit = new Unit(StrategoCell.Scout, player1, 0, 0);
+        assertFalse(engine.validateMove(unit, 10, 0, player1));
+        assertFalse(engine.validateMove(unit, 0, 10, player1));
+        assertTrue(engine.validateMove(unit, 9, 0, player1));
+        assertTrue(engine.validateMove(unit, 0, 9, player1));
     }
 
     @Test
