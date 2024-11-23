@@ -2,7 +2,6 @@ package org.bitshifters.games.stratego;
 
 import java.util.HashMap;
 
-import org.bitshifters.games.components.Grid;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
@@ -11,7 +10,6 @@ public class StrategoEngine extends GridEngine<Unit> {
     private static final Player GameGrid = new Player("GameGrid");
     private final HashMap<StrategoCell, Integer> unitSet = new HashMap<>();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
-    private final UnitCounts unitCounts = new UnitCounts();
     private final int playerRows;
     private final int playerCols;
     private final int totalRows;
@@ -23,7 +21,6 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public StrategoEngine(final int playerRows, final int playerCols, final Player[] players) {
-        this.grids = new HashMap<>();
         this.playerRows = playerRows;
         this.playerCols = playerCols;
         // Add one to the total players to account for the movement grid.
@@ -77,8 +74,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     private void initializePlayers(final Player[] players) {
         for (final var player : players) {
-            final var grid = new Grid<>(playerRows, playerCols, new Unit(StrategoCell.Empty));
-            grids.put(player, grid);
+            addGrid(player, playerRows, playerCols, new Unit(StrategoCell.Empty));
             movementTrackers.put(player, new MovementTracker());
         }
     }
@@ -92,16 +88,15 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param players
      */
     private void generateMovementGrid(final Player[] players) {
-        final var strategoBoard = new Grid<>(totalRows, totalCols, new Unit(StrategoCell.Empty));
-        grids.put(GameGrid, strategoBoard);
-        strategoBoard.set(4, 2, new Unit(StrategoCell.Lake));
-        strategoBoard.set(4, 3, new Unit(StrategoCell.Lake));
-        strategoBoard.set(5, 2, new Unit(StrategoCell.Lake));
-        strategoBoard.set(5, 3, new Unit(StrategoCell.Lake));
-        strategoBoard.set(4, 6, new Unit(StrategoCell.Lake));
-        strategoBoard.set(4, 7, new Unit(StrategoCell.Lake));
-        strategoBoard.set(5, 6, new Unit(StrategoCell.Lake));
-        strategoBoard.set(5, 7, new Unit(StrategoCell.Lake));
+        addGrid(GameGrid, totalRows, totalCols, new Unit(StrategoCell.Empty));
+        setCell(4, 2, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(4, 3, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(5, 2, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(5, 3, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(4, 6, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(4, 7, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(5, 6, new Unit(StrategoCell.Lake), GameGrid);
+        setCell(5, 7, new Unit(StrategoCell.Lake), GameGrid);
         // TODO: Implement the algorithm to overlay the player grids onto the movement
         // grid.
         // With 2 players, its simply in between. (easy)
@@ -116,16 +111,29 @@ public class StrategoEngine extends GridEngine<Unit> {
      * Rotate the opponents grid 180 degrees.
      */
     public void startGame(final Player[] players) {
-        final Grid<Unit> movementGrid = grids.get(GameGrid);
-        final Grid<Unit> player1Grid = grids.get(players[0]);
-        final Grid<Unit> player2Grid = grids.get(players[1]);
-        for (int i = 0; i < totalCols; i++) {
-            for (int j = 0; j < totalRows; j++) {
-                movementGrid.set(i, j, player1Grid.get(i, j));
-                movementGrid.set(totalCols - i, totalRows - j, player2Grid.get(i, j));
-                player2Grid.get(i, j).asRotated(totalRows, totalCols);
+        for (int i = 0; i < players.length; i++) {
+            Player player = players[i];
+            if (player == GameGrid) {
+                continue;
+            }
+
+            int startRow = i * playerRows;
+            int startCol = 0;
+
+            for (int row = 0; row < playerRows; row++) {
+                for (int col = 0; col < playerCols; col++) {
+                    final Unit cell = getCell(row, col, player);
+                    if (i % 2 == 0) {
+                        setCell(startRow + row, startCol + col, cell, GameGrid);
+                    } else {
+                        setCell(startRow + (playerRows - 1 - row), startCol + (playerCols - 1 - col), cell, GameGrid);
+                    }
+                }
             }
         }
+        System.out.println(stringGrid(players[0]));
+        System.out.println(stringGrid(players[1]));
+        System.out.println(stringGrid(GameGrid));
         // TODO place playergrids on the gameGrid.
         // TODO rotate opponent grid 180 degrees.
     }
@@ -221,24 +229,28 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public boolean validateAllUnitsPlaced(final Player player) {
-        var playerGrid = grids.get(player);
         HashMap<StrategoCell, Integer> unitCounter = new HashMap<>();
         for (StrategoCell cell : StrategoCell.values()) {
             unitCounter.put(cell, 0);
         }
 
-        for (int row = 0; row < playerGrid.getRowCount(); row++) {
-            for (int col = 0; col < playerGrid.getColumnCount(); col++) {
-                final Unit cell = playerGrid.get(row, col);
+        for (int row = 0; row < playerRows; row++) {
+            for (int col = 0; col < playerCols; col++) {
+                final Unit cell = getCell(row, col, player);
                 unitCounter.put(cell.getRank(), unitCounter.get(cell.getRank()) + 1);
-                if (cell.getRank() == StrategoCell.Lake || cell.getRank() == StrategoCell.Win) {
+                if (cell.getRank() == StrategoCell.Empty || cell.getRank() == StrategoCell.Lake) {
+                    continue;
+                }
+                if (cell.getRank() == StrategoCell.Win) {
                     return false;
                 }
             }
         }
 
         for (StrategoCell cell : unitSet.keySet()) {
-            if (!unitCounter.get(cell).equals(unitSet.get(cell))) {
+            Integer unitCount = unitCounter.get(cell);
+            Integer requiredCount = unitSet.get(cell);
+            if (unitCount != requiredCount) {
                 return false;
             }
         }
@@ -258,9 +270,8 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public void PlaceUnit(final Player player, final int row, final int col, final StrategoCell rank) {
-        final Grid<Unit> playerGrid = grids.get(player);
         final Unit unit = new Unit(rank, player, row, col);
-        playerGrid.set(row, col, unit);
+        setCell(row, col, unit, player);
     }
 
     public boolean validateAttack(final Unit attacker, final Unit defender, final Player player) {
@@ -333,10 +344,8 @@ public class StrategoEngine extends GridEngine<Unit> {
 
     @Override
     public Player getWinner() {
-        for (final var entry : grids.entrySet()) {
-            final Grid<Unit> grid = entry.getValue();
-            if (grid.contains(win)) {
-                final Player player = entry.getKey();
+        for (final Player player : getPlayers()) {
+            if (gridContains(win, player)) {
                 return player;
             }
         }
