@@ -7,6 +7,7 @@ import org.bitshifters.games.components.Player;
 
 public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
+    private int turnCount = 0;
     private static final Player GameGrid = new Player("GameGrid");
     private final HashMap<StrategoCell, Integer> unitSet = new HashMap<>();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
@@ -161,6 +162,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty), GameGrid);
         unit.setCoordinate(row, col);
         movementTrackers.get(player).add(row, col);
+        turnCount++;
     }
 
     /**
