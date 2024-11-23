@@ -101,6 +101,8 @@ public class StrategoEngineTest {
     @Test
     void testStartGame() {
         setUp();
+        placeAllRequiredUnits(player1);
+        placeAllRequiredUnits(player2);
         engine.startGame(new Player[]{player1, player2});
         assertNotNull(engine.getCell(0, 0, player1));
     }
@@ -120,9 +122,9 @@ public class StrategoEngineTest {
     private void placeAllRequiredUnits(Player player) {
         int index = 0;
         for ( StrategoCell i : engine.getUnitSet().keySet()) {
-            int row = index / engine.getTotalCols();
-            int col = index % engine.getTotalCols();
             for (int j = 0; j < engine.getUnitSet().get(i); j++){
+                int row = index / engine.getTotalCols();
+                int col = index % engine.getTotalCols();
                 engine.PlaceUnit(player, row, col, i);
                 index++;
             }
