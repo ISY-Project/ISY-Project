@@ -4,7 +4,6 @@ package org.bitshifters.games.stratego;
 import org.bitshifters.games.components.Player;
 
 public class Unit {
-    private final MovementTracker movementTracker = new MovementTracker();
     private final StrategoCell rank;
     private Player player;
     private int row;
@@ -58,11 +57,10 @@ public class Unit {
     }
 
     public void setCoordinate(int row, int col) {
-        this.movementTracker.addToTrack(this, row, col);
         this.row = row;
         this.col = col;
     }
-    
+
     public void remove() {
         this.row = -1;
         this.col = -1;

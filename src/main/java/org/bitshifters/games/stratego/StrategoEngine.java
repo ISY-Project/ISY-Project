@@ -75,7 +75,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private void initializePlayers(final Player[] players) {
         for (final var player : players) {
             addGrid(player, playerRows, playerCols, new Unit(StrategoCell.Empty));
-            movementTrackers.put(player, new MovementTracker());
+            movementTrackers.put(player, new MovementTracker(totalCols));
         }
     }
 
@@ -160,6 +160,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(row, col, unit, GameGrid);
         setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty), GameGrid);
         unit.setCoordinate(row, col);
+        movementTrackers.get(player).add(row, col);
     }
 
     /**
@@ -173,7 +174,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     public boolean validateMove(final Unit unit, final int row, final int col, final Player player) {
         if (unit.getPlayer() != player || isInvalidRank(unit.getRank()) || isOutOfBounds(row, col)
-                || movementTrackers.get(player).isRepeating(unit, row, col)) {
+                || movementTrackers.get(player).isRepeating()) {
             return false;
         }
 
