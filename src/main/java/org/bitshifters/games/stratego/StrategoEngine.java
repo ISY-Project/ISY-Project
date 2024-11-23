@@ -121,13 +121,20 @@ public class StrategoEngine extends GridEngine<Unit> {
             int startRow = i * playerRows;
             int startCol = 0;
 
-            for (int row = 0; row < playerRows; row++) {
-                for (int col = 0; col < playerCols; col++) {
-                    final Unit cell = getCell(row, col, player);
-                    if (i % 2 == 0) {
-                        setCell(startRow + row, startCol + col, cell, GameGrid);
-                    } else {
-                        setCell(startRow + (playerRows - 1 - row), startCol + (playerCols - 1 - col), cell, GameGrid);
+            if (i % 1 == 0) {
+                for (int row = 0; row < playerRows; row++) {
+                    for (int col = 0; col < playerCols; col++) {
+                        Unit unit = getCell(row, col, player);
+                        unit.setCoordinate(row, col);
+                        setCell(startRow + row, startCol + col, unit, GameGrid);
+                    }
+                }
+            } else {
+                for (int row = 0; row < playerRows; row++) {
+                    for (int col = 0; col < playerCols; col++) {
+                        Unit unit = getCell(row, col, player);
+                        unit.setCoordinate(row, col);
+                        setCell(startRow + row, startCol + col, unit.asRotated(playerRows, playerCols), GameGrid);
                     }
                 }
             }
