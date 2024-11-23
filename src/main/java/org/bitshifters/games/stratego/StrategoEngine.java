@@ -146,6 +146,16 @@ public class StrategoEngine extends GridEngine<Unit> {
         // TODO rotate opponent grid 180 degrees.
     }
 
+    /**
+     * Move a unit to a given location, and track the movement on the unit.
+     * This method behaves the exact same as moveUnit, except that the move is rotated 180 degrees
+     * on the board.
+     * This translation happens automatically.
+     * @param unit
+     * @param row
+     * @param col
+     * @param player
+     */
     public void moveUnitRotated(final Unit unit, final int row, final int col, final Player player) {
         // TODO test
         // Rotate enemy movements, so you face towards their army.
@@ -165,8 +175,8 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param player
      */
     public void moveUnit(final Unit unit, final int row, final int col, final Player player) {
+        setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty, unit.getRow(), unit.getCol()), GameGrid);
         setCell(row, col, unit, GameGrid);
-        setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty), GameGrid);
         unit.setCoordinate(row, col);
         movementTrackers.get(player).add(row, col);
         turnCount++;
