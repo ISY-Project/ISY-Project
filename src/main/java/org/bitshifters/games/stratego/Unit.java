@@ -17,6 +17,10 @@ public class Unit {
         this(rank, player, -1, -1);
     }
 
+    public Unit(StrategoCell rank, int row, int col) {
+        this(rank, null, row, col);
+    }
+
     public Unit(StrategoCell rank, Player player, int row, int col) {
         this.rank = rank;
         this.player = player;
