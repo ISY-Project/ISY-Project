@@ -39,6 +39,9 @@ public class MovementTracker {
     }
 
     public boolean isRepeating(int turns) {
+        if (moves.size() < turns) {
+            return false;
+        }
         if (turns < 2) {
             throw new IllegalArgumentException("Turns must be greater than 2");
         }
