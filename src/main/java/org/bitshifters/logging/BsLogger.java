@@ -17,16 +17,16 @@ public class BsLogger extends Logger {
 
     static {
         try {
-            fileHandler = new FileHandler(LOG_FILE, true);
-            streamHandler = new StreamHandler(System.out, formatter) {
+            BsLogger.fileHandler = new FileHandler(LOG_FILE, true);
+            BsLogger.streamHandler = new StreamHandler(System.out, formatter) {
                 @Override
                 public synchronized void publish(final LogRecord record) {
                     super.publish(record);
                     flush();
                 }
             };
-            streamHandler.setLevel(BsLevel.OFF);
-            fileHandler.setFormatter(formatter);
+            BsLogger.streamHandler.setLevel(BsLevel.OFF);
+            BsLogger.fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
         }
@@ -111,6 +111,6 @@ public class BsLogger extends Logger {
     }
 
     public static void setVerboseLevel(Level level) {
-        streamHandler.setLevel(level);
+        BsLogger.streamHandler.setLevel(level);
     }
 }
