@@ -20,6 +20,15 @@ public class VerboseLevelValidator implements IParameterValidator {
             case "HIGH" -> {
                 return;
             }
+            case "1" -> {
+                return;
+            }
+            case "2" -> {
+                return;
+            }
+            case "3" -> {
+                return;
+            }
             default -> {
                 String errorMessage = "Parameter " + name + " should be an integer between 1 and 3 or `low` or `medium` or `high` (found " + value +")";
                 ParameterException parameterException = new ParameterException(errorMessage);
