@@ -174,6 +174,7 @@ public class Config implements IConfig {
             case LOW -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // Only show SEVERE messages
             case MEDIUM -> BsLogger.setVerboseLevel(BsLevel.WARNING); // Show WARNING messages as well
             case HIGH -> BsLogger.setVerboseLevel(BsLevel.INFO);  // Show INFO messages as well
+            case DEBUG -> BsLogger.setVerboseLevel(BsLevel.DEBUG); // Show DEBUG messages as well
             case ALL -> BsLogger.setVerboseLevel(BsLevel.ALL); // Show all messages
             default -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
         }

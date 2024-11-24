@@ -6,4 +6,5 @@ public enum VerboseLevel {
     HIGH,
     NONE,
     ALL,
+    DEBUG,
 }
