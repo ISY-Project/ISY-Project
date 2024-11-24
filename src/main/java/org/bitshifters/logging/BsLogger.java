@@ -3,6 +3,7 @@ package org.bitshifters.logging;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
@@ -17,8 +18,14 @@ public class BsLogger extends Logger {
     static {
         try {
             fileHandler = new FileHandler(LOG_FILE, true);
-            streamHandler = new StreamHandler(System.out, formatter);
-            streamHandler.setLevel(BsLevel.INFO);
+            streamHandler = new StreamHandler(System.out, formatter) {
+                @Override
+                public synchronized void publish(final LogRecord record) {
+                    super.publish(record);
+                    flush();
+                }
+            };
+            streamHandler.setLevel(BsLevel.DEBUG);
             fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
