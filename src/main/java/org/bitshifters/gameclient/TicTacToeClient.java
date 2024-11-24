@@ -14,7 +14,7 @@ public class TicTacToeClient {
         this.engine = new TTTEngine(playerX, playerO);
     }
 
-    public void makeMove(int row, int col) {
+    public void makeMove(int row, int col) throws IllegalArgumentException {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = engine.getActivePlayer() == engine.getPlayerX() ? engine.getPlayerX() : engine.getPlayerO();
 
