@@ -3,9 +3,11 @@ package org.bitshifters.gameclient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.tictactoe.TTTCell;
 import org.bitshifters.games.tictactoe.TTTEngine;
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.views.TicTacToeView;
 
 public class TicTacToeClient {
+    private static final BsLogger logger = new BsLogger(TicTacToeClient.class);
     private final TicTacToeView view;
     private final TTTEngine engine;
 
@@ -15,11 +17,14 @@ public class TicTacToeClient {
     }
 
     public void makeMove(int row, int col) throws IllegalArgumentException {
+        logger.info("Making move at row: " + row + " col: " + col);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = engine.getActivePlayer() == engine.getPlayerX() ? engine.getPlayerX() : engine.getPlayerO();
 
         if (!engine.validateMove(row, col, activePlayer)) {
-            throw new IllegalArgumentException("Invalid move");
+            IllegalArgumentException e = new IllegalArgumentException("Invalid move");
+            logger.error(e);
+            throw e;
         }
 
         engine.makeMove(row, col);
