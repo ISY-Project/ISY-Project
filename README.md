@@ -34,6 +34,22 @@
    - Every argument should be separated with an new line, this includes the parameter and value (look at `run_parameters`)
    - Other arguments can be added, but it may result in conflicts (adding `-debug` twice turns debug back off)
 
+## Verbose/log levels
+
+- `NONE || 0`
+  - Doesn't show any messages
+- `LOW || 1`
+  - Only shows SEVERE messages
+- `MEDIUM || 2`
+  - Shows WARNING messages as well
+- `HIGH || 3`
+  - Shows INFO messages as well
+- `DEBUG || 4`
+  - Shows DEBUG messages as well
+- `ALL || 5`
+  - Shows all messages
+- The Default is set to `LOW`
+
 ## Regels
 
 Voor het ontwikkelen van Zeeslagje willen we graag dat de volgende spelregels worden gebruikt:
