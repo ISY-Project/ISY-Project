@@ -1,6 +1,7 @@
 package org.bitshifters.games.battleships;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,7 +19,6 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         this.rows = rows;
         this.cols = cols;
         this.validShipLengths = validShipLengths;
-        this.grids = new HashMap<>();
         this.placedShipsMap = new HashMap<>();
     }
 
@@ -38,7 +38,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
     // TODO exceed grid wordt niet gecheckt
     public boolean validateShipPlacement(final int row, final int col, final int length, final boolean horizontal,
         final Player player) {
-        if (countShipOccurrences(player, length) == countIntOccurrences(validShipLengths, length)) {
+        if (countOccurrences(placedShipsMap.get(player), new Ship(length)) >= countOccurrences(validShipLengths, length)) {
             return false;
         }
         for (int i = 0; i < length; i++) {
@@ -175,20 +175,13 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return true;
     }
 
-    private int countShipOccurrences(final Player player, final int length) {
+    private <T> int countOccurrences(Collection<T> collection, T target) {
         int count = 0;
-        for (final Ship ship : placedShipsMap.get(player)) {
-            if (ship.getLength() == length) {
-                count++;
-            }
+        if (collection == null) {
+            return count;
         }
-        return count;
-    }
-
-    private int countIntOccurrences(final List<Integer> elements, final int target) {
-        int count = 0;
-        for (int i = 0; i < elements.size(); i++) {
-            if (elements.get(i).equals(target)) {
+        for (T element : collection) {
+            if (element.equals(target)) {
                 count++;
             }
         }

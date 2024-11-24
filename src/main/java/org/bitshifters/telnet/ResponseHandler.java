@@ -1,7 +1,9 @@
 package org.bitshifters.telnet;
 
+
 import org.bitshifters.GameClient;
-import org.bitshifters.gameclient.games.GameTypes;
+import org.bitshifters.GameTypes;
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.telnet.Events.Challenge;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
@@ -10,21 +12,28 @@ import org.bitshifters.telnet.Events.Server;
 import org.bitshifters.telnet.Exceptions.TypeMismatchException;
 
 public class ResponseHandler {
+    private static final BsLogger logger = new BsLogger(ResponseHandler.class);
     private final EventHandler eventHandler;
     private final GameClient gameClient;
 
     public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) throws TypeMismatchException {
         this.eventHandler = eventHandler;
         this.gameClient = gameClient;
-        if (!this.IsMatchingGameType())
-            throw new TypeMismatchException("Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType());
+        if (!this.IsMatchingGameType()) {
+            final String errorMsg = "Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType();
+            TypeMismatchException typeMismatchException = new TypeMismatchException(errorMsg);
+            logger.error(typeMismatchException);
+            throw typeMismatchException;
+        }
     }
 
     private boolean IsMatchingGameType() {
+        logger.debug("Matching game type: " + this.eventHandler.getGameType() + " == " + this.gameClient.getGameType());
         return this.eventHandler.getGameType() == this.gameClient.getGameType();
     }
 
     public boolean handle(final String response) {
+        logger.info("Handling response: " + response);
         if (!this.eventHandler.isValidGameType(determineGameType(response))) {
             return false;
         }
@@ -41,6 +50,7 @@ public class ResponseHandler {
     }
 
     private GameTypes determineGameType(final String response) {
+        logger.debug("Determining game type: " + response);
         final char data_start = '{';
         final char data_end = '}';
         final int start = response.indexOf(data_start);
@@ -48,7 +58,7 @@ public class ResponseHandler {
         if (start == -1 || end == -1) {
             return null;
         }
-        final GameTypes currentGameType = gameClient.getGameType(); // use the game client.
+        final GameTypes currentGameType = gameClient.getGameType();
         if (currentGameType == eventHandler.getGameType()) {
             return currentGameType;
         }
@@ -68,24 +78,29 @@ public class ResponseHandler {
                 break;
             }
         }
+        logger.debug("Determined game type: " + result);
         return result;
     }
 
     private void handleErrorEvent(final String response) {
+        logger.info("Handling error event: " + response);
         this.eventHandler.onError(response);
     }
 
     private void handleHelpEvent(final String response) {
+        logger.info("Handling help event: " + response);
         this.eventHandler.onHelp(response);
     }
 
     private void handleServerEvent(final String response, final String[] responseArray) {
+        logger.info("Handling server event: " + response);
         if (response.contains(Game.MESSAGE)) {
             handleGameEvent(response, responseArray);
         }
     }
 
     private void handleGameEvent(final String response, final String[] responseArray) {
+        logger.info("Handling game event: " + response);
         if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
         }
@@ -110,31 +125,38 @@ public class ResponseHandler {
     }
 
     private void handleDrawEvent() {
+        logger.info("Handling draw event");
         this.eventHandler.onDraw();
     }
 
     private void handleLossEvent() {
+        logger.info("Handling loss event");
         this.eventHandler.onLose();
     }
 
     private void handleWinEvent() {
+        logger.info("Handling win event");
         this.eventHandler.onWin();
     }
 
     private void handleMoveEvent(final String response) {
+        logger.info("Handling move event: " + response);
         final String[] data = parseMove(response);
         this.eventHandler.onMove(data);
     }
 
     private void handleYourTurnEvent(final String[] responseArray) {
+        logger.info("Handling your turn event: " + responseArray[2]);
         this.eventHandler.onYourTurn(responseArray[2]);
     }
 
     private void handleMatchEvent(final String response) {
+        logger.info("Handling match event: " + response);
         this.eventHandler.onMatch();
     }
 
     private void handleChallengeEvent(final String response, final String[] responseArray) {
+        logger.info("Handling challenge event: " + response);
         final String playerName = response.split(" ")[1];
         final int gameNumber = Integer.parseInt(responseArray[2]);
         final int gameName = Integer.parseInt(responseArray[3]);
@@ -142,6 +164,7 @@ public class ResponseHandler {
     }
 
     private String[] parseMove(final String response) {
+        logger.debug("Parsing move: " + response);
         final char data_start = '{';
         final char data_end = '}';
         final int start = response.indexOf(data_start);
@@ -159,6 +182,7 @@ public class ResponseHandler {
             }
             result[i] = option;
         }
+        logger.debug("Parsed move: " + result);
         return result;
     }
 }

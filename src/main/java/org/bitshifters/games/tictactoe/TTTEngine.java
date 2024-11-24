@@ -1,8 +1,5 @@
 package org.bitshifters.games.tictactoe;
 
-import java.util.HashMap;
-
-import org.bitshifters.games.components.Grid;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
@@ -22,8 +19,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         this.cols = cols;
         this.playerX = playerX;
         this.playerO = playerO;
-        this.grids = new HashMap<>();
-        this.grids.put(tttGrid, new Grid<TTTCell>(rows, cols, TTTCell.EMPTY));
+        addGrid(tttGrid, rows, cols, TTTCell.EMPTY);
     }
 
     public boolean validateMove(final int row, final int col, final Player player) {
@@ -46,14 +42,13 @@ public class TTTEngine extends GridEngine<TTTCell> {
 
     @Override
     public boolean isGameOver() {
-        Grid<TTTCell> grid = grids.get(tttGrid);
         Player winner = getWinner();
         if (winner == null) {
             return false;
         }
-        for (int rows = 0; rows < grid.getRowCount(); rows++) {
-            for (int cols = 0; cols < grid.getColumnCount(); cols++) {
-                if (grid.get(rows, cols) == TTTCell.EMPTY) {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (getCell(row, col, tttGrid) == TTTCell.EMPTY) {
                     return false;
                 }
             }
@@ -63,49 +58,56 @@ public class TTTEngine extends GridEngine<TTTCell> {
 
     @Override
     public Player getWinner() {
-        Grid<TTTCell> grid = grids.get(tttGrid);
-        if (checkWinner(grid, playerX, TTTCell.X)) {return playerX;}
-        if (checkWinner(grid, playerO, TTTCell.O)) {return playerO;}
+        if (checkWinner(playerX, TTTCell.X)) {return playerX;}
+        if (checkWinner(playerO, TTTCell.O)) {return playerO;}
         return null;
     }
 
-    private boolean checkWinner(Grid<TTTCell> grid, Player player, TTTCell symbol) {
+    private boolean checkWinner(Player player, TTTCell symbol) {
         if (
-            checkRows(grid, symbol)
-            || checkColumns(grid, symbol)
-            || checkDiagonals(grid, symbol)
+            checkRows(symbol)
+            || checkColumns(symbol)
+            || checkDiagonals(symbol)
         ) {
             return true;
         }
         return false;
     }
 
-    private boolean checkRows(Grid<TTTCell> grid, TTTCell symbol) {
+    private boolean checkRows(TTTCell symbol) {
         for (int row = 0; row < rows; row++) {
-            if (grid.get(row, 0) == symbol && grid.get(row, 1) == symbol && grid.get(row, 2) == symbol) {
+            if (
+                getCell(row, 0, tttGrid) == symbol
+                && getCell(row, 1, tttGrid) == symbol
+                && getCell(row, 2, tttGrid) == symbol
+            ) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkColumns(Grid<TTTCell> grid, TTTCell symbol) {
+    private boolean checkColumns(TTTCell symbol) {
         for (int col = 0; col < cols; col++) {
-            if (grid.get(0, col) == symbol && grid.get(1, col) == symbol && grid.get(2, col) == symbol) {
+            if (
+                getCell(0, col, tttGrid) == symbol
+                && getCell(1, col, tttGrid) == symbol
+                && getCell(2, col, tttGrid) == symbol
+            ) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkDiagonals(Grid<TTTCell> grid, TTTCell symbol) {
+    private boolean checkDiagonals(TTTCell symbol) {
         if (
-            (grid.get(0, 0) == symbol
-            && grid.get(1, 1) == symbol
-            && grid.get(2, 2) == symbol)
-            || (grid.get(0, 2) == symbol
-            && grid.get(1, 1) == symbol
-            && grid.get(2, 0) == symbol)
+            (getCell(0, 0, tttGrid) == symbol
+            && getCell(1, 1, tttGrid) == symbol
+            && getCell(2, 2, tttGrid) == symbol)
+            || (getCell(0, 2, tttGrid) == symbol
+            && getCell(1, 1, tttGrid) == symbol
+            && getCell(2, 0, tttGrid) == symbol)
         ) {
             return true;
         }

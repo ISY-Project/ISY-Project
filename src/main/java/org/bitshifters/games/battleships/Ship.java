@@ -74,4 +74,16 @@ public class Ship {
     public void hit(final int row, final int col) {
         hits[horizontal ? col - this.col : row - this.row] = true;
     }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Ship)) {
+            return false;
+        }
+        final Ship ship = (Ship) obj;
+        return ship.length == length;
+    }
 }

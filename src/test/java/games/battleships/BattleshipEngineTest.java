@@ -31,6 +31,17 @@ public class BattleshipEngineTest {
     }
 
     @Test
+    public void testValidateShipPlacement() {
+        setUp();
+        assertTrue(engine.validateShipPlacement(0, 0, 3, true, player1));
+        assertTrue(engine.validateShipPlacement(0, 0, 3, false, player1));
+        assertTrue(engine.validateShipPlacement(0, 0, 2, true, player1));
+        assertTrue(engine.validateShipPlacement(0, 0, 2, false, player1));
+        assertFalse(engine.validateShipPlacement(0, 0, 6, true, player1));
+        assertFalse(engine.validateShipPlacement(0, 0, 6, false, player1));
+    }
+
+    @Test
     public void testPlaceShip() {
         setUp();
         engine.placeShip(0, 0, 3, true, player1);

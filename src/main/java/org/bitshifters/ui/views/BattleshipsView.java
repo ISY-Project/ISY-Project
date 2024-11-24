@@ -3,6 +3,7 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -15,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class BattleshipsView extends BorderPane {
+    private static final BsLogger logger = new BsLogger(BattleshipsView.class);
     private static final int GRIDSIZE = 8;
     private final BaseGrid playerGrid;
     private final BaseGrid opponentGrid;
@@ -40,6 +42,7 @@ public class BattleshipsView extends BorderPane {
     }
 
     public final void fillGrid() {
+        logger.debug("Filling grid");
         int buttonSize = 70;
         Button[][] buttonGrid = this.playerGrid.getButtonGrid();
         try {
@@ -93,6 +96,7 @@ public class BattleshipsView extends BorderPane {
             }
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e);
+            logger.error(e);
             for (Button[] row : buttonGrid) {
                 for (Button cell : row) {
                     cell.setStyle("-fx-background-color: #aaddaa");

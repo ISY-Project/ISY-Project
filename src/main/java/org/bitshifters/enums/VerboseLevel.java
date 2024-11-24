@@ -1,4 +1,4 @@
-package org.bitshifters.gameclient.enums;
+package org.bitshifters.enums;
 
 public enum VerboseLevel {
     LOW,

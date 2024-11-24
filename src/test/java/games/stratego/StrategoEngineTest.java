@@ -13,13 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StrategoEngineTest {
 
     private StrategoEngine engine;
-    private Player strategoPlayer;
     private Player player1;
     private Player player2;
 
     @BeforeEach
     void setUp() {
-        strategoPlayer = new Player("StrategoPlayer");
         player1 = new Player("Player1");
         player2 = new Player("Player2");
         Player[] players = {player1, player2};
@@ -45,7 +43,7 @@ public class StrategoEngineTest {
     @Test
     void testGetUnitSet() {
         setUp();
-        engine.setDefaultUnitCounts();
+        engine.setUnitCounts();
         assertNotNull(engine.getUnitSet());
         assertEquals(12, engine.getUnitSet().size());
     }
@@ -68,15 +66,24 @@ public class StrategoEngineTest {
         setUp();
         Unit unit = new Unit(StrategoCell.Scout, player1, 0, 0);
         engine.moveUnit(unit, 1, 1, player1);
-        assertEquals(unit, engine.getCell(1, 1, player1));
+        assertEquals(unit, engine.getCell(1, 1, StrategoEngine.GameGrid));
     }
 
     @Test
     void testMoveUnitRotated() {
         setUp();
         Unit unit = new Unit(StrategoCell.Scout, player2, 0, 0);
+        Unit targetUnit = unit.asRotated(engine.getTotalRows(), engine.getTotalCols());
+        targetUnit.setCoordinate(8, 8);
         engine.moveUnitRotated(unit, 1, 1, player2);
-        assertEquals(unit.asRotated(engine.getTotalRows(), engine.getTotalCols()), engine.getCell(engine.getTotalRows() - 1, engine.getTotalRows() - 1, strategoPlayer));
+        // -1 because the rotated to avoid the border. And -1 is for the movement to 1, 1
+        Unit placedUnit = engine.getCell(
+            engine.getTotalRows() - 2,
+            engine.getTotalRows() - 2,
+            StrategoEngine.GameGrid);
+        assertEquals(targetUnit.getRow(), placedUnit.getRow());
+        assertEquals(targetUnit.getCol(), placedUnit.getCol());
+        assertEquals(targetUnit.getRank(), placedUnit.getRank());
     }
 
     @Test
@@ -84,7 +91,6 @@ public class StrategoEngineTest {
         setUp();
         UnitCounts unitCounts = new UnitCounts();
         engine.setUnitCounts(unitCounts);
-        assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Scout));
         assertEquals(unitCounts.bombCount, engine.getUnitSet().get(StrategoCell.Bomb));
         assertEquals(unitCounts.flagCount, engine.getUnitSet().get(StrategoCell.Flag));
         assertEquals(unitCounts.spyCount, engine.getUnitSet().get(StrategoCell.Spy));
@@ -102,6 +108,8 @@ public class StrategoEngineTest {
     @Test
     void testStartGame() {
         setUp();
+        placeAllRequiredUnits(player1);
+        placeAllRequiredUnits(player2);
         engine.startGame(new Player[]{player1, player2});
         assertNotNull(engine.getCell(0, 0, player1));
     }
@@ -109,8 +117,25 @@ public class StrategoEngineTest {
     @Test
     void testValidateAllUnitsPlaced() {
         setUp();
+        engine.setUnitCounts();
         assertFalse(engine.validateAllUnitsPlaced(player1));
-        assertFalse(engine.validateAllUnitsPlaced(player2));
+
+        placeAllRequiredUnits(player1);
+        assertTrue(engine.validateAllUnitsPlaced(player1));
+        placeAllRequiredUnits(player2);
+        assertTrue(engine.validateAllUnitsPlaced(player2));
+    }
+
+    private void placeAllRequiredUnits(Player player) {
+        int index = 0;
+        for ( StrategoCell i : engine.getUnitSet().keySet()) {
+            for (int j = 0; j < engine.getUnitSet().get(i); j++){
+                int row = index / engine.getTotalCols();
+                int col = index % engine.getTotalCols();
+                engine.PlaceUnit(player, row, col, i);
+                index++;
+            }
+        }
     }
 
     @Test
@@ -124,8 +149,16 @@ public class StrategoEngineTest {
     @Test
     void testValidateMove() {
         setUp();
-        Unit unit = new Unit(StrategoCell.Scout, player1, 0, 0);
-        assertTrue(engine.validateMove(unit, 1, 1, player1));
+        Unit unit = new Unit(StrategoCell.Marshal, player1, 0, 0);
+        assertFalse(engine.validateMove(unit, 1, 1, player1));
+        assertTrue(engine.validateMove(unit, 0, 1, player1));
+        assertTrue(engine.validateMove(unit, 1, 0, player1));
+
+        unit = new Unit(StrategoCell.Scout, player1, 0, 0);
+        assertFalse(engine.validateMove(unit, 10, 0, player1));
+        assertFalse(engine.validateMove(unit, 0, 10, player1));
+        assertTrue(engine.validateMove(unit, 9, 0, player1));
+        assertTrue(engine.validateMove(unit, 0, 9, player1));
     }
 
     @Test
