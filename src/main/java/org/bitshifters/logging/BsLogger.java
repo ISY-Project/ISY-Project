@@ -25,7 +25,7 @@ public class BsLogger extends Logger {
                     flush();
                 }
             };
-            streamHandler.setLevel(BsLevel.DEBUG);
+            streamHandler.setLevel(BsLevel.OFF);
             fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class BsLogger extends Logger {
     }
 
     public BsLogger(Class<?> clazz) {
-        this(LOGGER_NAME + "." + clazz.getName());
+        this(clazz.getName());
     }
 
     private void addHandlers() {
@@ -61,6 +61,7 @@ public class BsLogger extends Logger {
         log(BsLevel.DEBUG, message);
     }
 
+    @Override
     public void info(String message) {
         log(java.util.logging.Level.INFO, message);
     }
