@@ -22,6 +22,14 @@ public class TTTEngine extends GridEngine<TTTCell> {
         addGrid(tttGrid, rows, cols, TTTCell.EMPTY);
     }
 
+    public Player getPlayerX() {
+        return playerX;
+    }
+
+    public Player getPlayerO() {
+        return playerO;
+    }
+
     public boolean validateMove(final int row, final int col, final Player player) {
         var cell = getCell(row, col, player);
         if (cell != TTTCell.EMPTY) {
