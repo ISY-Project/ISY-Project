@@ -14,6 +14,8 @@ public class VerboseConverter implements IStringConverter<VerboseLevel> {
             case "LOW" -> VerboseLevel.LOW;
             case "MEDIUM" -> VerboseLevel.MEDIUM;
             case "HIGH" -> VerboseLevel.HIGH;
+            case "NONE" -> VerboseLevel.NONE;
+            case "ALL" -> VerboseLevel.ALL;	
             default -> VerboseLevel.LOW;
         };
     }
