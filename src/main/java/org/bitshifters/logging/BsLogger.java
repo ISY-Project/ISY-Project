@@ -109,4 +109,8 @@ public class BsLogger extends Logger {
     public static BsLogger getChildLogger(BsLogger parent, String name) {
         return new BsLogger(parent.getName() + "." + name);
     }
+
+    public static void setVerboseLevel(Level level) {
+        streamHandler.setLevel(level);
+    }
 }
