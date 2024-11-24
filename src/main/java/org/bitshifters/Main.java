@@ -3,10 +3,12 @@ package org.bitshifters;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 import org.bitshifters.arguments.ArgParser;
 import org.bitshifters.arguments.Flags;
 import org.bitshifters.enums.VerboseLevel;
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 
 import com.beust.jcommander.JCommander;
@@ -17,6 +19,7 @@ import com.beust.jcommander.JCommander;
  * It will run the run method once the command line arguments are parsed.
  */
 public class Main{
+    private static final BsLogger logger = new BsLogger(Config.class);
     private static Config config;
     private static JCommander arguments;
     private static Flags flags;
@@ -33,6 +36,7 @@ public class Main{
         final ArgParser argParser = new ArgParser(args);
         arguments = argParser.getJc();
         flags = argParser.getFlags();
+        Config.setVerboseLevel(flags.VERBOSE);
         config = new Config(Path.of("config.ini"));
         config.write(); // instantly write the config, with default values.
         try {
@@ -77,13 +81,12 @@ public class Main{
     public void run(final String[] args) {
         if (flags.DEBUG) {
             System.out.println("\n=== Debug mode enabled ===\n");
-            System.out.println("args = " + Arrays.toString(args));
-        } if (flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH) {
+            logger.debug("run arguments = " + Arrays.toString(args));
+        } if (flags.VERBOSE == VerboseLevel.LOW || flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH) {
             System.out.println("\n==== Verbose level: " + flags.VERBOSE + " ====\n");
-        } if (flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH || flags.DEBUG) {
-            System.out.println("Client name: " + config.getValue("username"));
-            System.out.println("Server Host: " + config.getValue("host"));
-            System.out.println("Server Port: " + config.getValue("port"));
         }
+        logger.log(Level.INFO, "Client name: {0}", config.getValue("username"));
+        logger.log(Level.INFO, "Server Host: {0}", config.getValue("host"));
+        logger.log(Level.INFO, "Server Port: {0}", config.getValue("port"));
     }
 }

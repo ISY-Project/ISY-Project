@@ -1,7 +1,10 @@
 package org.bitshifters.enums;
 
 public enum VerboseLevel {
+    NONE,
     LOW,
     MEDIUM,
-    HIGH
+    HIGH,
+    DEBUG,
+    ALL,
 }

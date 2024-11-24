@@ -17,16 +17,16 @@ public class BsLogger extends Logger {
 
     static {
         try {
-            fileHandler = new FileHandler(LOG_FILE, true);
-            streamHandler = new StreamHandler(System.out, formatter) {
+            BsLogger.fileHandler = new FileHandler(LOG_FILE, true);
+            BsLogger.streamHandler = new StreamHandler(System.out, formatter) {
                 @Override
                 public synchronized void publish(final LogRecord record) {
                     super.publish(record);
                     flush();
                 }
             };
-            streamHandler.setLevel(BsLevel.DEBUG);
-            fileHandler.setFormatter(formatter);
+            BsLogger.streamHandler.setLevel(BsLevel.OFF);
+            BsLogger.fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class BsLogger extends Logger {
     }
 
     public BsLogger(Class<?> clazz) {
-        this(LOGGER_NAME + "." + clazz.getName());
+        this(clazz.getName());
     }
 
     private void addHandlers() {
@@ -61,6 +61,7 @@ public class BsLogger extends Logger {
         log(BsLevel.DEBUG, message);
     }
 
+    @Override
     public void info(String message) {
         log(java.util.logging.Level.INFO, message);
     }
@@ -107,5 +108,9 @@ public class BsLogger extends Logger {
 
     public static BsLogger getChildLogger(BsLogger parent, String name) {
         return new BsLogger(parent.getName() + "." + name);
+    }
+
+    public static void setVerboseLevel(Level level) {
+        BsLogger.streamHandler.setLevel(level);
     }
 }
