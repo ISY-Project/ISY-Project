@@ -22,9 +22,9 @@ public class BattleshipsView extends BorderPane {
     private final BaseGrid opponentGrid;
 
     public BattleshipsView(MainFrame mainFrame) {
-        HBox hGridBox = new HBox();
+        HBox hGridBox = new HBox(10);
         VBox vBox = new VBox();
-        HBox hButtonBox = new NavigationButtons(mainFrame);
+        VBox hButtonBox = new NavigationButtons(mainFrame, true, false);
 
         this.playerGrid = new BaseGrid(GRIDSIZE);
         this.opponentGrid = new BaseGrid(GRIDSIZE);
@@ -32,9 +32,13 @@ public class BattleshipsView extends BorderPane {
         fillGrid();
 
         hGridBox.getChildren().addAll(this.playerGrid, this.opponentGrid);
-        vBox.getChildren().addAll(hGridBox, hButtonBox);
+        hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
+
+        vBox.getChildren().addAll(hGridBox);
+        vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
+        this.setRight(hButtonBox);
     }
 
     public final void fillGrid() {
