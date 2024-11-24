@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.bitshifters.enums.VerboseLevel;
 import org.bitshifters.interfaces.IConfig;
+import org.bitshifters.logging.BsLevel;
 import org.bitshifters.logging.BsLogger;
 
 public class Config implements IConfig {
@@ -163,5 +165,18 @@ public class Config implements IConfig {
     public boolean containsKey(String key) {
         logger.debug("Checking if key exists: " + key);
         return config.containsKey(key);
+    }
+
+    public static void setVerboseLevel(VerboseLevel verbose) {
+        logger.debug("Setting verbose level to: " + verbose);
+        switch (verbose) {
+            case NONE ->  BsLogger.setVerboseLevel(BsLevel.OFF); // Don't show any messages
+            case LOW -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // Only show SEVERE messages
+            case MEDIUM -> BsLogger.setVerboseLevel(BsLevel.WARNING); // Show WARNING messages as well
+            case HIGH -> BsLogger.setVerboseLevel(BsLevel.INFO);  // Show INFO messages as well
+            case DEBUG -> BsLogger.setVerboseLevel(BsLevel.DEBUG); // Show DEBUG messages as well
+            case ALL -> BsLogger.setVerboseLevel(BsLevel.ALL); // Show all messages
+            default -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
+        }
     }
 }

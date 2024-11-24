@@ -11,6 +11,9 @@ public class VerboseLevelValidator implements IParameterValidator {
     public void validate(String name, String value) throws ParameterException {
         logger.debug("Validating parameter " + name + " with value " + value);
         switch (value.toUpperCase()) {
+            case "NONE" -> {
+                return;
+            }
             case "LOW" -> {
                 return;
             }
@@ -20,8 +23,14 @@ public class VerboseLevelValidator implements IParameterValidator {
             case "HIGH" -> {
                 return;
             }
+            case "DEBUG" -> {
+                return;
+            }
+            case "ALL" -> {
+                return;
+            }
             default -> {
-                String errorMessage = "Parameter " + name + " should be an integer between 1 and 3 or `low` or `medium` or `high` (found " + value +")";
+                String errorMessage = "Parameter " + name + " should be an integer between 0 and 5 or `none`, `low`, `medium`, `high`, `debug` or `all` (found " + value +")";
                 ParameterException parameterException = new ParameterException(errorMessage);
                 logger.error(parameterException);
                 throw parameterException;
