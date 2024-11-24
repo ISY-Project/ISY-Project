@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
 
 public class BsLogger extends Logger {
     private static final String LOGGER_NAME = "org.bitshifters";
     private static final String LOG_FILE = "bitshifters.log";
+    private static final BsFormatter formatter = new BsFormatter();
     private static FileHandler fileHandler;
+    private static StreamHandler streamHandler;
     private static final Level LOG_LEVEL = BsLevel.DEBUG;
 
     static {
         try {
             fileHandler = new FileHandler(LOG_FILE, true);
-            fileHandler.setFormatter(new BsFormatter());
+            streamHandler = new StreamHandler(System.out, formatter);
+            streamHandler.setLevel(BsLevel.INFO);
+            fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
         }
@@ -23,7 +28,7 @@ public class BsLogger extends Logger {
     public BsLogger(String name) {
         super(name, null);
         this.setLevel(LOG_LEVEL);
-        addFileHandler();
+        addHandlers();
     }
 
     public BsLogger() {
@@ -34,8 +39,9 @@ public class BsLogger extends Logger {
         this(LOGGER_NAME + "." + clazz.getName());
     }
 
-    private void addFileHandler() {
+    private void addHandlers() {
         if (fileHandler != null) {
+            addHandler(streamHandler);
             addHandler(fileHandler);
         }
     }
