@@ -178,7 +178,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty, unit.getRow(), unit.getCol()), GameGrid);
         setCell(row, col, unit, GameGrid);
         unit.setCoordinate(row, col);
-        movementTrackers.get(player).add(unit.getRow(), unit.getCol());
+        movementTrackers.get(player).add(unit.getRow() + row, unit.getCol() + col);
         turnCount++;
     }
 
