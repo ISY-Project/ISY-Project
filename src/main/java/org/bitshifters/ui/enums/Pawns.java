@@ -1,6 +1,7 @@
 package org.bitshifters.ui.enums;
 
 public enum Pawns {
+    NONE(" ", 0), // Empty space for the unknown pawns
     FLAG("F", 1),
     SPY("1", 1),
     SCOUT("2", 8),

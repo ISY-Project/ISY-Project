@@ -51,7 +51,7 @@ public class StrategoView extends BorderPane {
             }
         }
 
-        int buttonSize = 70;
+        int buttonSize = 80;
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
         try {
             FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
@@ -69,20 +69,22 @@ public class StrategoView extends BorderPane {
 
                         ImageView imageView = new ImageView(imageBlue);
                         imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize);
+                        imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
                         button.setGraphic(imageView);
+                        button.setUserData(pawn); // store the pawn type in the button
                     } else if (row >= 6 && row <= 9) {
                         ImageView imageView = new ImageView(imageRed);
                         imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize);
+                        imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
                         button.setGraphic(imageView);
+                        button.setUserData(Pawns.NONE); // store NONE in the button for the red side
                     } else if (col >= 2 && col <= 3) {
                         button.setStyle("-fx-background-color: #aaaadd");
                     } else if (col >= 6 && col <= 7) {
                         button.setStyle("-fx-background-color: #aaaadd");
                     }
-                    button.setMinSize(buttonSize, buttonSize);
-                    button.setMaxSize(buttonSize, buttonSize);
+                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize+20, buttonSize);
                     button.setOnAction(_ -> {
                         // button.setStyle("-fx-background-color: #ff0000");
                     });
