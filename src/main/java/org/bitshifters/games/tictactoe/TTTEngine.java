@@ -4,7 +4,7 @@ import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class TTTEngine extends GridEngine<TTTCell> {
-    private static final Player tttGrid = new Player("TTTGrid");
+    public static final Player tttGrid = new Player("TTTGrid");
     private final Player playerX;
     private final Player playerO;
     private final int rows;
@@ -19,6 +19,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         this.cols = cols;
         this.playerX = playerX;
         this.playerO = playerO;
+        this.activePlayer = playerX;
         addGrid(tttGrid, rows, cols, TTTCell.EMPTY);
     }
 
@@ -31,7 +32,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
     }
 
     public boolean validateMove(final int row, final int col, final Player player) {
-        var cell = getCell(row, col, player);
+        var cell = getCell(row, col, tttGrid);
         if (cell != TTTCell.EMPTY) {
             return false;
         }
@@ -51,8 +52,8 @@ public class TTTEngine extends GridEngine<TTTCell> {
     @Override
     public boolean isGameOver() {
         Player winner = getWinner();
-        if (winner == null) {
-            return false;
+        if (winner != null) {
+            return true;
         }
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
