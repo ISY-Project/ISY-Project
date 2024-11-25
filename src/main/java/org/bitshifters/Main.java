@@ -19,8 +19,8 @@ import com.beust.jcommander.JCommander;
  * It will run the run method once the command line arguments are parsed.
  */
 public class Main{
+    private static Config config = Config.getInstance();
     private static final BsLogger logger = new BsLogger(Config.class);
-    private static Config config;
     private static JCommander arguments;
     private static Flags flags;
 
@@ -33,20 +33,28 @@ public class Main{
      */
     public static void main(final String[] args){
         final Main main = new Main();
+        configureArgParser(args);
+        configureLogging();
+        config.write(); // instantly write the config, with default values.
+        main.run(args);
+        MainFrame.run(args);
+    }
+
+    private static void configureArgParser(final String[] args) {
         final ArgParser argParser = new ArgParser(args);
         arguments = argParser.getJc();
         flags = argParser.getFlags();
-        Config.setVerboseLevel(flags.VERBOSE);
-        config = new Config(Path.of("config.ini"));
-        config.write(); // instantly write the config, with default values.
         try {
             setConfigArgs();
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
             System.exit(1);
         }
-        main.run(args);
-        MainFrame.run(args);
+    }
+
+    private static void configureLogging() {
+        config.setValue("verbose", flags.VERBOSE.toString());
+        BsLogger.setStreamLevel();
     }
 
     /**

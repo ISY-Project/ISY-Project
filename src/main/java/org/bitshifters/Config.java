@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.bitshifters.enums.VerboseLevel;
 import org.bitshifters.interfaces.IConfig;
 import org.bitshifters.logging.BsLevel;
 import org.bitshifters.logging.BsLogger;
@@ -23,7 +22,22 @@ public class Config implements IConfig {
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
 
-    public Config(final Path of) {
+    private static Config instance;
+
+    public static Config getInstance() {
+        return getInstance(Path.of("config.ini"));
+    }
+
+    public synchronized static Config getInstance(Path path) {
+        if (instance == null) {
+            if (instance == null) {
+                instance = new Config(Path.of("config.ini"));
+            }
+        }
+        return instance;
+    }
+
+    private Config(final Path of) {
         this.path = of;
         initializeConverters();
         setDefaultValues();
@@ -37,7 +51,7 @@ public class Config implements IConfig {
             for (final Map.Entry<String, String> entry : config.entrySet()) {
                 final String k = entry.getKey();
                 final String v = entry.getValue();
-                writer.append(k).append("=").append(v).append("\n");
+                writer.append(k.toLowerCase()).append("=").append(v).append("\n");
             }
         } catch (final IOException e) {
             e.printStackTrace();
@@ -132,7 +146,7 @@ public class Config implements IConfig {
                 final String[] parts = line.split("=");
                 final String key = parts[0];
                 final String value = parts[1];
-                config.put(key, value);
+                config.put(key.toLowerCase(), value);
             }
         } catch (final ArrayIndexOutOfBoundsException e ) {
             System.err.println("Invalid configuration file");
@@ -146,6 +160,7 @@ public class Config implements IConfig {
         config.put("host", "65.21.191.106");
         config.put("port", "7789");
         config.put("username", "Klas2Groep4");
+        config.put("verbose", "SEVERE");
     }
 
     private void generateDefaultConfigFile() {
@@ -167,16 +182,17 @@ public class Config implements IConfig {
         return config.containsKey(key);
     }
 
-    public static void setVerboseLevel(VerboseLevel verbose) {
-        logger.debug("Setting verbose level to: " + verbose);
-        switch (verbose) {
-            case NONE ->  BsLogger.setVerboseLevel(BsLevel.OFF); // Don't show any messages
-            case LOW -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // Only show SEVERE messages
-            case MEDIUM -> BsLogger.setVerboseLevel(BsLevel.WARNING); // Show WARNING messages as well
-            case HIGH -> BsLogger.setVerboseLevel(BsLevel.INFO);  // Show INFO messages as well
-            case DEBUG -> BsLogger.setVerboseLevel(BsLevel.DEBUG); // Show DEBUG messages as well
-            case ALL -> BsLogger.setVerboseLevel(BsLevel.ALL); // Show all messages
-            default -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
+    public void setVerboseLevel() {
+        String verboseLevel = config.get("verboseLevel").toLowerCase();
+        logger.debug("Setting verbose level to: " + verboseLevel);
+        switch (verboseLevel) {
+            case "none" ->  BsLogger.setStreamLevel(BsLevel.OFF); // Don't show any messages
+            case "low" -> BsLogger.setStreamLevel(BsLevel.SEVERE); // Only show SEVERE messages
+            case "medium" -> BsLogger.setStreamLevel(BsLevel.WARNING); // Show WARNING messages as well
+            case "high" -> BsLogger.setStreamLevel(BsLevel.INFO);  // Show INFO messages as well
+            case "debug" -> BsLogger.setStreamLevel(BsLevel.DEBUG); // Show DEBUG messages as well
+            case "all" -> BsLogger.setStreamLevel(BsLevel.ALL); // Show all messages
+            default -> BsLogger.setStreamLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
         }
     }
 }

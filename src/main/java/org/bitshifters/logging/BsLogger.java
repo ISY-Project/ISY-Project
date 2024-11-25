@@ -7,6 +7,8 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.logging.StreamHandler;
 
+import org.bitshifters.Config;
+
 public class BsLogger extends Logger {
     private static final String LOGGER_NAME = "org.bitshifters";
     private static final String LOG_FILE = "bitshifters.log";
@@ -25,7 +27,7 @@ public class BsLogger extends Logger {
                     flush();
                 }
             };
-            BsLogger.streamHandler.setLevel(BsLevel.OFF);
+            setStreamLevel(BsLevel.OFF);
             BsLogger.fileHandler.setFormatter(formatter);
         } catch (IOException | SecurityException e) {
             e.printStackTrace();
@@ -110,7 +112,20 @@ public class BsLogger extends Logger {
         return new BsLogger(parent.getName() + "." + name);
     }
 
-    public static void setVerboseLevel(Level level) {
+    public static void setStreamLevel() {
+        String verboseLevel = Config.getInstance().getValue("verbose").toLowerCase();
+        switch (verboseLevel) {
+            case "none" ->  setStreamLevel(BsLevel.OFF); // Don't show any messages
+            case "low" -> setStreamLevel(BsLevel.SEVERE); // Only show SEVERE messages
+            case "medium" -> setStreamLevel(BsLevel.WARNING); // Show WARNING messages as well
+            case "high" -> setStreamLevel(BsLevel.INFO);  // Show INFO messages as well
+            case "debug" -> setStreamLevel(BsLevel.DEBUG); // Show DEBUG messages as well
+            case "all" -> setStreamLevel(BsLevel.ALL); // Show all messages
+            default -> setStreamLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
+        }
+    }
+
+    public static void setStreamLevel(Level level) {
         BsLogger.streamHandler.setLevel(level);
     }
 }
