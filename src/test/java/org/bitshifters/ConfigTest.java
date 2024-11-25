@@ -15,8 +15,8 @@ public class ConfigTest {
     
     @BeforeEach
     void setUp() {
-        this.config = Config.getInstance(path);
         this.path = Path.of("temp");
+        this.config = Config.getInstance(path);
     }
 
     @Test
