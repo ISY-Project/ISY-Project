@@ -13,15 +13,15 @@ import org.bitshifters.games.components.GridTransformer;
  */
 public class MovementTracker {
     private List<Integer> moves = new ArrayList<>();
-    private int size;
+    private int gridSize;
 
-    public MovementTracker(int size) {
-        this.size = size;
+    public MovementTracker(int gridSize) {
+        this.gridSize = gridSize;
     }
 
     public void add(int row, int col) {
         GridTransformer<Integer> transformer = new GridTransformer<>();
-        add(transformer.toIndex(row, col, size));
+        add(transformer.toIndex(row, col, gridSize));
     }
 
     public void add(int index) {
