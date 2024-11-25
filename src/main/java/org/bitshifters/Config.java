@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.bitshifters.interfaces.IConfig;
-import org.bitshifters.logging.BsLevel;
 import org.bitshifters.logging.BsLogger;
 
 public class Config implements IConfig {
