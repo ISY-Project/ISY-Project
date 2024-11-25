@@ -88,11 +88,14 @@ public class StrategoView extends BorderPane {
                     button.setOnAction(_ -> {
                         // button.setStyle("-fx-background-color: #ff0000");
                     });
+                    if (button.getUserData() != null && button.getUserData() != Pawns.NONE) {
+                        logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e);
-            logger.error(e);
+            logger.error("Pawn image file not found: " + e);
+            logger.debug("Pawn image file not found, setting empty buttons");
             for (Button[] row : buttonGrid) {
                 for (Button cell : row) {
                     cell.setStyle("-fx-background-color: #aaddaa");
