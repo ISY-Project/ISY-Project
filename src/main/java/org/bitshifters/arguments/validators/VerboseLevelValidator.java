@@ -37,4 +37,14 @@ public class VerboseLevelValidator implements IParameterValidator {
             }
         }
     }
+
+    public void validate(String name, int value) throws ParameterException {
+        logger.debug("Validating parameter " + name + " with value " + value);
+        if (value < 0 || value > 5) {
+            String errorMessage = "Parameter " + name + " should be an integer between 0 and 5 (found " + value +")";
+            ParameterException parameterException = new ParameterException(errorMessage);
+            logger.error(parameterException);
+            throw parameterException;
+        }
+    }
 }
