@@ -181,18 +181,4 @@ public class Config implements IConfig {
         logger.debug("Checking if key exists: " + key);
         return config.containsKey(key);
     }
-
-    public void setVerboseLevel() {
-        String verboseLevel = config.get("verboseLevel").toLowerCase();
-        logger.debug("Setting verbose level to: " + verboseLevel);
-        switch (verboseLevel) {
-            case "none" ->  BsLogger.setStreamLevel(BsLevel.OFF); // Don't show any messages
-            case "low" -> BsLogger.setStreamLevel(BsLevel.SEVERE); // Only show SEVERE messages
-            case "medium" -> BsLogger.setStreamLevel(BsLevel.WARNING); // Show WARNING messages as well
-            case "high" -> BsLogger.setStreamLevel(BsLevel.INFO);  // Show INFO messages as well
-            case "debug" -> BsLogger.setStreamLevel(BsLevel.DEBUG); // Show DEBUG messages as well
-            case "all" -> BsLogger.setStreamLevel(BsLevel.ALL); // Show all messages
-            default -> BsLogger.setStreamLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
-        }
-    }
 }
