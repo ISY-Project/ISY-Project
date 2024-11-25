@@ -1,7 +1,6 @@
 package org.bitshifters;
 
 import java.lang.reflect.Field;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.logging.Level;
 
