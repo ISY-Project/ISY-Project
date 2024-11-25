@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -17,6 +18,13 @@ public class ConfigTest {
     void setUp() {
         this.path = Path.of("temp");
         this.config = Config.getInstance(path);
+        this.config.write();
+    }
+
+    @AfterEach
+    void tearDown() {
+        this.path.toFile().delete();
+        this.config = null;
     }
 
     @Test
