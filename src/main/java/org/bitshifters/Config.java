@@ -29,7 +29,7 @@ public class Config implements IConfig {
 
     public synchronized static Config getInstance(Path path) {
         if (instance == null) {
-            instance = new Config(Path.of("config.ini"));
+            instance = new Config(path);
         }
         return instance;
     }
