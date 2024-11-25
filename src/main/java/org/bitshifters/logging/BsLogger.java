@@ -14,7 +14,7 @@ public class BsLogger extends Logger {
     private static final String LOG_FILE = "bitshifters.log";
     private static final BsFormatter formatter = new BsFormatter();
     private static FileHandler fileHandler;
-    private static StreamHandler streamHandler;
+    static StreamHandler streamHandler;
     private static final Level LOG_LEVEL = BsLevel.DEBUG;
 
     static {

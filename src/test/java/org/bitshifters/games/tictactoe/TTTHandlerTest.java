@@ -1,170 +1,64 @@
 package org.bitshifters.games.tictactoe;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import org.junit.jupiter.api.Test;
 
 public class TTTHandlerTest {
+    TTTHandler handler = new TTTHandler();
+
     @Test
     void testOnCancel() {
-
+        assertAll(() -> handler.onCancel(0));
     }
 
     @Test
     void testOnChallenge() {
-
+        assertAll(() -> handler.onChallenge("", 0, 0));
     }
 
     @Test
     void testOnDraw() {
-
+        assertAll(() -> handler.onDraw());
     }
 
     @Test
     void testOnError() {
-
+        assertAll(() -> handler.onError(""));
     }
 
     @Test
     void testOnHelp() {
-
+        assertAll(() -> handler.onHelp(""));
     }
 
     @Test
     void testOnLose() {
-
+        assertAll(() -> handler.onLose());
     }
 
     @Test
     void testOnMatch() {
-
+        assertAll(() -> handler.onMatch());
     }
 
     @Test
     void testOnMessage() {
-
+        assertAll(() -> handler.onMessage(""));
     }
 
     @Test
     void testOnMove() {
-
+        assertAll(() -> handler.onMove(new String[] {}));
     }
 
     @Test
     void testOnWin() {
-
+        assertAll(() -> handler.onWin());
     }
 
     @Test
     void testOnYourTurn() {
-
-    }
-
-    @Test
-    void testOnCancel2() {
-        
-    }
-
-    @Test
-    void testOnChallenge2() {
-        
-    }
-
-    @Test
-    void testOnDraw2() {
-        
-    }
-
-    @Test
-    void testOnError2() {
-        
-    }
-
-    @Test
-    void testOnHelp2() {
-        
-    }
-
-    @Test
-    void testOnLose2() {
-        
-    }
-
-    @Test
-    void testOnMatch2() {
-        
-    }
-
-    @Test
-    void testOnMessage2() {
-        
-    }
-
-    @Test
-    void testOnMove2() {
-        
-    }
-
-    @Test
-    void testOnWin2() {
-        
-    }
-
-    @Test
-    void testOnYourTurn2() {
-        
-    }
-
-    @Test
-    void testOnCancel3() {
-        
-    }
-
-    @Test
-    void testOnChallenge3() {
-        
-    }
-
-    @Test
-    void testOnDraw3() {
-        
-    }
-
-    @Test
-    void testOnError3() {
-        
-    }
-
-    @Test
-    void testOnHelp3() {
-        
-    }
-
-    @Test
-    void testOnLose3() {
-        
-    }
-
-    @Test
-    void testOnMatch3() {
-        
-    }
-
-    @Test
-    void testOnMessage3() {
-        
-    }
-
-    @Test
-    void testOnMove3() {
-        
-    }
-
-    @Test
-    void testOnWin3() {
-        
-    }
-
-    @Test
-    void testOnYourTurn3() {
-        
+        assertAll(() -> handler.onYourTurn(""));
     }
 }
