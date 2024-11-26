@@ -4,7 +4,6 @@ import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
-import org.bitshifters.games.stratego.UnitCounts;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -93,20 +92,19 @@ public class StrategoEngineTest {
     @Test
     void testSetDefaultUnitSet() {
         setUp();
-        UnitCounts unitCounts = new UnitCounts();
-        engine.setUnitCounts(unitCounts);
-        assertEquals(unitCounts.bombCount, engine.getUnitSet().get(Pawns.BOMB));
-        assertEquals(unitCounts.flagCount, engine.getUnitSet().get(Pawns.FLAG));
-        assertEquals(unitCounts.spyCount, engine.getUnitSet().get(Pawns.SPY));
-        assertEquals(unitCounts.scoutCount, engine.getUnitSet().get(Pawns.SCOUT));
-        assertEquals(unitCounts.minerCount, engine.getUnitSet().get(Pawns.MINER));
-        assertEquals(unitCounts.sergeantCount, engine.getUnitSet().get(Pawns.SERGEANT));
-        assertEquals(unitCounts.lieutenantCount, engine.getUnitSet().get(Pawns.LIEUTENANT));
-        assertEquals(unitCounts.captainCount, engine.getUnitSet().get(Pawns.CAPTAIN));
-        assertEquals(unitCounts.majorCount, engine.getUnitSet().get(Pawns.MAJOR));
-        assertEquals(unitCounts.colonelCount, engine.getUnitSet().get(Pawns.COLONEL));
-        assertEquals(unitCounts.generalCount, engine.getUnitSet().get(Pawns.GENERAL));
-        assertEquals(unitCounts.marshalCount, engine.getUnitSet().get(Pawns.MARSHAL));
+        engine.setUnitCounts();
+        assertEquals(Pawns.BOMB.getAmount(), engine.getUnitSet().get(Pawns.BOMB));
+        assertEquals(Pawns.FLAG.getAmount(), engine.getUnitSet().get(Pawns.FLAG));
+        assertEquals(Pawns.SPY.getAmount(), engine.getUnitSet().get(Pawns.SPY));
+        assertEquals(Pawns.SCOUT.getAmount(), engine.getUnitSet().get(Pawns.SCOUT));
+        assertEquals(Pawns.MINER.getAmount(), engine.getUnitSet().get(Pawns.MINER));
+        assertEquals(Pawns.SERGEANT.getAmount(), engine.getUnitSet().get(Pawns.SERGEANT));
+        assertEquals(Pawns.LIEUTENANT.getAmount(), engine.getUnitSet().get(Pawns.LIEUTENANT));
+        assertEquals(Pawns.CAPTAIN.getAmount(), engine.getUnitSet().get(Pawns.CAPTAIN));
+        assertEquals(Pawns.MAJOR.getAmount(), engine.getUnitSet().get(Pawns.MAJOR));
+        assertEquals(Pawns.COLONEL.getAmount(), engine.getUnitSet().get(Pawns.COLONEL));
+        assertEquals(Pawns.GENERAL.getAmount(), engine.getUnitSet().get(Pawns.GENERAL));
+        assertEquals(Pawns.MARSHAL.getAmount(), engine.getUnitSet().get(Pawns.MARSHAL));
     }
 
     @Test
