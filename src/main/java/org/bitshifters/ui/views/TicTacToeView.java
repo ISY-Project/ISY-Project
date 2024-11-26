@@ -4,11 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import org.bitshifters.enums.TicTacToeCell;
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
-import org.bitshifters.ui.enums.XO;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -56,7 +56,7 @@ public class TicTacToeView extends BorderPane {
 
                 button.setStyle("-fx-font-size: 8em; "); // IMPORTAINT every time setStyle is called, it overrides the previous style
                 button.setOnAction(_ -> {
-                    if (button.getUserData() == null || button.getUserData().equals(XO.O)) {
+                    if (button.getUserData() == null || button.getUserData().equals(TicTacToeCell.O)) {
                         try {
                             for (int i = 0; i < this.baseGrid.getGridHeight(); i++) {
                                 for (int j = 0; j < this.baseGrid.getGridHeight(); j++) {
@@ -65,12 +65,12 @@ public class TicTacToeView extends BorderPane {
                                         var list = new ArrayList<Object>(3);
                                         list.add(i);
                                         list.add(j);
-                                        list.add(XO.X);
+                                        list.add(TicTacToeCell.X);
                                         b.setUserData(list);
                                     }
                                 }
                             }
-                            FileInputStream input = new FileInputStream(XO.X.getRedPath());
+                            FileInputStream input = new FileInputStream(TicTacToeCell.X.getRedPath());
                             Image image = new Image(input);
 
                             ImageView imageView = new ImageView(image);
@@ -85,14 +85,14 @@ public class TicTacToeView extends BorderPane {
                         }
                     } else {
                         try {
-                            FileInputStream input = new FileInputStream(XO.O.getBluePath());
+                            FileInputStream input = new FileInputStream(TicTacToeCell.O.getBluePath());
                             Image image = new Image(input);
 
                             ImageView imageView = new ImageView(image);
                             imageView.setFitHeight(buttonSize);
                             imageView.setFitWidth(buttonSize);
                             button.setGraphic(imageView);
-                            button.setUserData(XO.O);
+                            button.setUserData(TicTacToeCell.O);
                         } catch (FileNotFoundException e) {
                             logger.error("Error loading image", e);
                             button.setText("O");
