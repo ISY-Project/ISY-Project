@@ -60,7 +60,7 @@ public class StrategoView extends BorderPane {
                 for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
                     Button button = buttonGrid[row][col];
                     button.setStyle("-fx-background-color: #aaddaa");
-                    if (row >= 0 && row <= 3) {
+                    if (row >= 6 && row <= 9) { // blue side (bottom)
                         Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
                         pawns.remove(pawn);
 
@@ -72,16 +72,16 @@ public class StrategoView extends BorderPane {
                         imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
                         button.setGraphic(imageView);
                         button.setUserData(pawn); // store the pawn type in the button
-                    } else if (row >= 6 && row <= 9) {
+                    } else if (row >= 0 && row <= 3) { // red side (top)
                         ImageView imageView = new ImageView(imageRed);
                         imageView.setFitHeight(buttonSize);
                         imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
                         button.setGraphic(imageView);
-                    } else if (col >= 2 && col <= 3) {
                         button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
+                    } else if (col >= 2 && col <= 3) { // lake tiles
                         button.setStyle("-fx-background-color: #aaaadd");
                         button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                    } else if (col >= 6 && col <= 7) {
+                    } else if (col >= 6 && col <= 7) { // lake tiles
                         button.setStyle("-fx-background-color: #aaaadd");
                         button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     } else {
