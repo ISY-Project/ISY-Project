@@ -1,7 +1,6 @@
 package org.bitshifters.ui.enums;
 
 public enum Pawns {
-    FLAG("F", 1),
     // Regular Units
     SPY("1", 1),
     SCOUT("2", 8),
