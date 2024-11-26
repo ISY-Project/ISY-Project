@@ -2,6 +2,8 @@ package org.bitshifters;
 
 import javax.swing.JFrame;
 
+import org.bitshifters.enums.GameTypes;
+
 public class GameClient extends JFrame {
     GameTypes gameType = null;
 
