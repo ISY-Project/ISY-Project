@@ -23,6 +23,7 @@ public class TTTEngine extends GridEngine<TicTacToeCell> {
         addGrid(tttGrid, rows, cols, TicTacToeCell.EMPTY);
     }
 
+    @Override
     public boolean validateMove(final int row, final int col, final Player player) {
         var cell = getCell(row, col, player);
         if (cell != TicTacToeCell.EMPTY) {
