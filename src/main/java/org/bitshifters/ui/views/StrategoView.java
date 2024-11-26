@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.bitshifters.enums.Pawns;
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
-import org.bitshifters.ui.enums.Pawns;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;

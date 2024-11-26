@@ -1,4 +1,4 @@
-package org.bitshifters.ui.enums;
+package org.bitshifters.enums;
 
 public enum Pawns {
     // Regular Units
