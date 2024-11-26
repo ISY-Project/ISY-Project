@@ -1,27 +1,28 @@
 package org.bitshifters.games.stratego;
 
 
+import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
 
 public class Unit {
-    private final StrategoCell rank;
+    private final Pawns rank;
     private Player player;
     private int row;
     private int col;
 
-    public Unit(StrategoCell rank) {
+    public Unit(Pawns rank) {
         this(rank, null);
     }
 
-    public Unit(StrategoCell rank, Player player) {
+    public Unit(Pawns rank, Player player) {
         this(rank, player, -1, -1);
     }
 
-    public Unit(StrategoCell rank, int row, int col) {
+    public Unit(Pawns rank, int row, int col) {
         this(rank, null, row, col);
     }
 
-    public Unit(StrategoCell rank, Player player, int row, int col) {
+    public Unit(Pawns rank, Player player, int row, int col) {
         this.rank = rank;
         this.player = player;
         this.row = row;
@@ -32,7 +33,7 @@ public class Unit {
         return row != -1 && col != -1;
     }
 
-    public StrategoCell getRank() {
+    public Pawns getRank() {
         return rank;
     }
 
