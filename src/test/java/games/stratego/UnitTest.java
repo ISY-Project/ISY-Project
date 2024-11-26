@@ -1,20 +1,20 @@
 package games.stratego;
 
+import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
-import org.bitshifters.games.stratego.StrategoCell;
 import org.bitshifters.games.stratego.Unit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class UnitTest {
     Player player;
-    StrategoCell rank;
+    Pawns rank;
     Unit unit;
 
     @BeforeEach
     void setUp() {
         player = new Player("Player 1");
-        rank = StrategoCell.Marshal;
+        rank = Pawns.MARSHAL;
         unit = new Unit(rank, player);
     }
 

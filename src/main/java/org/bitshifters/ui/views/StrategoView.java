@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.bitshifters.enums.Pawns;
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
-import org.bitshifters.ui.enums.Pawns;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -80,8 +80,10 @@ public class StrategoView extends BorderPane {
                         button.setUserData(Pawns.NONE); // store NONE in the button for the red side
                     } else if (col >= 2 && col <= 3) {
                         button.setStyle("-fx-background-color: #aaaadd");
+                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     } else if (col >= 6 && col <= 7) {
                         button.setStyle("-fx-background-color: #aaaadd");
+                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     }
                     button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
                     button.setMaxSize(buttonSize+20, buttonSize);
