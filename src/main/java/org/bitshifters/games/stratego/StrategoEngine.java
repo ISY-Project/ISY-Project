@@ -36,10 +36,6 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public void setUnitCounts() {
-        setUnitCounts(new UnitCounts());
-    }
-
-    public void setUnitCounts(final UnitCounts unitCounts) {
         unitSet.put(Pawns.BOMB, Pawns.BOMB.getAmount());
         unitSet.put(Pawns.FLAG, Pawns.FLAG.getAmount());
         unitSet.put(Pawns.SPY, Pawns.SPY.getAmount());
