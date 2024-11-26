@@ -79,10 +79,10 @@ public class StrategoView extends BorderPane {
                         button.setGraphic(imageView);
                         button.setUserData(Pawns.NONE); // store NONE in the button for the red side
                     } else if (col >= 2 && col <= 3) {
-                        button.setStyle("-fx-background-color: #aaaadd");
+                        button.setStyle("-fx-background-color: #0e87a6");
                         button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     } else if (col >= 6 && col <= 7) {
-                        button.setStyle("-fx-background-color: #aaaadd");
+                        button.setStyle("-fx-background-color: #0e87a6");
                         button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     }
                     button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
