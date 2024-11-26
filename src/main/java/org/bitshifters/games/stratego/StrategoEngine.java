@@ -11,7 +11,6 @@ public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
     private int turnCount = 0;
     public static final Player GameGrid = new Player("GameGrid");
-    private final HashMap<Pawns, Integer> unitSet = new HashMap<>();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
     private final int playerRows;
     private final int playerCols;
@@ -33,25 +32,6 @@ public class StrategoEngine extends GridEngine<Unit> {
         this.totalRows = playerRows * players.length + 2;
         this.totalCols = playerCols;
         generateGrids(players);
-    }
-
-    public void setUnitCounts() {
-        unitSet.put(Pawns.BOMB, Pawns.BOMB.getAmount());
-        unitSet.put(Pawns.FLAG, Pawns.FLAG.getAmount());
-        unitSet.put(Pawns.SPY, Pawns.SPY.getAmount());
-        unitSet.put(Pawns.SCOUT, Pawns.SCOUT.getAmount());
-        unitSet.put(Pawns.MINER, Pawns.MINER.getAmount());
-        unitSet.put(Pawns.SERGEANT, Pawns.SERGEANT.getAmount());
-        unitSet.put(Pawns.LIEUTENANT, Pawns.LIEUTENANT.getAmount());
-        unitSet.put(Pawns.CAPTAIN, Pawns.CAPTAIN.getAmount());
-        unitSet.put(Pawns.MAJOR, Pawns.MAJOR.getAmount());
-        unitSet.put(Pawns.COLONEL, Pawns.COLONEL.getAmount());
-        unitSet.put(Pawns.GENERAL, Pawns.GENERAL.getAmount());
-        unitSet.put(Pawns.MARSHAL, Pawns.MARSHAL.getAmount());
-    }
-
-    public HashMap<Pawns, Integer> getUnitSet() {
-        return unitSet;
     }
 
     /**
@@ -265,10 +245,9 @@ public class StrategoEngine extends GridEngine<Unit> {
             }
         }
 
-        for (Pawns cell : unitSet.keySet()) {
-            Integer unitCount = unitCounter.get(cell);
-            Integer requiredCount = unitSet.get(cell);
-            if (!Objects.equals(unitCount, requiredCount)) {
+        for (Pawns pawn : Pawns.values()) {
+            Integer unitCount = unitCounter.get(pawn);
+            if (!Objects.equals(unitCount, pawn.getAmount())) {
                 return false;
             }
         }
