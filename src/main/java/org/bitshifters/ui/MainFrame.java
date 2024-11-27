@@ -1,5 +1,7 @@
 package org.bitshifters.ui;
 
+import java.util.logging.Level;
+
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
@@ -62,7 +64,7 @@ public class MainFrame extends Application {
     }
 
     public void showScreen(Screens screen) {
-        logger.info("Showing screen: " + screen);
+        logger.log(Level.INFO, "Showing screen: {0}", screen);
         startView.setVisible(false);
         battleshipsView.setVisible(false);
         ticTacToeView.setVisible(false);

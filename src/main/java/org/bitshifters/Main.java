@@ -86,12 +86,10 @@ public class Main{
      * @param args The command line arguments
      */
     public void run(final String[] args) {
-        if (flags.DEBUG) {
-            System.out.println("\n=== Debug mode enabled ===\n");
-            logger.debug("run arguments = " + Arrays.toString(args));
-        } if (flags.VERBOSE == VerboseLevel.LOW || flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH) {
+        if (flags.VERBOSE == VerboseLevel.LOW || flags.VERBOSE == VerboseLevel.MEDIUM || flags.VERBOSE == VerboseLevel.HIGH) {
             System.out.println("\n==== Verbose level: " + flags.VERBOSE + " ====\n");
         }
+        logger.debug("run arguments = " + Arrays.toString(args));
         logger.log(Level.INFO, "Client name: {0}", config.getValue("username"));
         logger.log(Level.INFO, "Server Host: {0}", config.getValue("host"));
         logger.log(Level.INFO, "Server Port: {0}", config.getValue("port"));

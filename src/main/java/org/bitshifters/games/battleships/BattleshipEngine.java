@@ -68,6 +68,7 @@ public class BattleshipEngine extends GridEngine<BattleshipCell> {
         return true;
     }
 
+    @Override
     public boolean validateMove(final int row, final int col, final Player player) {
         return validateShot(rows, cols, activePlayer);
     }

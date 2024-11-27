@@ -1,10 +1,11 @@
 package org.bitshifters.games.tictactoe;
 
+import org.bitshifters.enums.TicTacToeCell;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
-public class TTTEngine extends GridEngine<TTTCell> {
-    public static final Player tttGrid = new Player("TTTGrid");
+public class TTTEngine extends GridEngine<TicTacToeCell> {
+    private static final Player tttGrid = new Player("TTTGrid");
     private final Player playerX;
     private final Player playerO;
     private final int rows;
@@ -19,8 +20,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         this.cols = cols;
         this.playerX = playerX;
         this.playerO = playerO;
-        this.activePlayer = playerX;
-        addGrid(tttGrid, rows, cols, TTTCell.EMPTY);
+        addGrid(tttGrid, rows, cols, TicTacToeCell.EMPTY);
     }
 
     public Player getPlayerX() {
@@ -31,9 +31,10 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return playerO;
     }
 
+    @Override
     public boolean validateMove(final int row, final int col, final Player player) {
         var cell = getCell(row, col, tttGrid);
-        if (cell != TTTCell.EMPTY) {
+        if (cell != TicTacToeCell.EMPTY) {
             return false;
         }
         return isPlayerTurn(player);
@@ -41,10 +42,10 @@ public class TTTEngine extends GridEngine<TTTCell> {
 
     public void makeMove(final int row, final int col) {
         if (activePlayer == playerX) {
-            setCell(row, col, TTTCell.X, tttGrid);
+            setCell(row, col, TicTacToeCell.X, tttGrid);
             activePlayer = playerO;
         } else {
-            setCell(row, col, TTTCell.O, tttGrid);
+            setCell(row, col, TicTacToeCell.O, tttGrid);
             activePlayer = playerX;
         }
     }
@@ -57,7 +58,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         }
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                if (getCell(row, col, tttGrid) == TTTCell.EMPTY) {
+                if (getCell(row, col, tttGrid) == TicTacToeCell.EMPTY) {
                     return false;
                 }
             }
@@ -67,12 +68,12 @@ public class TTTEngine extends GridEngine<TTTCell> {
 
     @Override
     public Player getWinner() {
-        if (checkWinner(playerX, TTTCell.X)) {return playerX;}
-        if (checkWinner(playerO, TTTCell.O)) {return playerO;}
+        if (checkWinner(playerX, TicTacToeCell.X)) {return playerX;}
+        if (checkWinner(playerO, TicTacToeCell.O)) {return playerO;}
         return null;
     }
 
-    private boolean checkWinner(Player player, TTTCell symbol) {
+    private boolean checkWinner(Player player, TicTacToeCell symbol) {
         if (
             checkRows(symbol)
             || checkColumns(symbol)
@@ -83,7 +84,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return false;
     }
 
-    private boolean checkRows(TTTCell symbol) {
+    private boolean checkRows(TicTacToeCell symbol) {
         for (int row = 0; row < rows; row++) {
             if (
                 getCell(row, 0, tttGrid) == symbol
@@ -96,7 +97,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return false;
     }
 
-    private boolean checkColumns(TTTCell symbol) {
+    private boolean checkColumns(TicTacToeCell symbol) {
         for (int col = 0; col < cols; col++) {
             if (
                 getCell(0, col, tttGrid) == symbol
@@ -109,7 +110,7 @@ public class TTTEngine extends GridEngine<TTTCell> {
         return false;
     }
 
-    private boolean checkDiagonals(TTTCell symbol) {
+    private boolean checkDiagonals(TicTacToeCell symbol) {
         if (
             (getCell(0, 0, tttGrid) == symbol
             && getCell(1, 1, tttGrid) == symbol

@@ -17,9 +17,6 @@ public class Flags {
     @Parameter(names = {"-help", "--help"}, help = true, description="Show this help menu", order=0)
     public boolean HELP = false;
 
-    @Parameter(names = {"-debug", "--debug"}, help = true, description = "Debug output will be shown", order=0)
-    public boolean DEBUG = false;
-
     @Parameter(names = {"-log", "--log", "-verbose", "--verbose"}, converter = VerboseConverter.class, validateWith = VerboseLevelValidator.class, description = "Level of verbosity\n         0 is off, 1 is low, 2 is medium, 3 is high,     4 is debug, 5 is all", order=0)
     public VerboseLevel VERBOSE = VerboseLevel.LOW;
 }

@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.bitshifters.enums.Pawns;
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
-import org.bitshifters.ui.enums.Pawns;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -51,7 +51,7 @@ public class StrategoView extends BorderPane {
             }
         }
 
-        int buttonSize = 70;
+        int buttonSize = 80;
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
         try {
             FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
@@ -60,7 +60,7 @@ public class StrategoView extends BorderPane {
                 for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
                     Button button = buttonGrid[row][col];
                     button.setStyle("-fx-background-color: #aaddaa");
-                    if (row >= 0 && row <= 3) {
+                    if (row >= 6 && row <= 9) { // blue side (bottom)
                         Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
                         pawns.remove(pawn);
 
@@ -69,28 +69,37 @@ public class StrategoView extends BorderPane {
 
                         ImageView imageView = new ImageView(imageBlue);
                         imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize);
+                        imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
                         button.setGraphic(imageView);
-                    } else if (row >= 6 && row <= 9) {
+                        button.setUserData(pawn); // store the pawn type in the button
+                    } else if (row >= 0 && row <= 3) { // red side (top)
                         ImageView imageView = new ImageView(imageRed);
                         imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize);
+                        imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
                         button.setGraphic(imageView);
-                    } else if (col >= 2 && col <= 3) {
-                        button.setStyle("-fx-background-color: #aaaadd");
-                    } else if (col >= 6 && col <= 7) {
-                        button.setStyle("-fx-background-color: #aaaadd");
+                        button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
+                    } else if (col >= 2 && col <= 3) { // lake tiles
+                        button.setStyle("-fx-background-color: #0e87a6");
+                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                    } else if (col >= 6 && col <= 7) { // lake tiles
+                        button.setStyle("-fx-background-color: #0e87a6");
+                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                    } else {
+                        button.setUserData(Pawns.NONE); // store NONE in the button for the empty tiles
                     }
-                    button.setMinSize(buttonSize, buttonSize);
-                    button.setMaxSize(buttonSize, buttonSize);
+                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize+20, buttonSize);
                     button.setOnAction(_ -> {
                         // button.setStyle("-fx-background-color: #ff0000");
                     });
+                    if (button.getUserData() != null && button.getUserData() != Pawns.NONE) {
+                        logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+                    }
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e);
-            logger.error(e);
+            logger.error("Pawn image file not found: " + e);
+            logger.debug("Pawn image file not found, setting empty buttons");
             for (Button[] row : buttonGrid) {
                 for (Button cell : row) {
                     cell.setStyle("-fx-background-color: #aaddaa");
