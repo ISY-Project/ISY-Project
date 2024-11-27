@@ -1,10 +1,5 @@
 package org.bitshifters.games.stratego;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bitshifters.games.components.GridTransformer;
-
 /**
  * No piece can move back and forth between the same two spaces for more than
  * three consecutive turns (two square rule).
@@ -12,46 +7,49 @@ import org.bitshifters.games.components.GridTransformer;
  * (more square rule).
  */
 public class MovementTracker {
-    private List<Integer> moves = new ArrayList<>();
-    private int gridSize;
+    private int[][][] track = { {} };
+    private int maxRepeations = 3;
 
-    public MovementTracker(int gridSize) {
-        this.gridSize = gridSize;
+    public MovementTracker() {
     }
 
-    public void add(int row, int col) {
-        GridTransformer<Integer> transformer = new GridTransformer<>();
-        add(transformer.toIndex(row, col, gridSize));
+    public void add(final Unit prev, final int row, final int col) {
+        int test = 0;
+        final int[][] coordinate = { { prev.getRow(), prev.getCol() }, { row, col } };
+        if (track.length == maxRepeations) {
+            test = 1;
+        }
+        final int[][][] result = new int[track.length + 1 - test][][];
+        result[0] = coordinate;
+        for (int i = 0; i < track.length - test; i++) {
+            result[i + 1] = track[i];
+        }
+        this.track = result;
     }
 
-    public void add(int index) {
-        moves.add(index);
+    private int[][] getPreviousMove(final int move) {
+        return track[move];
     }
 
-    public int remove(int index) {
-        int value = moves.get(index);
-        moves.remove(index);
-        return value;
-    }
-
-    public boolean isRepeating() {
-        return isRepeating(4);
-    }
-
-    public boolean isRepeating(int turns) {
-        if (moves.size() < turns) {
+    public boolean isRepeating(final Unit unit, final int row, final int col) {
+        // TODO check rules
+        int[][] coordinate = { { unit.getRow(), unit.getCol() }, { row, col } };
+        if (track.length < maxRepeations) {
             return false;
         }
-        if (turns <= 3) {
-            throw new IllegalArgumentException("Turns must be greater than 3");
+        if (
+            // getPreviousMove(2)[0] == coordinate[1]
+            // && getPreviousMove(0)[0] == coordinate[1]
+            // && getPreviousMove(0)[1] == coordinate[0]
+            // && getPreviousMove(1)[1] == getPreviousMove(0)[0]
+            // && getPreviousMove(2)[1] == getPreviousMove(1)[0]
+            // alternative
+            coordinate == getPreviousMove(1)
+            && getPreviousMove(0) == getPreviousMove(2)
+            && coordinate[1] == getPreviousMove(2)[0]
+        ) {
+            return true;
         }
-        var qSize = moves.size();
-        int windowSize = turns - 1;
-        for (int i = qSize; i - windowSize > qSize - turns; i--) {
-            if (!moves.get(i - windowSize).equals(moves.get(i - windowSize + 2))) {
-                return false;
-            }
-        }
-        return true;
+        return false;
     }
 }

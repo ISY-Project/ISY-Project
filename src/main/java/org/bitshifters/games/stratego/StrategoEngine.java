@@ -76,7 +76,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private void initializePlayers(final Player[] players) {
         for (final var player : players) {
             addGrid(player, playerRows, playerCols, new Unit(StrategoCell.Empty));
-            movementTrackers.put(player, new MovementTracker(totalCols));
+            movementTrackers.put(player, new MovementTracker());
         }
     }
 
@@ -178,7 +178,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(unit.getRow(), unit.getCol(), new Unit(StrategoCell.Empty, unit.getRow(), unit.getCol()), GameGrid);
         setCell(row, col, unit, GameGrid);
         unit.setCoordinate(row, col);
-        movementTrackers.get(player).add(unit.getRow() + row, unit.getCol() + col);
+        movementTrackers.get(player).add(unit, row, col);
         turnCount++;
     }
 
@@ -193,7 +193,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     public boolean validateMove(final Unit unit, final int row, final int col, final Player player) {
         if (unit.getPlayer() != player || isInvalidRank(unit.getRank()) || isOutOfBounds(row, col)
-                || movementTrackers.get(player).isRepeating()) {
+                || movementTrackers.get(player).isRepeating(unit, row, col)) {
             return false;
         }
 
