@@ -20,7 +20,6 @@ public enum Pawns {
 
     // Special tiles
     UNKNOWN("?", 0),
-    NONE(" ", 0),
     LAKE("L", 0), 
     WIN("W", 0);
 
