@@ -13,9 +13,9 @@ public class MovementTracker {
     public MovementTracker() {
     }
 
-    public void add(final Unit prev, final int row, final int col) {
+    public void add(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         int test = 0;
-        final int[][] coordinate = { { prev.getRow(), prev.getCol() }, { row, col } };
+        final int[][] coordinate = { { fromRow, fromCol }, { toRow, toCol } };
         if (track.length == maxRepeations) {
             test = 1;
         }
@@ -31,9 +31,9 @@ public class MovementTracker {
         return track[move];
     }
 
-    public boolean isRepeating(final Unit unit, final int row, final int col) {
+    public boolean isRepeating(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         // TODO check rules
-        int[][] coordinate = { { unit.getRow(), unit.getCol() }, { row, col } };
+        int[][] coordinate = { { fromRow, fromCol }, { toRow, toCol } };
         if (track.length < maxRepeations) {
             return false;
         }
