@@ -63,7 +63,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private void initializePlayers(final Player[] players) {
         for (final var player : players) {
             addGrid(player, playerRows, playerCols, null);
-            movementTrackers.put(player, new MovementTracker());
+            movementTrackers.put(player, new MovementTracker(10));
         }
     }
 
