@@ -2,30 +2,29 @@ package org.bitshifters.enums;
 
 public enum Pawns {
     // Regular Units
-    SPY("1", 1),
-    SCOUT("2", 8),
-    MINER("3", 5),
-    SERGEANT("4", 4),
-    LIEUTENANT("5", 4),
-    CAPTAIN("6", 4),
-    MAJOR("7", 3),
-    COLONEL("8", 2),
-    GENERAL("9", 1),
-    MARSHAL("10", 1),
+    SPY("1"),
+    SCOUT("2"),
+    MINER("3"),
+    SERGEANT("4"),
+    LIEUTENANT("5"),
+    CAPTAIN("6"),
+    MAJOR("7"),
+    COLONEL("8"),
+    GENERAL("9"),
+    MARSHAL("10"),
 
     // Special Units
-    FLAG("F", 1),
-    BOMB("B", 6),
+    FLAG("F"),
+    BOMB("B"),
     
 
     // Special tiles
-    UNKNOWN("?", 0),
-    NONE(" ", 0),
-    LAKE("L", 0), 
-    WIN("W", 0);
+    UNKNOWN("?"),
+    NONE(" "),
+    LAKE("L"),
+    WIN("W");
 
     private final String pawn;
-    private final int amount;
     private final String path = "src\\main\\resources\\images";
 
     /**
@@ -33,9 +32,8 @@ public enum Pawns {
      * @param pawn The Pawn String value
      * @param amount The amount of pawns
      */
-    Pawns(String pawn, int amount) {
+    Pawns(String pawn) {
         this.pawn = pawn;
-        this.amount = amount;
     }
 
     /**
@@ -56,14 +54,6 @@ public enum Pawns {
      */
     public String getPawn() {
         return pawn;
-    }
-
-    /**
-     * Returns the amount of pawns
-     * @return the amount of pawns
-     */
-    public int getAmount() {
-        return amount;
     }
 
     /** 
