@@ -85,14 +85,14 @@ public class StrategoView extends BorderPane {
                         button.setStyle("-fx-background-color: #0e87a6");
                         button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
                     } else {
-                        button.setUserData(Pawns.NONE); // store NONE in the button for the empty tiles
+                        button.setUserData(null); // store NONE in the button for the empty tiles
                     }
                     button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
                     button.setMaxSize(buttonSize+20, buttonSize);
                     button.setOnAction(_ -> {
                         // button.setStyle("-fx-background-color: #ff0000");
                     });
-                    if (button.getUserData() != null && button.getUserData() != Pawns.NONE) {
+                    if (button.getUserData() != null && button.getUserData() != null) {
                         logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
                     }
                 }
