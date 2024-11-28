@@ -9,8 +9,10 @@ package org.bitshifters.games.stratego;
 public class MovementTracker {
     private int[][][] track = { {} };
     private int maxRepeations = 3;
+    private int size;
 
-    public MovementTracker() {
+    public MovementTracker(final int boardSize) {
+        this.size = boardSize;
     }
 
     public void add(final int fromRow, final int fromCol, final int toRow, final int toCol) {

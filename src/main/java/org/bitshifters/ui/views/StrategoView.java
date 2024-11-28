@@ -3,9 +3,11 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import org.bitshifters.enums.Pawns;
+import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
@@ -20,12 +22,14 @@ import javafx.scene.layout.VBox;
 
 public class StrategoView extends BorderPane {
     private static final BsLogger logger = new BsLogger(StrategoView.class);
+    private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
+    private UnitSet units = new UnitSet();
 
     public StrategoView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox = new NavigationButtons(mainFrame, true, false);
         
         this.baseGrid = new BaseGrid(10);
 
@@ -44,12 +48,14 @@ public class StrategoView extends BorderPane {
     public final void fillGrid() {
         logger.debug("Filling grid");
         Random rand = new Random();
+        HashMap<Pawns, Integer> unitCount = units.getUnits();
         ArrayList<Pawns> pawns = new ArrayList<>();
-        for (Pawns pawn : Pawns.values()) {
-            for (int i = 0; i < pawn.getAmount(); i++) {
-                pawns.add(pawn);
+
+        unitCount.entrySet().forEach(entry -> {
+            for (int i = 0; i < entry.getValue(); i++) {
+                pawns.add(entry.getKey());
             }
-        }
+        });
 
         int buttonSize = 80;
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
