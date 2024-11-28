@@ -2,6 +2,7 @@ package org.bitshifters.ui.views;
 
 import java.util.Collections;
 
+import org.bitshifters.logging.BsLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.NavigationButtons;
 
@@ -20,13 +21,16 @@ import javafx.scene.paint.Color;
 
 
 public class StartView extends BorderPane {
+    private static final BsLogger logger = new BsLogger(StartView.class);
+    private final NavigationButtons hButtonBox;
     public StartView(MainFrame mainFrame) {
+        logger.debug("created the StartView");
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        NavigationButtons hButtonBox = new NavigationButtons(mainFrame, false, true);
+        hButtonBox = new NavigationButtons(mainFrame, false, true);
 
         hButtonBox.setButtonStyle(" -fx-font-size: 4em; -fx-text-fill: #000000;");
         hButtonBox.setButtonSize(400, 100);
