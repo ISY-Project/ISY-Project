@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 
 public class TicTacToeView extends BorderPane {
     private static final BsLogger logger = new BsLogger(TicTacToeView.class);
+    private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
 
     public BaseGrid getBaseGrid() {
@@ -28,7 +29,7 @@ public class TicTacToeView extends BorderPane {
     public TicTacToeView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox = new NavigationButtons(mainFrame, true, false);
 
         this.baseGrid = new BaseGrid(3);
 

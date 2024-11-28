@@ -20,12 +20,13 @@ import javafx.scene.layout.VBox;
 
 public class StrategoView extends BorderPane {
     private static final BsLogger logger = new BsLogger(StrategoView.class);
+    private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
 
     public StrategoView(MainFrame mainFrame) {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox = new NavigationButtons(mainFrame, true, false);
         
         this.baseGrid = new BaseGrid(10);
 
