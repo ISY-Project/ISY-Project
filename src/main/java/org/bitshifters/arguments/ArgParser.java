@@ -40,6 +40,12 @@ public class ArgParser {
                 .build();
         jc.setProgramName("BitShifters.jar");
         logger.debug("Parsing command line arguments");
+        for (String arg : args) {
+            if (arg.equals("--testing")) {
+                logger.debug("Argument Testing mode enabled, skipping parsing");
+                args = new String[0];
+            }
+        }
         try {
             jc.parse(args);
         } catch (ParameterException e) {
