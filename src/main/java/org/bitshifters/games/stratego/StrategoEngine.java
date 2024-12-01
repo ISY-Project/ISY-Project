@@ -30,7 +30,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         // TODO: calculate the total rows and columns based on the number of players.
         // See the generateMovementGrid method for more information on how to overlay
         // the player grids.
-        this.totalRows = playerRows * players.length + 2;
+        this.totalRows = playerRows * 2 + 2;
         this.totalCols = playerCols;
         generateGrids(players);
     }
@@ -85,9 +85,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
         setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
         setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
-        // TODO: Implement the algorithm to overlay the player grids onto the movement
-        // grid.
-        // With 2 players, its simply in between. (easy)
+        // TODO make this work with other player counts
         // With 3 players, the players are in triangle, withing the entire grid. (No
         // clue how hard.)
         // With 4 players, the players are in a square. (easy)
@@ -105,14 +103,14 @@ public class StrategoEngine extends GridEngine<Unit> {
                 continue;
             }
 
-            int startRow = totalRows - 1 - i * (totalRows - 1);
+            int startRow = totalRows - playerRows + i * (2 * playerRows - totalRows - 1);
             int startCol = i * (totalCols - 1);
 
             if (i == 0) {
                 for (int row = 0; row < playerRows; row++) {
                     for (int col = 0; col < playerCols; col++) {
                         Unit unit = getCell(row, col, player);
-                        setCell(startRow - row, startCol + col, unit, GameGrid);
+                        setCell(startRow + row, startCol + col, unit, GameGrid);
                     }
                 }
             }
@@ -120,7 +118,7 @@ public class StrategoEngine extends GridEngine<Unit> {
                 for (int row = 0; row < playerRows; row++) {
                     for (int col = 0; col < playerCols; col++) {
                         Unit unit = getCell(row, col, player);
-                        setCell(startRow + row, startCol - col, unit, GameGrid);
+                        setCell(startRow - row, startCol - col, unit, GameGrid);
                     }
                 }
             }
@@ -128,12 +126,10 @@ public class StrategoEngine extends GridEngine<Unit> {
         System.out.println(stringGrid(players[0]));
         System.out.println(stringGrid(players[1]));
         System.out.println(stringGrid(GameGrid));
-        // TODO place playergrids on the gameGrid.
-        // TODO rotate opponent grid 180 degrees.
     }
 
     /**
-     * Move a unit to a given location, and track the movement on the unit.
+     * Move a unit to a given location, and track the movement of the unit.
      * This method behaves the exact same as moveUnit, except that the move is rotated 180 degrees
      * on the board.
      * This translation happens automatically.
@@ -154,7 +150,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     /**
-     * Place a given unit on the given location, and track the movement on the unit.
+     * Move a unit to a given location, and track the movement of the unit.
      * 
      * @param unit
      * @param row
@@ -170,8 +166,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     /**
-     * Validate the placement of units, ensuring that the player is placing units on
-     * their side of the board and that the cell is empty.
+     * Validate the movement of units, ensuring that the player is making a valid move on the gameboard
      * 
      * @param row
      * @param col
@@ -179,24 +174,35 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @return
      */
     public boolean validateMove(final int fromRow, final int fromCol, final int toRow, final int toCol, final Player player) {
+        // Check coordinates out of bounds
+        if (isOutOfBounds(toRow, toCol) || isOutOfBounds(fromRow, fromCol)) {
+            return false;
+        }
+        // Check that the unit isn't null
         if (getCell(fromRow, fromCol, GameGrid) == null) {
             return false;
         }
-
-        if (getCell(fromRow, fromCol, GameGrid).getPlayer() != player || isInvalidRank(getCell(fromRow, fromCol, GameGrid).getRank()) || isOutOfBounds(toRow, toCol)
-                || isOutOfBounds(fromRow, fromCol) || getCell(toRow, toCol, GameGrid).getRank() == Pawns.LAKE || movementTrackers.get(player).isRepeating(fromRow, fromCol, toRow, toCol)) {
+        // Check that the unit isn't moving into a lake
+        if (getCell(toRow, toCol, GameGrid) != null) {
+            if (getCell(toRow, toCol, GameGrid).getRank() == Pawns.LAKE) {
+                return false;
+            }
+        }
+        // Check if this player is allowed to move this unit 
+        if (getCell(fromRow, fromCol, GameGrid).getPlayer() != player || isInvalidRank(getCell(fromRow, fromCol, GameGrid).getRank())
+                || movementTrackers.get(player).isRepeating(fromRow, fromCol, toRow, toCol)) {
             return false;
         }
-
+        // Checking if the unit is moving by 1 tile
         if (getCell(fromRow, fromCol, GameGrid).getRank() != Pawns.SCOUT) {
             return isAdjacentMove(fromRow, fromCol, toRow, toCol);
         }
-
+        // checking if the scout is making a valid scout move
         return isValidScoutMove(fromRow, fromCol, toRow, toCol);
     }
 
     private boolean isInvalidRank(Pawns rank) {
-        return rank == Pawns.BOMB || rank == Pawns.FLAG || rank == Pawns.WIN || rank == Pawns.LAKE;
+        return rank == Pawns.BOMB || rank == Pawns.FLAG || rank == Pawns.WIN || rank == Pawns.LAKE || rank == Pawns.UNKNOWN;
     }
 
     private boolean isOutOfBounds(int row, int col) {
@@ -214,6 +220,9 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     private boolean isValidScoutMove(int fromRow, int fromCol, int toRow, int toCol) {
+        if (fromRow == toRow && fromCol == toCol) {
+            return false;
+        }
         if (fromRow == toRow) {
             return isPathClear(toRow, Math.min(fromCol, toCol), Math.max(fromCol, toCol), true);
         }
@@ -272,7 +281,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         return true;
     }
 
-    // TODO
+    // TODO check if the given rank is a valid rank
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
         if (isOutOfBounds(row, col)) {
             return false;
@@ -301,6 +310,9 @@ public class StrategoEngine extends GridEngine<Unit> {
         if (attacker.getRank() == Pawns.WIN || defender.getRank() == Pawns.WIN) {
             return false;
         }
+        if (attacker.getRank() == Pawns.UNKNOWN) {
+            return false;
+        }
         if (attacker.getRank() == Pawns.FLAG) {
             return false;
         }
@@ -311,14 +323,6 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public Unit battleResult(final Unit attacker, final Unit defender) {
-        // Empty Cell
-        if (defender == null) {
-            return attacker;
-        }
-        if (attacker == null) {
-            return defender;
-        }
-        
         final Pawns attackerRank = attacker.getRank();
         final Pawns defenderRank = defender.getRank();
         
@@ -338,7 +342,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             win.setPlayer(attacker.getPlayer());
             return win;
         } // win game
-          // Rank comparison
+        // Rank comparison
         if (attackerRank.getInt() > defenderRank.getInt()) {
             return attacker;
         }
