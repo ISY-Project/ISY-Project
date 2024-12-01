@@ -1,8 +1,7 @@
 package org.bitshifters.arguments;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.bitshifters.enums.VerboseLevel;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 public class FlagsTest {
@@ -11,7 +10,6 @@ public class FlagsTest {
     @Test
     public void testFlags() {
         assertTrue(flags.HELP == true || flags.HELP == false);
-        assertTrue(flags.DEBUG == true || flags.DEBUG == false);
         assertTrue(flags.VERBOSE instanceof VerboseLevel);
     }
 }
