@@ -11,10 +11,12 @@ import org.bitshifters.ui.views.TicTacToeView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Popup; 
 
 /**
  * This is the mainFrame class of the program. It will be the entry point of GUI of the program.
@@ -27,6 +29,7 @@ public class MainFrame extends Application {
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
     private final StrategoView strategoView = new StrategoView(this);
     private Stage stage;
+    private Popup popup;
 
     @Override
     public void start(Stage primaryStage) {
@@ -55,12 +58,35 @@ public class MainFrame extends Application {
                 }
             }
         });
+        
+        setUpPopup();
+        showPopup("test"); // show popup when the program starts
+
         showScreen(Screens.START_SCREEN);
     }
 
     public static void run(String[] args) {
         logger.info("Starting GUI");
         launch();
+    }
+
+    private void setUpPopup() {
+        this.popup = new Popup();
+        this.popup.setX(300);
+        this.popup.setY(200);
+        this.popup.setWidth(200);
+        this.popup.setHeight(100);
+        this.popup.setAutoHide(true); // close popup when clicked outside
+
+        Label label = new Label("This is a popup");
+        label.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        this.popup.getContent().add(label);
+    }
+
+    public void showPopup(String message) {
+        Label label = (Label) this.popup.getContent().get(0);
+        label.setText(message);
+        this.popup.show(stage);
     }
 
     public void showScreen(Screens screen) {

@@ -5,7 +5,7 @@ import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class TTTEngine extends GridEngine<TicTacToeCell> {
-    private static final Player tttGrid = new Player("TTTGrid");
+    public static final Player tttGrid = new Player("TTTGrid");
     private final Player playerX;
     private final Player playerO;
     private final int rows;

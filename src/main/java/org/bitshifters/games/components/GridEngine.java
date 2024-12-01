@@ -14,6 +14,11 @@ public abstract class GridEngine<Cell> extends Engine {
         grids.put(player, new Grid<Cell>(rows, cols, defaultValue));
     }
 
+    public Grid<Cell> getGrid(final Player player) {
+        logger.debug("Getting grid for player: " + player);
+        return grids.get(player);
+    }
+
     public void resetGrid(final Player player) {
         logger.debug("Resetting grid for player: " + player);
         grids.get(player).reset();

@@ -17,12 +17,20 @@ public class Player {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getScore() {
         return score;
     }
 
-    public void incrementScore() {
+    public void incrementScore(int score) {
         logger.debug("Incrementing score for player: " + name);
-        score++;
+        this.score += score;
+    }
+
+    public void incrementScore() {
+        incrementScore(1);
     }
 }

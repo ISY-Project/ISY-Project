@@ -281,7 +281,6 @@ public class StrategoEngine extends GridEngine<Unit> {
         return true;
     }
 
-    // TODO check if the given rank is a valid rank
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
         if (isOutOfBounds(row, col)) {
             return false;
@@ -382,5 +381,13 @@ public class StrategoEngine extends GridEngine<Unit> {
 
     public int getTotalCols() {
         return totalCols;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public static int getTurnLimit() {
+        return TURN_LIMIT;
     }
 }

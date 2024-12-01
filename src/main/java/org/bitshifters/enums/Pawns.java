@@ -47,6 +47,11 @@ public enum Pawns {
         return Integer.parseInt(pawn);
     }
 
+    @Override
+    public String toString() {
+        return this.pawn;
+    }
+
     /**
      * Returns the string value of the pawn
      * @return the string value of the pawn
