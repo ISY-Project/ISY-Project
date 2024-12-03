@@ -116,12 +116,10 @@ public class StrategoView extends BorderPane {
                 button.setGraphic(null);
                 button.setText("");
                 button.setStyle("-fx-background-color: #aaddaa");
-            } else if (pawn == Pawns.UNKNOWN) {
-                input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
-            } else if (pawn == Pawns.LAKE) {
-                button.setStyle("-fx-background-color: #0e87a6");
-            } else {
-                input = new FileInputStream(pawn.getBluePath());
+            } else switch (pawn) {
+                case UNKNOWN -> input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
+                case LAKE -> button.setStyle("-fx-background-color: #0e87a6");
+                default -> input = new FileInputStream(pawn.getBluePath());
             }
             if (input != null) {
                 Image image = new Image(input);
