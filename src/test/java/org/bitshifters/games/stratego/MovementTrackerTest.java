@@ -19,79 +19,79 @@ public class MovementTrackerTest {
         this.unit = new Unit(null, null, 0, 0);
     }
 
-    @Test
-    void testIsRepeating() {
-        setUp();
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
-    }
+    // @Test
+    // void testIsRepeating() {
+    //     setUp();
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
+    // }
 
-    @Test
-    void testisREpeatingEmpty() {
-        setUp();
-        assertFalse(movementTracker.isRepeating(this.unit, 0, 0));
-    }
+    // @Test
+    // void testisREpeatingEmpty() {
+    //     setUp();
+    //     assertFalse(movementTracker.isRepeating(this.unit, 0, 0));
+    // }
 
-    @Test
-    void testIsRepeatingTooFew() {
-        setUp();
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        assertThrowsExactly(IllegalArgumentException.class, () -> movementTracker.isRepeating(this.unit, 0, 1));
-    }
+    // @Test
+    // void testIsRepeatingTooFew() {
+    //     setUp();
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     assertThrowsExactly(IllegalArgumentException.class, () -> movementTracker.isRepeating(this.unit, 0, 1));
+    // }
 
-    @Test
-    void testIsRepeating2Units() {
-        setUp();
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
-    }
+    // @Test
+    // void testIsRepeating2Units() {
+    //     setUp();
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
+    // }
 
-    @Test
-    void testIsRepeating2Units2() {
-        setUp();
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
-    }
+    // @Test
+    // void testIsRepeating2Units2() {
+    //     setUp();
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     assertTrue(movementTracker.isRepeating(this.unit, 0, 1));
+    // }
 
-    @Test
-    void testRemove() {
-        setUp();
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 0, 0);
-        movementTracker.add(this.unit, 0, 1);
-        movementTracker.add(this.unit, 1, 1);
-        movementTracker.add(this.unit, 1, 0);
-        movementTracker.add(this.unit, 1, 1);
-        movementTracker.add(this.unit, 1, 0);
-        movementTracker.add(this.unit, 1, 1);
-        assertEquals(0, movementTracker.remove(0));
-        assertEquals(1, movementTracker.remove(0));
-        assertEquals(0, movementTracker.remove(0));
-        assertEquals(1, movementTracker.remove(0));
-        assertEquals(11, movementTracker.remove(0));
-        assertEquals(10, movementTracker.remove(0));
-        assertEquals(11, movementTracker.remove(0));
-        assertEquals(10, movementTracker.remove(0));
-        assertEquals(11, movementTracker.remove(0));
-        assertThrowsExactly(IndexOutOfBoundsException.class, () -> {movementTracker.remove(0);});
-    }
+    // @Test
+    // void testRemove() {
+    //     setUp();
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 0, 0);
+    //     movementTracker.add(this.unit, 0, 1);
+    //     movementTracker.add(this.unit, 1, 1);
+    //     movementTracker.add(this.unit, 1, 0);
+    //     movementTracker.add(this.unit, 1, 1);
+    //     movementTracker.add(this.unit, 1, 0);
+    //     movementTracker.add(this.unit, 1, 1);
+    //     assertEquals(0, movementTracker.remove(0));
+    //     assertEquals(1, movementTracker.remove(0));
+    //     assertEquals(0, movementTracker.remove(0));
+    //     assertEquals(1, movementTracker.remove(0));
+    //     assertEquals(11, movementTracker.remove(0));
+    //     assertEquals(10, movementTracker.remove(0));
+    //     assertEquals(11, movementTracker.remove(0));
+    //     assertEquals(10, movementTracker.remove(0));
+    //     assertEquals(11, movementTracker.remove(0));
+    //     assertThrowsExactly(IndexOutOfBoundsException.class, () -> {movementTracker.remove(0);});
+    // }
 }

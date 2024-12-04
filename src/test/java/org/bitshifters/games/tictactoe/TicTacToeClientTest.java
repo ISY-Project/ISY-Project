@@ -2,10 +2,11 @@ package org.bitshifters.games.tictactoe;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.bitshifters.gameclient.TicTacToeClient;
 import org.junit.jupiter.api.Test;
 
-public class TTTHandlerTest {
-    TTTHandler handler = new TTTHandler();
+public class TicTacToeClientTest {
+    TicTacToeClient handler = new TicTacToeClient(null, null, null);
 
     @Test
     void testOnCancel() {

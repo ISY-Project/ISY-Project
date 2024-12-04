@@ -52,9 +52,9 @@ public class TTTEngineTest {
     @Test
     void testMakeMove() {
         engine.makeMove(0, 0); // X
-        assertEquals(TTTCell.X, engine.getCell(0, 0, TTTEngine.tttGrid));
+        assertEquals(TicTacToeCell.X, engine.getCell(0, 0, TTTEngine.tttGrid));
         engine.makeMove(1, 1); // O
-        assertEquals(TTTCell.O, engine.getCell(1, 1, TTTEngine.tttGrid));
+        assertEquals(TicTacToeCell.O, engine.getCell(1, 1, TTTEngine.tttGrid));
     }
 
     @Test

@@ -1,7 +1,12 @@
 package org.bitshifters.ui;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
+import org.bitshifters.gameclient.TicTacToeClient;
+import org.bitshifters.games.components.GridEngine;
+import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
@@ -13,6 +18,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -28,6 +34,7 @@ public class MainFrame extends Application {
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
     private final StrategoView strategoView = new StrategoView(this);
+    private final Player player = new Player("Player");
     private Stage stage;
     private Popup popup;
 
@@ -35,6 +42,9 @@ public class MainFrame extends Application {
     public void start(Stage primaryStage) {
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoView);
+        var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
+        // var battleship = new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
+        // var stratego = new StrategoClient(strategoView, this.player, new Player("Opponent"));
 
         this.stage = primaryStage;
 

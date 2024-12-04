@@ -34,6 +34,10 @@ public class StrategoEngine extends GridEngine<Unit> {
         generateGrids(players);
     }
 
+    public void setUnitCounts() {
+        setUnitCounts(new UnitSet());
+    }
+
     public void setUnitCounts(UnitSet units) {
         this.unitSet = units;
     }
