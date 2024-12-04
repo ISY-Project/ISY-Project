@@ -1,6 +1,7 @@
 package org.bitshifters.games.tictactoe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -41,21 +42,21 @@ public class Minimax {
     private static int minimax(char[] grid, boolean isPlayer, char playerSymbol) {
         switch(gameResult(grid)) {
             case WIN_X -> {
-                logger.debug("Player X wins with: " + grid.toString());
+                logger.debug("Player X wins with: " + Arrays.toString(grid));
                 if (isPlayer) {
                     return -10;
                 }
                 return 10;
             }
             case WIN_O -> {
-                logger.debug("Player O wins with: " + grid.toString());
+                logger.debug("Player O wins with: " + Arrays.toString(grid));
                 if (isPlayer) {
                     return -10;
                 }
                 return 10;
             }
             case TIE -> {
-                logger.debug("It's a tie with " + grid.toString());
+                logger.debug("It's a tie with " + Arrays.toString(grid));
                 return 0;
             }
             case ONGOING -> {
