@@ -14,6 +14,9 @@ import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.TicTacToeView;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventType;
+
 /**
  * CLient moet online kunnen spelen
  * Client moet tegen Ai kunnen spelen
@@ -44,8 +47,8 @@ public class TicTacToeClient extends GameClient {
                 final int finalRow = row;
                 final int finalCol = col;
                 var button = view.getBaseGrid().getButtonGrid()[row][col];
-                button.addEventHandler(null, null);
-                // TODO: (_ -> handleButtonClick(view, finalRow, finalCol));
+                EventType<ActionEvent> eventType = new EventType<>(ActionEvent.ANY, "buttonClick");
+                button.addEventHandler(eventType, (_ -> handleButtonClick(view, finalRow, finalCol)));
             }
         }
     }
