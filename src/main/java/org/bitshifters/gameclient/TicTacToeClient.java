@@ -45,7 +45,8 @@ public class TicTacToeClient extends GameClient {
                 final int finalRow = row;
                 final int finalCol = col;
                 var button = view.getBaseGrid().getButtonGrid()[row][col];
-                button.setOnAction(_ -> handleButtonClick(view, finalRow, finalCol));
+                button.addEventHandler(null, null);
+                // TODO: (_ -> handleButtonClick(view, finalRow, finalCol));
             }
         }
     }
