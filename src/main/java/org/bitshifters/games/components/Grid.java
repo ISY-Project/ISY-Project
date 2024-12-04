@@ -1,9 +1,9 @@
 package org.bitshifters.games.components;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Grid<T> {
-    private final BsLogger logger = new BsLogger(Grid.class);
+    private final BSLogger logger = new BSLogger(Grid.class);
     private T[][] grid;
     private int rowCount;
     private int columnCount;

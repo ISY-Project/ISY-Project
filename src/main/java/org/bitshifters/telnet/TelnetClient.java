@@ -5,12 +5,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.SendableCommand;
 
 
 public class TelnetClient {
-    private static final BsLogger logger = new BsLogger(TelnetClient.class);
+    private static final BSLogger logger = new BSLogger(TelnetClient.class);
     private Socket socket;
     private PrintWriter out;
     private BufferedReader in;

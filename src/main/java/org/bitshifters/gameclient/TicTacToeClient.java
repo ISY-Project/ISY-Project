@@ -2,18 +2,17 @@ package org.bitshifters.gameclient;
 
 import org.bitshifters.ClientController;
 import org.bitshifters.Config;
-import org.bitshifters.enums.GameTypes;
-import org.bitshifters.enums.TicTacToeCell;
-import org.bitshifters.games.components.GameClient;
+import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.Grid;
 import org.bitshifters.games.components.GridTransformer;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.tictactoe.Minimax;
 import org.bitshifters.games.tictactoe.TTTEngine;
-import org.bitshifters.logging.BsLogger;
-import org.bitshifters.ui.views.TicTacToeView;
-import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.games.tictactoe.TicTacToeCell;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Move;
+import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.ui.views.TicTacToeView;
 
 /**
  * CLient moet online kunnen spelen
@@ -21,7 +20,7 @@ import org.bitshifters.telnet.Commands.Move;
  * 
  */
 public class TicTacToeClient extends GameClient {
-    private static final BsLogger logger = new BsLogger(TicTacToeClient.class);
+    private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
     private static final Config config = Config.getInstance();
     private final TelnetClient telnet;

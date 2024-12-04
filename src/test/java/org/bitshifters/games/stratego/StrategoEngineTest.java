@@ -1,9 +1,9 @@
 package org.bitshifters.games.stratego;
 
-import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

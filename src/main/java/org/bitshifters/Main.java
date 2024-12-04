@@ -6,8 +6,8 @@ import java.util.logging.Level;
 
 import org.bitshifters.arguments.ArgParser;
 import org.bitshifters.arguments.Flags;
-import org.bitshifters.enums.VerboseLevel;
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
+import org.bitshifters.logging.VerboseLevel;
 import org.bitshifters.ui.MainFrame;
 
 import com.beust.jcommander.JCommander;
@@ -19,7 +19,7 @@ import com.beust.jcommander.JCommander;
  */
 public class Main{
     private static Config config = Config.getInstance();
-    private static final BsLogger logger = new BsLogger(Config.class);
+    private static final BSLogger logger = new BSLogger(Config.class);
     private static JCommander arguments;
     private static Flags flags;
 
@@ -54,7 +54,7 @@ public class Main{
 
     private static void configureLogging() {
         config.setValue("verbose", flags.VERBOSE.toString());
-        BsLogger.setStreamLevel();
+        BSLogger.setStreamLevel();
     }
 
     /**

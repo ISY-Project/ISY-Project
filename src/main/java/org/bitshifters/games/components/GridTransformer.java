@@ -2,10 +2,10 @@ package org.bitshifters.games.components;
 
 import java.lang.reflect.Array;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class GridTransformer<T> {
-    private static final BsLogger logger = new BsLogger(GridTransformer.class);
+    private static final BSLogger logger = new BSLogger(GridTransformer.class);
 
     public T[][] toGrid(final T[] flatList, final int size, final Class<T> clazz) {
         logger.debug("Converting flat list to grid with size: " + size);

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.bitshifters.enums.Pawns;
+import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.UnitSet;
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -21,7 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class StrategoView extends BorderPane {
-    private static final BsLogger logger = new BsLogger(StrategoView.class);
+    private static final BSLogger logger = new BSLogger(StrategoView.class);
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
     private UnitSet units = new UnitSet();

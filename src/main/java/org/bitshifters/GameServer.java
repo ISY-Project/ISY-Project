@@ -3,10 +3,9 @@ package org.bitshifters;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.bitshifters.enums.GameTypes;
+import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
-import org.bitshifters.games.tictactoe.TTTEngine;
 
 public class GameServer {
     private final HashMap<GameTypes, ArrayList<GridEngine>> runningGames = new HashMap<>();

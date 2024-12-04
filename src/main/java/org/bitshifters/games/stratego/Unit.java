@@ -1,7 +1,6 @@
 package org.bitshifters.games.stratego;
 
 
-import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
 
 public class Unit {

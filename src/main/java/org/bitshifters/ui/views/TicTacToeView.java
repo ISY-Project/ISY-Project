@@ -4,8 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import org.bitshifters.enums.TicTacToeCell;
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.games.tictactoe.TicTacToeCell;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -18,7 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class TicTacToeView extends BorderPane {
-    private static final BsLogger logger = new BsLogger(TicTacToeView.class);
+    private static final BSLogger logger = new BSLogger(TicTacToeView.class);
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
 

@@ -2,8 +2,6 @@ package org.bitshifters.games.stratego;
 
 import java.util.HashMap;
 
-import org.bitshifters.enums.Pawns;
-
 public class UnitSet {
     private HashMap<Pawns, Integer> units = new HashMap<>();
 

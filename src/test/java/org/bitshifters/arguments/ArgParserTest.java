@@ -1,8 +1,9 @@
 package org.bitshifters.arguments;
 
-import org.bitshifters.enums.VerboseLevel;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.bitshifters.logging.VerboseLevel;
 import org.junit.jupiter.api.Test;
 
 import com.beust.jcommander.JCommander;

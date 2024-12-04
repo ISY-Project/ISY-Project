@@ -1,4 +1,4 @@
-package org.bitshifters.enums;
+package org.bitshifters.logging;
 
 public enum VerboseLevel {
     NONE,

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Minimax {
     public enum GameState {
@@ -16,7 +16,7 @@ public class Minimax {
     }
 
     private static int bestMove;
-    private static final BsLogger logger = new BsLogger(Minimax.class);
+    private static final BSLogger logger = new BSLogger(Minimax.class);
 
     public Minimax() {
         

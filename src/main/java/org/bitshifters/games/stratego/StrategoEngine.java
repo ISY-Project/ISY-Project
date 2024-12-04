@@ -3,7 +3,6 @@ package org.bitshifters.games.stratego;
 import java.util.HashMap;
 import java.util.Objects;
 
-import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 

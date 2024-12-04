@@ -1,6 +1,5 @@
 package org.bitshifters.games.tictactoe;
 
-import org.bitshifters.enums.TicTacToeCell;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 

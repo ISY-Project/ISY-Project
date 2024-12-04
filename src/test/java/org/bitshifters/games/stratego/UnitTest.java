@@ -1,6 +1,5 @@
 package org.bitshifters.games.stratego;
 
-import org.bitshifters.enums.Pawns;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.Unit;
 import org.junit.jupiter.api.BeforeEach;

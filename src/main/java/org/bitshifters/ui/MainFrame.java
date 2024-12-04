@@ -2,7 +2,7 @@ package org.bitshifters.ui;
 
 import java.util.logging.Level;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -14,16 +14,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Popup; 
+import javafx.stage.StageStyle; 
 
 /**
  * This is the mainFrame class of the program. It will be the entry point of GUI of the program.
  * @param args The command line arguments
  */
 public class MainFrame extends Application {
-    private static final BsLogger logger = new BsLogger(MainFrame.class);
+    private static final BSLogger logger = new BSLogger(MainFrame.class);
     private final StartView startView = new StartView(this);
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);

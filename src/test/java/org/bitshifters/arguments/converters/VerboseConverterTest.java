@@ -2,7 +2,7 @@ package org.bitshifters.arguments.converters;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.bitshifters.enums.VerboseLevel;
+import org.bitshifters.logging.VerboseLevel;
 import org.junit.jupiter.api.Test;
 
 public class VerboseConverterTest {

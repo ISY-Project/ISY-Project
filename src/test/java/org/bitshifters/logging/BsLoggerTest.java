@@ -12,12 +12,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BsLoggerTest {
-    private BsLogger logger;
+    private BSLogger logger;
     private TestHandler testHandler;
 
     @BeforeEach
     void setUp() {
-        logger = new BsLogger();
+        logger = new BSLogger();
         testHandler = new TestHandler();
         logger.setLevel(Level.ALL);
         logger.addHandler(testHandler);
@@ -38,7 +38,7 @@ public class BsLoggerTest {
     @Test
     void testDebug() {
         logger.debug("Debug message");
-        assertLog(BsLevel.DEBUG, "Debug message");
+        assertLog(BSLevel.DEBUG, "Debug message");
     }
 
     @Test
@@ -61,14 +61,14 @@ public class BsLoggerTest {
 
     @Test
     void testGetChildLogger() {
-        BsLogger childLogger = BsLogger.getChildLogger(logger, "child");
+        BSLogger childLogger = BSLogger.getChildLogger(logger, "child");
         assertNotNull(childLogger);
         assertEquals(logger.getName() + ".child", childLogger.getName());
     }
 
     @Test
     void testGetLogger() {
-        BsLogger newLogger = BsLogger.getLogger("newLogger");
+        BSLogger newLogger = BSLogger.getLogger("newLogger");
         assertNotNull(newLogger);
         assertEquals("newLogger", newLogger.getName());
     }
@@ -81,8 +81,8 @@ public class BsLoggerTest {
 
     @Test
     void testSetStreamLevel2() {
-        BsLogger.setStreamLevel(Level.INFO);
-        assertEquals(Level.INFO, BsLogger.streamHandler.getLevel());
+        BSLogger.setStreamLevel(Level.INFO);
+        assertEquals(Level.INFO, BSLogger.streamHandler.getLevel());
     }
 
     @Test

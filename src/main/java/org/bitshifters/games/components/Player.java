@@ -1,9 +1,9 @@
 package org.bitshifters.games.components;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Player {
-    private static final BsLogger logger = new BsLogger(Player.class);
+    private static final BSLogger logger = new BSLogger(Player.class);
     private String name;
     private int score;
 

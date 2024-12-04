@@ -1,6 +1,6 @@
-package org.bitshifters.games.components;
+package org.bitshifters.gameclient;
 
-import org.bitshifters.enums.GameTypes;
+import org.bitshifters.games.GameTypes;
 import org.bitshifters.telnet.EventHandler;
 
 public abstract class GameClient extends EventHandler {

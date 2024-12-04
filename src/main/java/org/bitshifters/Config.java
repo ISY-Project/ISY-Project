@@ -13,10 +13,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 import org.bitshifters.interfaces.IConfig;
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Config implements IConfig {
-    private static final BsLogger logger = new BsLogger(Config.class);
+    private static final BSLogger logger = new BSLogger(Config.class);
     private final Path path;
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
