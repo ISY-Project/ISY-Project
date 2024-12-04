@@ -23,6 +23,8 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public StrategoEngine(final int playerRows, final int playerCols, final Player[] players) {
+        // TODO: Invert the playerRows and playerCols to boardRows and boardCols
+        // TODO: Add preset grids, using coordinates where lakes are placed.
         this.playerRows = playerRows;
         this.playerCols = playerCols;
         // Add one to the total players to account for the movement grid.
