@@ -24,7 +24,7 @@ public class StrategoView extends BorderPane {
     private static final BSLogger logger = new BSLogger(StrategoView.class);
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
-    private UnitSet units = new UnitSet();
+    private UnitSet units = new UnitSet().setTenUnits();
     private int buttonSize = 80;
 
     public StrategoView(MainFrame mainFrame) {

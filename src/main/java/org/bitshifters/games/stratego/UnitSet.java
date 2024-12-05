@@ -3,7 +3,7 @@ package org.bitshifters.games.stratego;
 import java.util.HashMap;
 
 public class UnitSet {
-    private HashMap<Pawns, Integer> units = new HashMap<>();
+    private final HashMap<Pawns, Integer> units = new HashMap<>();
     private int maxUnits = 40;
 
     public HashMap<Pawns, Integer> getUnits() {
@@ -11,6 +11,10 @@ public class UnitSet {
     }
 
     public UnitSet() {
+    }
+
+    public UnitSet setTenUnits() {
+        units.clear();
         units.put(Pawns.MARSHAL, 1);
         units.put(Pawns.GENERAL, 1);
         units.put(Pawns.COLONEL, 2);
@@ -23,6 +27,19 @@ public class UnitSet {
         units.put(Pawns.SPY, 1);
         units.put(Pawns.BOMB, 6);
         units.put(Pawns.FLAG, 1);
+        return this;
+    }
+
+    public UnitSet setEightUnits() {
+        units.clear();
+        units.put(Pawns.MARSHAL, 1);
+        units.put(Pawns.GENERAL, 1);
+        units.put(Pawns.MINER, 2);
+        units.put(Pawns.SCOUT, 2);
+        units.put(Pawns.SPY, 1);
+        units.put(Pawns.BOMB, 2);
+        units.put(Pawns.FLAG, 1);
+        return this;
     }
 
     public boolean validate() {
@@ -30,6 +47,6 @@ public class UnitSet {
         for (int i : units.values()) {
             total += i;
         }
-        return total <= maxUnits;
+        return total <= 40;
     }
 }

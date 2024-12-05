@@ -1,9 +1,6 @@
 package org.bitshifters.games.stratego;
 
 import org.bitshifters.games.components.Player;
-import org.bitshifters.games.stratego.StrategoEngine;
-import org.bitshifters.games.stratego.Unit;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -93,7 +90,7 @@ public class StrategoEngineTest {
     void testSetDefaultUnitSet() {
         setUp();
         engine.setUnitCounts();
-        var unitSet = new UnitSet();
+        var unitSet = new UnitSet().setTenUnits();
         assertEquals(unitSet.getUnits().get(Pawns.BOMB), engine.getUnitSet().getUnits().get(Pawns.BOMB));
         assertEquals(unitSet.getUnits().get(Pawns.FLAG), engine.getUnitSet().getUnits().get(Pawns.FLAG));
         assertEquals(unitSet.getUnits().get(Pawns.SPY), engine.getUnitSet().getUnits().get(Pawns.SPY));
