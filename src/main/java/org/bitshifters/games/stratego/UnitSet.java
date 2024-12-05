@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class UnitSet {
     private HashMap<Pawns, Integer> units = new HashMap<>();
+    private int maxUnits = 40;
 
     public HashMap<Pawns, Integer> getUnits() {
         return units;
@@ -29,6 +30,6 @@ public class UnitSet {
         for (int i : units.values()) {
             total += i;
         }
-        return total <= 40;
+        return total <= maxUnits;
     }
 }
