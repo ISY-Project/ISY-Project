@@ -141,7 +141,7 @@ public class StrategoView extends BorderPane {
     public final void fillGrid() {
         logger.debug("Filling grid");
         Random rand = new Random();
-        HashMap<Pawns, Integer> unitCount = units.getUnits();
+        HashMap<Pawns, Integer> unitCount = units.getUnitsTen();
         ArrayList<Pawns> pawns = new ArrayList<>();
 
         unitCount.entrySet().forEach(entry -> {

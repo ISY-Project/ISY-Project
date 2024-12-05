@@ -284,7 +284,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             }
         }
 
-        for (var i: unitSet.getUnits().entrySet()) {
+        for (var i: unitSet.getUnitsTen().entrySet()) {
             var unit = i.getKey();
             Integer unitCount = unitCounter.get(unit);
             Integer requiredCount = i.getValue();
