@@ -45,7 +45,7 @@ public class StrategoEngineTest {
         setUp();
         engine.setUnitCounts();
         assertNotNull(engine.getUnitSet());
-        assertEquals(12, engine.getUnitSet().getUnitsTen().size());
+        assertEquals(12, engine.getUnitSet().getUnits().size());
     }
 
     @Test
@@ -90,19 +90,19 @@ public class StrategoEngineTest {
     void testSetDefaultUnitSet() {
         setUp();
         engine.setUnitCounts();
-        var unitSet = new UnitSet();
-        assertEquals(unitSet.getUnitsTen().get(Pawns.BOMB), engine.getUnitSet().getUnitsTen().get(Pawns.BOMB));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.FLAG), engine.getUnitSet().getUnitsTen().get(Pawns.FLAG));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.SPY), engine.getUnitSet().getUnitsTen().get(Pawns.SPY));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.SCOUT), engine.getUnitSet().getUnitsTen().get(Pawns.SCOUT));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.MINER), engine.getUnitSet().getUnitsTen().get(Pawns.MINER));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.SERGEANT), engine.getUnitSet().getUnitsTen().get(Pawns.SERGEANT));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.LIEUTENANT), engine.getUnitSet().getUnitsTen().get(Pawns.LIEUTENANT));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.CAPTAIN), engine.getUnitSet().getUnitsTen().get(Pawns.CAPTAIN));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.MAJOR), engine.getUnitSet().getUnitsTen().get(Pawns.MAJOR));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.COLONEL), engine.getUnitSet().getUnitsTen().get(Pawns.COLONEL));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.GENERAL), engine.getUnitSet().getUnitsTen().get(Pawns.GENERAL));
-        assertEquals(unitSet.getUnitsTen().get(Pawns.MARSHAL), engine.getUnitSet().getUnitsTen().get(Pawns.MARSHAL));
+        var unitSet = new UnitSet().setTenUnits();
+        assertEquals(unitSet.getUnits().get(Pawns.BOMB), engine.getUnitSet().getUnits().get(Pawns.BOMB));
+        assertEquals(unitSet.getUnits().get(Pawns.FLAG), engine.getUnitSet().getUnits().get(Pawns.FLAG));
+        assertEquals(unitSet.getUnits().get(Pawns.SPY), engine.getUnitSet().getUnits().get(Pawns.SPY));
+        assertEquals(unitSet.getUnits().get(Pawns.SCOUT), engine.getUnitSet().getUnits().get(Pawns.SCOUT));
+        assertEquals(unitSet.getUnits().get(Pawns.MINER), engine.getUnitSet().getUnits().get(Pawns.MINER));
+        assertEquals(unitSet.getUnits().get(Pawns.SERGEANT), engine.getUnitSet().getUnits().get(Pawns.SERGEANT));
+        assertEquals(unitSet.getUnits().get(Pawns.LIEUTENANT), engine.getUnitSet().getUnits().get(Pawns.LIEUTENANT));
+        assertEquals(unitSet.getUnits().get(Pawns.CAPTAIN), engine.getUnitSet().getUnits().get(Pawns.CAPTAIN));
+        assertEquals(unitSet.getUnits().get(Pawns.MAJOR), engine.getUnitSet().getUnits().get(Pawns.MAJOR));
+        assertEquals(unitSet.getUnits().get(Pawns.COLONEL), engine.getUnitSet().getUnits().get(Pawns.COLONEL));
+        assertEquals(unitSet.getUnits().get(Pawns.GENERAL), engine.getUnitSet().getUnits().get(Pawns.GENERAL));
+        assertEquals(unitSet.getUnits().get(Pawns.MARSHAL), engine.getUnitSet().getUnits().get(Pawns.MARSHAL));
     }
 
     @Test
@@ -128,8 +128,8 @@ public class StrategoEngineTest {
 
     private void placeAllRequiredUnits(Player player) {
         int index = 0;
-        for ( Pawns i : engine.getUnitSet().getUnitsTen().keySet()) {
-            for (int j = 0; j < engine.getUnitSet().getUnitsTen().get(i); j++){
+        for ( Pawns i : engine.getUnitSet().getUnits().keySet()) {
+            for (int j = 0; j < engine.getUnitSet().getUnits().get(i); j++){
                 int row = index / engine.getTotalCols();
                 int col = index % engine.getTotalCols();
                 engine.PlaceUnit(player, row, col, i);

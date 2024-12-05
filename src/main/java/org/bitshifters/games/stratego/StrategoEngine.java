@@ -10,7 +10,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
     private int turnCount = 0;
     public static final Player GameGrid = new Player("GameGrid");
-    private UnitSet unitSet = new UnitSet();
+    private UnitSet unitSet = new UnitSet().setTenUnits();
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
     private final int playerRows;
     private final int playerCols;
@@ -47,7 +47,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     // }
 
     public void setUnitCounts() {
-        setUnitCounts(new UnitSet());
+        setUnitCounts(new UnitSet().setTenUnits());
     }
 
     public void setUnitCounts(UnitSet units) {
@@ -284,7 +284,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             }
         }
 
-        for (var i: unitSet.getUnitsTen().entrySet()) {
+        for (var i: unitSet.getUnits().entrySet()) {
             var unit = i.getKey();
             Integer unitCount = unitCounter.get(unit);
             Integer requiredCount = i.getValue();
