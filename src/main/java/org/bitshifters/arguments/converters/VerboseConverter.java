@@ -1,6 +1,6 @@
 package org.bitshifters.arguments.converters;
 
-import org.bitshifters.enums.VerboseLevel;
+import org.bitshifters.logging.VerboseLevel;
 
 import com.beust.jcommander.IStringConverter;
 

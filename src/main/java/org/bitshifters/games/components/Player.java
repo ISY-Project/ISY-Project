@@ -1,9 +1,9 @@
 package org.bitshifters.games.components;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Player {
-    private static final BsLogger logger = new BsLogger(Player.class);
+    private static final BSLogger logger = new BSLogger(Player.class);
     private String name;
     private int score;
 
@@ -17,12 +17,20 @@ public class Player {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getScore() {
         return score;
     }
 
-    public void incrementScore() {
+    public void incrementScore(int score) {
         logger.debug("Incrementing score for player: " + name);
-        score++;
+        this.score += score;
+    }
+
+    public void incrementScore() {
+        incrementScore(1);
     }
 }

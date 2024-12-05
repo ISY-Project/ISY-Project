@@ -1,0 +1,89 @@
+package org.bitshifters.games.components;
+import org.junit.jupiter.api.Test;
+
+public class EngineTest {
+    @Test
+    void testGetActivePlayer() {
+
+    }
+
+    @Test
+    void testGetWinner() {
+
+    }
+
+    @Test
+    void testIsGameOver() {
+
+    }
+
+    @Test
+    void testSetActivePlayer() {
+
+    }
+
+    @Test
+    void testValidateMove() {
+
+    }
+
+    @Test
+    void testGetActivePlayer2() {
+        
+    }
+
+    @Test
+    void testGetWinner2() {
+        
+    }
+
+    @Test
+    void testIsGameOver2() {
+        
+    }
+
+    @Test
+    void testIsPlayerTurn() {
+        
+    }
+
+    @Test
+    void testSetActivePlayer2() {
+        
+    }
+
+    @Test
+    void testValidateMove2() {
+        
+    }
+
+    @Test
+    void testGetActivePlayer3() {
+        
+    }
+
+    @Test
+    void testGetWinner3() {
+        
+    }
+
+    @Test
+    void testIsGameOver3() {
+        
+    }
+
+    @Test
+    void testIsPlayerTurn2() {
+        
+    }
+
+    @Test
+    void testSetActivePlayer3() {
+        
+    }
+
+    @Test
+    void testValidateMove3() {
+        
+    }
+}

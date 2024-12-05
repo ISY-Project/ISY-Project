@@ -1,8 +1,13 @@
 package org.bitshifters.ui;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.gameclient.TicTacToeClient;
+import org.bitshifters.games.components.GridEngine;
+import org.bitshifters.games.components.Player;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -11,27 +16,35 @@ import org.bitshifters.ui.views.TicTacToeView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.StageStyle; 
 
 /**
  * This is the mainFrame class of the program. It will be the entry point of GUI of the program.
  * @param args The command line arguments
  */
 public class MainFrame extends Application {
-    private static final BsLogger logger = new BsLogger(MainFrame.class);
+    private static final BSLogger logger = new BSLogger(MainFrame.class);
     private final StartView startView = new StartView(this);
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
     private final StrategoView strategoView = new StrategoView(this);
+    private final Player player = new Player("Player");
     private Stage stage;
+    private Popup popup;
 
     @Override
     public void start(Stage primaryStage) {
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoView);
+        var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
+        // var battleship = new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
+        // var stratego = new StrategoClient(strategoView, this.player, new Player("Opponent"));
 
         this.stage = primaryStage;
 
@@ -55,12 +68,35 @@ public class MainFrame extends Application {
                 }
             }
         });
+        
+        setUpPopup();
+        showPopup("test"); // show popup when the program starts
+
         showScreen(Screens.START_SCREEN);
     }
 
     public static void run(String[] args) {
         logger.info("Starting GUI");
         launch();
+    }
+
+    private void setUpPopup() {
+        this.popup = new Popup();
+        this.popup.setX(300);
+        this.popup.setY(200);
+        this.popup.setWidth(200);
+        this.popup.setHeight(100);
+        this.popup.setAutoHide(true); // close popup when clicked outside
+
+        Label label = new Label("This is a popup");
+        label.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        this.popup.getContent().add(label);
+    }
+
+    public void showPopup(String message) {
+        Label label = (Label) this.popup.getContent().get(0);
+        label.setText(message);
+        this.popup.show(stage);
     }
 
     public void showScreen(Screens screen) {

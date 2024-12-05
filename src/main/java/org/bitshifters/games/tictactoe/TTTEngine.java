@@ -1,11 +1,10 @@
 package org.bitshifters.games.tictactoe;
 
-import org.bitshifters.enums.TicTacToeCell;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
 public class TTTEngine extends GridEngine<TicTacToeCell> {
-    private static final Player tttGrid = new Player("TTTGrid");
+    public static final Player tttGrid = new Player("TTTGrid");
     private final Player playerX;
     private final Player playerO;
     private final int rows;
@@ -23,9 +22,17 @@ public class TTTEngine extends GridEngine<TicTacToeCell> {
         addGrid(tttGrid, rows, cols, TicTacToeCell.EMPTY);
     }
 
+    public Player getPlayerX() {
+        return playerX;
+    }
+
+    public Player getPlayerO() {
+        return playerO;
+    }
+
     @Override
     public boolean validateMove(final int row, final int col, final Player player) {
-        var cell = getCell(row, col, player);
+        var cell = getCell(row, col, tttGrid);
         if (cell != TicTacToeCell.EMPTY) {
             return false;
         }
@@ -45,8 +52,8 @@ public class TTTEngine extends GridEngine<TicTacToeCell> {
     @Override
     public boolean isGameOver() {
         Player winner = getWinner();
-        if (winner == null) {
-            return false;
+        if (winner != null) {
+            return true;
         }
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {

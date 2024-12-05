@@ -3,15 +3,20 @@ package org.bitshifters.games.components;
 import java.util.Map;
 import java.util.Set;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public abstract class GridEngine<Cell> extends Engine {
-    private final static BsLogger logger = new BsLogger(GridEngine.class);
+    private final static BSLogger logger = new BSLogger(GridEngine.class);
     private Map<Player, Grid<Cell>> grids = new java.util.HashMap<Player, Grid<Cell>>();
 
     public void addGrid(final Player player, final int rows, final int cols, final Cell defaultValue) {
         logger.debug("Adding grid for player: " + player);
         grids.put(player, new Grid<Cell>(rows, cols, defaultValue));
+    }
+
+    public Grid<Cell> getGrid(final Player player) {
+        logger.debug("Getting grid for player: " + player);
+        return grids.get(player);
     }
 
     public void resetGrid(final Player player) {

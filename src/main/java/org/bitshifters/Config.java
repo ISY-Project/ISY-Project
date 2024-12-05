@@ -12,18 +12,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.bitshifters.enums.VerboseLevel;
 import org.bitshifters.interfaces.IConfig;
-import org.bitshifters.logging.BsLevel;
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 
 public class Config implements IConfig {
-    private static final BsLogger logger = new BsLogger(Config.class);
+    private static final BSLogger logger = new BSLogger(Config.class);
     private final Path path;
     private final Map<String, String> config = new HashMap<>();
     private final Map<String, Function<String, ?>> converters = new HashMap<>();
 
-    public Config(final Path of) {
+    private static Config instance;
+
+    public static Config getInstance() {
+        return getInstance(Path.of("config.ini"));
+    }
+
+    public synchronized static Config getInstance(Path path) {
+        if (instance == null) {
+            instance = new Config(path);
+        }
+        return instance;
+    }
+
+    private Config(final Path of) {
         this.path = of;
         initializeConverters();
         setDefaultValues();
@@ -37,7 +48,7 @@ public class Config implements IConfig {
             for (final Map.Entry<String, String> entry : config.entrySet()) {
                 final String k = entry.getKey();
                 final String v = entry.getValue();
-                writer.append(k).append("=").append(v).append("\n");
+                writer.append(k.toLowerCase()).append("=").append(v).append("\n");
             }
         } catch (final IOException e) {
             e.printStackTrace();
@@ -132,7 +143,7 @@ public class Config implements IConfig {
                 final String[] parts = line.split("=");
                 final String key = parts[0];
                 final String value = parts[1];
-                config.put(key, value);
+                config.put(key.toLowerCase(), value);
             }
         } catch (final ArrayIndexOutOfBoundsException e ) {
             System.err.println("Invalid configuration file");
@@ -146,6 +157,7 @@ public class Config implements IConfig {
         config.put("host", "65.21.191.106");
         config.put("port", "7789");
         config.put("username", "Klas2Groep4");
+        config.put("verbose", "SEVERE");
     }
 
     private void generateDefaultConfigFile() {
@@ -165,18 +177,5 @@ public class Config implements IConfig {
     public boolean containsKey(String key) {
         logger.debug("Checking if key exists: " + key);
         return config.containsKey(key);
-    }
-
-    public static void setVerboseLevel(VerboseLevel verbose) {
-        logger.debug("Setting verbose level to: " + verbose);
-        switch (verbose) {
-            case NONE ->  BsLogger.setVerboseLevel(BsLevel.OFF); // Don't show any messages
-            case LOW -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // Only show SEVERE messages
-            case MEDIUM -> BsLogger.setVerboseLevel(BsLevel.WARNING); // Show WARNING messages as well
-            case HIGH -> BsLogger.setVerboseLevel(BsLevel.INFO);  // Show INFO messages as well
-            case DEBUG -> BsLogger.setVerboseLevel(BsLevel.DEBUG); // Show DEBUG messages as well
-            case ALL -> BsLogger.setVerboseLevel(BsLevel.ALL); // Show all messages
-            default -> BsLogger.setVerboseLevel(BsLevel.SEVERE); // The default, only show SEVERE messages in this
-        }
     }
 }

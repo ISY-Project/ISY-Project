@@ -3,7 +3,7 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.bitshifters.logging.BsLogger;
+import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.componenets.BaseGrid;
 import org.bitshifters.ui.componenets.NavigationButtons;
@@ -16,7 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class BattleshipsView extends BorderPane {
-    private static final BsLogger logger = new BsLogger(BattleshipsView.class);
+    private static final BSLogger logger = new BSLogger(BattleshipsView.class);
+    private final NavigationButtons hButtonBox;
     private static final int GRIDSIZE = 8;
     private final BaseGrid playerGrid;
     private final BaseGrid opponentGrid;
@@ -24,7 +25,7 @@ public class BattleshipsView extends BorderPane {
     public BattleshipsView(MainFrame mainFrame) {
         HBox hGridBox = new HBox(10);
         VBox vBox = new VBox();
-        VBox hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox = new NavigationButtons(mainFrame, true, false);
 
         this.playerGrid = new BaseGrid(GRIDSIZE);
         this.opponentGrid = new BaseGrid(GRIDSIZE);

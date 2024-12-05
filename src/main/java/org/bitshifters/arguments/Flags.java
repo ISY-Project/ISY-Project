@@ -2,7 +2,7 @@ package org.bitshifters.arguments;
 
 import org.bitshifters.arguments.converters.VerboseConverter;
 import org.bitshifters.arguments.validators.VerboseLevelValidator;
-import org.bitshifters.enums.VerboseLevel;
+import org.bitshifters.logging.VerboseLevel;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
