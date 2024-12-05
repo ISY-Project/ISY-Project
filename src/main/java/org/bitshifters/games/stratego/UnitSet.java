@@ -30,12 +30,15 @@ public class UnitSet {
 
         unitsEight.put(Pawns.MARSHAL, 1);
         unitsEight.put(Pawns.GENERAL, 1);
-
+        unitsEight.put(Pawns.COLONEL, 0); // are not used in 8 units mode
+        unitsEight.put(Pawns.MAJOR, 0); // are not used in 8 units mode
+        unitsEight.put(Pawns.CAPTAIN, 0); // are not used in 8 units mode
+        unitsEight.put(Pawns.LIEUTENANT, 0); // are not used in 8 units mode
+        unitsEight.put(Pawns.SERGEANT, 0); // are not used in 8 units mode
         unitsEight.put(Pawns.MINER, 2);
         unitsEight.put(Pawns.SCOUT, 2);
         unitsEight.put(Pawns.SPY, 1);
         unitsEight.put(Pawns.BOMB, 2);
-
         unitsEight.put(Pawns.FLAG, 1);
     }
 
