@@ -47,6 +47,6 @@ public class UnitSet {
         for (int i : units.values()) {
             total += i;
         }
-        return total <= 40;
+        return total <= maxUnits;
     }
 }
