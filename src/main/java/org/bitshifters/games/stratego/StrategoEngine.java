@@ -19,7 +19,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private final Unit win = new Unit(Pawns.WIN);
 
     public StrategoEngine(final Player[] players) {
-        this(4, 10, players);
+        this(10, 10, players);
     }
 
     public StrategoEngine(final int boardRows, final int boardCols, final Player[] players){
@@ -100,11 +100,6 @@ public class StrategoEngine extends GridEngine<Unit> {
         setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
         setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
         setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
-        // TODO make this work with other player counts
-        // With 3 players, the players are in triangle, withing the entire grid. (No
-        // clue how hard.)
-        // With 4 players, the players are in a square. (easy)
-        // With > 4 players, the players are in a circle. (No clue how hard.)
     }
 
     /**
