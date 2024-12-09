@@ -32,7 +32,7 @@ public class MovementTracker {
         return track[move];
     }
 
-    private boolean valueCheck(final int[][] one, final int[][] two) {
+    private static boolean valueCheck(final int[][] one, final int[][] two) {
         if (one.length != two.length) {
             return false;
         }
@@ -44,7 +44,7 @@ public class MovementTracker {
         return true;
     }
 
-    private boolean valueCheck(final int[] one, final int[] two) {
+    private static boolean valueCheck(final int[] one, final int[] two) {
         if (one.length != two.length) {
             return false;
         }
