@@ -10,7 +10,7 @@ public class MovementTrackerTest {
 
     @BeforeEach
     void setUp() {
-        this.movementTracker = new MovementTracker(10);
+        this.movementTracker = new MovementTracker(3);
     }
 
     @Test
