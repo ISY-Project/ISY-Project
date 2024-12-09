@@ -32,15 +32,39 @@ public class MovementTracker {
         return track[move];
     }
 
+    private boolean valueCheck(final int[][] one, final int[][] two) {
+        if (one.length != two.length) {
+            return false;
+        }
+        for (int i = 0; i < one.length; i++) {
+            if (!valueCheck(one[i], two[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean valueCheck(final int[] one, final int[] two) {
+        if (one.length != two.length) {
+            return false;
+        }
+        for (int i = 0; i < one.length; i++) {
+            if (one[i] != two[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean isRepeating(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         // TODO check rules
         int[][] futureMove = { { fromRow, fromCol }, { toRow, toCol } };
         if (track.length < maxRepetitions) {return false;}
-        if (maxRepetitions>1 && futureMove != getPreviousMove(1)) {return false;}
+        if (maxRepetitions>1 && !valueCheck(futureMove, getPreviousMove(1))) {return false;}
         for(int i=0; i<maxRepetitions-2; i++){
-            if (getPreviousMove(i) != getPreviousMove(i + 2)) {return false;}
+            if (!valueCheck(getPreviousMove(i), getPreviousMove(i + 2))) {return false;}
         }
-        if (maxRepetitions %2 == 1 && futureMove[1] != getPreviousMove(maxRepetitions - 1)[0]) {return false;}
+        if (maxRepetitions %2 == 1 && !valueCheck(futureMove[1], getPreviousMove(maxRepetitions - 1)[0])) {return false;}
         return true;
         // old version
         // if (
