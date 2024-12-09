@@ -37,30 +37,6 @@ public class MovementTracker {
         return track[move];
     }
 
-    private static boolean valueCheck(final int[][] one, final int[][] two) {
-        if (one.length != two.length) {
-            return false;
-        }
-        for (int i = 0; i < one.length; i++) {
-            if (!valueCheck(one[i], two[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean valueCheck(final int[] one, final int[] two) {
-        if (one.length != two.length) {
-            return false;
-        }
-        for (int i = 0; i < one.length; i++) {
-            if (one[i] != two[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean isRepeating(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         // TODO check rules
         int[][] futureMove = { { fromRow, fromCol }, { toRow, toCol } };
