@@ -67,9 +67,9 @@ public class MovementTracker {
         if (track.length < maxRepetitions) {return false;}
         if (maxRepetitions>1 && !arrayDeepEquals(futureMove, getPreviousMove(1))) {return false;}
         for(int i=0; i<maxRepetitions-2; i++){
-            if (!valueCheck(getPreviousMove(i), getPreviousMove(i + 2))) {return false;}
+            if (!arrayDeepEquals(getPreviousMove(i), getPreviousMove(i + 2))) {return false;}
         }
-        if (maxRepetitions %2 == 1 && futureMove[1] != getPreviousMove(maxRepetitions - 1)[0]) {return false;}
+        if (maxRepetitions %2 == 1 && !Arrays.equals(futureMove[1], getPreviousMove(maxRepetitions - 1)[0])) {return false;}
         return true;
     }
 
