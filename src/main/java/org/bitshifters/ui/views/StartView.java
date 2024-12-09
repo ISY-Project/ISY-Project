@@ -33,7 +33,9 @@ public class StartView extends BorderPane {
         hButtonBox = new NavigationButtons(mainFrame, false, true);
 
         hButtonBox.setButtonStyle(" -fx-font-size: 4em; -fx-text-fill: #000000;");
-        hButtonBox.setButtonSize(400, 100);
+        hButtonBox.getStrategoTenButton().setStyle(" -fx-font-size: 2.5em; -fx-text-fill: #000000;");
+        hButtonBox.getStrategoEightButton().setStyle(" -fx-font-size: 3em; -fx-text-fill: #000000;");
+        hButtonBox.setButtonSize(500, 100);
 
         grid.setAlignment(javafx.geometry.Pos.BOTTOM_CENTER);
         grid.add(hButtonBox, 0, 0);
