@@ -1,10 +1,15 @@
 package org.bitshifters.games.stratego;
 
+import java.util.Arrays;
+
 /**
  * No piece can move back and forth between the same two spaces for more than
  * Uneven consecutive turns (two square rule).
  * Nor can a piece endlessly chase an opposing piece it has no hope of attacking
  * (more square rule).
+ * 
+ * {{00},{01}}
+ * {{00},{01}}
  */
 public class MovementTracker {
     private int[][][] track = { {} };
@@ -36,20 +41,19 @@ public class MovementTracker {
         // TODO check rules
         int[][] futureMove = { { fromRow, fromCol }, { toRow, toCol } };
         if (track.length < maxRepetitions) {return false;}
-        if (maxRepetitions>1 && futureMove != getPreviousMove(1)) {return false;}
+        if (maxRepetitions>1 && !arrayDeepEquals(futureMove, getPreviousMove(1))) {return false;}
         for(int i=0; i<maxRepetitions-2; i++){
             if (getPreviousMove(i) != getPreviousMove(i + 2)) {return false;}
         }
         if (maxRepetitions %2 == 1 && futureMove[1] != getPreviousMove(maxRepetitions - 1)[0]) {return false;}
         return true;
-        // old version
-        // if (
-        //     futureMove == getPreviousMove(1)
-        //     && getPreviousMove(0) == getPreviousMove(2)
-        //     && futureMove[1] == getPreviousMove(2)[0]
-        // ) {
-        //     return true;
-        // }
-        // return false;
     }
+
+    private static boolean arrayDeepEquals(int[][] array1, int[][] array2) {
+        for (int i = 0; i < array1.length; i++) {
+            if (!Arrays.equals(array1[i], array2[i])) {return false;}
+        }
+        return true;
+    }
+
 }
