@@ -2,10 +2,20 @@ package org.bitshifters.gameclient;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.bitshifters.ui.MainFrame;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import javafx.application.Platform;
+
 public class TicTacToeClientTest {
-    TicTacToeClient handler = new TicTacToeClient(null, null, null);
+    @BeforeAll
+        static void initJfxRuntime() {
+        Platform.startup(() -> {});
+    }
+
+    MainFrame frame = new MainFrame();
+    TicTacToeClient handler = new TicTacToeClient(frame.getTicTacToeView(), null, null);
 
     @Test
     void testOnCancel() {
