@@ -23,7 +23,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     public StrategoEngine(final int boardRows, final int boardCols, final Player[] players){
-        var playerRows = boardRows / 2 - 2;
+        var playerRows = boardRows / 2 - 1;
         var playerCols = boardCols;
         this.totalRows = boardRows;
         this.totalCols = boardCols;

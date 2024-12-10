@@ -7,6 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -128,8 +131,10 @@ public class StrategoEngineTest {
 
     private void placeAllRequiredUnits(Player player) {
         int index = 0;
-        for ( Pawns i : engine.getUnitSet().getUnits().keySet()) {
-            for (int j = 0; j < engine.getUnitSet().getUnits().get(i); j++){
+        Set<Pawns> keySet = engine.getUnitSet().getUnits().keySet();
+        for ( Pawns i : keySet) {
+            Integer target = engine.getUnitSet().getUnits().get(i);
+            for (int j = 0; j < target; j++){
                 int row = index / engine.getTotalCols();
                 int col = index % engine.getTotalCols();
                 engine.PlaceUnit(player, row, col, i);

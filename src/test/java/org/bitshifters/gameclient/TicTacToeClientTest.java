@@ -1,7 +1,9 @@
 package org.bitshifters.gameclient;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
+import org.bitshifters.games.components.Player;
 import org.bitshifters.ui.MainFrame;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -15,16 +17,16 @@ public class TicTacToeClientTest {
     }
 
     MainFrame frame = new MainFrame();
-    TicTacToeClient handler = new TicTacToeClient(frame.getTicTacToeView(), null, null);
+    TicTacToeClient handler = new TicTacToeClient(frame.getTicTacToeView(), new Player("X"), new Player("O"));
 
     @Test
     void testOnCancel() {
-        assertAll(() -> handler.onCancel(0));
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onCancel(0));
     }
 
     @Test
     void testOnChallenge() {
-        assertAll(() -> handler.onChallenge("", 0, 0));
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onChallenge("", 0, 0));
     }
 
     @Test
@@ -34,12 +36,12 @@ public class TicTacToeClientTest {
 
     @Test
     void testOnError() {
-        assertAll(() -> handler.onError(""));
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onError(""));
     }
 
     @Test
     void testOnHelp() {
-        assertAll(() -> handler.onHelp(""));
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onHelp(""));
     }
 
     @Test
@@ -49,17 +51,17 @@ public class TicTacToeClientTest {
 
     @Test
     void testOnMatch() {
-        assertAll(() -> handler.onMatch());
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onMatch());
     }
 
     @Test
     void testOnMessage() {
-        assertAll(() -> handler.onMessage(""));
+        assertThrowsExactly(UnsupportedOperationException.class, () -> handler.onMessage(""));
     }
 
     @Test
     void testOnMove() {
-        assertAll(() -> handler.onMove(new String[] {}));
+        assertAll(() -> handler.onMove(new String[] {"0", "1"}));
     }
 
     @Test

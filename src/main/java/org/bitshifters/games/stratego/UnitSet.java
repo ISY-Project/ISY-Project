@@ -51,4 +51,12 @@ public class UnitSet {
         }
         return total <= maxUnits;
     }
+
+    public int totalUnits() {
+        int total = 0;
+        for (int i : units.values()) {
+            total += i;
+        }
+        return total;
+    }
 }
