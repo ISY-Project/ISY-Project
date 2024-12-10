@@ -35,6 +35,12 @@ public class TicTacToeClient extends GameClient {
         telnet = new TelnetClient(
             config.getValue("host"),
             Integer.parseInt(config.getValue("port")));
+        try {
+            telnet.connect();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         this.view = view;
         this.engine = new TTTEngine(playerX, playerO);
         setupGridButtonListeners(view);
