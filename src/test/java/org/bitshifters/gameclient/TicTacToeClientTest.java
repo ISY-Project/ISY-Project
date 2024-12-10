@@ -5,19 +5,30 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import org.bitshifters.games.components.Player;
 import org.bitshifters.ui.MainFrame;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.application.Platform;
+import javafx.stage.Stage;
 
 public class TicTacToeClientTest {
+    MainFrame frame = new MainFrame();
+    Stage stage = new Stage();
+    TicTacToeClient handler = new TicTacToeClient(frame.getTicTacToeView(), new Player("X"), new Player("O"));
+
     @BeforeAll
-        static void initJfxRuntime() {
+    static void initJfxRuntime() {
+        if (Platform.isFxApplicationThread()) {
+            return;
+        }
         Platform.startup(() -> {});
     }
 
-    MainFrame frame = new MainFrame();
-    TicTacToeClient handler = new TicTacToeClient(frame.getTicTacToeView(), new Player("X"), new Player("O"));
+    @BeforeAll
+    void runMF() {
+        frame.start(true);
+    }
 
     @Test
     void testOnCancel() {

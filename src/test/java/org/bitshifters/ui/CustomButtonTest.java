@@ -1,6 +1,8 @@
 package org.bitshifters.ui;
 
+import org.bitshifters.FXSetup;
 import org.bitshifters.ui.components.CustomButton;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.application.Platform;
@@ -8,7 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomButtonTest {
     @BeforeAll
-        static void initJfxRuntime() {
+    static void initJfxRuntime() {
+        if (FXSetup.isSetup) {
+            return;
+        }
+        FXSetup.isSetup = true;
         Platform.startup(() -> {});
     }
 
