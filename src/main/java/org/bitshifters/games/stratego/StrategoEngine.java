@@ -10,7 +10,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
     private int turnCount = 0;
     public static final Player GameGrid = new Player("GameGrid");
-    private UnitSet unitSet = new UnitSet().setTenUnits();
+    private UnitSet unitSet = UnitSet.TEN;
     private final HashMap<Player, MovementTracker> movementTrackers = new HashMap<>();
     private final int playerRows;
     private final int playerCols;
