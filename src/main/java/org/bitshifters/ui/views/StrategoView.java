@@ -24,15 +24,36 @@ public class StrategoView extends BorderPane {
     private static final BSLogger logger = new BSLogger(StrategoView.class);
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
-    private UnitSet units = new UnitSet().setTenUnits();
+    private UnitSet units;
     private int buttonSize = 80;
+    private boolean isSmallVersion = false;
 
+    /** 
+     * Constructor for the StrategoView with the default size (10*10)
+     * @param mainFrame the main frame object
+     */
     public StrategoView(MainFrame mainFrame) {
+        this(mainFrame, false);
+    }
+
+    /** 
+     * Constructor for the StrategoView
+     * @param mainFrame the main frame object
+     * @param smallVerison if set true, the small version (8*8) of the view will be created
+     */
+    public StrategoView(MainFrame mainFrame, boolean smallVerison) {
+        this.isSmallVersion = smallVerison;
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         
-        this.baseGrid = new BaseGrid(10);
+        if (smallVerison) {
+            this.units = new UnitSet().setEightUnits();
+            this.baseGrid = new BaseGrid(8);
+        } else {
+            this.baseGrid = new BaseGrid(10);
+            this.units = new UnitSet().setTenUnits();
+        }
 
         fillGrid();
 
@@ -141,6 +162,13 @@ public class StrategoView extends BorderPane {
     public final void fillGrid() {
         logger.debug("Filling grid");
         Random rand = new Random();
+
+        if (isSmallVersion) {
+            this.buttonSize = 100;
+        } else {
+            this.buttonSize = 80;
+        }
+
         HashMap<Pawns, Integer> unitCount = units.getUnits();
         ArrayList<Pawns> pawns = new ArrayList<>();
 
@@ -149,49 +177,108 @@ public class StrategoView extends BorderPane {
                 pawns.add(entry.getKey());
             }
         });
+        if (isSmallVersion && pawns.size() != this.baseGrid.getGridWidth()*3) { 
+            for (int i=0; i<this.baseGrid.getGridWidth()*3-pawns.size(); i++) {
+                pawns.add(null);
+            }
+        }
 
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
         try {
-            FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
-            Image imageRed = new Image(inputRed);
-            for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
-                for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
-                    Button button = buttonGrid[row][col];
-                    button.setStyle("-fx-background-color: #aaddaa");
-                    if (row >= 6 && row <= 9) { // blue side (bottom)
-                        Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
-                        pawns.remove(pawn);
+            if (!isSmallVersion) {
+                FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
+                Image imageRed = new Image(inputRed);
+                for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
+                    for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
+                        Button button = buttonGrid[row][col];
+                        button.setStyle("-fx-background-color: #aaddaa");
+                        if (row >= 6 && row <= 9) { // blue side (bottom)
+                            Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
+                            pawns.remove(pawn);
+                            if (pawn == null) {
+                                button.setGraphic(null);
+                                button.setText("");
+                            } else {
+                                FileInputStream inputBlue = new FileInputStream(pawn.getBluePath());
+                                Image imageBlue = new Image(inputBlue);
 
-                        FileInputStream inputBlue = new FileInputStream(pawn.getBluePath());
-                        Image imageBlue = new Image(inputBlue);
-
-                        ImageView imageView = new ImageView(imageBlue);
-                        imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
-                        button.setGraphic(imageView);
-                        button.setUserData(pawn); // store the pawn type in the button
-                    } else if (row >= 0 && row <= 3) { // red side (top)
-                        ImageView imageView = new ImageView(imageRed);
-                        imageView.setFitHeight(buttonSize);
-                        imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
-                        button.setGraphic(imageView);
-                        button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
-                    } else if (col >= 2 && col <= 3) { // lake tiles
-                        button.setStyle("-fx-background-color: #0e87a6");
-                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                    } else if (col >= 6 && col <= 7) { // lake tiles
-                        button.setStyle("-fx-background-color: #0e87a6");
-                        button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                    } else {
-                        button.setUserData(null); // store NONE in the button for the empty tiles
+                                ImageView imageView = new ImageView(imageBlue);
+                                imageView.setFitHeight(buttonSize);
+                                imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
+                                button.setGraphic(imageView);
+                            }
+                            button.setUserData(pawn); // store the pawn type in the button
+                        } else if (row >= 0 && row <= 2) { // red side (top)
+                            ImageView imageView = new ImageView(imageRed);
+                            imageView.setFitHeight(buttonSize);
+                            imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
+                            button.setGraphic(imageView);
+                            button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
+                        } else if (col == 2) { // lake tiles
+                            button.setStyle("-fx-background-color: #0e87a6");
+                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                        } else if (col == 6) { // lake tiles
+                            button.setStyle("-fx-background-color: #0e87a6");
+                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                        } else {
+                            button.setUserData(null); // store NONE in the button for the empty tiles
+                        }
+                        button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                        button.setMaxSize(buttonSize+20, buttonSize);
+                        button.setOnAction(_ -> {
+                            // button.setStyle("-fx-background-color: #ff0000");
+                        });
+                        if (button.getUserData() != null && button.getUserData() != null) {
+                            logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+                        }
                     }
-                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
-                    button.setMaxSize(buttonSize+20, buttonSize);
-                    button.setOnAction(_ -> {
-                        // button.setStyle("-fx-background-color: #ff0000");
-                    });
-                    if (button.getUserData() != null && button.getUserData() != null) {
-                        logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+                }
+            } else {
+                FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
+                Image imageRed = new Image(inputRed);
+                for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
+                    for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
+                        Button button = buttonGrid[row][col];
+                        button.setStyle("-fx-background-color: #aaddaa");
+                        if (row >= 6 && row <= 9) { // blue side (bottom)
+                            Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
+                            pawns.remove(pawn);
+                            if (pawn == null) {
+                                button.setGraphic(null);
+                                button.setText("");
+                            } else {
+                                FileInputStream inputBlue = new FileInputStream(pawn.getBluePath());
+                                Image imageBlue = new Image(inputBlue);
+
+                                ImageView imageView = new ImageView(imageBlue);
+                                imageView.setFitHeight(buttonSize);
+                                imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
+                                button.setGraphic(imageView);
+                            }
+                            button.setUserData(pawn); // store the pawn type in the button
+                        } else if (row >= 0 && row <= 3) { // red side (top)
+                            ImageView imageView = new ImageView(imageRed);
+                            imageView.setFitHeight(buttonSize);
+                            imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
+                            button.setGraphic(imageView);
+                            button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
+                        } else if (col >= 2 && col <= 3) { // lake tiles
+                            button.setStyle("-fx-background-color: #0e87a6");
+                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                        } else if (col >= 6 && col <= 7) { // lake tiles
+                            button.setStyle("-fx-background-color: #0e87a6");
+                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
+                        } else {
+                            button.setUserData(null); // store NONE in the button for the empty tiles
+                        }
+                        button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                        button.setMaxSize(buttonSize+20, buttonSize);
+                        button.setOnAction(_ -> {
+                            // button.setStyle("-fx-background-color: #ff0000");
+                        });
+                        if (button.getUserData() != null && button.getUserData() != null) {
+                            logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+                        }
                     }
                 }
             }
@@ -208,6 +295,9 @@ public class StrategoView extends BorderPane {
                     });
                 }
             }
+        } catch (Exception e) {
+            logger.error("Error filling grid", e);
+            logger.debug("Error filling grid, setting empty buttons" + pawns.size());
         }
     }
 }

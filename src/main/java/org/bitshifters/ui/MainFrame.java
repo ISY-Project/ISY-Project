@@ -1,11 +1,8 @@
 package org.bitshifters.ui;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
 import org.bitshifters.gameclient.TicTacToeClient;
-import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
@@ -18,7 +15,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -33,7 +29,8 @@ public class MainFrame extends Application {
     private final StartView startView = new StartView(this);
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
-    private final StrategoView strategoView = new StrategoView(this);
+    private final StrategoView strategoViewTen = new StrategoView(this, false);
+    private final StrategoView strategoViewEight = new StrategoView(this, true);	
     private final Player player = new Player("Player");
     private Stage stage;
     private Popup popup;
@@ -41,7 +38,7 @@ public class MainFrame extends Application {
     @Override
     public void start(Stage primaryStage) {
         StackPane root = new StackPane();
-        root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoView);
+        root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
         var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
         // var battleship = new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
         // var stratego = new StrategoClient(strategoView, this.player, new Player("Opponent"));
@@ -104,13 +101,15 @@ public class MainFrame extends Application {
         startView.setVisible(false);
         battleshipsView.setVisible(false);
         ticTacToeView.setVisible(false);
-        strategoView.setVisible(false);
+        strategoViewTen.setVisible(false);
+        strategoViewEight.setVisible(false);
 
         switch (screen) {
             case START_SCREEN -> startView.setVisible(true);
             case BATTLESHIP -> battleshipsView.setVisible(true);
             case TICTACTOE -> ticTacToeView.setVisible(true);
-            case STRATEGO -> strategoView.setVisible(true);
+            case STRATEGOTEN -> strategoViewTen.setVisible(true);
+            case STRATEGOEIGHT -> strategoViewEight.setVisible(true);
             default -> throw new AssertionError();
         }
     }
@@ -127,7 +126,11 @@ public class MainFrame extends Application {
         return ticTacToeView;
     }
 
-    public StrategoView getStrategoView() {
-        return strategoView;
+    public StrategoView getStrategoViewTen() {
+        return strategoViewTen;
+    }
+
+    public StrategoView getStrategoViewEight() {
+        return strategoViewEight;
     }
 }

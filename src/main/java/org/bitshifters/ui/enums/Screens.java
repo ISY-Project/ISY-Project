@@ -4,7 +4,8 @@ public enum Screens {
     START_SCREEN("startScreen"),
     BATTLESHIP("battleshipView"),
     TICTACTOE("ticTacToeView"),
-    STRATEGO("strategoView");
+    STRATEGOTEN("strategoViewTen"),
+    STRATEGOEIGHT("strategoViewEight"),;
 
     private final String screen;
 
