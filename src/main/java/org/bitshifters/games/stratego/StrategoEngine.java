@@ -47,7 +47,7 @@ public class StrategoEngine extends GridEngine<Unit> {
     // }
 
     public void setUnitCounts() {
-        setUnitCounts(new UnitSet().setTenUnits());
+        setUnitCounts(unitSet);
     }
 
     public void setUnitCounts(UnitSet units) {
