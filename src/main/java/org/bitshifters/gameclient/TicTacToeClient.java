@@ -38,7 +38,6 @@ public class TicTacToeClient extends GameClient {
         try {
             telnet.connect();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         this.view = view;
@@ -151,20 +150,21 @@ public class TicTacToeClient extends GameClient {
     @Override
     public void onWin() {
         this.engine.getPlayerX().incrementScore(3);
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().showPopup("You Win");
     }
 
     @Override
     public void onLose() {
         this.engine.getPlayerO().incrementScore(3);
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().showPopup("You Lose");
     }
 
     @Override
     public void onDraw() {
         this.engine.getPlayerX().incrementScore(1);
         this.engine.getPlayerO().incrementScore(1);
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().setUpPopup();
+        view.getMainFrame().showPopup("Draw");
     }
 
     @Override

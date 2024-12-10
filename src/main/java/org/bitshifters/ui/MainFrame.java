@@ -89,7 +89,10 @@ public class MainFrame extends Application {
         launch();
     }
 
-    private void setUpPopup() {
+    public void setUpPopup() {
+        if (this.popup != null) {
+            return;
+        }
         this.popup = new Popup();
         this.popup.setX(300);
         this.popup.setY(200);

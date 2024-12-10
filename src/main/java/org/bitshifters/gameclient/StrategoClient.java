@@ -28,6 +28,7 @@ public class StrategoClient extends GameClient {
     private final StrategoEngine engine;
     private boolean placingUnits = true;
     private boolean unitSelected = false;
+    private Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
     private int boardSize;
@@ -114,7 +115,7 @@ public class StrategoClient extends GameClient {
     public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
-        //Player nextPlayer = getNextPlayer();
+        Player nextPlayer = getNextPlayer();
 
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
@@ -124,7 +125,7 @@ public class StrategoClient extends GameClient {
         else {
 
         }
-        //engine.setActivePlayer(nextPlayer);
+        engine.setActivePlayer(nextPlayer);
     }
 
     public void placeUnit(int row, int col, Pawns pawn) {
@@ -142,6 +143,10 @@ public class StrategoClient extends GameClient {
     //private Player getNextPlayer() {
     //    
     //}
+
+    public Player getNextPlayer() {
+        return engine.getActivePlayer() == players[0] ? players[1] : players[0];
+    }
 
     @Override
     public void onChallenge(String playerName, int game, int gameNumber) {
@@ -182,19 +187,19 @@ public class StrategoClient extends GameClient {
     // TODO implement this
     @Override
     public void onWin() {
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().showPopup("You Win");
     }
 
     // TODO implement this
     @Override
     public void onLose() {
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().showPopup("You Lose");
     }
 
     // TODO implement this
     @Override
     public void onDraw() {
-        // TODO Wacht tot GUI winstate kan laten zien.
+        view.getMainFrame().showPopup("Draw");
     }
 
     @Override
