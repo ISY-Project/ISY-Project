@@ -34,9 +34,15 @@ public class MainFrame extends Application {
     private final Player player = new Player("Player");
     private Stage stage;
     private Popup popup;
+    private boolean tests = false;
 
     @Override
     public void start(Stage primaryStage) {
+        if (tests) {
+            this.stage = primaryStage;
+            return;
+        }
+
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
         var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
@@ -74,6 +80,12 @@ public class MainFrame extends Application {
 
     public static void run(String[] args) {
         logger.info("Starting GUI");
+        launch();
+    }
+
+    public void start(boolean tests) {
+        logger.info("Starting GUI for tests");
+        this.tests = tests;
         launch();
     }
 
