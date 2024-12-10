@@ -61,7 +61,7 @@ public class TicTacToeClientTest {
 
     @Test
     void testOnMove() {
-        assertAll(() -> handler.onMove(new String[] {}));
+        assertAll(() -> handler.onMove(new String[] {"0", "1"}));
     }
 
     @Test
