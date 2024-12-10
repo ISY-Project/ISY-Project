@@ -92,7 +92,7 @@ public class TicTacToeView extends BorderPane {
             logger.error("Error loading image", e);
         }
         button.setUserData(cell);
-        button.setText(cell.getChar());
+        // button.setText(cell.getChar());
         button.setStyle("-fx-text-fill: #ff0000; -fx-font-size: 8em;");
     }
 
