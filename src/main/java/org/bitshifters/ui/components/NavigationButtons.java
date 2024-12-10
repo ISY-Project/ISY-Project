@@ -1,4 +1,4 @@
-package org.bitshifters.ui.componenets;
+package org.bitshifters.ui.components;
 
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;

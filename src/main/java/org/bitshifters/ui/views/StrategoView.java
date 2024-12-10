@@ -10,8 +10,8 @@ import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
-import org.bitshifters.ui.componenets.BaseGrid;
-import org.bitshifters.ui.componenets.NavigationButtons;
+import org.bitshifters.ui.components.BaseGrid;
+import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;

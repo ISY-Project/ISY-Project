@@ -1,4 +1,4 @@
-package org.bitshifters.ui.componenets;
+package org.bitshifters.ui.components;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

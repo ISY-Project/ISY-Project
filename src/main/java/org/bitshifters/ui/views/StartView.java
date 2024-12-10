@@ -4,7 +4,7 @@ import java.util.Collections;
 
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
-import org.bitshifters.ui.componenets.NavigationButtons;
+import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
