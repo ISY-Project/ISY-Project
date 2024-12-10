@@ -178,7 +178,8 @@ public class StrategoView extends BorderPane {
             }
         });
         if (isSmallVersion && pawns.size() != this.baseGrid.getGridWidth()*3) { 
-            for (int i=0; i<this.baseGrid.getGridWidth()*3-pawns.size(); i++) {
+            int target = this.baseGrid.getGridWidth()*3-pawns.size();
+            for (int i=0; i<target; i++) {
                 pawns.add(null);
             }
         }
