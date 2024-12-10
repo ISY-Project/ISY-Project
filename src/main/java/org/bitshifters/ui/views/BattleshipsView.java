@@ -6,16 +6,16 @@ import java.io.FileNotFoundException;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
+import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class BattleshipsView extends BorderPane {
+public class BattleshipsView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(BattleshipsView.class);
     private final NavigationButtons hButtonBox;
     private static final int GRIDSIZE = 8;
@@ -23,6 +23,7 @@ public class BattleshipsView extends BorderPane {
     private final BaseGrid opponentGrid;
 
     public BattleshipsView(MainFrame mainFrame) {
+        super(mainFrame);
         HBox hGridBox = new HBox(10);
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);

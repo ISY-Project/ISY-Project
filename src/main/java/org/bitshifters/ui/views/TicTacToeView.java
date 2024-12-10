@@ -8,21 +8,22 @@ import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
+import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class TicTacToeView extends BorderPane {
+public class TicTacToeView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(TicTacToeView.class);
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
 
     public TicTacToeView(MainFrame mainFrame) {
+        super(mainFrame);
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);

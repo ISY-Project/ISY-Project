@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
+import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.geometry.Insets;
@@ -14,16 +15,17 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 
-public class StartView extends BorderPane {
+public class StartView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(StartView.class);
     private final NavigationButtons hButtonBox;
+    
     public StartView(MainFrame mainFrame) {
+        super(mainFrame);
         logger.debug("created the StartView");
         GridPane grid = new GridPane();
         grid.setHgap(10);
