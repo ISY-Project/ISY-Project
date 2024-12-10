@@ -90,7 +90,7 @@ public class StrategoEngineTest {
     void testSetDefaultUnitSet() {
         setUp();
         engine.setUnitCounts();
-        var unitSet = new UnitSet().setTenUnits();
+        var unitSet = UnitSet.TEN;
         assertEquals(unitSet.getUnits().get(Pawns.BOMB), engine.getUnitSet().getUnits().get(Pawns.BOMB));
         assertEquals(unitSet.getUnits().get(Pawns.FLAG), engine.getUnitSet().getUnits().get(Pawns.FLAG));
         assertEquals(unitSet.getUnits().get(Pawns.SPY), engine.getUnitSet().getUnits().get(Pawns.SPY));
