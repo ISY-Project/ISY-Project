@@ -70,8 +70,9 @@ public class StrategoClient extends GameClient {
                 placingUnits = false;
                 engine.startGame(null);
             }
+            return;
         }
-        else if (unitSelected) {
+        if (unitSelected) {
             int fromIndex = GT.toIndex(selectedUnitRow, selectedUnitCol, view.getBaseGrid().getButtonGrid().length);
 
             if (validateMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol)){
@@ -80,12 +81,11 @@ public class StrategoClient extends GameClient {
                 // telnet send move
             }
             unitSelected = false;
+            return;
         }
-        else {
-            unitSelected = true;
-            selectedUnitRow = finalRow;
-            selectedUnitCol = finalCol;
-        }
+        unitSelected = true;
+        selectedUnitRow = finalRow;
+        selectedUnitCol = finalCol;
     }
 
     public boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
