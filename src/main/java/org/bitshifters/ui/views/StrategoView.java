@@ -48,11 +48,11 @@ public class StrategoView extends BorderPane {
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         
         if (smallVerison) {
-            this.units = new UnitSet().setEightUnits();
+            this.units = UnitSet.EIGHT;
             this.baseGrid = new BaseGrid(8);
         } else {
             this.baseGrid = new BaseGrid(10);
-            this.units = new UnitSet().setTenUnits();
+            this.units = UnitSet.TEN;
         }
 
         fillGrid();
