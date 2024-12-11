@@ -34,7 +34,7 @@ public class Main{
         final Main main = new Main();
         configureArgParser(args);
         configureLogging();
-        config.write(); // instantly write the config, with default values.
+        // config.write(); // instantly write the config, with default values.
         main.run(args);
         MainFrame.run(args);
         ClientController clientController = new ClientController(config.getValue("username"));
