@@ -344,7 +344,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             return attacker;
         }
         if (defenderRank == Pawns.BOMB) {
-            return null;
+            return defender;
         }
         // Flag
         if (defenderRank == Pawns.FLAG) {
