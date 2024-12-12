@@ -127,6 +127,10 @@ public class TicTacToeClient extends GameClient {
         throw new UnsupportedOperationException("Unimplemented method 'onMatch'");
     }
 
+    /**
+     * Called when it is the player's turn.
+     * @param message The message to display.
+     */
     @Override
     public void onYourTurn(String message) {
         if (!ClientController.isComputer) {
@@ -154,6 +158,9 @@ public class TicTacToeClient extends GameClient {
         return charGrid;
     }
 
+    /**
+     * Handles the move event.
+     */
     @Override
     public void onMove(String[] data) {
         // Get the row and column from the data
@@ -166,18 +173,27 @@ public class TicTacToeClient extends GameClient {
         makeMove(row, col);
     }
 
+    /**
+     * Called when the player wins.
+     */
     @Override
     public void onWin() {
         this.engine.getPlayerX().incrementScore(3);
         view.getMainFrame().showPopup("You Win");
     }
 
+    /**
+     * Called when the player loses.
+     */
     @Override
     public void onLose() {
         this.engine.getPlayerO().incrementScore(3);
         view.getMainFrame().showPopup("You Lose");
     }
 
+    /**
+     * Called when the game is a draw.
+     */
     @Override
     public void onDraw() {
         this.engine.getPlayerX().incrementScore(1);
