@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import javafx.application.Platform;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomButtonTest {
     @BeforeAll
