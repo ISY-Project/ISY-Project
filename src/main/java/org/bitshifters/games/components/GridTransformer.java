@@ -24,9 +24,7 @@ public class GridTransformer<T> {
         final
         T[] res = (T[]) Array.newInstance(clazz, grid.length * grid[0].length);
         for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                res[i * grid[0].length + j] = grid[i][j];
-            }
+            System.arraycopy(grid[i], 0, res, i * grid[0].length, grid[0].length);
         }
         return res;
     }
