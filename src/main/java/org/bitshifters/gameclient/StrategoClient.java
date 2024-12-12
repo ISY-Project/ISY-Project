@@ -131,10 +131,7 @@ public class StrategoClient extends GameClient {
         }
         Unit attacker = engine.getCell(fromRow, fromCol, activePlayer);
         Unit defender = engine.getCell(toRow, toCol, activePlayer);
-        if (!engine.validateAttack(attacker, defender, activePlayer)) {
-            return false;
-        }
-        return true;
+        return engine.validateAttack(attacker, defender, activePlayer);
     }
 
     /**
