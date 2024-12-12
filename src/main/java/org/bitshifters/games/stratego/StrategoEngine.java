@@ -168,6 +168,14 @@ public class StrategoEngine extends GridEngine<Unit> {
         System.out.println(stringGrid(GameGrid));
     }
 
+    public int rotateRow(int row) {
+        return totalRows - row - 1;
+    }
+
+    public int rotateCol(int col) {
+        return totalCols - col - 1;
+    }
+
     /**
      * Move a unit to a given location, and track the movement of the unit.
      * This method behaves the exact same as moveUnit, except that the move is rotated 180 degrees
@@ -182,10 +190,10 @@ public class StrategoEngine extends GridEngine<Unit> {
         // TODO test
         // Rotate enemy movements, so you face towards their army.
         moveUnit(
-                totalRows - fromRow - 1,
-                totalCols - fromCol - 1,
-                totalRows - toRow - 1,
-                totalCols - toCol - 1,
+                rotateRow(fromRow),
+                rotateCol(fromCol),
+                rotateRow(toRow),
+                rotateCol(toCol),
                 player);
     }
 
