@@ -73,7 +73,7 @@ public class MainFrame extends Application {
         });
         
         setUpPopup();
-        showPopup("test"); // show popup when the program starts
+        // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
     }
