@@ -184,9 +184,10 @@ public class StrategoEngine extends GridEngine<Unit> {
 
     /**
      * Move a unit to a given location, and track the movement of the unit.
-     * @param unit
-     * @param row
-     * @param col
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      */
     public void moveUnit(final int fromRow, final int fromCol, final int toRow, final int toCol, final Player player) {
