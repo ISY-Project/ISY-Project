@@ -8,6 +8,7 @@ public abstract class GameClient extends EventHandler {
         super(gameType);
     }
 
+    @Override
     public GameTypes getGameType() {
         return super.getGameType();
     }
