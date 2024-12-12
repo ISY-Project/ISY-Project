@@ -51,19 +51,29 @@ public class StrategoClient extends GameClient {
     }
 
     /**
-     * Constructor for the StrategoClient
+     * Set up each button listener on the grid
      * @param view the view object
      */
     private void setupGridButtonListeners(StrategoView view) {
         for (int row = 0; row < view.getBaseGrid().getButtonGrid().length; row++) {
             for (int col = 0; col < view.getBaseGrid().getButtonGrid()[row].length; col++) {
-                logger.debug("Setting up button listener at row: " + row + " col: " + col);
-                final int finalRow = row;
-                final int finalCol = col;
-                var button = view.getBaseGrid().getButtonGrid()[row][col];
-                button.addEventHandler(ActionEvent.ACTION, (_ -> handleButtonClick(view, finalRow, finalCol)));
+                setupButtonListener(row, col, view);
             }
         }
+    }
+
+    /**
+     * Set up the button listener
+     * @param row
+     * @param col
+     * @param view1
+     */
+    private void setupButtonListener(int row, int col, StrategoView view1) {
+        logger.debug("Setting up button listener at row: " + row + " col: " + col);
+        final int finalRow = row;
+        final int finalCol = col;
+        javafx.scene.control.Button button = view1.getBaseGrid().getButtonGrid()[row][col];
+        button.addEventHandler(ActionEvent.ACTION, _ -> handleButtonClick(view1, finalRow, finalCol));
     }
 
     /**
