@@ -33,6 +33,10 @@ public class MainFrame extends Application {
     private Popup popup;
     private boolean tests = false;
 
+    /**
+     * This is the main method of the program. this will be run by JavaFX
+     * @param primaryStage the primary stage of the program (given via JavaFX)
+     */
     @Override
     public void start(Stage primaryStage) {
         if (tests) {
@@ -74,17 +78,28 @@ public class MainFrame extends Application {
         showScreen(Screens.START_SCREEN);
     }
 
+    /**
+     * This method will run the GUI and start javaFX
+     * @param args The command line arguments
+     */
     public static void run(String[] args) {
         logger.info("Starting GUI");
         launch();
     }
 
+    /**
+     * This method will run the GUI and start javaFX
+     * @param tests boolean to indicate if the GUI is started for tests and should not show any windows
+     */
     public void start(boolean tests) {
         logger.info("Starting GUI for tests");
         this.tests = tests;
         launch();
     }
 
+    /**
+     * This method will set up the popup window
+     */
     public void setUpPopup() {
         if (this.popup != null) {
             return;
@@ -101,12 +116,20 @@ public class MainFrame extends Application {
         this.popup.getContent().add(label);
     }
 
+    /**
+     * This method will show a popup with the given message
+     * @param message the message to show in the popup
+     */
     public void showPopup(String message) {
         Label label = (Label) this.popup.getContent().get(0);
         label.setText(message);
         this.popup.show(stage);
     }
 
+    /**
+     * This method will show the given screen based on the enum
+     * @param screen the screen to show
+     */
     public void showScreen(Screens screen) {
         logger.log(Level.INFO, "Showing screen: {0}", screen);
         startView.setVisible(false);
@@ -125,22 +148,42 @@ public class MainFrame extends Application {
         }
     }
 
+    /**
+     * This method will return the startView
+     * @return the startView
+     */
     public StartView getStartView() {
         return startView;
     }
 
+    /**
+     * This method will return the battleshipsView
+     * @return the battleshipsView
+     */
     public BattleshipsView getBattleshipsView() {
         return battleshipsView;
     }
 
+    /**
+     * This method will return the ticTacToeView
+     * @return the ticTacToeView
+     */
     public TicTacToeView getTicTacToeView() {
         return ticTacToeView;
     }
 
+    /**
+     * This method will return the 10x10 version of the strategoView
+     * @return the strategoView
+     */
     public StrategoView getStrategoViewTen() {
         return strategoViewTen;
     }
 
+    /**
+     * This method will return the 8x8 version of the strategoView
+     * @return the strategoView
+     */
     public StrategoView getStrategoViewEight() {
         return strategoViewEight;
     }
