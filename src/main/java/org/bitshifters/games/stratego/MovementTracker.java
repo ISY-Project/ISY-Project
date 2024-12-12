@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class MovementTracker {
     private int[][][] track = { {} };
-    private int maxRepetitions;
+    private final int maxRepetitions;
 
     /**
      * Create a new MovementTracker object
@@ -38,9 +38,7 @@ public class MovementTracker {
         }
         final int[][][] result = new int[track.length + 1 - test][][];
         result[0] = coordinate;
-        for (int i = 0; i < track.length - test; i++) {
-            result[i + 1] = track[i];
-        }
+        System.arraycopy(track, 0, result, 1, track.length - test);
         this.track = result;
     }
 
@@ -69,8 +67,7 @@ public class MovementTracker {
         for(int i=0; i<maxRepetitions-2; i++){
             if (!arrayDeepEquals(getPreviousMove(i), getPreviousMove(i + 2))) {return false;}
         }
-        if (maxRepetitions %2 == 1 && !Arrays.equals(futureMove[1], getPreviousMove(maxRepetitions - 1)[0])) {return false;}
-        return true;
+        return !(maxRepetitions %2 == 1 && !Arrays.equals(futureMove[1], getPreviousMove(maxRepetitions - 1)[0]));
     }
 
     /**
