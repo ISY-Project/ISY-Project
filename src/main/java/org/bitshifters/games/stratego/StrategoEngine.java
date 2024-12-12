@@ -92,14 +92,22 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     private void generateMovementGrid(final Player[] players) {
         addGrid(GameGrid, totalRows, totalCols, null);
-        setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 3, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 2, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 3, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 6, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
+        if (totalCols == 10) {
+            setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 3, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 3, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 6, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
+        }
+        else if (totalCols == 8) {
+            setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 5, new Unit(Pawns.LAKE), GameGrid);
+            setCell(3, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(3, 5, new Unit(Pawns.LAKE), GameGrid);
+        }
     }
 
     /**
