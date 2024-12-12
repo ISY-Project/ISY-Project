@@ -177,13 +177,12 @@ public class StrategoEngine extends GridEngine<Unit> {
     }
 
     /**
-     * Move a unit to a given location, and track the movement of the unit.
-     * This method behaves the exact same as moveUnit, except that the move is rotated 180 degrees
-     * on the board.
-     * This translation happens automatically.
-     * @param unit
-     * @param row
-     * @param col
+     * Rotates a unit on the entire board with the center as the pivot.
+     * Then move it using the moveUnit method.
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      */
     public void moveUnitRotated(final int fromRow, final int fromCol, final int toRow, final int toCol, final Player player) {
