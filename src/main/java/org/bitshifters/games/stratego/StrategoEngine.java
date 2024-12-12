@@ -200,8 +200,10 @@ public class StrategoEngine extends GridEngine<Unit> {
 
     /**
      * Validate the movement of units, ensuring that the player is making a valid move on the gameboard
-     * @param row
-     * @param col
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      * @return
      */
