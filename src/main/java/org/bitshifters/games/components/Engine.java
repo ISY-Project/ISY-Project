@@ -7,7 +7,8 @@ public abstract class Engine {
     protected Player activePlayer;
     
     /**
-     * Constructor for the engine.
+     * Get the active player.
+     * @return the active player
      */
     public Player getActivePlayer() {
         return activePlayer;
