@@ -42,7 +42,6 @@ public class StrategoClient extends GameClient {
         this.view = view;
         this.engine = new StrategoEngine(players);
         this.boardSize = boardSize;
-        // TODO place Unknowns in enemy positions.
         setupGridButtonListeners(view);
     }
 
@@ -89,7 +88,7 @@ public class StrategoClient extends GameClient {
         selectedUnitCol = finalCol;
     }
 
-    public boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
+    private boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
         Player activePlayer = engine.getActivePlayer();
         if (!engine.validateMove(fromRow, fromCol, toRow, toCol, activePlayer)) {
             return false;
@@ -105,14 +104,7 @@ public class StrategoClient extends GameClient {
         return true;
     }
 
-    /**
-     * Make a move on the board
-     * @param row
-     * @param col
-     * @return
-     */
-    // TODO fix this after implementing getNextPlayer()
-    public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+    private void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
@@ -128,23 +120,14 @@ public class StrategoClient extends GameClient {
         engine.setActivePlayer(nextPlayer);
     }
 
-    public void placeUnit(int row, int col, Pawns pawn) {
+    private void placeUnit(int row, int col, Pawns pawn) {
         logger.info("placing unit " + pawn + " on row: " + row + " col: " + col);
         Player activePlayer = engine.getActivePlayer();
         view.updateButton(row, col, pawn);
         engine.PlaceUnit(activePlayer, row, col, pawn);
     }
 
-    /**
-     * Get the next player
-     * @return
-     */
-    // TODO implement this
-    //private Player getNextPlayer() {
-    //    
-    //}
-
-    public Player getNextPlayer() {
+    private Player getNextPlayer() {
         return engine.getActivePlayer() == players[0] ? players[1] : players[0];
     }
 
