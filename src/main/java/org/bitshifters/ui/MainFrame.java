@@ -2,8 +2,6 @@ package org.bitshifters.ui;
 
 import java.util.logging.Level;
 
-import org.bitshifters.gameclient.TicTacToeClient;
-import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
@@ -30,8 +28,7 @@ public class MainFrame extends Application {
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
     private final StrategoView strategoViewTen = new StrategoView(this, false);
-    private final StrategoView strategoViewEight = new StrategoView(this, true);	
-    private final Player player = new Player("Player");
+    private final StrategoView strategoViewEight = new StrategoView(this, true);
     private Stage stage;
     private Popup popup;
     private boolean tests = false;
@@ -45,7 +42,6 @@ public class MainFrame extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
-        var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
         // var battleship = new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
         // var stratego = new StrategoClient(strategoView, this.player, new Player("Opponent"));
 
