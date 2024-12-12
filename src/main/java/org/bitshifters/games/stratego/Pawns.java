@@ -1,5 +1,8 @@
 package org.bitshifters.games.stratego;
 
+/**
+ * Enum for the Pawns in the game of Stratego
+ */
 public enum Pawns {
     // Regular Units
     SPY("1"),
@@ -47,6 +50,10 @@ public enum Pawns {
         return Integer.parseInt(pawn);
     }
 
+    /**
+     * Returns the string value of the pawn
+     * @return the string value of the pawn
+     */
     @Override
     public String toString() {
         return this.pawn;

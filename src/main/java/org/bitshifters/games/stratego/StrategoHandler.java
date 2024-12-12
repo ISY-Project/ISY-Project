@@ -4,7 +4,13 @@ package org.bitshifters.games.stratego;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.telnet.EventHandler;
 
+/**
+ * Handles the game of Stratego.
+ */
 public class StrategoHandler extends EventHandler {
+    /**
+     * Constructor for the Stratego handler.
+     */
     StrategoHandler() {
         super(GameTypes.Stratego);
     }

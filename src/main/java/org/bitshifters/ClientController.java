@@ -14,14 +14,14 @@ public class ClientController {
     GameClient selectedClient = null;
     ArrayList<GameClient> gameClients = new ArrayList<>();
     public static boolean isComputer = false;
-    private Player opponent = new Player("Opponent");
+    private final Player opponent = new Player("Opponent");
 
-    public ClientController(String name) {
+    public ClientController(final String name) {
         this.player = new Player(name);
         setUp();
     }
 
-    public ClientController(Player player) {
+    public ClientController(final Player player) {
         this.player = player;
         setUp();
     }
@@ -35,5 +35,9 @@ public class ClientController {
             new TicTacToeView(mainFrame),
             player,
             opponent));
+    }
+
+    public GameClient getSelectedClient() {
+        return selectedClient;
     }
 }
