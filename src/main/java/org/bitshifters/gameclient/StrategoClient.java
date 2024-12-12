@@ -5,9 +5,9 @@ import org.bitshifters.Config;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.GridTransformer;
 import org.bitshifters.games.components.Player;
+import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
-import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
@@ -28,7 +28,7 @@ public class StrategoClient extends GameClient {
     private final StrategoEngine engine;
     private boolean placingUnits = true;
     private boolean unitSelected = false;
-    private Player[] players;
+    private final Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
     private int boardSize;
@@ -38,7 +38,7 @@ public class StrategoClient extends GameClient {
         telnet = new TelnetClient(
             config.getValue("host"),
             Integer.parseInt(config.getValue("port")));
-        Player[] players = {playerBlue, playerRed};
+        players = new Player[] {playerBlue, playerRed};
         this.view = view;
         this.engine = new StrategoEngine(players);
         this.boardSize = boardSize;
