@@ -18,7 +18,7 @@ import com.beust.jcommander.JCommander;
  * It will run the run method once the command line arguments are parsed.
  */
 public class Main{
-    private static Config config = Config.getInstance();
+    private static final Config config = Config.getInstance();
     private static final BSLogger logger = new BSLogger(Config.class);
     private static JCommander arguments;
     private static Flags flags;
