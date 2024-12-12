@@ -15,10 +15,21 @@ public class MovementTracker {
     private int[][][] track = { {} };
     private int maxRepetitions;
 
+    /**
+     * Create a new MovementTracker object
+     * @param maxRepetitions the maximum number of repetitions allowed
+     */
     public MovementTracker(final int maxRepetitions) {
         this.maxRepetitions = maxRepetitions;
     }
 
+    /**
+     * Add a move to the tracker
+     * @param fromRow the row the piece is moving from
+     * @param fromCol the column the piece is moving from
+     * @param toRow the row the piece is moving to
+     * @param toCol the column the piece is moving to
+     */
     public void add(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         int test = 0;
         final int[][] coordinate = { { fromRow, fromCol }, { toRow, toCol } };
@@ -33,10 +44,23 @@ public class MovementTracker {
         this.track = result;
     }
 
+    /**
+     * Get the previous move
+     * @param move the move to get
+     * @return the previous move
+     */
     private int[][] getPreviousMove(final int move) {
         return track[move];
     }
 
+    /**
+     * Check if the move is repeating
+     * @param fromRow the row the piece is moving from
+     * @param fromCol the column the piece is moving from
+     * @param toRow the row the piece is moving to
+     * @param toCol the column the piece is moving to
+     * @return true if the move is repeating, false otherwise
+     */
     public boolean isRepeating(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         // TODO check rules
         int[][] futureMove = { { fromRow, fromCol }, { toRow, toCol } };
@@ -49,6 +73,12 @@ public class MovementTracker {
         return true;
     }
 
+    /**
+     * Check if two arrays are equal
+     * @param array1 the first array
+     * @param array2 the second array
+     * @return true if the arrays are equal, false otherwise
+     */
     private static boolean arrayDeepEquals(int[][] array1, int[][] array2) {
         for (int i = 0; i < array1.length; i++) {
             if (!Arrays.equals(array1[i], array2[i])) {return false;}
