@@ -7,6 +7,10 @@ import javafx.scene.layout.BorderPane;
 public class CustomBorderPane extends BorderPane {
     private final MainFrame mainFrame;
 
+    /**
+     * Constructor for the custom border pane
+     * @param mainFrame the main frame object
+     */
     public CustomBorderPane(MainFrame mainFrame) {
         super();
         this.mainFrame = mainFrame;
