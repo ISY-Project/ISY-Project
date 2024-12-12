@@ -24,6 +24,10 @@ public class StartView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(StartView.class);
     private final NavigationButtons hButtonBox;
     
+    /**
+     * Constructor for the StartView
+     * @param mainFrame the main frame object
+     */
     public StartView(MainFrame mainFrame) {
         super(mainFrame);
         logger.debug("created the StartView");
