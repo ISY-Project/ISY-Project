@@ -31,17 +31,15 @@ public class StrategoClient extends GameClient {
     private Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
-    private int boardSize;
 
-    public StrategoClient(StrategoView view, Player playerBlue, Player playerRed, int boardSize) {
+    public StrategoClient(StrategoView view, Player playerBlue, Player playerRed, int boardRows, int boardCols) {
         super(GameTypes.Stratego);
         telnet = new TelnetClient(
             config.getValue("host"),
             Integer.parseInt(config.getValue("port")));
         Player[] players = {playerBlue, playerRed};
         this.view = view;
-        this.engine = new StrategoEngine(players);
-        this.boardSize = boardSize;
+        this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
     }
 
