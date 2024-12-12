@@ -77,7 +77,7 @@ public class UnitSet {
      * Get the total number of units
      * @return the total number of units
      */
-    public int totalUnits() {
+    public int getTotalUnits() {
         int total = 0;
         for (int i : units.values()) {
             total += i;
