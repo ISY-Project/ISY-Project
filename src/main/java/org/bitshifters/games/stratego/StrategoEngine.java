@@ -37,12 +37,10 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param players A list of the players in the game
      */
     public StrategoEngine(final int boardRows, final int boardCols, final Player[] players){
-        var playerRows = boardRows / 2 - 1;
-        var playerCols = boardCols;
         this.totalRows = boardRows;
         this.totalCols = boardCols;
-        this.playerRows = playerRows;
-        this.playerCols = playerCols;
+        this.playerRows = boardRows / 2 - 1;
+        this.playerCols = boardCols;
         generateGrids(players);
     }
 
@@ -76,7 +74,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     private void generateGrids(final Player[] players) {
         initializePlayers(players);
-        generateMovementGrid(players);
+        generateMovementGrid();
     }
 
     /**
@@ -98,7 +96,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      * grids.
      * @param players
      */
-    private void generateMovementGrid(final Player[] players) {
+    private void generateMovementGrid() {
         addGrid(GameGrid, totalRows, totalCols, null);
         if (totalCols == 10) {
             setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
@@ -361,10 +359,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @return True if the placement is valid, false otherwise
      */
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
-        if (isOutOfBounds(row, col)) {
-            return false;
-        }
-        return true;
+        return !isOutOfBounds(row, col);
     }
 
     /**
@@ -408,10 +403,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         if (attacker.getRank() == Pawns.FLAG) {
             return false;
         }
-        if (attacker.getRank() == Pawns.BOMB) {
-            return false;
-        }
-        return true;
+        return attacker.getRank() != Pawns.BOMB;
     }
 
     /**
