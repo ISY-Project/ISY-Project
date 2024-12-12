@@ -6,6 +6,9 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 
+/**
+ * Class to parse command line arguments
+ */
 @SuppressWarnings("FieldMayBeFinal") // <- this is a false positive, the fields are not final because JCommander requires them to be mutable
 public class ArgParser {
     private static final BSLogger logger = new BSLogger(ArgParser.class);
@@ -19,20 +22,36 @@ public class ArgParser {
     // command line flags
     private Flags flags = new Flags();
 
+    /**
+     * Get the flags
+     * @return the flags
+     */
     public Flags getFlags() {
         return flags;
     }
 
     private JCommander jc;
 
+    /**
+     * Get the JCommander object
+     * @return the JCommander object
+     */
     public JCommander getJc() {
         return jc;
     }
 
+    /**
+     * Constructor for the ArgParser
+     * @param args the command line arguments
+     */
     public ArgParser(String[] args) {
         initializeJCommander(args);
     }
 
+    /**
+     * Initialize the JCommander object
+     * @param args the command line arguments
+     */
     private void initializeJCommander(String[] args) {
         jc = JCommander.newBuilder()
                 .addObject(flags)

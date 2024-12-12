@@ -22,6 +22,10 @@ public class TicTacToeView extends CustomBorderPane {
     private final NavigationButtons hButtonBox;
     private final BaseGrid baseGrid;
 
+    /** 
+     * Constructor for the TicTacToeView
+     * @param mainFrame the main frame object
+     */
     public TicTacToeView(MainFrame mainFrame) {
         super(mainFrame);
         HBox hGridBox = new HBox();

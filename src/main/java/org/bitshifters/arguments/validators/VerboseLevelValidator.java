@@ -5,8 +5,18 @@ import org.bitshifters.logging.BSLogger;
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 
+/**
+ * This class is used to validate the verbose level parameter
+ */
 public class VerboseLevelValidator implements IParameterValidator {
     private static final BSLogger logger = new BSLogger(VerboseLevelValidator.class);
+
+    /**
+     * Validate the parameter
+     * @param name the name of the parameter
+     * @param value the value of the parameter
+     * @throws ParameterException if the parameter is not valid
+     */
     @Override
     public void validate(String name, String value) throws ParameterException {
         logger.debug("Validating parameter " + name + " with value " + value);

@@ -4,7 +4,13 @@ import org.bitshifters.logging.VerboseLevel;
 
 import com.beust.jcommander.IStringConverter;
 
+/**
+ * This class is used to convert the string value to a VerboseLevel enum
+ */
 public class VerboseConverter implements IStringConverter<VerboseLevel> {
+    /**
+     * Convert the string value to a VerboseLevel enum
+     */
     @Override
     public VerboseLevel convert(String value) {
         return switch (value.toUpperCase()) {
