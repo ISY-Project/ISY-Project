@@ -44,21 +44,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         this.playerRows = playerRows;
         this.playerCols = playerCols;
         generateGrids(players);
-        //     // TODO: Invert the playerRows and playerCols to boardRows and boardCols
-        //     // TODO: Add preset grids, using coordinates where lakes are placed.
     }
-
-    // public StrategoEngine(final int playerRows, final int playerCols, final Player[] players) {
-    //     this.playerRows = playerRows;
-    //     this.playerCols = playerCols;
-    //     // Add one to the total players to account for the movement grid.
-    //     // TODO: calculate the total rows and columns based on the number of players.
-    //     // See the generateMovementGrid method for more information on how to overlay
-    //     // the player grids.
-    //     this.totalRows = playerRows * 2 + 2;
-    //     this.totalCols = playerCols;
-    //     generateGrids(players);
-    // }
 
     /**
      * Set the unit set for the game
