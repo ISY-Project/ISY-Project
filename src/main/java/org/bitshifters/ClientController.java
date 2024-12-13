@@ -3,9 +3,11 @@ package org.bitshifters;
 import java.util.ArrayList;
 
 import org.bitshifters.gameclient.GameClient;
+import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.ui.MainFrame;
+import org.bitshifters.ui.views.StrategoView;
 import org.bitshifters.ui.views.TicTacToeView;
 
 public class ClientController {
@@ -27,7 +29,8 @@ public class ClientController {
     }
 
     private void setUp() {
-        setUpTTT();
+        // setUpTTT();
+        setUpStratego();
     }
 
     private void setUpTTT() {
@@ -35,6 +38,21 @@ public class ClientController {
             new TicTacToeView(mainFrame),
             player,
             opponent));
+    }
+
+    private void setUpStratego() {
+        gameClients.add(new StrategoClient(
+            mainFrame.getStrategoViewTen(),
+            player,
+            opponent,
+            10,
+            10));
+        gameClients.add(new StrategoClient(
+            mainFrame.getStrategoViewEight(),
+            player,
+            opponent,
+            8,
+            8));
     }
 
     public GameClient getSelectedClient() {
