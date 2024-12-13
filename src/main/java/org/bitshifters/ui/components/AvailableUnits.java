@@ -24,6 +24,9 @@ public final class AvailableUnits extends HBox {
     private final int buttonWidth = 110;
     private final VBox leftBox;
     private final VBox rightBox;
+    private int selectedButtonIndex = -1;
+    private final String style = "-fx-font-size: 1em; -fx-text-fill: #000000;"; // defualt button style
+    private final String selectedStyle = "-fx-font-size: 1em; -fx-text-fill: #000000; -fx-background-color: #00FF00;"; // selected button style
 
     /**
      * Constructor for the AvailableUnits
@@ -55,13 +58,13 @@ public final class AvailableUnits extends HBox {
      * Populate the buttons
      */
     private void createButtons() {
-        String style = "-fx-font-size: 1em; -fx-text-fill: #000000;"; // defualt button style
         int i = 0;
         for (final Pawns pawn : this.availableUnits.getUnits().keySet()) {
             buttons[i] = new Button();
             buttons[i].setPrefSize(buttonWidth, buttonHeight);
             buttons[i].setStyle(style);
             buttons[i].setUserData(pawn);
+            buttons[i].setFocusTraversable(false);
             if (i % 2 == 0) {
                 leftBox.getChildren().add(buttons[i]);
             } else {
@@ -120,6 +123,14 @@ public final class AvailableUnits extends HBox {
                 break;
             }
         }
+    }
+
+    public void selectUnitButton(int index){
+        buttons[index].setStyle(selectedStyle);
+        if (selectedButtonIndex != -1) {
+            buttons[selectedButtonIndex].setStyle(style);
+        }
+        selectedButtonIndex = index;
     }
 
     public UnitSet getAvailableUnits() {

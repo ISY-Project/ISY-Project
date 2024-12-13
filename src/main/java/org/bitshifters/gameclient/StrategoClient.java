@@ -1,5 +1,7 @@
 package org.bitshifters.gameclient;
 
+import java.util.logging.Level;
+
 import org.bitshifters.ClientController;
 import org.bitshifters.Config;
 import org.bitshifters.games.GameTypes;
@@ -13,6 +15,7 @@ import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 /**
  * CLient moet online kunnen spelen
@@ -27,6 +30,7 @@ public class StrategoClient extends GameClient {
     private final StrategoEngine engine;
     private boolean placingUnits = true;
     private boolean unitSelected = false;
+    private Pawns selectedUnit = null;
     private final Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
@@ -60,6 +64,12 @@ public class StrategoClient extends GameClient {
                 setupButtonListener(row, col, view);
             }
         }
+
+        logger.debug("Setting up available units button listeners");
+        Button[] buttons = view.getAvailableUnitsButtons().getButtons();
+        for (int i = 0; i < buttons.length; i++) {
+            setupAvalibleUnitsButtons(i, view);
+        }
     }
 
     /**
@@ -83,7 +93,7 @@ public class StrategoClient extends GameClient {
      * @param finalCol the final column
      */
     private void handleButtonClick(StrategoView view, final int finalRow, final int finalCol) {
-        logger.info("Button clicked at row: " + finalRow + " col: " + finalCol);
+        logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
         int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
         // TODO UI interaction to place units
         if (placingUnits) {
@@ -111,6 +121,26 @@ public class StrategoClient extends GameClient {
         unitSelected = true;
         selectedUnitRow = finalRow;
         selectedUnitCol = finalCol;
+    }
+
+    /**
+     * Set up the available units button listener
+     * @param index the index of the button
+     * @param view the view object
+     */
+    private void setupAvalibleUnitsButtons(int index, StrategoView view) {
+        logger.debug("Setting up available units button listener at index: " + index);
+        javafx.scene.control.Button button = view.getAvailableUnitsButtons().getButtons()[index];
+        button.addEventHandler(ActionEvent.ACTION, _ -> {
+            handleAvalibleUnitsButtonClick(view, index, (Pawns) button.getUserData());
+        });
+    }
+
+    private void handleAvalibleUnitsButtonClick(StrategoView view, int index, Pawns pawn) {
+        logger.log(Level.INFO, "Available units button clicked at index: {0} pawn: {1}", new Object[]{index, pawn});
+        this.unitSelected = true;
+        this.selectedUnit = pawn;
+        view.getAvailableUnitsButtons().selectUnitButton(index);
     }
 
     /**

@@ -83,6 +83,14 @@ public class StrategoView extends CustomBorderPane {
     }
 
     /** 
+     * Get the available units buttons
+     * @return the available units buttons object
+     */
+    public AvailableUnits getAvailableUnitsButtons() {
+        return this.availableUnitsButtons;
+    }
+
+    /** 
      * Get the button at the specified row and column
      * @param row the row number of the button
      * @param col the column number of the button
