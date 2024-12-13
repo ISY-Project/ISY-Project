@@ -7,6 +7,7 @@ import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
+import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
@@ -20,6 +21,7 @@ import javafx.scene.layout.VBox;
 public class StrategoView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(StrategoView.class);
     private final NavigationButtons hButtonBox;
+    private final AvailableUnits availableUnitsButtons;
     private final BaseGrid baseGrid;
     private UnitSet units;
     private int buttonSize = 80;
@@ -44,7 +46,14 @@ public class StrategoView extends CustomBorderPane {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+        availableUnitsButtons = new AvailableUnits(smallVerison);
         
+        VBox rightBox = new VBox(20);
+        rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+        rightBox.getChildren().add(hButtonBox);
+        rightBox.getChildren().add(availableUnitsButtons);
+
         if (smallVerison) {
             this.units = UnitSet.EIGHT;
             this.baseGrid = new BaseGrid(8);
@@ -62,7 +71,7 @@ public class StrategoView extends CustomBorderPane {
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
-        this.setRight(hButtonBox);
+        this.setRight(rightBox);
     }
 
     /** 

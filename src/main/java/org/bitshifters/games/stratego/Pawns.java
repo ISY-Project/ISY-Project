@@ -5,28 +5,29 @@ package org.bitshifters.games.stratego;
  */
 public enum Pawns {
     // Regular Units
-    SPY("1"),
-    SCOUT("2"),
-    MINER("3"),
-    SERGEANT("4"),
-    LIEUTENANT("5"),
-    CAPTAIN("6"),
-    MAJOR("7"),
-    COLONEL("8"),
-    GENERAL("9"),
-    MARSHAL("10"),
+    SPY("1", "Spy"),
+    SCOUT("2", "Scout"),	
+    MINER("3", "Miner"),
+    SERGEANT("4", "Sergeant"),
+    LIEUTENANT("5", "Lieutenant"),
+    CAPTAIN("6", "Captain"),
+    MAJOR("7", "Major"),
+    COLONEL("8", "Colonel"),
+    GENERAL("9", "General"),
+    MARSHAL("10", "Marshal"),
 
     // Special Units
-    FLAG("F"),
-    BOMB("B"),
+    FLAG("F", "Flag"),
+    BOMB("B", "Bomb"),
     
 
     // Special tiles
-    UNKNOWN("?"),
-    LAKE("L"),
-    WIN("W");
+    UNKNOWN("?", "Unknown"),
+    LAKE("L", "Lake"),
+    WIN("W", "Win"),;
 
     private final String pawn;
+    private final String name;
     private final String path = "src\\main\\resources\\images";
 
     /**
@@ -34,8 +35,9 @@ public enum Pawns {
      * @param pawn The Pawn String value
      * @param amount The amount of pawns
      */
-    Pawns(String pawn) {
+    Pawns(String pawn, String name) {
         this.pawn = pawn;
+        this.name = name;
     }
 
     /**
@@ -56,7 +58,7 @@ public enum Pawns {
      */
     @Override
     public String toString() {
-        return this.pawn;
+        return this.name + " " + this.pawn;
     }
 
     /**
@@ -65,6 +67,14 @@ public enum Pawns {
      */
     public String getPawn() {
         return pawn;
+    }
+
+    /**
+     * Returns the name of the pawn
+     * @return the name of the pawn
+     */
+    public String getName() {
+        return name;
     }
 
     /** 
