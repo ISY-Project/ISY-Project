@@ -10,39 +10,66 @@ import org.bitshifters.games.tictactoe.Minimax;
 import org.bitshifters.games.tictactoe.TTTEngine;
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Commands.Login;
 import org.bitshifters.telnet.Commands.Move;
+import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.TicTacToeView;
+import org.bitshifters.telnet.Commands.Subscribe;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
+import javafx.event.EventHandler;
 
 /**
  * CLient moet online kunnen spelen
  * Client moet tegen Ai kunnen spelen
- * 
  */
 public class TicTacToeClient extends GameClient {
     private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
     private static final Config config = Config.getInstance();
+    private final ResponseHandler responseHandler;
     private final TelnetClient telnet;
     private final TicTacToeView view;
     private final TTTEngine engine;
+    private final EventHandler<? super ActionEvent> event;
 
     public TicTacToeClient(TicTacToeView view, Player playerX, Player playerO) {
         super(GameTypes.TicTacToe);
         telnet = new TelnetClient(
             config.getValue("host"),
             Integer.parseInt(config.getValue("port")));
+        this.view = view;
+        this.engine = new TTTEngine(playerX, playerO);
+        responseHandler = new ResponseHandler(this);
+        setupGridButtonListeners(view);
+        Thread thread = new Thread(this::run);
+        event = _ -> thread.start();
+        this.view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().addEventHandler(
+            ActionEvent.ACTION,
+            event);
+    }
+
+    protected void run() {
+        view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().removeEventHandler(
+            ActionEvent.ACTION, event);
         try {
             telnet.connect();
+            telnet.send(new Login(config.getValue("username")));
+            telnet.send(Subscribe.TTT);
+            try {
+                String response = telnet.receive();
+                while (response.contains("")) {
+                    responseHandler.handle(response);
+                    response = telnet.receive();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.view = view;
-        this.engine = new TTTEngine(playerX, playerO);
-        setupGridButtonListeners(view);
     }
 
     private void setupGridButtonListeners(TicTacToeView view) {
@@ -103,14 +130,14 @@ public class TicTacToeClient extends GameClient {
 
     @Override
     public void onCancel(int gameNumber) {
-        // Cancel the game
+        // TODO: show popup Canceled game
         throw new UnsupportedOperationException("Unimplemented method 'onCancel'");
     }
 
     @Override
     public void onMatch() {
         // Als de game begint, start de game
-        throw new UnsupportedOperationException("Unimplemented method 'onMatch'");
+        view.getMainFrame().showScreen(Screens.TICTACTOE);
     }
 
     @Override
@@ -170,18 +197,15 @@ public class TicTacToeClient extends GameClient {
     @Override
     public void onHelp(String message) {
         // Niet nodig?
-        throw new UnsupportedOperationException("Unimplemented method 'onHelp'");
     }
 
     @Override
     public void onError(String message) {
         // Niet nodig?
-        throw new UnsupportedOperationException("Unimplemented method 'onError'");
     }
 
     @Override
     public void onMessage(String message) {
         // Niet nodig?
-        throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
     }
 }

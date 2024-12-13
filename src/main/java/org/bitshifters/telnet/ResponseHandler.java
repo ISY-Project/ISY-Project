@@ -9,32 +9,20 @@ import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Server;
-import org.bitshifters.telnet.Exceptions.TypeMismatchException;
 
 public class ResponseHandler {
     private static final BSLogger logger = new BSLogger(ResponseHandler.class);
-    private final EventHandler eventHandler;
     private final GameClient gameClient;
 
-    public ResponseHandler(final EventHandler eventHandler, final GameClient gameClient) throws TypeMismatchException {
-        this.eventHandler = eventHandler;
+    public ResponseHandler(final GameClient gameClient) {
         this.gameClient = gameClient;
-        if (!this.IsMatchingGameType()) {
-            final String errorMsg = "Game type mismatch, " + this.eventHandler.getGameType() + " != " + this.gameClient.getGameType();
-            TypeMismatchException typeMismatchException = new TypeMismatchException(errorMsg);
-            logger.error(typeMismatchException);
-            throw typeMismatchException;
-        }
     }
 
-    private boolean IsMatchingGameType() {
-        logger.debug("Matching game type: " + this.eventHandler.getGameType() + " == " + this.gameClient.getGameType());
-        return this.eventHandler.getGameType() == this.gameClient.getGameType();
-    }
 
     public boolean handle(final String response) {
         logger.info("Handling response: " + response);
-        if (!this.eventHandler.isValidGameType(determineGameType(response))) {
+        System.out.println("Response: " + response);
+        if (!this.gameClient.isValidGameType(determineGameType(response))) {
             return false;
         }
         final String[] responseArray = response.split(" ");
@@ -59,7 +47,7 @@ public class ResponseHandler {
             return null;
         }
         final GameTypes currentGameType = gameClient.getGameType();
-        if (currentGameType == eventHandler.getGameType()) {
+        if (currentGameType == this.gameClient.getGameType()) {
             return currentGameType;
         }
         final String[] data = response.substring(start + 1, end).split(",");
@@ -84,12 +72,12 @@ public class ResponseHandler {
 
     private void handleErrorEvent(final String response) {
         logger.info("Handling error event: " + response);
-        this.eventHandler.onError(response);
+        this.gameClient.onError(response);
     }
 
     private void handleHelpEvent(final String response) {
         logger.info("Handling help event: " + response);
-        this.eventHandler.onHelp(response);
+        this.gameClient.onHelp(response);
     }
 
     private void handleServerEvent(final String response, final String[] responseArray) {
@@ -126,33 +114,33 @@ public class ResponseHandler {
 
     private void handleDrawEvent() {
         logger.info("Handling draw event");
-        this.eventHandler.onDraw();
+        this.gameClient.onDraw();
     }
 
     private void handleLossEvent() {
         logger.info("Handling loss event");
-        this.eventHandler.onLose();
+        this.gameClient.onLose();
     }
 
     private void handleWinEvent() {
         logger.info("Handling win event");
-        this.eventHandler.onWin();
+        this.gameClient.onWin();
     }
 
     private void handleMoveEvent(final String response) {
         logger.info("Handling move event: " + response);
         final String[] data = parseMove(response);
-        this.eventHandler.onMove(data);
+        this.gameClient.onMove(data);
     }
 
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
-        this.eventHandler.onYourTurn(responseArray[2]);
+        this.gameClient.onYourTurn(responseArray[2]);
     }
 
     private void handleMatchEvent(final String response) {
         logger.info("Handling match event: " + response);
-        this.eventHandler.onMatch();
+        this.gameClient.onMatch();
     }
 
     private void handleChallengeEvent(final String response, final String[] responseArray) {
@@ -160,7 +148,7 @@ public class ResponseHandler {
         final String playerName = response.split(" ")[1];
         final int gameNumber = Integer.parseInt(responseArray[2]);
         final int gameName = Integer.parseInt(responseArray[3]);
-        this.eventHandler.onChallenge(playerName, gameName, gameNumber);
+        this.gameClient.onChallenge(playerName, gameName, gameNumber);
     }
 
     private String[] parseMove(final String response) {

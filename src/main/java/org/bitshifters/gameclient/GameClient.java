@@ -11,4 +11,6 @@ public abstract class GameClient extends EventHandler {
     public GameTypes getGameType() {
         return super.getGameType();
     }
+
+    protected abstract void run();
 }

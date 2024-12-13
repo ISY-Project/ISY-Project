@@ -34,7 +34,7 @@ public class TelnetClient {
         if (this.out == null) {
             throw new IllegalStateException("Connection not established");
         }
-        System.out.println("Sent: " + message);
+        System.out.println("Sent: " + message.get());
         out.println(message);
     }
 

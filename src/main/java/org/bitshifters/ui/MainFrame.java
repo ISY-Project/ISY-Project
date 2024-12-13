@@ -45,9 +45,9 @@ public class MainFrame extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
-        var ttt = new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
-        // var battleship = new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
-        // var stratego = new StrategoClient(strategoView, this.player, new Player("Opponent"));
+        new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
+        // new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
+        // new StrategoClient(strategoView, this.player, new Player("Opponent"));
 
         this.stage = primaryStage;
 
@@ -65,6 +65,7 @@ public class MainFrame extends Application {
             switch(event.getCode().getCode()) {
                 case 27 ->  { // 27 = ESC key
                     stage.close();
+                    System.exit(0);
                 }
                 default -> {
                     // System.out.println("Unrecognized key");
