@@ -18,7 +18,7 @@ import com.beust.jcommander.JCommander;
  * It will run the run method once the command line arguments are parsed.
  */
 public class Main{
-    private static Config config = Config.getInstance();
+    private static final Config config = Config.getInstance();
     private static final BSLogger logger = new BSLogger(Config.class);
     private static JCommander arguments;
     private static Flags flags;
@@ -34,7 +34,7 @@ public class Main{
         final Main main = new Main();
         configureArgParser(args);
         configureLogging();
-        config.write(); // instantly write the config, with default values.
+        // config.write(); // instantly write the config, with default values.
         main.run(args);
         MainFrame.run(args);
         ClientController clientController = new ClientController(config.getValue("username"));

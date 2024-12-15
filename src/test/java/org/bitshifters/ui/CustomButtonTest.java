@@ -2,11 +2,12 @@ package org.bitshifters.ui;
 
 import org.bitshifters.FXSetup;
 import org.bitshifters.ui.components.CustomButton;
-import org.junit.jupiter.api.AfterAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import javafx.application.Platform;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class CustomButtonTest {
     @BeforeAll

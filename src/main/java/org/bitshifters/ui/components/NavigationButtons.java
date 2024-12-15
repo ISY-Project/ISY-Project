@@ -14,6 +14,12 @@ public class NavigationButtons extends VBox {
     private final CustomButton backButton;
     private final Boolean isHorizontal;
 
+    /** 
+     * Constructor for the NavigationButtons
+     * @param mainFrame the main frame object
+     * @param enableBackButton enable the back button
+     * @param isHorizontal is the navigation buttons horizontal or not?
+     */
     public NavigationButtons(MainFrame mainFrame, Boolean enableBackButton, Boolean isHorizontal) {
         super(5);
         setPrefWidth(110);

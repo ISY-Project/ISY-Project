@@ -10,15 +10,28 @@ import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Server;
 
+/**
+ * Handles responses from the server.
+ */
 public class ResponseHandler {
     private static final BSLogger logger = new BSLogger(ResponseHandler.class);
     private final GameClient gameClient;
 
+    /**
+     * Constructs a ResponseHandler.
+     * @param eventHandler The event handler.
+     * @param gameClient The game client.
+     * @throws TypeMismatchException If the game types do not match.
+     */
     public ResponseHandler(final GameClient gameClient) {
         this.gameClient = gameClient;
     }
 
-
+    /**
+     * Handles the response from the server.
+     * @param response The response from the server.
+     * @return True if the response was handled, false otherwise.
+     */
     public boolean handle(final String response) {
         logger.info("Handling response: " + response);
         System.out.println("Response: " + response);
@@ -37,6 +50,11 @@ public class ResponseHandler {
         return true;
     }
 
+    /**
+     * Determines the game type from the response.
+     * @param response The response from the server.
+     * @return The game type.
+     */
     private GameTypes determineGameType(final String response) {
         logger.debug("Determining game type: " + response);
         final char data_start = '{';
@@ -70,16 +88,29 @@ public class ResponseHandler {
         return result;
     }
 
+    /**
+     * Handles an error event.
+     * @param response The response from the server.
+     */
     private void handleErrorEvent(final String response) {
         logger.info("Handling error event: " + response);
         this.gameClient.onError(response);
     }
 
+    /**
+     * Handles a help event.
+     * @param response The response from the server.
+     */
     private void handleHelpEvent(final String response) {
         logger.info("Handling help event: " + response);
         this.gameClient.onHelp(response);
     }
 
+    /**
+     * Handles a server event.
+     * @param response The response from the server.
+     * @param responseArray The response array.
+     */
     private void handleServerEvent(final String response, final String[] responseArray) {
         logger.info("Handling server event: " + response);
         if (response.contains(Game.MESSAGE)) {
@@ -87,6 +118,11 @@ public class ResponseHandler {
         }
     }
 
+    /**
+     * Handles a game event.
+     * @param response The response from the server.
+     * @param responseArray The response array.
+     */
     private void handleGameEvent(final String response, final String[] responseArray) {
         logger.info("Handling game event: " + response);
         if (response.contains(Challenge.MESSAGE)) {
@@ -112,37 +148,63 @@ public class ResponseHandler {
         }
     }
 
+    /**
+     * Handles a draw event.
+     */
     private void handleDrawEvent() {
         logger.info("Handling draw event");
         this.gameClient.onDraw();
     }
 
+    /**
+     * Handles a loss event.
+     */
     private void handleLossEvent() {
         logger.info("Handling loss event");
         this.gameClient.onLose();
     }
 
+    /**
+     * Handles a win event.
+     */
     private void handleWinEvent() {
         logger.info("Handling win event");
         this.gameClient.onWin();
     }
 
+    /**
+     * Handles a move event.
+     * @param response The response from the server.
+     */
     private void handleMoveEvent(final String response) {
         logger.info("Handling move event: " + response);
         final String[] data = parseMove(response);
         this.gameClient.onMove(data);
     }
 
+    /**
+     * Handles a "your turn" event.
+     * @param responseArray The response array.
+     */
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
         this.gameClient.onYourTurn(responseArray[2]);
     }
 
+    /**
+     * Handles a match event.
+     * @param response The response from the server.
+     */
     private void handleMatchEvent(final String response) {
         logger.info("Handling match event: " + response);
         this.gameClient.onMatch();
     }
 
+    /**
+     * Handles a challenge event.
+     * @param response The response from the server.
+     * @param responseArray The response array.
+     */
     private void handleChallengeEvent(final String response, final String[] responseArray) {
         logger.info("Handling challenge event: " + response);
         final String playerName = response.split(" ")[1];
@@ -151,6 +213,11 @@ public class ResponseHandler {
         this.gameClient.onChallenge(playerName, gameName, gameNumber);
     }
 
+    /**
+     * Parses a move from the response.
+     * @param response The response from the server.
+     * @return The parsed move data.
+     */
     private String[] parseMove(final String response) {
         logger.debug("Parsing move: " + response);
         final char data_start = '{';

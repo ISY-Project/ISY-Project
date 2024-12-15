@@ -2,19 +2,33 @@ package org.bitshifters.games.stratego;
 
 import java.util.HashMap;
 
+/**
+ * Represents a set of units for a game of Stratego.
+ */
 public class UnitSet {
     public static final UnitSet TEN = new UnitSet().setTenUnits();
     public static final UnitSet EIGHT = new UnitSet().setEightUnits();
     private final HashMap<Pawns, Integer> units = new HashMap<>();
     private int maxUnits = 40;
 
+    /**
+     * Get the units
+     * @return A hashmap of the units and there counts
+     */
     public HashMap<Pawns, Integer> getUnits() {
         return units;
     }
 
+    /**
+     * Set the units
+     * @param units the units to set
+     */
     public UnitSet() {
     }
 
+    /**
+     * Set the units for a 10x10 game
+     */
     private UnitSet setTenUnits() {
         units.clear();
         units.put(Pawns.MARSHAL, 1);
@@ -32,6 +46,9 @@ public class UnitSet {
         return this;
     }
 
+    /**
+     * Set units for an 8x8 game
+     */
     private UnitSet setEightUnits() {
         units.clear();
         units.put(Pawns.MARSHAL, 1);
@@ -44,6 +61,10 @@ public class UnitSet {
         return this;
     }
 
+    /**
+     * Validate the unit set
+     * @return true if the unit set is valid, false otherwise
+     */
     public boolean validate() {
         int total = 0;
         for (int i : units.values()) {
@@ -52,7 +73,11 @@ public class UnitSet {
         return total <= maxUnits;
     }
 
-    public int totalUnits() {
+    /**
+     * Get the total number of units
+     * @return the total number of units
+     */
+    public int getTotalUnits() {
         int total = 0;
         for (int i : units.values()) {
             total += i;

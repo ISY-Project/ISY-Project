@@ -13,12 +13,23 @@ import java.util.Arrays;
  */
 public class MovementTracker {
     private int[][][] track = { {} };
-    private int maxRepetitions;
+    private final int maxRepetitions;
 
+    /**
+     * Create a new MovementTracker object
+     * @param maxRepetitions the maximum number of repetitions allowed
+     */
     public MovementTracker(final int maxRepetitions) {
         this.maxRepetitions = maxRepetitions;
     }
 
+    /**
+     * Add a move to the tracker
+     * @param fromRow the row the piece is moving from
+     * @param fromCol the column the piece is moving from
+     * @param toRow the row the piece is moving to
+     * @param toCol the column the piece is moving to
+     */
     public void add(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         int test = 0;
         final int[][] coordinate = { { fromRow, fromCol }, { toRow, toCol } };
@@ -27,16 +38,27 @@ public class MovementTracker {
         }
         final int[][][] result = new int[track.length + 1 - test][][];
         result[0] = coordinate;
-        for (int i = 0; i < track.length - test; i++) {
-            result[i + 1] = track[i];
-        }
+        System.arraycopy(track, 0, result, 1, track.length - test);
         this.track = result;
     }
 
+    /**
+     * Get the previous move
+     * @param move the move to get
+     * @return the previous move
+     */
     private int[][] getPreviousMove(final int move) {
         return track[move];
     }
 
+    /**
+     * Check if the move is repeating
+     * @param fromRow the row the piece is moving from
+     * @param fromCol the column the piece is moving from
+     * @param toRow the row the piece is moving to
+     * @param toCol the column the piece is moving to
+     * @return true if the move is repeating, false otherwise
+     */
     public boolean isRepeating(final int fromRow, final int fromCol, final int toRow, final int toCol) {
         // TODO check rules
         int[][] futureMove = { { fromRow, fromCol }, { toRow, toCol } };
@@ -45,10 +67,15 @@ public class MovementTracker {
         for(int i=0; i<maxRepetitions-2; i++){
             if (!arrayDeepEquals(getPreviousMove(i), getPreviousMove(i + 2))) {return false;}
         }
-        if (maxRepetitions %2 == 1 && !Arrays.equals(futureMove[1], getPreviousMove(maxRepetitions - 1)[0])) {return false;}
-        return true;
+        return !(maxRepetitions %2 == 1 && !Arrays.equals(futureMove[1], getPreviousMove(maxRepetitions - 1)[0]));
     }
 
+    /**
+     * Check if two arrays are equal
+     * @param array1 the first array
+     * @param array2 the second array
+     * @return true if the arrays are equal, false otherwise
+     */
     private static boolean arrayDeepEquals(int[][] array1, int[][] array2) {
         for (int i = 0; i < array1.length; i++) {
             if (!Arrays.equals(array1[i], array2[i])) {return false;}

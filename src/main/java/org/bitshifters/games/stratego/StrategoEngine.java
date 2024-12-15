@@ -6,6 +6,10 @@ import java.util.Objects;
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
 
+/**
+ * The StrategoEngine class is the engine for the Stratego game.
+ * It contains all the logic for the game, such as moving units, attacking units, and checking for a winner.
+ */
 public class StrategoEngine extends GridEngine<Unit> {
     private static final int TURN_LIMIT = 10000;
     private int turnCount = 0;
@@ -18,42 +22,47 @@ public class StrategoEngine extends GridEngine<Unit> {
     private final int totalCols;
     private final Unit win = new Unit(Pawns.WIN);
 
+    /**
+     * Create a new StrategoEngine object
+     * @param players A list of the players in the game
+     */
     public StrategoEngine(final Player[] players) {
         this(10, 10, players);
     }
 
+    /**
+     * Create a new StrategoEngine object
+     * @param boardRows The number of rows on the board
+     * @param boardCols The number of columns on the board
+     * @param players A list of the players in the game
+     */
     public StrategoEngine(final int boardRows, final int boardCols, final Player[] players){
-        var playerRows = boardRows / 2 - 1;
-        var playerCols = boardCols;
         this.totalRows = boardRows;
         this.totalCols = boardCols;
-        this.playerRows = playerRows;
-        this.playerCols = playerCols;
+        this.playerRows = boardRows / 2 - 1;
+        this.playerCols = boardCols;
         generateGrids(players);
-        //     // TODO: Invert the playerRows and playerCols to boardRows and boardCols
-        //     // TODO: Add preset grids, using coordinates where lakes are placed.
     }
 
-    // public StrategoEngine(final int playerRows, final int playerCols, final Player[] players) {
-    //     this.playerRows = playerRows;
-    //     this.playerCols = playerCols;
-    //     // Add one to the total players to account for the movement grid.
-    //     // TODO: calculate the total rows and columns based on the number of players.
-    //     // See the generateMovementGrid method for more information on how to overlay
-    //     // the player grids.
-    //     this.totalRows = playerRows * 2 + 2;
-    //     this.totalCols = playerCols;
-    //     generateGrids(players);
-    // }
-
+    /**
+     * Set the unit set for the game
+     */
     public void setUnitCounts() {
         setUnitCounts(unitSet);
     }
 
+    /**
+     * Set the unit set for the game
+     * @param units the unit set
+     */
     public void setUnitCounts(UnitSet units) {
         this.unitSet = units;
     }
 
+    /**
+     * Get the unit set for the game
+     * @return the unit set
+     */
     public UnitSet getUnitSet() {
         return unitSet;
     }
@@ -61,18 +70,16 @@ public class StrategoEngine extends GridEngine<Unit> {
     /**
      * Generate the grids for each player, and a grid between all players for
      * movement.
-     * 
      * @param players
      */
     private void generateGrids(final Player[] players) {
         initializePlayers(players);
-        generateMovementGrid(players);
+        generateMovementGrid();
     }
 
     /**
      * Generate the player grids.
      * Add the movement tracker for each player.
-     * 
      * @param players
      */
     private void initializePlayers(final Player[] players) {
@@ -87,19 +94,26 @@ public class StrategoEngine extends GridEngine<Unit> {
      * grids.
      * This grid occupies the entire board, and is used to move units between player
      * grids.
-     * 
      * @param players
      */
-    private void generateMovementGrid(final Player[] players) {
+    private void generateMovementGrid() {
         addGrid(GameGrid, totalRows, totalCols, null);
-        setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 3, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 2, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 3, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 6, new Unit(Pawns.LAKE), GameGrid);
-        setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
-        setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
+        if (totalCols == 10) {
+            setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 3, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 3, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 6, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 7, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 6, new Unit(Pawns.LAKE), GameGrid);
+            setCell(5, 7, new Unit(Pawns.LAKE), GameGrid);
+        }
+        else if (totalCols == 8) {
+            setCell(4, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(4, 5, new Unit(Pawns.LAKE), GameGrid);
+            setCell(3, 2, new Unit(Pawns.LAKE), GameGrid);
+            setCell(3, 5, new Unit(Pawns.LAKE), GameGrid);
+        }
     }
 
     /**
@@ -138,33 +152,40 @@ public class StrategoEngine extends GridEngine<Unit> {
         System.out.println(stringGrid(GameGrid));
     }
 
+    public int rotateRow(int row) {
+        return totalRows - row - 1;
+    }
+
+    public int rotateCol(int col) {
+        return totalCols - col - 1;
+    }
+
     /**
-     * Move a unit to a given location, and track the movement of the unit.
-     * This method behaves the exact same as moveUnit, except that the move is rotated 180 degrees
-     * on the board.
-     * This translation happens automatically.
-     * @param unit
-     * @param row
-     * @param col
+     * Rotates a unit on the entire board with the center as the pivot.
+     * Then move it using the moveUnit method.
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      */
     public void moveUnitRotated(final int fromRow, final int fromCol, final int toRow, final int toCol, final Player player) {
         // TODO test
         // Rotate enemy movements, so you face towards their army.
         moveUnit(
-                totalRows - fromRow - 1,
-                totalCols - fromCol - 1,
-                totalRows - toRow - 1,
-                totalCols - toCol - 1,
+                rotateRow(fromRow),
+                rotateCol(fromCol),
+                rotateRow(toRow),
+                rotateCol(toCol),
                 player);
     }
 
     /**
      * Move a unit to a given location, and track the movement of the unit.
-     * 
-     * @param unit
-     * @param row
-     * @param col
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      */
     public void moveUnit(final int fromRow, final int fromCol, final int toRow, final int toCol, final Player player) {
@@ -177,9 +198,10 @@ public class StrategoEngine extends GridEngine<Unit> {
 
     /**
      * Validate the movement of units, ensuring that the player is making a valid move on the gameboard
-     * 
-     * @param row
-     * @param col
+     * @param fromRow
+     * @param fromCol
+     * @param toRow
+     * @param toCol
      * @param player
      * @return
      */
@@ -211,14 +233,33 @@ public class StrategoEngine extends GridEngine<Unit> {
         return isValidScoutMove(fromRow, fromCol, toRow, toCol);
     }
 
+    /**
+     * Validate the movement of units, ensuring that the player is making a valid move on the gameboard
+     * @param rank The Unit to check the rank of
+     * @return True if the rank is invalid, false otherwise
+     */
     private boolean isInvalidRank(Pawns rank) {
         return rank == Pawns.BOMB || rank == Pawns.FLAG || rank == Pawns.WIN || rank == Pawns.LAKE || rank == Pawns.UNKNOWN;
     }
 
+    /**
+     * Check if the coordinates are out of bounds
+     * @param row The row to check
+     * @param col The column to check
+     * @return True if the coordinates are out of bounds, false otherwise
+     */
     private boolean isOutOfBounds(int row, int col) {
         return row < 0 || row >= totalRows || col < 0 || col >= totalCols;
     }
 
+    /**
+     * Check if the move is adjacent
+     * @param fromRow The row the unit is moving from
+     * @param fromCol The column the unit is moving from
+     * @param toRow The row the unit is moving to
+     * @param toCol The column the unit is moving to
+     * @return True if the move is adjacent, false otherwise
+     */
     private boolean isAdjacentMove(int fromRow, int fromCol, int toRow, int toCol) {
         if (fromRow == toRow) {
             return Math.abs(fromCol - toCol) == 1;
@@ -229,6 +270,14 @@ public class StrategoEngine extends GridEngine<Unit> {
         return false;
     }
 
+    /**
+     * Check if the scout is making a valid scout move
+     * @param fromRow The row the scout is moving from
+     * @param fromCol The column the scout is moving from
+     * @param toRow The row the scout is moving to
+     * @param toCol The column the scout is moving to
+     * @return True if the scout is making a valid scout move, false otherwise
+     */
     private boolean isValidScoutMove(int fromRow, int fromCol, int toRow, int toCol) {
         if (fromRow == toRow && fromCol == toCol) {
             return false;
@@ -242,6 +291,14 @@ public class StrategoEngine extends GridEngine<Unit> {
         return false;
     }
 
+    /**
+     * Check if the path between two points is clear
+     * @param fixed The fixed coordinate
+     * @param start The start coordinate
+     * @param end The end coordinate
+     * @param isRowFixed If the row is fixed
+     * @return True if the path is clear, false otherwise
+     */
     private boolean isPathClear(int fixed, int start, int end, boolean isRowFixed) {
         for (int i = start + 1; i < end; i++) {
             if (isRowFixed) {
@@ -257,6 +314,11 @@ public class StrategoEngine extends GridEngine<Unit> {
         return true;
     }
 
+    /**
+     * Validate all the units placed on the board by a player
+     * @param player The player to validate
+     * @return True if all units are placed, false otherwise
+     */
     public boolean validateAllUnitsPlaced(final Player player) {
         HashMap<Pawns, Integer> unitCounter = new HashMap<>();
         for (Pawns cell : Pawns.values()) {
@@ -291,18 +353,36 @@ public class StrategoEngine extends GridEngine<Unit> {
         return true;
     }
 
+    /**
+     * Validate the placement of a unit on the board
+     * @param player The player placing the unit
+     * @param row The row to place the unit
+     * @param col The column to place the unit
+     * @return True if the placement is valid, false otherwise
+     */
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
-        if (isOutOfBounds(row, col)) {
-            return false;
-        }
-        return true;
+        return !isOutOfBounds(row, col);
     }
 
+    /**
+     * Place a unit on the board
+     * @param player The player placing the unit
+     * @param row The row to place the unit
+     * @param col The column to place the unit
+     * @param rank The rank of the unit
+     */
     public void PlaceUnit(final Player player, final int row, final int col, final Pawns rank) {
         final Unit unit = new Unit(rank, player, row, col);
         setCell(row, col, unit, player);
     }
 
+    /**
+     * Validate an attack between two units
+     * @param attacker The attacking unit
+     * @param defender The defending unit
+     * @param player The player making the attack
+     * @return True if the attack is valid, false otherwise
+     */
     public boolean validateAttack(final Unit attacker, final Unit defender, final Player player) {
         if (attacker == null || defender == null) {
             return false;
@@ -325,12 +405,15 @@ public class StrategoEngine extends GridEngine<Unit> {
         if (attacker.getRank() == Pawns.FLAG) {
             return false;
         }
-        if (attacker.getRank() == Pawns.BOMB) {
-            return false;
-        }
-        return true;
+        return attacker.getRank() != Pawns.BOMB;
     }
 
+    /**
+     * Process the result of a battle between two units
+     * @param attacker The attacking unit
+     * @param defender The defending unit
+     * @return The winning unit, or null if both units are destroyed
+     */
     public Unit battleResult(final Unit attacker, final Unit defender) {
         final Pawns attackerRank = attacker.getRank();
         final Pawns defenderRank = defender.getRank();
@@ -344,7 +427,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             return attacker;
         }
         if (defenderRank == Pawns.BOMB) {
-            return null;
+            return defender;
         }
         // Flag
         if (defenderRank == Pawns.FLAG) {
@@ -368,6 +451,10 @@ public class StrategoEngine extends GridEngine<Unit> {
         throw new UnsupportedOperationException("Unimplemented method 'isGameOver'");
     }
 
+    /**
+     * Get the winner of the game
+     * @return The player object of the winner
+     */
     @Override
     public Player getWinner() {
         for (final Player player : getPlayers()) {
@@ -378,6 +465,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         return null;
     }
 
+
     @Override
     public boolean validateMove(final int row, final int col, final Player player) {
         // Engine wilt deze zien, maar bevat niet de juiste informatie.
@@ -385,18 +473,34 @@ public class StrategoEngine extends GridEngine<Unit> {
                 "Unimplemented method 'validateMove' with row, col and player for Stratego");
     }
 
+    /**
+     * Get the total rows of the game
+     * @return the total rows
+     */
     public int getTotalRows() {
         return totalRows;
     }
 
+    /**
+     * Get the total columns of the game
+     * @return the total columns
+     */
     public int getTotalCols() {
         return totalCols;
     }
 
+    /**
+     * Get the turn count for the game
+     * @return the turn count
+     */
     public int getTurnCount() {
         return turnCount;
     }
 
+    /**
+     * Get the turn limit for the game
+     * @return the turn limit
+     */
     public static int getTurnLimit() {
         return TURN_LIMIT;
     }

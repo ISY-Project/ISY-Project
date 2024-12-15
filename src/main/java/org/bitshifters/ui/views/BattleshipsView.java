@@ -22,6 +22,10 @@ public class BattleshipsView extends CustomBorderPane {
     private final BaseGrid playerGrid;
     private final BaseGrid opponentGrid;
 
+    /**
+     * Constructor for the BattleshipsView
+     * @param mainFrame the main frame object
+     */
     public BattleshipsView(MainFrame mainFrame) {
         super(mainFrame);
         HBox hGridBox = new HBox(10);

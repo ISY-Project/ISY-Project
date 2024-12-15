@@ -37,8 +37,11 @@ public class Config implements IConfig {
     private Config(final Path of) {
         this.path = of;
         initializeConverters();
-        setDefaultValues();
         read();
+        if (config.size() == 0) {
+            setDefaultValues();
+            write();
+        }
     }
 
     @Override

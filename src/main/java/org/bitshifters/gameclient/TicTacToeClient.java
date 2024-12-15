@@ -24,6 +24,8 @@ import javafx.event.EventHandler;
 /**
  * CLient moet online kunnen spelen
  * Client moet tegen Ai kunnen spelen
+ * Client for playing Tic-Tac-Toe.
+ * Can play online or against an AI.
  */
 public class TicTacToeClient extends GameClient {
     private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
@@ -72,6 +74,10 @@ public class TicTacToeClient extends GameClient {
         }
     }
 
+    /**
+     * Sets up the button listeners for the grid.
+     * @param view The TicTacToe view.
+     */
     private void setupGridButtonListeners(TicTacToeView view) {
         for (int row = 0; row < view.getBaseGrid().getButtonGrid().length; row++) {
             for (int col = 0; col < view.getBaseGrid().getButtonGrid()[row].length; col++) {
@@ -84,6 +90,12 @@ public class TicTacToeClient extends GameClient {
         }
     }
 
+    /**
+     * Handles the button click event.
+     * @param view The TicTacToe view.
+     * @param finalRow The row of the clicked button.
+     * @param finalCol The column of the clicked button.
+     */
     private void handleButtonClick(TicTacToeView view, final int finalRow, final int finalCol) {
         logger.info("Button clicked at row: " + finalRow + " col: " + finalCol);
         int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
@@ -93,10 +105,10 @@ public class TicTacToeClient extends GameClient {
     }
 
     /**
-     * Make a move on the board
-     * @param row
-     * @param col
-     * @return
+     * Makes a move on the board.
+     * @param row The row of the move.
+     * @param col The column of the move.
+     * @return True if the move is valid, false otherwise.
      */
     public boolean makeMove(int row, int col) {
         logger.info("Making move at row: " + row + " col: " + col);
@@ -115,8 +127,8 @@ public class TicTacToeClient extends GameClient {
     }
 
     /**
-     * Get the next player
-     * @return
+     * Gets the next player.
+     * @return The next player.
      */
     private Player getNextPlayer() {
         return engine.getActivePlayer() == engine.getPlayerX() ? engine.getPlayerX() : engine.getPlayerO();
@@ -140,6 +152,10 @@ public class TicTacToeClient extends GameClient {
         view.getMainFrame().showScreen(Screens.TICTACTOE);
     }
 
+    /**
+     * Called when it is the player's turn.
+     * @param message The message to display.
+     */
     @Override
     public void onYourTurn(String message) {
         if (!ClientController.isComputer) {
@@ -152,6 +168,11 @@ public class TicTacToeClient extends GameClient {
         makeMove(bestMove / 3, bestMove % 3);
     }
 
+    /**
+     * Converts the grid to a char array.
+     * @param grid The TicTacToe grid.
+     * @return The char array representation of the grid.
+     */
     private char[] getCharGrid(Grid<TicTacToeCell> grid) {
         char[] charGrid = new char[9];
         for (int i = 0; i < grid.getRowCount(); i++) {
@@ -162,6 +183,9 @@ public class TicTacToeClient extends GameClient {
         return charGrid;
     }
 
+    /**
+     * Handles the move event.
+     */
     @Override
     public void onMove(String[] data) {
         // Get the row and column from the data
@@ -174,18 +198,27 @@ public class TicTacToeClient extends GameClient {
         makeMove(row, col);
     }
 
+    /**
+     * Called when the player wins.
+     */
     @Override
     public void onWin() {
         this.engine.getPlayerX().incrementScore(3);
         view.getMainFrame().showPopup("You Win");
     }
 
+    /**
+     * Called when the player loses.
+     */
     @Override
     public void onLose() {
         this.engine.getPlayerO().incrementScore(3);
         view.getMainFrame().showPopup("You Lose");
     }
 
+    /**
+     * Called when the game is a draw.
+     */
     @Override
     public void onDraw() {
         this.engine.getPlayerX().incrementScore(1);

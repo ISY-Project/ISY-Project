@@ -2,14 +2,12 @@ package org.bitshifters.ui.views;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
 
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
+import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
@@ -23,6 +21,7 @@ import javafx.scene.layout.VBox;
 public class StrategoView extends CustomBorderPane {
     private static final BSLogger logger = new BSLogger(StrategoView.class);
     private final NavigationButtons hButtonBox;
+    private final AvailableUnits availableUnitsButtons;
     private final BaseGrid baseGrid;
     private UnitSet units;
     private int buttonSize = 80;
@@ -47,7 +46,14 @@ public class StrategoView extends CustomBorderPane {
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
+        hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+        availableUnitsButtons = new AvailableUnits(smallVerison);
         
+        VBox rightBox = new VBox(20);
+        rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+        rightBox.getChildren().add(hButtonBox);
+        rightBox.getChildren().add(availableUnitsButtons);
+
         if (smallVerison) {
             this.units = UnitSet.EIGHT;
             this.baseGrid = new BaseGrid(8);
@@ -65,7 +71,7 @@ public class StrategoView extends CustomBorderPane {
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
-        this.setRight(hButtonBox);
+        this.setRight(rightBox);
     }
 
     /** 
@@ -74,6 +80,14 @@ public class StrategoView extends CustomBorderPane {
      */
     public BaseGrid getBaseGrid() {
         return this.baseGrid;
+    }
+
+    /** 
+     * Get the available units buttons
+     * @return the available units buttons object
+     */
+    public AvailableUnits getAvailableUnitsButtons() {
+        return this.availableUnitsButtons;
     }
 
     /** 
@@ -162,7 +176,6 @@ public class StrategoView extends CustomBorderPane {
      */
     public final void fillGrid() {
         logger.debug("Filling grid");
-        Random rand = new Random();
 
         if (isSmallVersion) {
             this.buttonSize = 100;
@@ -170,137 +183,35 @@ public class StrategoView extends CustomBorderPane {
             this.buttonSize = 80;
         }
 
-        HashMap<Pawns, Integer> unitCount = units.getUnits();
-        ArrayList<Pawns> pawns = new ArrayList<>();
-
-        unitCount.entrySet().forEach(entry -> {
-            for (int i = 0; i < entry.getValue(); i++) {
-                pawns.add(entry.getKey());
-            }
-        });
-        if (isSmallVersion && pawns.size() != this.baseGrid.getGridWidth()*3) { 
-            int target = this.baseGrid.getGridWidth()*3-pawns.size();
-            for (int i=0; i<target; i++) {
-                pawns.add(null);
-            }
-            logger.debug("Filling grid with empty pawns: " + pawns.size());
-        }
-
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
-        try {
-            if (!isSmallVersion) {
-                FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
-                Image imageRed = new Image(inputRed);
-                for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
-                    for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
-                        Button button = buttonGrid[row][col];
-                        button.setStyle("-fx-background-color: #aaddaa");
-                        if (row >= 6 && row <= 9) { // blue side (bottom)
-                            Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
-                            pawns.remove(pawn);
-                            if (pawn == null) {
-                                button.setGraphic(null);
-                                button.setText("");
-                            } else {
-                                FileInputStream inputBlue = new FileInputStream(pawn.getBluePath());
-                                Image imageBlue = new Image(inputBlue);
-
-                                ImageView imageView = new ImageView(imageBlue);
-                                imageView.setFitHeight(buttonSize);
-                                imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
-                                button.setGraphic(imageView);
-                            }
-                            button.setUserData(pawn); // store the pawn type in the button
-                        } else if (row >= 0 && row <= 3) { // red side (top)
-                            ImageView imageView = new ImageView(imageRed);
-                            imageView.setFitHeight(buttonSize);
-                            imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
-                            button.setGraphic(imageView);
-                            button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
-                        } else if (col >= 2 && col <= 3) { // lake tiles
-                            button.setStyle("-fx-background-color: #0e87a6");
-                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                        } else if (col >= 6 && col <= 7) { // lake tiles
-                            button.setStyle("-fx-background-color: #0e87a6");
-                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                        } else {
-                            button.setUserData(null); // store NONE in the button for the empty tiles
-                        }
-                        button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
-                        button.setMaxSize(buttonSize+20, buttonSize);
-                        button.setOnAction(_ -> {
-                            // button.setStyle("-fx-background-color: #ff0000");
-                        });
-                        if (button.getUserData() != null && button.getUserData() != null) {
-                            logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+        if (!isSmallVersion) {
+            for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
+                for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
+                    Button button = buttonGrid[row][col];
+                    button.setStyle("-fx-background-color: #aaddaa");
+                    if ((row >= 4 && row <= 5)) { // lake tiles
+                        if ((col >= 2 && col <= 3) || (col >= 6 && col <= 7)) { // lake tiles
+                            updateButton(button, Pawns.LAKE);
                         }
                     }
+                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize+20, buttonSize);
                 }
-            } else {
-                FileInputStream inputRed = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
-                Image imageRed = new Image(inputRed);
-                for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
-                    for (int col = 0; col < this.baseGrid.getGridWidth(); col++) {
-                        Button button = buttonGrid[row][col];
-                        button.setStyle("-fx-background-color: #aaddaa");
-                        if (row >= 5 && row <= 9) { // blue side (bottom)
-                            Pawns pawn = pawns.get(rand.nextInt(pawns.size()));
-                            pawns.remove(pawn);
-                            if (pawn == null) {
-                                // button.setGraphic(null);
-                                // button.setText("");
-                            } else {
-                                FileInputStream inputBlue = new FileInputStream(pawn.getBluePath());
-                                Image imageBlue = new Image(inputBlue);
-
-                                ImageView imageView = new ImageView(imageBlue);
-                                imageView.setFitHeight(buttonSize);
-                                imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
-                                button.setGraphic(imageView);
-                            }
-                            button.setUserData(pawn); // store the pawn type in the button
-                        } else if (row >= 0 && row <= 2) { // red side (top)
-                            ImageView imageView = new ImageView(imageRed);
-                            imageView.setFitHeight(buttonSize);
-                            imageView.setFitWidth(buttonSize*1.10); // match the width of the blue side
-                            button.setGraphic(imageView);
-                            button.setUserData(Pawns.UNKNOWN); // store NONE in the button for the red side
-                        } else if (col == 2) { // lake tiles
-                            button.setStyle("-fx-background-color: #0e87a6");
-                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                        } else if (col == 5) { // lake tiles
-                            button.setStyle("-fx-background-color: #0e87a6");
-                            button.setUserData(Pawns.LAKE); // store LAKE in the button for the lake tiles
-                        } else {
-                            button.setUserData(null); // store NONE in the button for the empty tiles
-                        }
-                        button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
-                        button.setMaxSize(buttonSize+20, buttonSize);
-                        button.setOnAction(_ -> {
-                            // button.setStyle("-fx-background-color: #ff0000");
-                        });
-                        if (button.getUserData() != null && button.getUserData() != null) {
-                            logger.debug("button: " + row + "," + col + " " + "Pawn: " + button.getUserData());
+            }
+        } else {
+            for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
+                for (int col = 0; col < this.baseGrid.getGridWidth(); col++) {
+                    Button button = buttonGrid[row][col];
+                    button.setStyle("-fx-background-color: #aaddaa");
+                    if ((row >= 3 && row <= 4)) { // lake tiles
+                        if ((col == 2) || (col == 5)) { // lake tiles
+                            updateButton(button, Pawns.LAKE);
                         }
                     }
+                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize+20, buttonSize);
                 }
             }
-        } catch (FileNotFoundException e) {
-            logger.error("Pawn image file not found: " + e);
-            logger.debug("Pawn image file not found, setting empty buttons");
-            for (Button[] row : buttonGrid) {
-                for (Button cell : row) {
-                    cell.setStyle("-fx-background-color: #aaddaa");
-                    cell.setMinSize(buttonSize, buttonSize);
-                    cell.setMaxSize(buttonSize, buttonSize);
-                    cell.setOnAction(_ -> {
-                        // cell.setStyle("-fx-background-color: #ff0000");
-                    });
-                }
-            }
-        } catch (Exception e) {
-            logger.error("Error filling grid" + e, e);
-            logger.debug("Error filling grid, setting empty buttons" + pawns.size());
         }
     }
 }

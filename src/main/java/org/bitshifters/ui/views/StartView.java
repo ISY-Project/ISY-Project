@@ -28,6 +28,10 @@ public class StartView extends CustomBorderPane {
         return hButtonBox;
     }
 
+    /**
+     * Constructor for the StartView
+     * @param mainFrame the main frame object
+     */
     public StartView(MainFrame mainFrame) {
         super(mainFrame);
         logger.debug("created the StartView");

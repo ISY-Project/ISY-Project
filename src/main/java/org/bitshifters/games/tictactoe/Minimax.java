@@ -7,7 +7,13 @@ import java.util.Random;
 
 import org.bitshifters.logging.BSLogger;
 
+/**
+ * Minimax algorithm for Tic Tac Toe
+ */
 public class Minimax {
+    /**
+     * Enum for the game state
+     */
     public enum GameState {
         WIN_X,
         WIN_O,
@@ -18,10 +24,17 @@ public class Minimax {
     private static int bestMove;
     private static final BSLogger logger = new BSLogger(Minimax.class);
 
+    /**
+     * Constructor for the Minimax class (does nothing)
+     */
     public Minimax() {
-        
     }
 
+    /**
+     * Method to determine the game result
+     * @param grid the current game grid
+     * @return the game state
+     */
     private static GameState gameResult(char[] grid) {
         if ((grid[0] == 'X' && grid[1] == 'X' && grid[2] == 'X') | (grid[3] == 'X' && grid[4] == 'X' && grid[5] == 'X') | (grid[6] == 'X' && grid[7] == 'X' && grid[8] == 'X') | 
             (grid[0] == 'X' && grid[3] == 'X' && grid[6] == 'X') | (grid[1] == 'X' && grid[4] == 'X' && grid[7] == 'X') | (grid[2] == 'X' && grid[5] == 'X' && grid[8] == 'X') | 
@@ -39,6 +52,13 @@ public class Minimax {
         return GameState.ONGOING;
     }
 
+    /**
+     * Method to determine the best move for the AI
+     * @param grid the current game grid
+     * @param isPlayer whether the player is the AI
+     * @param playerSymbol the symbol of the player
+     * @return the score of the best move
+     */
     private static int minimax(char[] grid, boolean isPlayer, char playerSymbol) {
         switch(gameResult(grid)) {
             case WIN_X -> {
@@ -116,11 +136,21 @@ public class Minimax {
         return scores.get(maxIndex);
     }
 
+    /**
+     * Method to get the best move for the AI
+     * @param grid the current game grid
+     * @param playerSymbol the symbol of the player
+     * @return the best move
+     */
     public static int getBestMove(char[] grid, char playerSymbol) {
         minimax(grid, true, playerSymbol);
         return bestMove;
     }
 
+    /**
+     * Main method to test the Minimax algorithm
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         int Win_player_one = 0;
         int Win_player_two = 0;

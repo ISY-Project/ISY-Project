@@ -1,23 +1,25 @@
 package org.bitshifters.gameclient;
 
+import java.util.logging.Level;
+
 import org.bitshifters.ClientController;
 import org.bitshifters.Config;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.GridTransformer;
 import org.bitshifters.games.components.Player;
+import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
-import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 
 /**
  * CLient moet online kunnen spelen
  * Client moet tegen Ai kunnen spelen
- * 
  */
 public class StrategoClient extends GameClient {
     private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
@@ -28,38 +30,70 @@ public class StrategoClient extends GameClient {
     private final StrategoEngine engine;
     private boolean placingUnits = true;
     private boolean unitSelected = false;
-    private Player[] players;
+    private Pawns selectedUnit = null;
+    private final Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
-    private int boardSize;
 
-    public StrategoClient(StrategoView view, Player playerBlue, Player playerRed, int boardSize) {
+    /**
+     * Constructor for the StrategoClient
+     * @param view the view object
+     * @param playerBlue the Player on the blue side
+     * @param playerRed the Player on the red side
+     * @param boardRows the number of rows on the board
+     * @param boardCols the number of columns on the board
+     */
+    public StrategoClient(StrategoView view, Player playerBlue, Player playerRed, int boardRows, int boardCols) {
         super(GameTypes.Stratego);
         telnet = new TelnetClient(
             config.getValue("host"),
             Integer.parseInt(config.getValue("port")));
-        Player[] players = {playerBlue, playerRed};
+        players = new Player[] {playerBlue, playerRed};
         this.view = view;
-        this.engine = new StrategoEngine(players);
-        this.boardSize = boardSize;
-        // TODO place Unknowns in enemy positions.
+        this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
     }
 
+    /**
+     * Set up each button listener on the grid
+     * @param view the view object
+     */
     private void setupGridButtonListeners(StrategoView view) {
         for (int row = 0; row < view.getBaseGrid().getButtonGrid().length; row++) {
             for (int col = 0; col < view.getBaseGrid().getButtonGrid()[row].length; col++) {
-                logger.debug("Setting up button listener at row: " + row + " col: " + col);
-                final int finalRow = row;
-                final int finalCol = col;
-                var button = view.getBaseGrid().getButtonGrid()[row][col];
-                button.addEventHandler(ActionEvent.ACTION, (_ -> handleButtonClick(view, finalRow, finalCol)));
+                setupButtonListener(row, col, view);
             }
+        }
+
+        logger.debug("Setting up available units button listeners");
+        Button[] buttons = view.getAvailableUnitsButtons().getButtons();
+        for (int i = 0; i < buttons.length; i++) {
+            setupAvalibleUnitsButtons(i, view);
         }
     }
 
+    /**
+     * Set up the button listener
+     * @param row
+     * @param col
+     * @param view1
+     */
+    private void setupButtonListener(int row, int col, StrategoView view1) {
+        logger.debug("Setting up button listener at row: " + row + " col: " + col);
+        final int finalRow = row;
+        final int finalCol = col;
+        javafx.scene.control.Button button = view1.getBaseGrid().getButtonGrid()[row][col];
+        button.addEventHandler(ActionEvent.ACTION, _ -> handleButtonClick(view1, finalRow, finalCol));
+    }
+
+    /**
+     * Handle the button click
+     * @param view the view object
+     * @param finalRow the final row
+     * @param finalCol the final column
+     */
     private void handleButtonClick(StrategoView view, final int finalRow, final int finalCol) {
-        logger.info("Button clicked at row: " + finalRow + " col: " + finalCol);
+        logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
         int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
         // TODO UI interaction to place units
         if (placingUnits) {
@@ -89,7 +123,35 @@ public class StrategoClient extends GameClient {
         selectedUnitCol = finalCol;
     }
 
-    public boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
+    /**
+     * Set up the available units button listener
+     * @param index the index of the button
+     * @param view the view object
+     */
+    private void setupAvalibleUnitsButtons(int index, StrategoView view) {
+        logger.debug("Setting up available units button listener at index: " + index);
+        javafx.scene.control.Button button = view.getAvailableUnitsButtons().getButtons()[index];
+        button.addEventHandler(ActionEvent.ACTION, _ -> {
+            handleAvalibleUnitsButtonClick(view, index, (Pawns) button.getUserData());
+        });
+    }
+
+    private void handleAvalibleUnitsButtonClick(StrategoView view, int index, Pawns pawn) {
+        logger.log(Level.INFO, "Available units button clicked at index: {0} pawn: {1}", new Object[]{index, pawn});
+        this.unitSelected = true;
+        this.selectedUnit = pawn;
+        view.getAvailableUnitsButtons().selectUnitButton(index);
+    }
+
+    /**
+     * Validate the move
+     * @param fromRow the from row
+     * @param fromCol the from column
+     * @param toRow the to row
+     * @param toCol the to column
+     * @return true if the move is valid, false otherwise
+     */
+    private boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
         Player activePlayer = engine.getActivePlayer();
         if (!engine.validateMove(fromRow, fromCol, toRow, toCol, activePlayer)) {
             return false;
@@ -99,20 +161,17 @@ public class StrategoClient extends GameClient {
         }
         Unit attacker = engine.getCell(fromRow, fromCol, activePlayer);
         Unit defender = engine.getCell(toRow, toCol, activePlayer);
-        if (!engine.validateAttack(attacker, defender, activePlayer)) {
-            return false;
-        }
-        return true;
+        return engine.validateAttack(attacker, defender, activePlayer);
     }
 
     /**
-     * Make a move on the board
-     * @param row
-     * @param col
-     * @return
+     * Make the move
+     * @param fromRow the from row
+     * @param fromCol the from column
+     * @param toRow the to row
+     * @param toCol the to column
      */
-    // TODO fix this after implementing getNextPlayer()
-    public void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
+    private void makeMove(int fromRow, int fromCol, int toRow, int toCol) {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
@@ -128,7 +187,13 @@ public class StrategoClient extends GameClient {
         engine.setActivePlayer(nextPlayer);
     }
 
-    public void placeUnit(int row, int col, Pawns pawn) {
+    /***
+     * Place a unit on the board
+     * @param row the row
+     * @param col the column
+     * @param pawn the Pawn type
+     */
+    private void placeUnit(int row, int col, Pawns pawn) {
         logger.info("placing unit " + pawn + " on row: " + row + " col: " + col);
         Player activePlayer = engine.getActivePlayer();
         view.updateButton(row, col, pawn);
@@ -137,14 +202,9 @@ public class StrategoClient extends GameClient {
 
     /**
      * Get the next player
-     * @return
+     * @return the next player
      */
-    // TODO implement this
-    //private Player getNextPlayer() {
-    //    
-    //}
-
-    public Player getNextPlayer() {
+    private Player getNextPlayer() {
         return engine.getActivePlayer() == players[0] ? players[1] : players[0];
     }
 
@@ -166,6 +226,10 @@ public class StrategoClient extends GameClient {
         throw new UnsupportedOperationException("Unimplemented method 'onMatch'");
     }
 
+    /**
+     * Handle the turn of the player
+     * @param message the message
+     */
     // TODO algorithm
     @Override
     public void onYourTurn(String message) {
@@ -177,6 +241,9 @@ public class StrategoClient extends GameClient {
         // call makeMove
     }
 
+    /**
+     * Handle the move of the player and the opponent
+     */
     // TODO implement this
     @Override
     public void onMove(String[] data) {
@@ -184,18 +251,27 @@ public class StrategoClient extends GameClient {
         // call makemove
     }
 
+    /**
+     * Handle the win of the player
+     */
     // TODO implement this
     @Override
     public void onWin() {
         view.getMainFrame().showPopup("You Win");
     }
 
+    /**
+     * Handle the lose of the player
+     */
     // TODO implement this
     @Override
     public void onLose() {
         view.getMainFrame().showPopup("You Lose");
     }
 
+    /**
+     * Handle the draw of the player
+     */
     // TODO implement this
     @Override
     public void onDraw() {
