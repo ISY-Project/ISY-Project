@@ -30,7 +30,7 @@ public class StartView extends CustomBorderPane {
      */
     public StartView(MainFrame mainFrame) {
         super(mainFrame);
-        logger.debug("created the StartView");
+        logger.debug("creating StartView");
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);

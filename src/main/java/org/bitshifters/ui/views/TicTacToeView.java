@@ -28,6 +28,7 @@ public class TicTacToeView extends CustomBorderPane {
      */
     public TicTacToeView(MainFrame mainFrame) {
         super(mainFrame);
+        logger.debug("Creating TicTacToeView");
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);

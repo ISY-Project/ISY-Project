@@ -42,6 +42,7 @@ public class StrategoView extends CustomBorderPane {
      */
     public StrategoView(MainFrame mainFrame, boolean smallVerison) {
         super(mainFrame);
+        logger.debug("Creating StrategoView");
         this.isSmallVersion = smallVerison;
         HBox hGridBox = new HBox();
         VBox vBox = new VBox();
