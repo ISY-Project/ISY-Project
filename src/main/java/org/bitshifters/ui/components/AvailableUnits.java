@@ -126,6 +126,7 @@ public final class AvailableUnits extends HBox {
     }
 
     public void selectUnitButton(int index){
+        logger.debug("Selecting button: " + index + ", Old button: " + selectedButtonIndex);	
         buttons[index].setStyle(selectedStyle);
         if (selectedButtonIndex != -1) {
             buttons[selectedButtonIndex].setStyle(style);
