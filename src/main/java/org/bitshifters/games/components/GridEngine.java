@@ -61,7 +61,7 @@ public abstract class GridEngine<Cell> extends Engine {
      */
     protected void setCell(final int row, final int col, final Cell cell, final Player player) {
         logger.debug("Setting cell at row: " + row + " and column: " + col + " to: " + cell + " for player: " + player);
-        if (grids.get(player) == null) {
+        if (player == null || !grids.containsKey(player)) {
             // TODO: throw an exception
             logger.error("Grid for player: " + player + " does not exist");
             return;
