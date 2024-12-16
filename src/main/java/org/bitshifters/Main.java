@@ -37,7 +37,6 @@ public class Main{
         // config.write(); // instantly write the config, with default values.
         main.run(args);
         MainFrame.run(args);
-        ClientController clientController = new ClientController(config.getValue("username"));
     }
 
     private static void configureArgParser(final String[] args) {
