@@ -99,7 +99,10 @@ public class StrategoClient extends GameClient {
         if (placingUnits) {
             // TODO: check whether the unit is placed on the right side of the board
             Player player = engine.getActivePlayer();
-            placeUnit(finalRow, finalCol, selectedUnit);
+            boolean placed = placeUnit(finalRow, finalCol, selectedUnit);
+            if (!placed) {
+                return;
+            }
             boolean disable = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
             if (disable) {
                 this.unitSelected = false;
@@ -197,15 +200,22 @@ public class StrategoClient extends GameClient {
      * @param col the column
      * @param pawn the Pawn type
      */
-    private void placeUnit(int row, int col, Pawns pawn) {
+    private boolean placeUnit(int row, int col, Pawns pawn) {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
+        Player activePlayer = engine.getActivePlayer();
+
+        int engineRow = (activePlayer.equals(players[1])) ? row : engine.getTotalRows() - row - 1; // rotate the board for player 1
+
         if (pawn == null) {
             view.getMainFrame().showPopup("First select a unit to place");
-            return;
+            return false;
+        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, col)) {
+            view.getMainFrame().showPopup("Place the unit on the right side of the board");
+            return false;
         }
-        Player activePlayer = engine.getActivePlayer();
         view.updateButton(row, col, pawn);
-        engine.PlaceUnit(activePlayer, row, col, pawn);
+        engine.PlaceUnit(activePlayer, engineRow, col, pawn);
+        return true;
     }
 
     /**
