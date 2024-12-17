@@ -4,6 +4,8 @@ import java.util.logging.Level;
 
 import org.bitshifters.ClientController;
 import org.bitshifters.Config;
+import org.bitshifters.gameclient.TicTacToeClient;
+import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
@@ -35,6 +37,7 @@ public class MainFrame extends Application {
     private Popup popup;
     private boolean tests = false;
     private static final Config config = Config.getInstance();
+    private static final Player player = new Player(config.getValue("username"));
     private ClientController clientController;
 
     /**
@@ -50,7 +53,7 @@ public class MainFrame extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
-        new TicTacToeClient(ticTacToeView, this.player, new Player("Opponent"));
+        new TicTacToeClient(ticTacToeView, player, new Player("Opponent"));
         // new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
         // new StrategoClient(strategoView, this.player, new Player("Opponent"));
 
