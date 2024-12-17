@@ -376,7 +376,6 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     public void PlaceUnit(final Player player, final int row, final int col, final Pawns rank) {
         final Unit unit = new Unit(rank, player, row, col);
-        // TODO: add offset for player 1 (you)
         setCell(row, col, unit, player);
     }
 
