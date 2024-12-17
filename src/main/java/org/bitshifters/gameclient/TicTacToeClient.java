@@ -1,7 +1,6 @@
 package org.bitshifters.gameclient;
 
 import org.bitshifters.ClientController;
-import org.bitshifters.Config;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.Grid;
 import org.bitshifters.games.components.GridTransformer;
@@ -10,7 +9,6 @@ import org.bitshifters.games.tictactoe.Minimax;
 import org.bitshifters.games.tictactoe.TTTEngine;
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.Commands.Login;
 import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.ui.enums.Screens;
@@ -29,7 +27,6 @@ import javafx.event.EventHandler;
 public class TicTacToeClient extends GameClient {
     private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
-    private static final Config config = Config.getInstance();
     private final ResponseHandler responseHandler;
     private final TicTacToeView view;
     private final TTTEngine engine;
@@ -52,8 +49,6 @@ public class TicTacToeClient extends GameClient {
         view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().removeEventHandler(
             ActionEvent.ACTION, event);
         try {
-            telnet.connect();
-            telnet.send(new Login(config.getValue("username")));
             telnet.send(Subscribe.TTT);
             try {
                 String response = telnet.receive();
