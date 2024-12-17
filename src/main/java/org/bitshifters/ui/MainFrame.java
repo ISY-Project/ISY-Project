@@ -28,6 +28,7 @@ import javafx.stage.StageStyle;
  */
 public class MainFrame extends Application {
     private static final BSLogger logger = new BSLogger(MainFrame.class);
+    private ClientController clientController = ClientController.getInstance(this);
     private final StartView startView = new StartView(this);
     private final BattleshipsView battleshipsView = new BattleshipsView(this);
     private final TicTacToeView ticTacToeView = new TicTacToeView(this);
@@ -38,7 +39,6 @@ public class MainFrame extends Application {
     private boolean tests = false;
     private static final Config config = Config.getInstance();
     private static final Player player = new Player(config.getValue("username"));
-    private ClientController clientController;
 
     /**
      * This is the main method of the program. this will be run by JavaFX
@@ -51,6 +51,7 @@ public class MainFrame extends Application {
             return;
         }
 
+        clientController.setUp();
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
         new TicTacToeClient(ticTacToeView, player, new Player("Opponent"));
@@ -85,7 +86,6 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
-        this.clientController = ClientController.getInstance(this);
     }
 
     /**

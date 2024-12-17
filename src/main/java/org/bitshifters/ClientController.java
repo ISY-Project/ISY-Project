@@ -20,11 +20,10 @@ public class ClientController {
     public static final TelnetClient telnet = new TelnetClient(
         Config.getInstance().getValue("host"),
         Integer.parseInt(Config.getInstance().getValue("port")));
-    private static ClientController instance;
+    private static ClientController instance = null;
 
     private ClientController(final MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        setUp();
     }
 
     public static ClientController getInstance(final MainFrame mainFrame) {
@@ -41,7 +40,7 @@ public class ClientController {
         return instance;
     }
 
-    private void setUp() {
+    public void setUp() {
         setUpTicTacToe();
         setUpStratego();
     }
