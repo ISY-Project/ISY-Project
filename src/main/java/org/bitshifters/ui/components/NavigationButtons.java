@@ -1,5 +1,6 @@
 package org.bitshifters.ui.components;
 
+import org.bitshifters.ClientController;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
 
@@ -37,7 +38,10 @@ public class NavigationButtons extends VBox {
         strategoTenButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOTEN));
         strategoEightButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOEIGHT));
 
-        // TODO: Buttons should set the active client to the selected game.
+        var cc = ClientController.getInstance();
+        ticTacToeButton.addOnAction(_ -> ClientController.selectedClient = cc.getTicTacToeClient());
+        strategoTenButton.addOnAction(_ -> ClientController.selectedClient = cc.getStrategoClientTen());
+        strategoEightButton.addOnAction(_ -> ClientController.selectedClient = cc.getStrategoClientEight());
 
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
