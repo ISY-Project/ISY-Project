@@ -364,7 +364,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         if (row < 0 || row >= playerRows) {
             return false;
         }
-        if !(col < 0 || col >= playerCols) {
+        if (col < 0 || col >= playerCols) {
             return false;
         }
         if (getCell(row, col, player) != null) {

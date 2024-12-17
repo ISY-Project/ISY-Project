@@ -111,7 +111,7 @@ public final class AvailableUnits extends HBox {
      * @param pawn the pawn to remove
      * @return true if the unit button is empty, false otherwise
      */
-    public boolean removeUnit(Pawns pawn) {
+    public Pawns removeUnit(Pawns pawn) {
         for (Button button : buttons) {
             Pawns buttonPawn = (Pawns) button.getUserData();
             if (buttonPawn.equals(pawn)) {
@@ -128,17 +128,25 @@ public final class AvailableUnits extends HBox {
                     button.setDisable(true);
                     selectedButtonIndex = -1;
                     button.setStyle(style);
-                    return true;
+
+                    for (int i = 0; i < buttons.length; i++) {
+                        if (buttons[i].isDisabled() == false) {
+                            return selectUnitButton(i);
+                        }
+                    }
+
+                    return null;
                 }
-                break;
+                return pawn;
             }
         }
-        return false;
+        return null;
     }
 
     public Pawns selectUnitButton(int index){
         logger.debug("Selecting button: " + index + ", Old button: " + selectedButtonIndex);	
         if (selectedButtonIndex == index) {
+            buttons[selectedButtonIndex].setStyle(style);
             selectedButtonIndex = -1;
             return null;
         } else if (selectedButtonIndex != -1) {

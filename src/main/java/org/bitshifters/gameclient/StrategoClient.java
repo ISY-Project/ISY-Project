@@ -103,11 +103,15 @@ public class StrategoClient extends GameClient {
             if (!placed) {
                 return;
             }
-            boolean disable = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
-            if (disable) {
+            Pawns selectedPawn = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
+            if (selectedPawn == null) {
                 this.unitSelected = false;
                 this.selectedUnit = null;
+            } else {
+                this.selectedUnit = selectedPawn;
+                this.unitSelected = true;
             }
+
             // TODO: telnet send placed unit
             if (engine.validateAllUnitsPlaced(player)) {
                 placingUnits = false;
