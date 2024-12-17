@@ -13,7 +13,6 @@ import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Login;
 import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.ResponseHandler;
-import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.TicTacToeView;
 import org.bitshifters.telnet.Commands.Subscribe;
@@ -32,16 +31,12 @@ public class TicTacToeClient extends GameClient {
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
     private static final Config config = Config.getInstance();
     private final ResponseHandler responseHandler;
-    private final TelnetClient telnet;
     private final TicTacToeView view;
     private final TTTEngine engine;
     private final EventHandler<? super ActionEvent> event;
 
     public TicTacToeClient(TicTacToeView view, Player playerX, Player playerO) {
         super(GameTypes.TicTacToe);
-        telnet = new TelnetClient(
-            config.getValue("host"),
-            Integer.parseInt(config.getValue("port")));
         this.view = view;
         this.engine = new TTTEngine(playerX, playerO);
         responseHandler = new ResponseHandler(this);

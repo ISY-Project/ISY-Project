@@ -6,6 +6,7 @@ import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
+import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.MainFrame;
 
 public class ClientController {
@@ -15,6 +16,9 @@ public class ClientController {
     ArrayList<GameClient> gameClients = new ArrayList<>();
     public static boolean isComputer = false;
     private final Player opponent = new Player("Opponent");
+    public static final TelnetClient telnet = new TelnetClient(
+        Config.getInstance().getValue("host"),
+        Integer.parseInt(Config.getInstance().getValue("port")));
 
     public ClientController(final String name, final MainFrame mainFrame) {
         this.player = new Player(name);
@@ -29,7 +33,7 @@ public class ClientController {
     }
 
     private void setUp() {
-        // setUpTTT();
+        setUpTTT();
         setUpStratego();
     }
 
