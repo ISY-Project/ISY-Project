@@ -33,6 +33,7 @@ public final class AvailableUnits extends HBox {
      */
     public AvailableUnits(final boolean isSmallVersion) {
         super();
+        logger.debug("Creating AvailableUnits");
 
         int spacing = 5;
 
@@ -49,8 +50,8 @@ public final class AvailableUnits extends HBox {
         } else {
             this.availableUnits = UnitSet.TEN;
         }
-
-        this.buttons = new Button[availableUnits.getTotalUnits()];
+        int size = this.availableUnits.getUnits().size();
+        this.buttons = new Button[size];
         createButtons();
         getChildren().addAll(leftBox, rightBox);
     }
@@ -105,7 +106,12 @@ public final class AvailableUnits extends HBox {
         }
     }
 
-    public void removeUnit(Pawns pawn) {
+    /**
+     * Remove a unit from the available units
+     * @param pawn the pawn to remove
+     * @return true if the unit button is empty, false otherwise
+     */
+    public Pawns removeUnit(Pawns pawn) {
         for (Button button : buttons) {
             Pawns buttonPawn = (Pawns) button.getUserData();
             if (buttonPawn.equals(pawn)) {
@@ -118,19 +124,46 @@ public final class AvailableUnits extends HBox {
 
                 text.setText(pawn.getName() + ": " + amount);
 
-                if (amount == 0) {button.setDisable(true);}
+                if (amount == 0) {
+                    button.setDisable(true);
+                    selectedButtonIndex = -1;
+                    button.setStyle(style);
 
-                break;
+                    for (int i = 0; i < buttons.length; i++) {
+                        if (buttons[i].isDisabled() == false) {
+                            return selectUnitButton(i);
+                        }
+                    }
+
+                    return null;
+                }
+                return pawn;
             }
         }
+        return null;
     }
 
-    public void selectUnitButton(int index){
-        buttons[index].setStyle(selectedStyle);
-        if (selectedButtonIndex != -1) {
+    public Pawns selectUnitButton(int index){
+        logger.debug("Selecting button: " + index + ", Old button: " + selectedButtonIndex);	
+        if (selectedButtonIndex == index) {
             buttons[selectedButtonIndex].setStyle(style);
-        }
+            selectedButtonIndex = -1;
+            return null;
+        } else if (selectedButtonIndex != -1) {
+            buttons[selectedButtonIndex].setStyle(style);
+        } 
+        buttons[index].setStyle(selectedStyle);
         selectedButtonIndex = index;
+        return (Pawns) buttons[index].getUserData();
+    }
+
+    public boolean isPlacingDone() {
+        for (Button button : buttons) {
+            if (!button.isDisabled()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public UnitSet getAvailableUnits() {

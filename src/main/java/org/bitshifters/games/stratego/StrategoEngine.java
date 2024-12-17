@@ -1,7 +1,6 @@
 package org.bitshifters.games.stratego;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
@@ -345,7 +344,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             var unit = i.getKey();
             Integer unitCount = unitCounter.get(unit);
             Integer requiredCount = i.getValue();
-            if (!Objects.equals(unitCount, requiredCount)) {
+            if (unitCount.equals(requiredCount)) {
                 return false;
             }
         }
@@ -361,7 +360,16 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @return True if the placement is valid, false otherwise
      */
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
-        return !isOutOfBounds(row, col);
+        if (row < 0 || row >= playerRows) {
+            return false;
+        }
+        if (col < 0 || col >= playerCols) {
+            return false;
+        }
+        if (getCell(row, col, player) != null) {
+            return false;
+        }
+        return true;
     }
 
     /**

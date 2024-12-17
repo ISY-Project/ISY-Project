@@ -28,6 +28,7 @@ public class BattleshipsView extends CustomBorderPane {
      */
     public BattleshipsView(MainFrame mainFrame) {
         super(mainFrame);
+        logger.debug("Creating BattleshipsView");
         HBox hGridBox = new HBox(10);
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);

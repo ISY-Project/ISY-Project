@@ -2,6 +2,8 @@ package org.bitshifters.ui;
 
 import java.util.logging.Level;
 
+import org.bitshifters.ClientController;
+import org.bitshifters.Config;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
@@ -32,6 +34,8 @@ public class MainFrame extends Application {
     private Stage stage;
     private Popup popup;
     private boolean tests = false;
+    private static final Config config = Config.getInstance();
+    private ClientController clientController;
 
     /**
      * This is the main method of the program. this will be run by JavaFX
@@ -78,6 +82,7 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
+        this.clientController = new ClientController(config.getValue("username"), this);
     }
 
     /**
@@ -188,5 +193,9 @@ public class MainFrame extends Application {
      */
     public StrategoView getStrategoViewEight() {
         return strategoViewEight;
+    }
+
+    public ClientController getClientController() {
+        return clientController;
     }
 }

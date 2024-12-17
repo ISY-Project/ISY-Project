@@ -10,6 +10,7 @@ import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
+import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
@@ -52,6 +53,10 @@ public class StrategoClient extends GameClient {
         this.view = view;
         this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
+        engine.setActivePlayer(playerBlue);
+        if (view.isSmallVersion()) {
+            engine.setUnitCounts(UnitSet.EIGHT);
+        }
     }
 
     /**
@@ -78,12 +83,12 @@ public class StrategoClient extends GameClient {
      * @param col
      * @param view1
      */
-    private void setupButtonListener(int row, int col, StrategoView view1) {
+    private void setupButtonListener(int row, int col, StrategoView view) {
         logger.debug("Setting up button listener at row: " + row + " col: " + col);
         final int finalRow = row;
         final int finalCol = col;
-        javafx.scene.control.Button button = view1.getBaseGrid().getButtonGrid()[row][col];
-        button.addEventHandler(ActionEvent.ACTION, _ -> handleButtonClick(view1, finalRow, finalCol));
+        javafx.scene.control.Button button = view.getBaseGrid().getButtonGrid()[row][col];
+        button.addEventHandler(ActionEvent.ACTION, _ -> handleButtonClick(view, finalRow, finalCol));
     }
 
     /**
@@ -95,15 +100,32 @@ public class StrategoClient extends GameClient {
     private void handleButtonClick(StrategoView view, final int finalRow, final int finalCol) {
         logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
         int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
-        // TODO UI interaction to place units
         if (placingUnits) {
+            // TODO: check whether the unit is placed on the right side of the board
             Player player = engine.getActivePlayer();
-            // get or store unit to place
-            // call placeUnit
-            // telnet send placed unit
-            if (engine.validateAllUnitsPlaced(player)) {
+            boolean placed = placeUnit(finalRow, finalCol, selectedUnit);
+            if (!placed) {
+                return;
+            }
+            Pawns selectedPawn = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
+            if (selectedPawn == null) {
+                this.unitSelected = false;
+                this.selectedUnit = null;
+            } else {
+                this.selectedUnit = selectedPawn;
+                this.unitSelected = true;
+            }
+
+            // TODO: Fix telnet for stratego place
+            // String rank = selectedUnit.getName();
+            // telnet.send(new Place(rank, index));
+            if (view.isPlacingDone()) {
+                if (!engine.validateAllUnitsPlaced(player)) {
+                    throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
+                }
+                view.setPlacingMode(false);
                 placingUnits = false;
-                engine.startGame(null);
+                // engine.startGame(null);
             }
             return;
         }
@@ -132,15 +154,14 @@ public class StrategoClient extends GameClient {
         logger.debug("Setting up available units button listener at index: " + index);
         javafx.scene.control.Button button = view.getAvailableUnitsButtons().getButtons()[index];
         button.addEventHandler(ActionEvent.ACTION, _ -> {
-            handleAvalibleUnitsButtonClick(view, index, (Pawns) button.getUserData());
+            handleAvalibleUnitsButtonClick(view, index);
         });
     }
 
-    private void handleAvalibleUnitsButtonClick(StrategoView view, int index, Pawns pawn) {
-        logger.log(Level.INFO, "Available units button clicked at index: {0} pawn: {1}", new Object[]{index, pawn});
+    private void handleAvalibleUnitsButtonClick(StrategoView view, int index) {
+        logger.log(Level.INFO, "Available units button clicked at index: {0}", index);
         this.unitSelected = true;
-        this.selectedUnit = pawn;
-        view.getAvailableUnitsButtons().selectUnitButton(index);
+        this.selectedUnit = view.getAvailableUnitsButtons().selectUnitButton(index);
     }
 
     /**
@@ -193,11 +214,22 @@ public class StrategoClient extends GameClient {
      * @param col the column
      * @param pawn the Pawn type
      */
-    private void placeUnit(int row, int col, Pawns pawn) {
-        logger.info("placing unit " + pawn + " on row: " + row + " col: " + col);
+    private boolean placeUnit(int row, int col, Pawns pawn) {
+        logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
         Player activePlayer = engine.getActivePlayer();
+
+        int engineRow = (activePlayer.equals(players[1])) ? row : engine.getTotalRows() - row - 1; // rotate the board for player 1
+
+        if (pawn == null) {
+            view.getMainFrame().showPopup("First select a unit to place");
+            return false;
+        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, col)) {
+            view.getMainFrame().showPopup("You are not able to place a unit there");
+            return false;
+        }
         view.updateButton(row, col, pawn);
-        engine.PlaceUnit(activePlayer, row, col, pawn);
+        engine.PlaceUnit(activePlayer, engineRow, col, pawn);
+        return true;
     }
 
     /**

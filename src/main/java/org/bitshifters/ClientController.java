@@ -7,8 +7,6 @@ import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.ui.MainFrame;
-import org.bitshifters.ui.views.StrategoView;
-import org.bitshifters.ui.views.TicTacToeView;
 
 public class ClientController {
     Player player;
@@ -18,13 +16,15 @@ public class ClientController {
     public static boolean isComputer = false;
     private final Player opponent = new Player("Opponent");
 
-    public ClientController(final String name) {
+    public ClientController(final String name, final MainFrame mainFrame) {
         this.player = new Player(name);
+        this.mainFrame = mainFrame;
         setUp();
     }
 
-    public ClientController(final Player player) {
+    public ClientController(final Player player, final MainFrame mainFrame) {
         this.player = player;
+        this.mainFrame = mainFrame; 
         setUp();
     }
 
@@ -35,7 +35,7 @@ public class ClientController {
 
     private void setUpTTT() {
         gameClients.add(new TicTacToeClient(
-            new TicTacToeView(mainFrame),
+            mainFrame.getTicTacToeView(),
             player,
             opponent));
     }
