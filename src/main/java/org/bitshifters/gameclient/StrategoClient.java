@@ -52,6 +52,7 @@ public class StrategoClient extends GameClient {
         this.view = view;
         this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
+        engine.setActivePlayer(playerBlue);
     }
 
     /**
