@@ -361,13 +361,7 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @return True if the placement is valid, false otherwise
      */
     public boolean validatePlaceUnit(final Player player, final int row, final int col) {
-        if (isOutOfBounds(row, col)) { // Check if the coordinates are out of bounds
-            return false;
-        } 
-        if (row < 0 || row >= playerRows) {
-            return false;
-        }
-        return !(col < 0 || col >= playerCols);
+        return !isOutOfBounds(row, col);
     }
 
     /**
@@ -379,7 +373,6 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     public void PlaceUnit(final Player player, final int row, final int col, final Pawns rank) {
         final Unit unit = new Unit(rank, player, row, col);
-        // TODO: add offset for player 1 (you)
         setCell(row, col, unit, player);
     }
 
