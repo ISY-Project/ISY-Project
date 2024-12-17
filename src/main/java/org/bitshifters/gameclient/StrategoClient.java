@@ -14,6 +14,7 @@ import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.telnet.Commands.Subscribe;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
@@ -332,6 +333,7 @@ public class StrategoClient extends GameClient {
     @Override
     protected void run() {
         ResponseHandler handler = new ResponseHandler(this);
+        telnet.send(Subscribe.STRATEGO);
         while (true) {
             String response;
             try {
