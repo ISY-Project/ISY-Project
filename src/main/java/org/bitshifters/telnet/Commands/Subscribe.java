@@ -2,7 +2,8 @@ package org.bitshifters.telnet.Commands;
 
 public enum Subscribe implements SendableCommand {
     BATTLESHIP("battleship"),
-    TTT("tic-tac-toe");
+    TTT("tic-tac-toe"),
+    STRATEGO("stratego"),;
 
     private final String game;
 
