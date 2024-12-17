@@ -73,6 +73,7 @@ public class StrategoView extends CustomBorderPane {
 
         this.setCenter(vBox);
         this.setRight(rightBox);
+        setPlacingMode(true);
     }
 
     /** 
@@ -214,5 +215,11 @@ public class StrategoView extends CustomBorderPane {
                 }
             }
         }
+    }
+
+    public final void setPlacingMode(boolean placingMode) {
+        // TODO: add an option to diable all other buttons when placing mode is enabled
+        // this.availableUnitsButtons.setPlacingMode(placingMode);
+        this.baseGrid.setPlacingMode(placingMode);
     }
 }

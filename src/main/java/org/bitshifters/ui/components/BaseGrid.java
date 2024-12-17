@@ -106,4 +106,22 @@ public class BaseGrid extends GridPane {
             }
         }
     }
+
+    public void setPlacingMode(boolean placingMode) {
+        int toRow = (this.gridHeight - (this.gridHeight/2)) + 1;
+        for (int i = 0; i < toRow + 1; i++) {
+            for (int j = 0; j < this.gridWidth; j++) {
+                Button button = this.grid[i][j];
+                if (placingMode) {
+                    if (i >= toRow) {
+                        button.setDisable(false);
+                    } else {
+                        button.setDisable(true);
+                    }
+                } else {
+                    button.setDisable(false);
+                }
+            }
+        }
+    }
 }
