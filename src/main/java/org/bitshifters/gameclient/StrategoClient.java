@@ -10,6 +10,7 @@ import org.bitshifters.games.components.Player;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
+import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Place;
 import org.bitshifters.telnet.TelnetClient;
@@ -54,6 +55,9 @@ public class StrategoClient extends GameClient {
         this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
         engine.setActivePlayer(playerBlue);
+        if (view.isSmallVersion()) {
+            engine.setUnitCounts(UnitSet.EIGHT);
+        }
     }
 
     /**
