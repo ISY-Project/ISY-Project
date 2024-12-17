@@ -1,6 +1,7 @@
 package org.bitshifters;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
@@ -13,7 +14,7 @@ public class ClientController {
     private static final Player player = new Player(Config.getInstance().getValue("username"));
     private final MainFrame mainFrame;
     public static GameClient selectedClient = null;
-    private static final ArrayList<GameClient> gameClients = new ArrayList<>();
+    private static final Map<String, GameClient> gameClients = new HashMap<>();
     public static boolean isComputer = false;
     private static final Player opponent = new Player("Opponent");
     public static final TelnetClient telnet = new TelnetClient(
@@ -40,29 +41,41 @@ public class ClientController {
     }
 
     private void setUp() {
-        setUpTTT();
+        setUpTicTacToe();
         setUpStratego();
     }
 
-    private void setUpTTT() {
-        gameClients.add(new TicTacToeClient(
+    private void setUpTicTacToe() {
+        gameClients.put("TicTacToe", new TicTacToeClient(
             mainFrame.getTicTacToeView(),
             player,
             opponent));
     }
 
     private void setUpStratego() {
-        gameClients.add(new StrategoClient(
+        gameClients.put("StrategoTen", new StrategoClient(
             mainFrame.getStrategoViewTen(),
             player,
             opponent,
             10,
             10));
-        gameClients.add(new StrategoClient(
+        gameClients.put("StrategoEight", new StrategoClient(
             mainFrame.getStrategoViewEight(),
             player,
             opponent,
             8,
             8));
+    }
+
+    public StrategoClient getStrategoClientTen() {
+        return (StrategoClient) gameClients.get("TicTacToe");
+    }
+
+    public TicTacToeClient getTicTacToeClient() {
+        return (TicTacToeClient) gameClients.get("StrategoTen");
+    }
+
+    public StrategoClient getStrategoClientEight() {
+        return (StrategoClient) gameClients.get("StrategoEight");
     }
 }
