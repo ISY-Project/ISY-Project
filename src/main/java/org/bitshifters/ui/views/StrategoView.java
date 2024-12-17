@@ -222,4 +222,12 @@ public class StrategoView extends CustomBorderPane {
         // this.availableUnitsButtons.setPlacingMode(placingMode);
         this.baseGrid.setPlacingMode(placingMode);
     }
+
+    public final boolean isPlacingDone() {
+        return this.availableUnitsButtons.isPlacingDone();
+    }
+
+    public boolean isSmallVersion() {
+        return this.isSmallVersion;
+    }
 }

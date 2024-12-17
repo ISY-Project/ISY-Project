@@ -157,6 +157,15 @@ public final class AvailableUnits extends HBox {
         return (Pawns) buttons[index].getUserData();
     }
 
+    public boolean isPlacingDone() {
+        for (Button button : buttons) {
+            if (!button.isDisabled()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public UnitSet getAvailableUnits() {
         return availableUnits;
     }
