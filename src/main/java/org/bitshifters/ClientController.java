@@ -67,12 +67,12 @@ public class ClientController {
             8));
     }
 
-    public StrategoClient getStrategoClientTen() {
-        return (StrategoClient) gameClients.get("TicTacToe");
+    public TicTacToeClient getTicTacToeClient() {
+        return (TicTacToeClient) gameClients.get("TicTacToe");
     }
 
-    public TicTacToeClient getTicTacToeClient() {
-        return (TicTacToeClient) gameClients.get("StrategoTen");
+    public StrategoClient getStrategoClientTen() {
+        return (StrategoClient) gameClients.get("StrategoTen");
     }
 
     public StrategoClient getStrategoClientEight() {
