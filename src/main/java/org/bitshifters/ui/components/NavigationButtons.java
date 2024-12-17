@@ -37,6 +37,7 @@ public class NavigationButtons extends VBox {
         strategoTenButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOTEN));
         strategoEightButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOEIGHT));
 
+        // TODO: Buttons should set the active client to the selected game.
 
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
