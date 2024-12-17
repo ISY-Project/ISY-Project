@@ -12,6 +12,7 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
 
@@ -330,7 +331,18 @@ public class StrategoClient extends GameClient {
 
     @Override
     protected void run() {
-        // TODO Handle responses from telnet.
-        throw new UnsupportedOperationException("Unimplemented method 'run'");
+        ResponseHandler handler = new ResponseHandler(this);
+        while (true) {
+            String response;
+            try {
+                response = telnet.receive();
+                if (response == null) {
+                    continue;
+                }
+                handler.handle(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
