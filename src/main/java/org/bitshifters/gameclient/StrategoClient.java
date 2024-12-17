@@ -327,4 +327,10 @@ public class StrategoClient extends GameClient {
         // Niet nodig?
         throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
     }
+
+    @Override
+    protected void run() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'run'");
+    }
 }
