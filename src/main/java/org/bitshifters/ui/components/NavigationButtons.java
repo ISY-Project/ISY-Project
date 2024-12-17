@@ -40,7 +40,7 @@ public class NavigationButtons extends VBox {
 
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
-            backButton.setOnAction(_ -> mainFrame.showScreen(Screens.START_SCREEN));
+            backButton.setOnAction(_ -> backButtonAction(mainFrame));
         } else {
             this.backButton = null;
         }
@@ -60,6 +60,11 @@ public class NavigationButtons extends VBox {
                 getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton);
             }
         }
+    }
+
+    private void backButtonAction(MainFrame mainFrame) {
+        mainFrame.showScreen(Screens.START_SCREEN);
+        // TODO: reset games.
     }
 
     /** 
