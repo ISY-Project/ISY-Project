@@ -85,7 +85,7 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
-        this.clientController = new ClientController(config.getValue("username"), this);
+        this.clientController = ClientController.getInstance(this);
     }
 
     /**

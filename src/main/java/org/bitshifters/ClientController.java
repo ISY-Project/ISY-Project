@@ -10,26 +10,33 @@ import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.MainFrame;
 
 public class ClientController {
-    Player player;
-    MainFrame mainFrame;
-    GameClient selectedClient = null;
-    ArrayList<GameClient> gameClients = new ArrayList<>();
+    private static final Player player = new Player(Config.getInstance().getValue("username"));
+    private final MainFrame mainFrame;
+    public static GameClient selectedClient = null;
+    private static final ArrayList<GameClient> gameClients = new ArrayList<>();
     public static boolean isComputer = false;
-    private final Player opponent = new Player("Opponent");
+    private static final Player opponent = new Player("Opponent");
     public static final TelnetClient telnet = new TelnetClient(
         Config.getInstance().getValue("host"),
         Integer.parseInt(Config.getInstance().getValue("port")));
+    private static ClientController instance;
 
-    public ClientController(final String name, final MainFrame mainFrame) {
-        this.player = new Player(name);
+    private ClientController(final MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setUp();
     }
 
-    public ClientController(final Player player, final MainFrame mainFrame) {
-        this.player = player;
-        this.mainFrame = mainFrame; 
-        setUp();
+    public static ClientController getInstance(final MainFrame mainFrame) {
+        if (instance == null) {
+            instance = new ClientController(mainFrame);
+        }
+        return instance;
+    }
+
+    public static void getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("ClientController has not been initialized yet");
+        }
     }
 
     private void setUp() {
@@ -57,9 +64,5 @@ public class ClientController {
             opponent,
             8,
             8));
-    }
-
-    public GameClient getSelectedClient() {
-        return selectedClient;
     }
 }
