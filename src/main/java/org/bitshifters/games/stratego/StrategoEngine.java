@@ -1,7 +1,6 @@
 package org.bitshifters.games.stratego;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import org.bitshifters.games.components.GridEngine;
 import org.bitshifters.games.components.Player;
@@ -345,7 +344,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             var unit = i.getKey();
             Integer unitCount = unitCounter.get(unit);
             Integer requiredCount = i.getValue();
-            if (!Objects.equals(unitCount, requiredCount)) {
+            if (unitCount.equals(requiredCount)) {
                 return false;
             }
         }
