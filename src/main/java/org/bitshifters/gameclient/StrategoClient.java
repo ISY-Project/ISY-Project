@@ -74,7 +74,7 @@ public class StrategoClient extends GameClient {
         logger.debug("Setting up available units button listeners");
         Button[] buttons = view.getAvailableUnitsButtons().getButtons();
         for (int i = 0; i < buttons.length; i++) {
-            setupAvalibleUnitsButtons(i, view);
+            setupAvailableUnitsButtons(i, view);
         }
     }
 
@@ -151,7 +151,7 @@ public class StrategoClient extends GameClient {
      * @param index the index of the button
      * @param view the view object
      */
-    private void setupAvalibleUnitsButtons(int index, StrategoView view) {
+    private void setupAvailableUnitsButtons(int index, StrategoView view) {
         logger.debug("Setting up available units button listener at index: " + index);
         javafx.scene.control.Button button = view.getAvailableUnitsButtons().getButtons()[index];
         button.addEventHandler(ActionEvent.ACTION, _ -> {
