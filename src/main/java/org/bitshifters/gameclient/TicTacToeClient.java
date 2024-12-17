@@ -48,16 +48,13 @@ public class TicTacToeClient extends GameClient {
     protected void run() {
         view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().removeEventHandler(
             ActionEvent.ACTION, event);
+        // TODO: fixme!, subscribes twice 
+        telnet.send(Subscribe.TTT);
         try {
-            telnet.send(Subscribe.TTT);
-            try {
-                String response = telnet.receive();
-                while (response.contains("")) {
-                    responseHandler.handle(response);
-                    response = telnet.receive();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            String response = telnet.receive();
+            while (response.contains("")) {
+                responseHandler.handle(response);
+                response = telnet.receive();
             }
         } catch (Exception e) {
             e.printStackTrace();
