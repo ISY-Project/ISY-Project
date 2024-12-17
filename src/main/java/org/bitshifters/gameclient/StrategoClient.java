@@ -12,6 +12,7 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.telnet.Commands.Place;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
@@ -112,7 +113,8 @@ public class StrategoClient extends GameClient {
                 this.unitSelected = true;
             }
 
-            // TODO: telnet send placed unit
+            String rank = selectedUnit.getName();
+            telnet.send(new Place(rank, index));
             if (engine.validateAllUnitsPlaced(player)) {
                 placingUnits = false;
                 engine.startGame(null);
