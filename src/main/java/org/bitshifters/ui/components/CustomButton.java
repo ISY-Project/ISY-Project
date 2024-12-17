@@ -1,5 +1,7 @@
 package org.bitshifters.ui.components;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 public class CustomButton extends Button {
@@ -84,4 +86,7 @@ public class CustomButton extends Button {
         setFocusTraversable(false); // remove the focus from the button to make it look better
     }
 
+    public void addOnAction(EventHandler<ActionEvent> action) {
+        addEventHandler(ActionEvent.ACTION, action);
+    }
 }
