@@ -330,7 +330,7 @@ public class StrategoClient extends GameClient {
 
     @Override
     protected void run() {
-        // TODO Auto-generated method stub
+        // TODO Handle responses from telnet.
         throw new UnsupportedOperationException("Unimplemented method 'run'");
     }
 }
