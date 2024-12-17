@@ -4,7 +4,7 @@ public class Place implements SendableCommand {
     private final String command;
 
     /**
-     * Constructor for Place command for the stratego unit placement
+     * Constructor for Place command for a battleship ship
      * @param start_index
      * @param end_index
      */
