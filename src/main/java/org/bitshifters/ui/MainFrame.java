@@ -7,6 +7,8 @@ import org.bitshifters.Config;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.telnet.Commands.Login;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -52,6 +54,7 @@ public class MainFrame extends Application {
         }
 
         clientController.setUp();
+
         StackPane root = new StackPane();
         root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
         new TicTacToeClient(ticTacToeView, player, new Player("Opponent"));
@@ -86,6 +89,20 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
+        connect(ClientController.telnet);
+        login(ClientController.telnet);
+    }
+
+    private void login(TelnetClient telnet) {
+        telnet.send(new Login(Config.getInstance().getValue("username")));
+    }
+
+    private void connect(TelnetClient telnet) {
+        try {
+            telnet.connect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
