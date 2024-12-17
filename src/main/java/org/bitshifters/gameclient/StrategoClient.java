@@ -12,7 +12,6 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.Commands.Place;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.views.StrategoView;
 
@@ -117,8 +116,9 @@ public class StrategoClient extends GameClient {
                 this.unitSelected = true;
             }
 
-            String rank = selectedUnit.getName();
-            telnet.send(new Place(rank, index));
+            // TODO: Fix telnet for stratego place
+            // String rank = selectedUnit.getName();
+            // telnet.send(new Place(rank, index));
             if (view.isPlacingDone()) {
                 if (!engine.validateAllUnitsPlaced(player)) {
                     throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
