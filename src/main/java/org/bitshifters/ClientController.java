@@ -34,10 +34,11 @@ public class ClientController {
         return instance;
     }
 
-    public static void getInstance() {
+    public static ClientController getInstance() {
         if (instance == null) {
             throw new IllegalStateException("ClientController has not been initialized yet");
         }
+        return instance;
     }
 
     private void setUp() {
