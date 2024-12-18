@@ -142,12 +142,16 @@ public class StrategoView extends CustomBorderPane {
         this.updateButton(getButton(row, col), pawn);
     }
 
+    public final void updateButton(Button button, Pawns pawn) {
+        updateButton(button, pawn, false);
+    }
+
     /** 
      * Update the specified button with the specified cell
      * @param button the button to update
      * @param pawn the pawn to update the button with
      */
-    public final void updateButton(Button button, Pawns pawn) {
+    public final void updateButton(Button button, Pawns pawn, boolean isOpponent) {
         try {
             FileInputStream input = null;
             if (pawn == null) {
@@ -157,7 +161,13 @@ public class StrategoView extends CustomBorderPane {
             } else switch (pawn) {
                 case UNKNOWN -> input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
                 case LAKE -> button.setStyle("-fx-background-color: #0e87a6");
-                default -> input = new FileInputStream(pawn.getBluePath());
+                default -> {
+                    if (isOpponent) {
+                        input = new FileInputStream(pawn.getRedPath());
+                    } else {
+                        input = new FileInputStream(pawn.getBluePath());
+                    }
+                }
             }
             if (input != null) {
                 Image image = new Image(input);
