@@ -124,4 +124,18 @@ public class BaseGrid extends GridPane {
             }
         }
     }
+
+    public void selectButton(int row, int col) {
+        Button button = this.grid[row][col];
+        button.setStyle("-fx-background-color: #0ccd69;");
+    }
+
+    public void deselectButton(int row, int col) {
+        Button button = this.grid[row][col];
+        button.setStyle("-fx-background-color: #aaddaa;");
+    }
+
+    public Button getButton(int row, int col) {
+        return this.grid[row][col];
+    }
 }
