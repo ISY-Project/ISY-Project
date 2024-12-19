@@ -10,6 +10,7 @@ import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
+import org.bitshifters.ui.components.PawnButtonInformation;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -116,12 +117,12 @@ public class StrategoView extends CustomBorderPane {
      */
     public final void movePawn(Button fromButton, Button toButton) {
         try {
-            Pawns fromPawn = (Pawns) fromButton.getUserData();
-            if (fromPawn == null) {
+            PawnButtonInformation fromInformation = (PawnButtonInformation) fromButton.getUserData();
+            if (fromInformation.pawn() == null) {
                 logger.error("No pawn to move from button: " + fromButton);
                 return;
             }
-            updateButton(toButton, fromPawn);
+            updateButton(toButton, fromInformation.pawn());
             updateButton(fromButton, null);
         } catch (Exception e) {
             logger.error("Error moving pawn", e);
@@ -176,7 +177,7 @@ public class StrategoView extends CustomBorderPane {
             button.setText(pawn.toString());
             logger.error("Error loading image", e);
         }
-        button.setUserData(pawn); // store the pawn type in the button
+        button.setUserData(new PawnButtonInformation(pawn, false)); // store the pawn type in the button
     }
 
     /** 
