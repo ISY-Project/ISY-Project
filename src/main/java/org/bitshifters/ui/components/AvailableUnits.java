@@ -72,13 +72,6 @@ public final class AvailableUnits extends HBox {
                 rightBox.getChildren().add(buttons[i]);
             }
 
-            // TODO: Implement the removeUnit method when the button is selected and then a unit is placed on the board
-            // buttons[i].setOnAction(e -> {
-            //     Button button = (Button) e.getSource();
-            //     Pawns buttonPawn = (Pawns) button.getUserData();
-            //     removeUnit(buttonPawn);
-            // });
-
             try {
                 VBox buttonGraphic = new VBox(0); // create a VBox to hold the image and the text
                 buttonGraphic.setAlignment(Pos.CENTER);
