@@ -227,7 +227,7 @@ public class StrategoClient extends GameClient {
         if (pawn == null) {
             view.getMainFrame().showPopup("First select a unit to place");
             return false;
-        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, col)) {
+        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, engine.rotateCol(col))) {
             view.getMainFrame().showPopup("You are not able to place a unit there");
             return false;
         }
