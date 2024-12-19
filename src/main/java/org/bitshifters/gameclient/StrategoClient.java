@@ -101,8 +101,8 @@ public class StrategoClient extends GameClient {
      */
     private void handleButtonClick(StrategoView view, final int finalRow, final int finalCol) {
         logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
-        int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
-        if (placingUnits) {
+        // int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
+        if (placingUnits) { // placing fase
             // TODO: check whether the unit is placed on the right side of the board
             Player player = engine.getActivePlayer();
             boolean placed = placeUnit(finalRow, finalCol, selectedUnit);
@@ -131,8 +131,10 @@ public class StrategoClient extends GameClient {
             }
             return;
         }
-        if (unitSelected) {
-            int fromIndex = GT.toIndex(selectedUnitRow, selectedUnitCol, view.getBaseGrid().getButtonGrid().length);
+        // moving fase
+        if (unitSelected) { // move unit (click on second button)
+            // int fromIndex = GT.toIndex(selectedUnitRow, selectedUnitCol, view.getBaseGrid().getButtonGrid().length);
+            // int toIndex = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
 
             if (validateMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol)){
                 makeMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol);
