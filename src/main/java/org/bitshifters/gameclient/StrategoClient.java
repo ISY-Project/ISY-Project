@@ -25,7 +25,7 @@ import javafx.scene.control.Button;
  * Client moet tegen Ai kunnen spelen
  */
 public class StrategoClient extends GameClient {
-    private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
+    private static final BSLogger logger = new BSLogger(StrategoClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
     private static final Config config = Config.getInstance();
     private final TelnetClient telnet;
