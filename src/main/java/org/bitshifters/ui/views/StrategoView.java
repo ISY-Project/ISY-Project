@@ -122,8 +122,8 @@ public class StrategoView extends CustomBorderPane {
                 logger.error("No pawn to move from button: " + fromButton);
                 return;
             }
-            updateButton(toButton, fromInformation.pawn());
-            updateButton(fromButton, null);
+            updateButton(toButton, fromInformation);
+            updateButton(fromButton, new PawnButtonInformation(null, false));
         } catch (Exception e) {
             logger.error("Error moving pawn", e);
         }
@@ -135,12 +135,12 @@ public class StrategoView extends CustomBorderPane {
      * @param col the column number of the button
      * @param pawn the pawn to update the button with
      */
-    public final void updateButton(int row, int col, Pawns pawn) {
+    public final void updateButton(int row, int col, PawnButtonInformation pawn) {
         this.updateButton(getButton(row, col), pawn);
     }
 
-    public final void updateButton(Button button, Pawns pawn) {
-        updateButton(button, pawn, false);
+    public final void updateButton(Button button, PawnButtonInformation pawn) {
+        updateButton(button, pawn.pawn(), pawn.isOpponent());
     }
 
     /** 
@@ -177,7 +177,7 @@ public class StrategoView extends CustomBorderPane {
             button.setText(pawn.toString());
             logger.error("Error loading image", e);
         }
-        button.setUserData(new PawnButtonInformation(pawn, false)); // store the pawn type in the button
+        button.setUserData(new PawnButtonInformation(pawn, isOpponent)); // store the pawn type in the button
     }
 
     /** 
@@ -200,7 +200,7 @@ public class StrategoView extends CustomBorderPane {
                     button.setStyle("-fx-background-color: #aaddaa");
                     if ((row >= 4 && row <= 5)) { // lake tiles
                         if ((col >= 2 && col <= 3) || (col >= 6 && col <= 7)) { // lake tiles
-                            updateButton(button, Pawns.LAKE);
+                            updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                         }
                     }
                     button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
@@ -214,7 +214,7 @@ public class StrategoView extends CustomBorderPane {
                     button.setStyle("-fx-background-color: #aaddaa");
                     if ((row >= 3 && row <= 4)) { // lake tiles
                         if ((col == 2) || (col == 5)) { // lake tiles
-                            updateButton(button, Pawns.LAKE);
+                            updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                         }
                     }
                     button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number

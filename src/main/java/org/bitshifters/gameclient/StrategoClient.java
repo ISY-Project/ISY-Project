@@ -15,6 +15,7 @@ import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Subscribe;
 import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
@@ -252,7 +253,7 @@ public class StrategoClient extends GameClient {
             view.getMainFrame().showPopup("You are not able to place a unit there");
             return false;
         }
-        view.updateButton(row, col, pawn);
+        view.updateButton(row, col, new PawnButtonInformation(pawn, false)); // update the button with the pawn, should only be done for the active player
         engine.PlaceUnit(activePlayer, engineRow, col, pawn);
         return true;
     }
