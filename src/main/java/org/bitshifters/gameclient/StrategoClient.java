@@ -160,7 +160,7 @@ public class StrategoClient extends GameClient {
         } else { // select unit (first click)
 
             // DO NOT FIX THE LAKES, THEY ARE NOT BUGS, THEY ARE FEATURES
-            if (engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid) == null) { // || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.LAKE) {	
+            if (engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid) == null || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.UNKNOWN) { // || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.LAKE) {	
 
                 return; // no unit to select
             }
