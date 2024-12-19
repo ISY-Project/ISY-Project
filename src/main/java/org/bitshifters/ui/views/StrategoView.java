@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.bitshifters.games.stratego.Pawns;
-import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
@@ -23,7 +22,6 @@ public class StrategoView extends CustomBorderPane {
     private final NavigationButtons hButtonBox;
     private final AvailableUnits availableUnitsButtons;
     private final BaseGrid baseGrid;
-    private UnitSet units;
     private int buttonSize = 80;
     private boolean isSmallVersion = false;
 
@@ -56,11 +54,9 @@ public class StrategoView extends CustomBorderPane {
         rightBox.getChildren().add(availableUnitsButtons);
 
         if (smallVerison) {
-            this.units = UnitSet.EIGHT;
             this.baseGrid = new BaseGrid(8);
         } else {
             this.baseGrid = new BaseGrid(10);
-            this.units = UnitSet.TEN;
         }
 
         fillGrid();
