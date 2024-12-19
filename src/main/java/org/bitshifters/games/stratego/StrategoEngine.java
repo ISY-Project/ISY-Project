@@ -120,6 +120,10 @@ public class StrategoEngine extends GridEngine<Unit> {
      * Rotate the opponents grid 180 degrees.
      */
     public void startGame(final Player[] players) {
+        PlayerGridsToGameGrid(players);
+    }
+
+    private void PlayerGridsToGameGrid(final Player[] players) {
         for (int i = 0; i < players.length; i++) {
             Player player = players[i];
             if (player == GameGrid) {
