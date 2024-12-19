@@ -12,9 +12,9 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Commands.Subscribe;
 import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.telnet.TelnetClient;
-import org.bitshifters.telnet.Commands.Subscribe;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
@@ -111,11 +111,9 @@ public class StrategoClient extends GameClient {
             }
             Pawns selectedPawn = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
             if (selectedPawn == null) {
-                this.unitSelected = false;
                 this.selectedUnit = null;
             } else {
                 this.selectedUnit = selectedPawn;
-                this.unitSelected = true;
             }
 
             // TODO: Fix telnet for stratego place
@@ -127,7 +125,11 @@ public class StrategoClient extends GameClient {
                 }
                 view.setPlacingMode(false);
                 placingUnits = false;
-                // engine.startGame(null);
+                logger.info("Placing units done, starting game");
+                // TODO: wait for the opponent to finish placing units
+                // TODO: merge the three game boards into one.
+                // TODO: start the game and send message to the server
+                engine.startGame(players);
             }
             return;
         }
@@ -136,17 +138,36 @@ public class StrategoClient extends GameClient {
             // int fromIndex = GT.toIndex(selectedUnitRow, selectedUnitCol, view.getBaseGrid().getButtonGrid().length);
             // int toIndex = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
 
+            if (selectedUnitCol == finalCol && selectedUnitRow == finalRow) { // deselect unit
+                view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
+                unitSelected = false;
+                selectedUnitRow = -1;
+                selectedUnitCol = -1;
+                return;
+            }
             if (validateMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol)){
                 makeMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol);
                 // TODO telnet for stratego move
                 // telnet send move
+            } else {
+                view.getMainFrame().showPopup("Invalid move, the selected unit cannot move there");
             }
+            view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
             unitSelected = false;
-            return;
+            selectedUnitRow = -1;
+            selectedUnitCol = -1;
+        } else { // select unit (first click)
+
+            // DO NOT FIX THE LAKES, THEY ARE NOT BUGS, THEY ARE FEATURES
+            if (engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid) == null) { // || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.LAKE) {	
+
+                return; // no unit to select
+            }
+            view.getBaseGrid().selectButton(finalRow, finalCol);
+            unitSelected = true;
+            selectedUnitRow = finalRow;
+            selectedUnitCol = finalCol;
         }
-        unitSelected = true;
-        selectedUnitRow = finalRow;
-        selectedUnitCol = finalCol;
     }
 
     /**
@@ -164,7 +185,6 @@ public class StrategoClient extends GameClient {
 
     private void handleAvalibleUnitsButtonClick(StrategoView view, int index) {
         logger.log(Level.INFO, "Available units button clicked at index: {0}", index);
-        this.unitSelected = true;
         this.selectedUnit = view.getAvailableUnitsButtons().selectUnitButton(index);
     }
 
@@ -177,6 +197,7 @@ public class StrategoClient extends GameClient {
      * @return true if the move is valid, false otherwise
      */
     private boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
+        logger.debug("Validating move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         if (!engine.validateMove(fromRow, fromCol, toRow, toCol, activePlayer)) {
             return false;
@@ -184,8 +205,8 @@ public class StrategoClient extends GameClient {
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             return true;
         }
-        Unit attacker = engine.getCell(fromRow, fromCol, activePlayer);
-        Unit defender = engine.getCell(toRow, toCol, activePlayer);
+        Unit attacker = engine.getCell(fromRow, fromCol, StrategoEngine.GameGrid);
+        Unit defender = engine.getCell(toRow, toCol, StrategoEngine.GameGrid);
         return engine.validateAttack(attacker, defender, activePlayer);
     }
 
@@ -209,7 +230,7 @@ public class StrategoClient extends GameClient {
         else {
 
         }
-        engine.setActivePlayer(nextPlayer);
+        // engine.setActivePlayer(nextPlayer); // TODO: DON'T FORGET TO SET THE ACTIVE PLAYER
     }
 
     /***
@@ -222,12 +243,12 @@ public class StrategoClient extends GameClient {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
         Player activePlayer = engine.getActivePlayer();
 
-        int engineRow = (activePlayer.equals(players[1])) ? row : engine.getTotalRows() - row - 1; // rotate the board for player 1
+        int engineRow = (activePlayer.equals(players[1])) ? row : row - (engine.getTotalRows()/2 + 1); // rotate the board for player 1
 
         if (pawn == null) {
             view.getMainFrame().showPopup("First select a unit to place");
             return false;
-        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, engine.rotateCol(col))) {
+        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, col)) {
             view.getMainFrame().showPopup("You are not able to place a unit there");
             return false;
         }
