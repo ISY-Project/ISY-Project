@@ -1,5 +1,7 @@
 package org.bitshifters.ui.components;
 
+import org.bitshifters.ui.views.StrategoView;
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -127,12 +129,12 @@ public class BaseGrid extends GridPane {
 
     public void selectButton(int row, int col) {
         Button button = this.grid[row][col];
-        button.setStyle("-fx-background-color: #0ccd69;");
+        button.setStyle("-fx-background-color:rgba(12, 205, 105, 0.5);");
     }
 
     public void deselectButton(int row, int col) {
         Button button = this.grid[row][col];
-        button.setStyle("-fx-background-color: #aaddaa;");
+        button.setStyle(StrategoView.getButtonStyle());
     }
 
     public Button getButton(int row, int col) {

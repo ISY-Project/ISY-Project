@@ -15,7 +15,7 @@ import org.bitshifters.ui.components.PawnButtonInformation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class StrategoView extends CustomBorderPane {
@@ -23,8 +23,10 @@ public class StrategoView extends CustomBorderPane {
     private final NavigationButtons hButtonBox;
     private final AvailableUnits availableUnitsButtons;
     private final BaseGrid baseGrid;
-    private int buttonSize = 80;
+    private int buttonSize = 75;
     private boolean isSmallVersion = false;
+    private static String style = "-fx-background-color: #aaddaa00"; // transparent background
+    private ImageView gridBackground = new ImageView();
 
     /** 
      * Constructor for the StrategoView with the default size (10*10)
@@ -43,7 +45,7 @@ public class StrategoView extends CustomBorderPane {
         super(mainFrame);
         logger.debug("Creating StrategoView");
         this.isSmallVersion = smallVerison;
-        HBox hGridBox = new HBox();
+        StackPane gridStackPane = new StackPane();
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
@@ -60,12 +62,33 @@ public class StrategoView extends CustomBorderPane {
             this.baseGrid = new BaseGrid(10);
         }
 
+        Image image = null;
+        try {
+            if (smallVerison) {
+                logger.critical("Loading small version of the board");
+                image = new Image("file:src/main/resources/images/StrategoBoard8.png");
+            } else {
+                image = new Image("file:src/main/resources/images/StrategoBoard10.png");
+            }
+        } catch (Exception e) {
+            logger.error("Error loading stratego background image(s)", e);
+        }
+
         fillGrid();
 
-        hGridBox.getChildren().addAll(this.baseGrid);
-        hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
+        if (image != null) {
+            gridBackground.setImage(image);
+            gridBackground.setFitHeight(buttonSize * baseGrid.getGridHeight() * 1.013);
+            gridBackground.setFitWidth(buttonSize * baseGrid.getGridWidth() * 1.21); // *1.10 to make the buttons wider to accommodate the pawn number
 
-        vBox.getChildren().addAll(hGridBox);
+            gridStackPane.getChildren().addAll(this.gridBackground, this.baseGrid);
+        } else {
+            gridStackPane.getChildren().add(this.baseGrid);
+        }
+
+        gridStackPane.setAlignment(javafx.geometry.Pos.CENTER);
+
+        vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
         this.setCenter(vBox);
@@ -154,10 +177,10 @@ public class StrategoView extends CustomBorderPane {
             if (pawn == null) {
                 button.setGraphic(null);
                 button.setText("");
-                button.setStyle("-fx-background-color: #aaddaa");
+                button.setStyle(style);
             } else switch (pawn) {
                 case UNKNOWN -> input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
-                case LAKE -> button.setStyle("-fx-background-color: #0e87a6");
+                case LAKE -> button.setStyle(style);
                 default -> {
                     if (isOpponent) {
                         input = new FileInputStream(pawn.getRedPath());
@@ -187,9 +210,9 @@ public class StrategoView extends CustomBorderPane {
         logger.debug("Filling grid");
 
         if (isSmallVersion) {
-            this.buttonSize = 100;
+            this.buttonSize = 95;
         } else {
-            this.buttonSize = 80;
+            this.buttonSize = 75;
         }
 
         Button[][] buttonGrid = this.baseGrid.getButtonGrid();
@@ -197,28 +220,28 @@ public class StrategoView extends CustomBorderPane {
             for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
                 for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
                     Button button = buttonGrid[row][col];
-                    button.setStyle("-fx-background-color: #aaddaa");
+                    button.setStyle(style);
                     if ((row >= 4 && row <= 5)) { // lake tiles
                         if ((col >= 2 && col <= 3) || (col >= 6 && col <= 7)) { // lake tiles
                             updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                         }
                     }
-                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
-                    button.setMaxSize(buttonSize+20, buttonSize);
+                    button.setMinSize(buttonSize*1.20, buttonSize); // *1.10 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize*1.20, buttonSize);
                 }
             }
         } else {
             for (int row = 0; row < this.baseGrid.getGridHeight(); row++) {
                 for (int col = 0; col < this.baseGrid.getGridWidth(); col++) {
                     Button button = buttonGrid[row][col];
-                    button.setStyle("-fx-background-color: #aaddaa");
+                    button.setStyle(style);
                     if ((row >= 3 && row <= 4)) { // lake tiles
                         if ((col == 2) || (col == 5)) { // lake tiles
                             updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                         }
                     }
-                    button.setMinSize(buttonSize+20, buttonSize); // +20 to make the buttons wider to accommodate the pawn number
-                    button.setMaxSize(buttonSize+20, buttonSize);
+                    button.setMinSize(buttonSize*1.20, buttonSize); // *1.10 to make the buttons wider to accommodate the pawn number
+                    button.setMaxSize(buttonSize*1.20, buttonSize);
                 }
             }
         }
@@ -236,5 +259,9 @@ public class StrategoView extends CustomBorderPane {
 
     public boolean isSmallVersion() {
         return this.isSmallVersion;
+    }
+
+    public static String getButtonStyle() {
+        return style;
     }
 }
