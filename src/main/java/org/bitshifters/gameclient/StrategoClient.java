@@ -120,22 +120,10 @@ public class StrategoClient extends GameClient {
             } else {
                 this.selectedUnit = selectedPawn;
             }
-
+            checkStartGame();
             // TODO: Fix telnet for stratego place
             // String rank = selectedUnit.getName();
             // telnet.send(new Place(rank, index));
-            if (view.isPlacingDone()) {
-                if (!engine.validateAllUnitsPlaced(player)) {
-                    throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
-                }
-                view.setPlacingMode(false);
-                placingUnits = false;
-                logger.info("Placing units done, starting game");
-                // TODO: wait for the opponent to finish placing units
-                // TODO: merge the three game boards into one.
-                // TODO: start the game and send message to the server
-                engine.startGame(players);
-            }
             return;
         }
         // moving fase
@@ -226,7 +214,7 @@ public class StrategoClient extends GameClient {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
-
+        
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
             engine.moveUnit(fromRow, fromCol, toRow, toCol, activePlayer);
@@ -288,6 +276,22 @@ public class StrategoClient extends GameClient {
         view.updateButton(row, col, new PawnButtonInformation(pawn, false)); // update the button with the pawn, should only be done for the active player
         engine.PlaceUnit(activePlayer, engineRow, col, pawn);
         return true;
+    }
+
+    // TODO docstring and test
+    private void checkStartGame() {
+        Player player = engine.getActivePlayer();
+        if (view.isPlacingDone())  {
+            if (!engine.validateAllUnitsPlaced(player)) {
+                throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
+            }
+            if (engine.validateAllUnitsPlaced(getNextPlayer())) {
+                view.setPlacingMode(false);
+                placingUnits = false;
+                logger.info("Placing units done, starting game");
+                engine.startGame(players);
+            }
+        }
     }
 
     /**
