@@ -38,6 +38,10 @@ public class StrategoClient extends GameClient {
     private final Player[] players;
     private int selectedUnitRow;
     private int selectedUnitCol;
+    private int storedFromRow; // move stored for battleresult
+    private int storedFromCol; // move stored for battleresult
+    private int storedToRow; // move stored for battleresult
+    private int storedToCol; // move stored for battleresult
 
     /**
      * Constructor for the StrategoClient
@@ -299,14 +303,62 @@ public class StrategoClient extends GameClient {
         // call makeMove
     }
 
+    // TODO docsting and test
+    public void onOpponentPlaced(int index) {
+        engine.setActivePlayer(players[1]);
+        int[] coords = GT.toCoordinates(index, engine.getTotalCols());
+        int row = coords[0];
+        int col = coords[1];
+        placeUnit(row, col, Pawns.UNKNOWN);
+        checkStartGame();
+    }
+
     /**
-     * Handle the move of the player and the opponent
+     * Handle the move of the opponent
      */
-    // TODO implement this
+    // TODO test this
     @Override
     public void onMove(String[] data) {
-        // Get the move information from the data
-        // call makemove
+        // Get the rows and columns from the data
+        int fromIndex = Integer.parseInt(data[0]);
+        int toIndex = Integer.parseInt(data[1]);
+        System.out.println("!! Move: " + fromIndex + " to " + toIndex);
+        int[] fromCoords = GT.toCoordinates(fromIndex, engine.getTotalCols());
+        int[] toCoords = GT.toCoordinates(toIndex, engine.getTotalCols());
+        int fromRow = fromCoords[0];
+        int fromCol = fromCoords[1];
+        int toRow = toCoords[0];
+        int toCol = toCoords[1];
+        // Make the move
+        makeMove(fromRow, fromCol, toRow, toCol);
+    }
+
+    // TODO docstring and test
+    public void onAttackResult(Pawns defender, String result) {
+        // TODO send information to algorithm
+        if (result == "tie") {
+            applyAttackResult("tie");
+        }
+        else if (result == "loss") {
+            applyAttackResult("loss");
+        }
+        else if (result == "win"){
+            applyAttackResult("win");
+        }
+    }
+
+    // TODO docstring and test
+    public void onDefenseResult(Pawns attacker, String result) {
+        // TODO send information to algorithm
+        if (result == "tie") {
+            applyAttackResult("tie");
+        }
+        else if (result == "loss") {
+            applyAttackResult("win");
+        }
+        else if (result == "win"){
+            applyAttackResult("loss");
+        }
     }
 
     /**
