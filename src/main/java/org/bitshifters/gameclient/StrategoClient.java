@@ -231,11 +231,39 @@ public class StrategoClient extends GameClient {
             view.movePawn(fromRow, fromCol, toRow, toCol);
             engine.moveUnit(fromRow, fromCol, toRow, toCol, activePlayer);
         }
-        // TODO attack happened, needs server result of attack
+        // Attack happened, store move for battle result
         else {
-
+            this.storedFromRow = fromRow;
+            this.storedFromCol = fromCol;
+            this.storedToRow = toRow;
+            this.storedToCol = toCol;
         }
-        // engine.setActivePlayer(nextPlayer); // TODO: DON'T FORGET TO SET THE ACTIVE PLAYER
+    }
+
+    // TODO docstring and test
+    private void applyAttackResult(String result) {
+        Player activePlayer = engine.getActivePlayer();
+        Player nextPlayer = getNextPlayer();
+
+        if (result == "win") {
+            // essentially no different from moving into an empty space
+            view.movePawn(storedFromRow, storedFromCol, storedToRow, storedToCol);
+            engine.moveUnit(storedFromRow, storedFromCol, storedToRow, storedToCol, activePlayer);
+        }
+        else if (result == "tie") {
+            // killing both units
+            view.updateButton(storedFromRow, storedFromCol, null);
+            view.updateButton(storedToRow, storedToCol, null);
+            engine.moveUnit(storedFromRow, storedFromCol, storedToRow, storedToCol, activePlayer); // just to update movementtracker and turn count
+            engine.killUnit(storedToRow, storedToCol);
+        }
+        else if (result == "loss") {
+            // killing the attacker, is a little weird because of having to update the movementtracker
+            view.updateButton(storedFromRow, storedFromCol, null);
+            engine.moveUnit(storedFromRow, storedFromCol, storedFromRow, storedFromCol, activePlayer); // just to update movementtracker and turn count
+            engine.killUnit(storedFromRow, storedFromCol);
+        }
+        engine.setActivePlayer(nextPlayer);
     }
 
     /***
