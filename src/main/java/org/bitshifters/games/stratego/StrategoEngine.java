@@ -199,6 +199,11 @@ public class StrategoEngine extends GridEngine<Unit> {
         turnCount++;
     }
 
+    // TODO docstring
+    public void killUnit(final int row, final int col) {
+        setCell(row, col, null, GameGrid);
+    }
+
     /**
      * Validate the movement of units, ensuring that the player is making a valid move on the gameboard
      * @param fromRow
