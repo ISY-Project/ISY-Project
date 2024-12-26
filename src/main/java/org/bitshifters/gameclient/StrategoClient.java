@@ -32,12 +32,12 @@ public class StrategoClient extends GameClient {
     private final TelnetClient telnet;
     private final StrategoView view;
     private final StrategoEngine engine;
-    private boolean placingUnits = true;
-    private boolean unitSelected = false;
-    private Pawns selectedUnit = null;
+    private boolean placingUnits = true; // is placing mode active yes/no
+    private boolean unitSelected = false; // is unit selected for movement yes/no
+    private Pawns selectedUnit = null; // type of unit selected for placement
     private final Player[] players;
-    private int selectedUnitRow;
-    private int selectedUnitCol;
+    private int selectedUnitRow; // selected unit row for move
+    private int selectedUnitCol; // selected unit col for move
     private int storedFromRow; // move stored for battleresult
     private int storedFromCol; // move stored for battleresult
     private int storedToRow; // move stored for battleresult
@@ -60,7 +60,6 @@ public class StrategoClient extends GameClient {
         this.view = view;
         this.engine = new StrategoEngine(boardRows, boardCols, players);
         setupGridButtonListeners(view);
-        engine.setActivePlayer(playerBlue);
         if (view.isSmallVersion()) {
             engine.setUnitCounts(UnitSet.EIGHT);
         }
@@ -108,8 +107,7 @@ public class StrategoClient extends GameClient {
         logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
         // int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
         if (placingUnits) { // placing fase
-            // TODO: check whether the unit is placed on the right side of the board
-            Player player = engine.getActivePlayer();
+            // TODO: test
             boolean placed = placeUnit(finalRow, finalCol, selectedUnit);
             if (!placed) {
                 return;
@@ -218,6 +216,7 @@ public class StrategoClient extends GameClient {
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
             engine.moveUnit(fromRow, fromCol, toRow, toCol, activePlayer);
+            engine.setActivePlayer(nextPlayer);
         }
         // Attack happened, store move for battle result
         else {
@@ -263,18 +262,21 @@ public class StrategoClient extends GameClient {
     private boolean placeUnit(int row, int col, Pawns pawn) {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
         Player activePlayer = engine.getActivePlayer();
+        Player nextPlayer = getNextPlayer();
 
-        int engineRow = (activePlayer.equals(players[1])) ? row : row - (engine.getTotalRows()/2 + 1); // rotate the board for player 1
+        int engineRow = (activePlayer.equals(players[1])) ? engine.rotateRow(row) - (engine.getTotalRows()/2 + 1) : row - (engine.getTotalRows()/2 + 1); // rotate the board for player 1
+        int engineCol = (activePlayer.equals(players[1])) ? engine.rotateCol(col) : col; // rotate the board for player 1
 
         if (pawn == null) {
             view.getMainFrame().showPopup("First select a unit to place");
             return false;
-        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, col)) {
+        } else if (!engine.validatePlaceUnit(activePlayer, engineRow, engineCol)) {
             view.getMainFrame().showPopup("You are not able to place a unit there");
             return false;
         }
-        view.updateButton(row, col, new PawnButtonInformation(pawn, false)); // update the button with the pawn, should only be done for the active player
-        engine.PlaceUnit(activePlayer, engineRow, col, pawn);
+        view.updateButton(row, col, new PawnButtonInformation(pawn, activePlayer.equals(players[1]))); // update the button with the pawn, should only be done for the active player
+        engine.PlaceUnit(activePlayer, engineRow, engineCol, pawn);
+        engine.setActivePlayer(nextPlayer);
         return true;
     }
 
@@ -327,6 +329,7 @@ public class StrategoClient extends GameClient {
     // TODO algorithm
     @Override
     public void onYourTurn(String message) {
+        engine.setActivePlayer(players[0]);
         if (!ClientController.isComputer) {
             return; // wait on button click
         }
