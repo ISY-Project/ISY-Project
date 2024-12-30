@@ -353,7 +353,7 @@ public class StrategoEngine extends GridEngine<Unit> {
             var unit = i.getKey();
             Integer unitCount = unitCounter.get(unit);
             Integer requiredCount = i.getValue();
-            if (unitCount.equals(requiredCount)) {
+            if (!unitCount.equals(requiredCount)) {
                 return false;
             }
         }
