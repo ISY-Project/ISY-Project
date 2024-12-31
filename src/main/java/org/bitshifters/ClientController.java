@@ -8,12 +8,14 @@ import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.telnet.TelnetClient;
+import org.bitshifters.telnet.Commands.Forfeit;
+import org.bitshifters.telnet.Commands.Subscribe;
 import org.bitshifters.ui.MainFrame;
 
 public class ClientController {
     private static final Player player = new Player(Config.getInstance().getValue("username"));
     private final MainFrame mainFrame;
-    public static GameClient selectedClient = null;
+    private static GameClient selectedClient = null;
     private static final Map<String, GameClient> gameClients = new HashMap<>();
     public static boolean isComputer = false;
     private static final Player opponent = new Player("Opponent");
@@ -77,5 +79,15 @@ public class ClientController {
 
     public StrategoClient getStrategoClientEight() {
         return (StrategoClient) gameClients.get("StrategoEight");
+    }
+
+    public static GameClient getSelectedClient() {
+        return selectedClient;
+    }
+
+    public static void setSelectedClient(GameClient v) {
+        selectedClient = v;
+        telnet.send(new Forfeit());
+        telnet.send(Subscribe.fromGameType(v.getGameType()));
     }
 }
