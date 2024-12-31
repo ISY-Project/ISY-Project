@@ -12,6 +12,7 @@ import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.components.PawnButtonInformation;
+import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.StrategoView;
 
 import javafx.event.ActionEvent;
@@ -276,7 +277,9 @@ public class StrategoClient extends GameClient {
                 // engine.startGame(players);
             }
             view.getMainFrame().showPopup("All units are placed, waiting for the other player");
-        engine.setActivePlayer(nextPlayer);
+            engine.setActivePlayer(nextPlayer);
+            return false;
+        }
         return true;
     }
 
