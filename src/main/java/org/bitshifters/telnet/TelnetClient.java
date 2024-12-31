@@ -60,8 +60,9 @@ public class TelnetClient {
      * @throws Exception If an error occurs while receiving.
      */
     public String receive() throws Exception {
-        logger.debug("Receiving message");
-        return in.readLine();
+        String line = in.readLine();
+        logger.debug("Receiving message: " + line);
+        return line;
     }
 
     /**
