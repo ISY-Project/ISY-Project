@@ -2,6 +2,7 @@ package org.bitshifters;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
@@ -84,11 +85,15 @@ public class ClientController {
 
     public static GameClient getSelectedClient() {
         return selectedClient;
-    }
+        }
 
-    public static void setSelectedClient(GameClient v) {
-        selectedClient = v;
+        public static void setSelectedClient(Optional<GameClient> v) {
         telnet.send(new Forfeit());
-        telnet.send(Subscribe.fromGameType(v.getGameType()));
+        if (v.isPresent()) {
+            selectedClient = v.get();
+            telnet.send(Subscribe.fromGameType(selectedClient.getGameType()));
+        } else {
+            selectedClient = null;
+        }
     }
 }

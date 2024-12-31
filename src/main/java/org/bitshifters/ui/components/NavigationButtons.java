@@ -1,5 +1,7 @@
 package org.bitshifters.ui.components;
 
+import java.util.Optional;
+
 import org.bitshifters.ClientController;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
@@ -39,13 +41,14 @@ public class NavigationButtons extends VBox {
         strategoEightButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOEIGHT));
 
         var cc = ClientController.getInstance();
-        ticTacToeButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getTicTacToeClient()));
-        strategoTenButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getStrategoClientTen()));
-        strategoEightButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getStrategoClientEight()));
+        ticTacToeButton.addOnAction(_ -> ClientController.setSelectedClient(Optional.of(cc.getTicTacToeClient())));
+        strategoTenButton.addOnAction(_ -> ClientController.setSelectedClient(Optional.of(cc.getStrategoClientTen())));
+        strategoEightButton.addOnAction(_ -> ClientController.setSelectedClient(Optional.of(cc.getStrategoClientEight())));
 
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
             backButton.setOnAction(_ -> backButtonAction(mainFrame));
+            backButton.addOnAction(_ -> ClientController.setSelectedClient(Optional.empty()));
         } else {
             this.backButton = null;
         }
