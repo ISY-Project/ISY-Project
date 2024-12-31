@@ -340,7 +340,8 @@ public class StrategoClient extends GameClient {
         engine.setActivePlayer(players[0]);
         placingUnits = true;
         if (!ClientController.isComputer) {
-            return; // wait on button click
+            view.setPlacingMode(placingUnits);
+            return;
         }
         // get algorithm move 
         // telnet send move
