@@ -267,6 +267,15 @@ public class StrategoClient extends GameClient {
         }
         view.updateButton(row, col, new PawnButtonInformation(pawn, activePlayer.equals(players[1]))); // update the button with the pawn, should only be done for the active player
         engine.PlaceUnit(activePlayer, engineRow, engineCol, pawn);
+        if (engine.validateAllUnitsPlaced(activePlayer)) {
+            if (view.isPlacingDone()) {
+                // Should be true when engine sees all units placed
+                view.setPlacingMode(false);
+                placingUnits = false;
+                logger.info("Placing units done, starting game");
+                // engine.startGame(players);
+            }
+            view.getMainFrame().showPopup("All units are placed, waiting for the other player");
         engine.setActivePlayer(nextPlayer);
         return true;
     }
