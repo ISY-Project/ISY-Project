@@ -7,4 +7,6 @@ public enum GameTypes {
     BattleShip,
     TicTacToe,
     Stratego,
+    StrategoEight,
+    StrategoTen
 }

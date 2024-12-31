@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.TicTacToeClient;
+import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.telnet.Commands.Forfeit;
@@ -16,7 +17,7 @@ public class ClientController {
     private static final Player player = new Player(Config.getInstance().getValue("username"));
     private final MainFrame mainFrame;
     private static GameClient selectedClient = null;
-    private static final Map<String, GameClient> gameClients = new HashMap<>();
+    private static final Map<GameTypes, GameClient> gameClients = new HashMap<>();
     public static boolean isComputer = false;
     private static final Player opponent = new Player("Opponent");
     public static final TelnetClient telnet = new TelnetClient(
@@ -48,20 +49,20 @@ public class ClientController {
     }
 
     private void setUpTicTacToe() {
-        gameClients.put("TicTacToe", new TicTacToeClient(
+        gameClients.put(GameTypes.TicTacToe, new TicTacToeClient(
             mainFrame.getTicTacToeView(),
             player,
             opponent));
     }
 
     private void setUpStratego() {
-        gameClients.put("StrategoTen", new StrategoClient(
+        gameClients.put(GameTypes.StrategoTen, new StrategoClient(
             mainFrame.getStrategoViewTen(),
             player,
             opponent,
             10,
             10));
-        gameClients.put("StrategoEight", new StrategoClient(
+        gameClients.put(GameTypes.StrategoEight, new StrategoClient(
             mainFrame.getStrategoViewEight(),
             player,
             opponent,
@@ -70,15 +71,15 @@ public class ClientController {
     }
 
     public TicTacToeClient getTicTacToeClient() {
-        return (TicTacToeClient) gameClients.get("TicTacToe");
+        return (TicTacToeClient) gameClients.get(GameTypes.TicTacToe);
     }
 
     public StrategoClient getStrategoClientTen() {
-        return (StrategoClient) gameClients.get("StrategoTen");
+        return (StrategoClient) gameClients.get(GameTypes.StrategoTen);
     }
 
     public StrategoClient getStrategoClientEight() {
-        return (StrategoClient) gameClients.get("StrategoEight");
+        return (StrategoClient) gameClients.get(GameTypes.StrategoEight);
     }
 
     public static GameClient getSelectedClient() {
