@@ -319,7 +319,15 @@ public class StrategoClient extends GameClient {
     @Override
     public void onMatch() {
         // Als de game begint, start de game
-        throw new UnsupportedOperationException("Unimplemented method 'onMatch'");
+        setScreen();
+    }
+
+    private void setScreen() {
+        if (view.isSmallVersion()) {
+            view.getMainFrame().showScreen(Screens.STRATEGOEIGHT);
+        } else {
+            view.getMainFrame().showScreen(Screens.STRATEGOTEN);
+        }
     }
 
     /**
