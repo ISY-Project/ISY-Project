@@ -338,6 +338,7 @@ public class StrategoClient extends GameClient {
     @Override
     public void onYourTurn(String message) {
         engine.setActivePlayer(players[0]);
+        placingUnits = true;
         if (!ClientController.isComputer) {
             return; // wait on button click
         }
