@@ -25,6 +25,7 @@ public class ClientController {
         Config.getInstance().getValue("host"),
         Integer.parseInt(Config.getInstance().getValue("port")));
     private static ClientController instance = null;
+    private static Thread thread = null;
 
     private ClientController(final MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -89,9 +90,14 @@ public class ClientController {
 
         public static void setSelectedClient(Optional<GameClient> v) {
         telnet.send(new Forfeit());
+        if (thread != null) {
+            thread.interrupt();
+        }
         if (v.isPresent()) {
-            selectedClient = v.get();
+            GameClient client = v.get();
             telnet.send(Subscribe.fromGameType(selectedClient.getGameType()));
+            thread = new Thread(client::run);
+            thread.start();
         } else {
             selectedClient = null;
         }
