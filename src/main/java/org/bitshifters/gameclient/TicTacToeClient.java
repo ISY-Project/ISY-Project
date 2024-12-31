@@ -49,7 +49,7 @@ public class TicTacToeClient extends GameClient {
         view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().removeEventHandler(
             ActionEvent.ACTION, event);
         // TODO: fixme!, subscribes twice 
-        telnet.send(Subscribe.TTT);
+        telnet.send(Subscribe.TICTACTOE);
         try {
             String response = telnet.receive();
             while (response.contains("")) {

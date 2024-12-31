@@ -39,9 +39,9 @@ public class NavigationButtons extends VBox {
         strategoEightButton.setOnAction(_ -> mainFrame.showScreen(Screens.STRATEGOEIGHT));
 
         var cc = ClientController.getInstance();
-        ticTacToeButton.addOnAction(_ -> ClientController.selectedClient = cc.getTicTacToeClient());
-        strategoTenButton.addOnAction(_ -> ClientController.selectedClient = cc.getStrategoClientTen());
-        strategoEightButton.addOnAction(_ -> ClientController.selectedClient = cc.getStrategoClientEight());
+        ticTacToeButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getTicTacToeClient()));
+        strategoTenButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getStrategoClientTen()));
+        strategoEightButton.addOnAction(_ -> ClientController.setSelectedClient(cc.getStrategoClientEight()));
 
         if (enableBackButton) {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
