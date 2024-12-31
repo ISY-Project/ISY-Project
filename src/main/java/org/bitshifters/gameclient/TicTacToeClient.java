@@ -10,13 +10,10 @@ import org.bitshifters.games.tictactoe.TTTEngine;
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Move;
-import org.bitshifters.telnet.ResponseHandler;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.TicTacToeView;
-import org.bitshifters.telnet.Commands.Subscribe;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 
 /**
  * CLient moet online kunnen spelen
@@ -27,38 +24,14 @@ import javafx.event.EventHandler;
 public class TicTacToeClient extends GameClient {
     private static final BSLogger logger = new BSLogger(TicTacToeClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
-    private final ResponseHandler responseHandler;
     private final TicTacToeView view;
     private final TTTEngine engine;
-    private final EventHandler<? super ActionEvent> event;
 
     public TicTacToeClient(TicTacToeView view, Player playerX, Player playerO) {
         super(GameTypes.TicTacToe);
         this.view = view;
         this.engine = new TTTEngine(playerX, playerO);
-        responseHandler = new ResponseHandler(this);
         setupGridButtonListeners(view);
-        Thread thread = new Thread(this::run);
-        event = _ -> thread.start();
-        this.view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().addEventHandler(
-            ActionEvent.ACTION,
-            event);
-    }
-
-    protected void run() {
-        view.getMainFrame().getStartView().getNavigationButtons().getTicTacToeButton().removeEventHandler(
-            ActionEvent.ACTION, event);
-        // TODO: fixme!, subscribes twice 
-        telnet.send(Subscribe.TICTACTOE);
-        try {
-            String response = telnet.receive();
-            while (response.contains("")) {
-                responseHandler.handle(response);
-                response = telnet.receive();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

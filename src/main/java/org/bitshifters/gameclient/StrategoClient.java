@@ -3,7 +3,6 @@ package org.bitshifters.gameclient;
 import java.util.logging.Level;
 
 import org.bitshifters.ClientController;
-import org.bitshifters.Config;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.components.GridTransformer;
 import org.bitshifters.games.components.Player;
@@ -12,9 +11,6 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.Commands.Subscribe;
-import org.bitshifters.telnet.ResponseHandler;
-import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.views.StrategoView;
 
@@ -28,8 +24,6 @@ import javafx.scene.control.Button;
 public class StrategoClient extends GameClient {
     private static final BSLogger logger = new BSLogger(StrategoClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
-    private static final Config config = Config.getInstance();
-    private final TelnetClient telnet;
     private final StrategoView view;
     private final StrategoEngine engine;
     private boolean placingUnits = true; // is placing mode active yes/no
@@ -53,9 +47,6 @@ public class StrategoClient extends GameClient {
      */
     public StrategoClient(StrategoView view, Player playerBlue, Player playerRed, int boardRows, int boardCols) {
         super(GameTypes.Stratego);
-        telnet = new TelnetClient(
-            config.getValue("host"),
-            Integer.parseInt(config.getValue("port")));
         players = new Player[] {playerBlue, playerRed};
         this.view = view;
         this.engine = new StrategoEngine(boardRows, boardCols, players);
@@ -439,23 +430,5 @@ public class StrategoClient extends GameClient {
     public void onMessage(String message) {
         // Niet nodig?
         throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
-    }
-
-    @Override
-    protected void run() {
-        ResponseHandler handler = new ResponseHandler(this);
-        telnet.send(Subscribe.STRATEGO);
-        while (true) {
-            String response;
-            try {
-                response = telnet.receive();
-                if (response == null) {
-                    continue;
-                }
-                handler.handle(response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
