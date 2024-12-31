@@ -94,9 +94,9 @@ public class ClientController {
             thread.interrupt();
         }
         if (v.isPresent()) {
-            GameClient client = v.get();
+            selectedClient = v.get();
             telnet.send(Subscribe.fromGameType(selectedClient.getGameType()));
-            thread = new Thread(client::run);
+            thread = new Thread(selectedClient::run);
             thread.start();
         } else {
             selectedClient = null;
