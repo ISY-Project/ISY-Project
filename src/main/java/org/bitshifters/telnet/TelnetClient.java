@@ -51,7 +51,7 @@ public class TelnetClient {
             throw new IllegalStateException("Connection not established");
         }
         System.out.println("Sent: " + message.get());
-        out.println(message);
+        out.println(message.get());
     }
 
     /**
