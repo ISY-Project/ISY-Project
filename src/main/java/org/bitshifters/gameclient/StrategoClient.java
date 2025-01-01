@@ -112,9 +112,6 @@ public class StrategoClient extends GameClient {
                 this.selectedUnit = selectedPawn;
             }
             checkStartGame();
-            // TODO: Fix telnet for stratego place
-            // String rank = selectedUnit.getName();
-            // telnet.send(new Place(rank, index));
             return;
         }
         // moving fase
