@@ -18,7 +18,7 @@ public class Place implements SendableCommand {
      * @param index
      */
     public Place(String rank, int index) {
-        this.command = "place " + rank + " " + index;
+        this.command = "place " + index + " " + rank;
     }
 
     @Override
