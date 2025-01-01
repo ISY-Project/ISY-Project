@@ -257,6 +257,11 @@ public class StrategoClient extends GameClient {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
 
+        if (activePlayer == ClientController.getOpponentPlayer()){
+            view.getMainFrame().showPopup("It is not your turn");
+            return false;
+        }
+
         int engineRow = (activePlayer.equals(players[1])) ? engine.rotateRow(row) - (engine.getTotalRows()/2 + 1) : row - (engine.getTotalRows()/2 + 1); // rotate the board for player 1
         int engineCol = (activePlayer.equals(players[1])) ? engine.rotateCol(col) : col; // rotate the board for player 1
 
@@ -306,6 +311,9 @@ public class StrategoClient extends GameClient {
      * @return the next player
      */
     private Player getNextPlayer() {
+        if (engine.getActivePlayer() == null) {
+            return players[1];
+        }
         return engine.getActivePlayer() == players[0] ? players[1] : players[0];
     }
 
@@ -325,7 +333,7 @@ public class StrategoClient extends GameClient {
     public void onMatch() {
         // Als de game begint, start de game
         setScreen();
-        engine.setActivePlayer(getNextPlayer()); // default to avoid null
+        engine.setActivePlayer(getNextPlayer());
     }
 
     private void setScreen() {

@@ -27,6 +27,10 @@ public class ClientController {
     private static ClientController instance = null;
     private static Thread thread = null;
 
+    public static Player getOpponentPlayer() {
+        return opponent;
+    }
+
     private ClientController(final MainFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
