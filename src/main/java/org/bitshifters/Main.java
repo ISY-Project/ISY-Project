@@ -11,6 +11,8 @@ import org.bitshifters.logging.VerboseLevel;
 import org.bitshifters.ui.MainFrame;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterDescription;
+import com.beust.jcommander.Parameterized;
 
 /**
  * This is the main class of the program. It will parse the command line arguments and run the program.
@@ -34,21 +36,24 @@ public class Main{
         final Main main = new Main();
         configureArgParser(args);
         configureLogging();
-        // config.write(); // instantly write the config, with default values.
+        updateConfigArgs();
         main.run(args);
         MainFrame.run(args);
     }
 
-    private static void configureArgParser(final String[] args) {
-        final ArgParser argParser = new ArgParser(args);
-        arguments = argParser.getJc();
-        flags = argParser.getFlags();
+    private static void updateConfigArgs() {
         try {
             setConfigArgs();
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private static void configureArgParser(final String[] args) {
+        final ArgParser argParser = new ArgParser(args);
+        arguments = argParser.getJc();
+        flags = argParser.getFlags();
     }
 
     private static void configureLogging() {
@@ -63,8 +68,8 @@ public class Main{
     private static void setConfigArgs() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         final var fields = arguments.getFields();
         for (final var field : fields.entrySet()) {
-            final var key = field.getKey();
-            final var value = field.getValue();
+            final Parameterized key = field.getKey();
+            final ParameterDescription value = field.getValue();
             if (!value.isAssigned()) {
                 continue;
             }

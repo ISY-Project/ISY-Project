@@ -13,8 +13,8 @@ import com.beust.jcommander.ParameterException;
 public class ArgParser {
     private static final BSLogger logger = new BSLogger(ArgParser.class);
     // command line variables
-    @Parameter(names = {"-n", "--name"}, description = "Set the name of the player", order=1)
-    public String name = "Klas2Groep4";
+    @Parameter(names = {"-n", "--name", "--username"}, description = "Set the name of the player", order=1)
+    public String username = "Klas2Groep4";
     @Parameter(names = {"-h", "--host"}, description = "Set the host of the server", order=2, validateWith = org.bitshifters.arguments.validators.IPValidator.class)
     public String host = "172.201.112.199"; // <- official IP // "localhost"; // "65.21.191.106";
     @Parameter(names = {"-p", "--port"}, description = "Set the port of the server", order=3, validateWith = org.bitshifters.arguments.validators.IntValidator.class)
