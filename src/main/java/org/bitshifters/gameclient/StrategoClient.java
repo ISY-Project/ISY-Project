@@ -11,6 +11,7 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Commands.Place;
 import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.StrategoView;
@@ -280,6 +281,7 @@ public class StrategoClient extends GameClient {
             engine.setActivePlayer(nextPlayer);
             return false;
         }
+        telnet.send(new Place(pawn.getName(), GT.toIndex(row, col, engine.getTotalCols())));
         return true;
     }
 
@@ -323,6 +325,7 @@ public class StrategoClient extends GameClient {
     public void onMatch() {
         // Als de game begint, start de game
         setScreen();
+        engine.setActivePlayer(getNextPlayer()); // default to avoid null
     }
 
     private void setScreen() {
@@ -352,7 +355,8 @@ public class StrategoClient extends GameClient {
     }
 
     // TODO docsting and test
-    public void onOpponentPlaced(int index) {
+    public void onOpponentPlaced(String[] data) {
+        int index = Integer.parseInt(data[0]);
         engine.setActivePlayer(players[1]);
         int[] coords = GT.toCoordinates(index, engine.getTotalCols());
         int row = coords[0];
