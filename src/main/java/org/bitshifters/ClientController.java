@@ -90,7 +90,7 @@ public class ClientController {
 
     public static GameClient getSelectedClient() {
         return selectedClient;
-        }
+    }
 
         public static void setSelectedClient(Optional<GameClient> v) {
         telnet.send(new Forfeit());
