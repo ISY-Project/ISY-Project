@@ -46,9 +46,9 @@ public final class AvailableUnits extends HBox {
         this.rightBox.setPrefWidth(buttonWidth);
 
         if (isSmallVersion) {
-            this.availableUnits = UnitSet.EIGHT;
+            this.availableUnits = new UnitSet().setEightUnits();
         } else {
-            this.availableUnits = UnitSet.TEN;
+            this.availableUnits = new UnitSet().setTenUnits();
         }
         int size = this.availableUnits.getUnits().size();
         this.buttons = new Button[size];
@@ -113,6 +113,7 @@ public final class AvailableUnits extends HBox {
                 int amount = this.availableUnits.getUnits().get(pawn);
 
                 amount--;
+                this.availableUnits.getUnits().put(pawn, amount);
 
                 text.setText(pawn.getName() + ": " + amount);
 

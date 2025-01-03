@@ -29,7 +29,7 @@ public class UnitSet {
     /**
      * Set the units for a 10x10 game
      */
-    private UnitSet setTenUnits() {
+    public UnitSet setTenUnits() {
         units.clear();
         units.put(Pawns.MARSHAL, 1);
         units.put(Pawns.GENERAL, 1);
@@ -50,7 +50,7 @@ public class UnitSet {
     /**
      * Set units for an 8x8 game
      */
-    private UnitSet setEightUnits() {
+    public UnitSet setEightUnits() {
         units.clear();
         units.put(Pawns.MARSHAL, 1);
         units.put(Pawns.GENERAL, 1);

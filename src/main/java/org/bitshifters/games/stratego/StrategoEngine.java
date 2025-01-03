@@ -350,10 +350,10 @@ public class StrategoEngine extends GridEngine<Unit> {
         }
 
         for (var i: unitSet.getUnits().entrySet()) {
-            var unit = i.getKey();
-            Integer unitCount = unitCounter.get(unit);
-            Integer requiredCount = i.getValue();
-            if (!unitCount.equals(requiredCount)) {
+            Pawns unit = i.getKey();
+            int requiredCount = i.getValue();
+            int unitCount = unitCounter.get(unit);
+            if (unitCount != requiredCount) {
                 return false;
             }
         }
