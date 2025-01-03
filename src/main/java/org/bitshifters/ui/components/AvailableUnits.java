@@ -113,7 +113,6 @@ public final class AvailableUnits extends HBox {
                 int amount = this.availableUnits.getUnits().get(pawn);
 
                 amount--;
-                this.availableUnits.getUnits().put(pawn, amount);
 
                 text.setText(pawn.getName() + ": " + amount);
 
