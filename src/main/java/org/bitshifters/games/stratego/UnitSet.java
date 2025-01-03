@@ -43,6 +43,7 @@ public class UnitSet {
         units.put(Pawns.SPY, 1);
         units.put(Pawns.BOMB, 6);
         units.put(Pawns.FLAG, 1);
+        this.maxUnits = 40;
         return this;
     }
 
@@ -58,6 +59,7 @@ public class UnitSet {
         units.put(Pawns.SPY, 1);
         units.put(Pawns.BOMB, 2);
         units.put(Pawns.FLAG, 1);
+        this.maxUnits = 10;
         return this;
     }
 
