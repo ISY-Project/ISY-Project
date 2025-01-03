@@ -292,7 +292,7 @@ public class StrategoClient extends GameClient {
         Player player = engine.getActivePlayer();
         if (view.isPlacingDone())  {
             if (!engine.validateAllUnitsPlaced(player)) {
-                // throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
+                throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
             }
             if (engine.validateAllUnitsPlaced(getNextPlayer())) {
                 view.setPlacingMode(false);
