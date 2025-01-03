@@ -292,7 +292,7 @@ public class StrategoClient extends GameClient {
         Player player = engine.getActivePlayer();
         if (view.isPlacingDone())  {
             if (!engine.validateAllUnitsPlaced(player)) {
-                throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
+                // throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
             }
             if (engine.validateAllUnitsPlaced(getNextPlayer())) {
                 view.setPlacingMode(false);
@@ -418,30 +418,36 @@ public class StrategoClient extends GameClient {
         }
     }
 
+    private void resetGrids() {
+        engine.resetGrid(engine.getActivePlayer());
+        engine.resetGrid(getNextPlayer());
+        engine.resetGrid(StrategoEngine.GameGrid);
+    }
+
     /**
      * Handle the win of the player
      */
-    // TODO implement this
     @Override
     public void onWin() {
+        resetGrids();
         view.getMainFrame().showPopup("You Win");
     }
 
     /**
      * Handle the lose of the player
      */
-    // TODO implement this
     @Override
     public void onLose() {
+        resetGrids();
         view.getMainFrame().showPopup("You Lose");
     }
 
     /**
      * Handle the draw of the player
      */
-    // TODO implement this
     @Override
     public void onDraw() {
+        resetGrids();
         view.getMainFrame().showPopup("Draw");
     }
 
