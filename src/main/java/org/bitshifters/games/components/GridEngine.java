@@ -110,4 +110,13 @@ public abstract class GridEngine<Cell> extends Engine {
         logger.debug("Getting string representation of grid for player: " + player);
         return grids.get(player).toString();
     }
+    
+    /**
+     * Make a move in the game.
+     * @param row the row to move to
+     * @param col the column to move to
+     * @param player the player making the move
+     * @return whether the move is valid
+     */
+    public abstract boolean validateMove(final int row, final int col, final Player player);
 }

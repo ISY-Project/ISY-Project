@@ -1,11 +1,17 @@
 package org.bitshifters.games.components;
 
+import org.bitshifters.gameserver.components.GameList;
+
 /**
  * Represents the engine for a game.
  */
 public abstract class Engine {
     protected Player activePlayer;
     
+    public Engine() {
+        GameList.addGame(this);
+    }
+
     /**
      * Get the active player.
      * @return the active player
@@ -30,15 +36,6 @@ public abstract class Engine {
     protected boolean isPlayerTurn(final Player player) {
         return activePlayer == player;
     }
-
-    /**
-     * Make a move in the game.
-     * @param row the row to move to
-     * @param col the column to move to
-     * @param player the player making the move
-     * @return whether the move is valid
-     */
-    public abstract boolean validateMove(final int row, final int col, final Player player);
 
     /**
      * Check if the game is over
