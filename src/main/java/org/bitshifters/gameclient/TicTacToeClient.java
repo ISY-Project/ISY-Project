@@ -201,4 +201,10 @@ public class TicTacToeClient extends GameClient {
     public void onMessage(String message) {
         // Niet nodig?
     }
+
+    @Override
+    public void onPlaced(int index) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onPlaced'");
+    }
 }
