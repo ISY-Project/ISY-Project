@@ -26,6 +26,7 @@ import javafx.scene.control.Button;
 public class StrategoClient extends GameClient {
     private static final BSLogger logger = new BSLogger(StrategoClient.class);
     private static final GridTransformer<Integer> GT = new GridTransformer<>();
+    private final static Player opponentPlayer = ClientController.getOpponentPlayer();
     private final StrategoView view;
     private final StrategoEngine engine;
     private boolean placingUnits = true; // is placing mode active yes/no
@@ -98,14 +99,18 @@ public class StrategoClient extends GameClient {
      */
     private void handleButtonClick(StrategoView view, final int finalRow, final int finalCol) {
         logger.log(Level.INFO, "Button clicked at row: {0} col: {1}", new Object[]{finalRow, finalCol});
-        // int index = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
+
+        if (engine.getActivePlayer() == null) {
+            view.getMainFrame().showPopup("Game has not started yet");
+            return;
+        }
+
         if (placingUnits) { // placing fase
-            // TODO: test
-            boolean placed = placeUnit(finalRow, finalCol, selectedUnit);
-            if (!placed) {
+            if (!validatePlaceUnit(finalRow, finalCol, selectedUnit)) {
                 return;
             }
             Pawns selectedPawn = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
+            placeUnit(finalRow, finalCol, selectedUnit);
             if (selectedPawn == null) {
                 this.selectedUnit = null;
             } else {
@@ -243,16 +248,8 @@ public class StrategoClient extends GameClient {
         engine.setActivePlayer(nextPlayer);
     }
 
-    /***
-     * Place a unit on the board
-     * @param row the row
-     * @param col the column
-     * @param pawn the Pawn type
-     */
-    private boolean placeUnit(int row, int col, Pawns pawn) {
-        logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
+    private boolean validatePlaceUnit(int row, int col, Pawns pawn) {
         Player activePlayer = engine.getActivePlayer();
-        Player nextPlayer = getNextPlayer();
 
         if (activePlayer == ClientController.getOpponentPlayer()){
             view.getMainFrame().showPopup("It is not your turn");
@@ -269,13 +266,17 @@ public class StrategoClient extends GameClient {
             view.getMainFrame().showPopup("You are not able to place a unit there");
             return false;
         }
-        view.updateButton(row, col, new PawnButtonInformation(pawn, activePlayer.equals(players[1]))); // update the button with the pawn, should only be done for the active player
-        engine.PlaceUnit(activePlayer, engineRow, engineCol, pawn);
+        return true;
+    }
+
+    private boolean validateAllUnitsPlaced() {
+        Player activePlayer = engine.getActivePlayer();
+        Player nextPlayer = getNextPlayer();
         if (engine.validateAllUnitsPlaced(activePlayer)) {
             if (view.isPlacingDone()) {
                 // Should be true when engine sees all units placed
-                view.setPlacingMode(false);
                 placingUnits = false;
+                view.setPlacingMode(placingUnits);
                 logger.info("Placing units done, starting game");
                 // engine.startGame(players);
             }
@@ -283,15 +284,36 @@ public class StrategoClient extends GameClient {
             engine.setActivePlayer(nextPlayer);
             return false;
         }
-        telnet.send(new Place(pawn.getName(), GT.toIndex(row, col, engine.getTotalCols())));
         return true;
     }
 
-    // TODO docstring and test
+    /***
+     * Place a unit on the board
+     * @param row the row
+     * @param col the column
+     * @param pawn the Pawn type
+     */
+    private boolean placeUnit(int row, int col, Pawns pawn) {
+        logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
+        Player activePlayer = engine.getActivePlayer();
+
+        int engineRow = (activePlayer.equals(players[1])) ? engine.rotateRow(row) - (engine.getTotalRows()/2 + 1) : row - (engine.getTotalRows()/2 + 1); // rotate the board for player 1
+        int engineCol = (activePlayer.equals(players[1])) ? engine.rotateCol(col) : col; // rotate the board for player 1
+
+        view.updateButton(row, col, new PawnButtonInformation(pawn, activePlayer.equals(players[1]))); // update the button with the pawn, should only be done for the active player
+        engine.PlaceUnit(activePlayer, engineRow, engineCol, pawn);
+        telnet.send(new Place(pawn.getName(), GT.toIndex(row, col, engine.getTotalCols())));
+
+        return validateAllUnitsPlaced();
+    }
+
     private void checkStartGame() {
         Player player = engine.getActivePlayer();
         if (view.isPlacingDone())  {
             if (!engine.validateAllUnitsPlaced(player)) {
+                if (player == opponentPlayer) {
+                    return;
+                }
                 throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
             }
             if (engine.validateAllUnitsPlaced(getNextPlayer())) {
@@ -349,9 +371,12 @@ public class StrategoClient extends GameClient {
     @Override
     public void onYourTurn(String message) {
         engine.setActivePlayer(players[0]);
-        placingUnits = true;
-        if (!ClientController.isComputer) {
-            view.setPlacingMode(placingUnits);
+        view.setPlacingMode(placingUnits);
+        if (placingUnits) {
+            if (!ClientController.isComputer) return;
+            // get algorithm placement
+            // telnet send placement
+            // call placeUnit
             return;
         }
         // get algorithm move 
@@ -359,14 +384,16 @@ public class StrategoClient extends GameClient {
         // call makeMove
     }
 
-    // TODO docsting and test
-    public void onOpponentPlaced(String[] data) {
-        int index = Integer.parseInt(data[0]);
-        engine.setActivePlayer(players[1]);
-        int[] coords = GT.toCoordinates(index, engine.getTotalCols());
-        int row = coords[0];
-        int col = coords[1];
-        placeUnit(row, col, Pawns.UNKNOWN);
+    @Override
+    public void onPlaced(int index) {
+        int[] coord = GT.toCoordinates(index, engine.getTotalCols());
+        int row = coord[0];
+        int col = coord[1];
+        Pawns rank = Pawns.UNKNOWN;
+        PawnButtonInformation pawn = new PawnButtonInformation(rank, true);
+
+        view.updateButton(row, col, pawn);
+        engine.PlaceUnit(opponentPlayer, row, col, rank);
         checkStartGame();
     }
 
