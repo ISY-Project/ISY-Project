@@ -39,6 +39,7 @@ public class Main{
         updateConfigArgs();
         main.run(args);
         MainFrame.run(args);
+        System.exit(0);
     }
 
     private static void updateConfigArgs() {
