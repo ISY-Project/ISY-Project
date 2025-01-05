@@ -109,13 +109,8 @@ public class StrategoClient extends GameClient {
             if (!validatePlaceUnit(finalRow, finalCol, selectedUnit)) {
                 return;
             }
-            Pawns selectedPawn = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
             placeUnit(finalRow, finalCol, selectedUnit);
-            if (selectedPawn == null) {
-                this.selectedUnit = null;
-            } else {
-                this.selectedUnit = selectedPawn;
-            }
+            selectedUnit = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
             checkStartGame();
             return;
         }
@@ -143,10 +138,12 @@ public class StrategoClient extends GameClient {
             selectedUnitRow = -1;
             selectedUnitCol = -1;
         } else { // select unit (first click)
-
             // DO NOT FIX THE LAKES, THEY ARE NOT BUGS, THEY ARE FEATURES
-            if (engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid) == null || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.UNKNOWN) { // || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.LAKE) {	
-
+            if (
+                engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid) == null
+                || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.UNKNOWN
+                || engine.getCell(finalRow, finalCol, StrategoEngine.GameGrid).getRank() == Pawns.LAKE
+            ) {
                 return; // no unit to select
             }
             view.getBaseGrid().selectButton(finalRow, finalCol);
@@ -272,14 +269,13 @@ public class StrategoClient extends GameClient {
     private boolean validateAllUnitsPlaced() {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
-        if (engine.validateAllUnitsPlaced(activePlayer)) {
-            if (view.isPlacingDone()) {
-                // Should be true when engine sees all units placed
-                placingUnits = false;
-                view.setPlacingMode(placingUnits);
-                logger.info("Placing units done, starting game");
-                // engine.startGame(players);
-            }
+        if (
+            engine.validateAllUnitsPlaced(activePlayer)
+            && view.isPlacingDone() // should always be true if validateAllUnitsPlaced is true
+        ) {
+            placingUnits = false;
+            view.setPlacingMode(placingUnits);
+            logger.info("Placing units done, waiting on enemy");
             view.getMainFrame().showPopup("All units are placed, waiting for the other player");
             engine.setActivePlayer(nextPlayer);
             return false;
@@ -308,21 +304,16 @@ public class StrategoClient extends GameClient {
     }
 
     private void checkStartGame() {
-        Player player = engine.getActivePlayer();
-        if (view.isPlacingDone())  {
-            if (!engine.validateAllUnitsPlaced(player)) {
-                if (player == opponentPlayer) {
-                    return;
-                }
-                throw new IllegalStateException("Not all units are placed on the board even though the player is done placing units");
-            }
-            if (engine.validateAllUnitsPlaced(getNextPlayer())) {
-                view.setPlacingMode(false);
-                placingUnits = false;
-                logger.info("Placing units done, starting game");
-                engine.startGame(players);
-            }
+        if (
+            !engine.validateAllUnitsPlaced(engine.getActivePlayer())
+            || !engine.validateAllUnitsPlaced(getNextPlayer())
+        ) {
+            return;
         }
+        view.setPlacingMode(false);
+        placingUnits = false;
+        logger.info("Placing units done, starting game");
+        engine.startGame(players);
     }
 
     /**
@@ -330,10 +321,11 @@ public class StrategoClient extends GameClient {
      * @return the next player
      */
     private Player getNextPlayer() {
-        if (engine.getActivePlayer() == null) {
+        Player activePlayer = engine.getActivePlayer();
+        if (activePlayer == null) {
             return players[1];
         }
-        return engine.getActivePlayer() == players[0] ? players[1] : players[0];
+        return activePlayer == players[0] ? players[1] : players[0];
     }
 
     @Override
@@ -374,6 +366,7 @@ public class StrategoClient extends GameClient {
         view.setPlacingMode(placingUnits);
         if (placingUnits) {
             if (!ClientController.isComputer) return;
+            // while placing units
             // get algorithm placement
             // telnet send placement
             // call placeUnit

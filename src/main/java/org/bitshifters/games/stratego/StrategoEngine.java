@@ -145,7 +145,7 @@ public class StrategoEngine extends GridEngine<Unit> {
                 for (int row = 0; row < playerRows; row++) {
                     for (int col = 0; col < playerCols; col++) {
                         Unit unit = getCell(row, col, player);
-                        setCell(startRow - row, startCol - col, unit, GameGrid);
+                        setCell(row, col, unit, GameGrid);
                     }
                 }
             }
@@ -348,6 +348,13 @@ public class StrategoEngine extends GridEngine<Unit> {
                 }
             }
         }
+
+        // Count unknown pawns, these only exist for opponent.
+        int unknownCount = unitCounter.get(Pawns.UNKNOWN);
+        if (unknownCount > 0) {
+            if (unknownCount == unitSet.getTotalUnits()) return true;
+            return false;
+        } 
 
         for (var i: unitSet.getUnits().entrySet()) {
             Pawns unit = i.getKey();
