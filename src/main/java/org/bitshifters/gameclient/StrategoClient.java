@@ -11,6 +11,7 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.Commands.Place;
 import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.enums.Screens;
@@ -209,6 +210,10 @@ public class StrategoClient extends GameClient {
             view.movePawn(fromRow, fromCol, toRow, toCol);
             engine.moveUnit(fromRow, fromCol, toRow, toCol, activePlayer);
             engine.setActivePlayer(nextPlayer);
+            int size = engine.getTotalCols();
+            telnet.send(new Move(
+                GT.toIndex(fromRow, fromCol, size),
+                GT.toIndex(toRow, toCol, size)));
         }
         // Attack happened, store move for battle result
         else {
