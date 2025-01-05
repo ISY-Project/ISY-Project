@@ -92,8 +92,10 @@ public class ClientController {
         return selectedClient;
     }
 
-        public static void setSelectedClient(Optional<GameClient> v) {
-        telnet.send(new Forfeit());
+    public static void setSelectedClient(Optional<GameClient> v) {
+        if (selectedClient != null) {
+            telnet.send(new Forfeit());
+        }
         if (thread != null) {
             thread.interrupt();
         }
