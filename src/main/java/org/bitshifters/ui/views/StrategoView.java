@@ -12,6 +12,7 @@ import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -194,8 +195,7 @@ public class StrategoView extends CustomBorderPane {
                 ImageView imageView = new ImageView(image);
                 imageView.setFitHeight(buttonSize);
                 imageView.setFitWidth(buttonSize*1.10); // make the width a bit wider to make the pawn number visible
-                button.setGraphic(imageView);
-            }
+                Platform.runLater(() -> button.setGraphic(imageView));}
         } catch (FileNotFoundException e) {
             button.setText(pawn.toString());
             logger.error("Error loading image", e);
