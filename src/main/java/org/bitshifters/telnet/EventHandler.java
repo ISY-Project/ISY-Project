@@ -5,12 +5,13 @@ import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Events.Challenge;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
+import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
 
 /**
  * Abstract class for handling events.
  */
-public abstract class EventHandler implements Server, Game, Challenge, Error {
+public abstract class EventHandler implements Server, Game, Challenge, Error, Placed {
     private static final BSLogger logger = new BSLogger(EventHandler.class);
     private final GameTypes gameType;
 

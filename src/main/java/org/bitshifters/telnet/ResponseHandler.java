@@ -240,4 +240,12 @@ public class ResponseHandler {
         logger.debug("Parsed move: " + result);
         return result;
     }
+
+    private int parsePlaced(final String Response) {
+        logger.debug("Parsing placed: " + Response);
+        final String sanitized = Response.replaceAll("[^0-9]", "");
+        final int result = Integer.parseInt(sanitized);
+        logger.debug("Parsed placed: " + result);
+        return result;
+    }
 }
