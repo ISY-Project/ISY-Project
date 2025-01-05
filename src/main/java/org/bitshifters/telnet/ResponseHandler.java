@@ -8,6 +8,7 @@ import org.bitshifters.telnet.Events.Challenge;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
+import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
 
 /**
@@ -128,23 +129,25 @@ public class ResponseHandler {
         if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
         }
-        else if (response.contains(Game.MESSAGE + "MATCH")) {
+        else if (response.contains("MATCH")) {
             handleMatchEvent(response);
         }
-        else if (response.contains(Game.MESSAGE + "YOURTURN")) {
+        else if (response.contains("YOURTURN")) {
             handleYourTurnEvent(responseArray);
         }
-        else if (response.contains(Game.MESSAGE + "MOVE")) {
+        else if (response.contains("MOVE")) {
             handleMoveEvent(response);
         }
-        else if (response.contains(Game.MESSAGE + "WIN")) {
+        else if (response.contains("WIN")) {
             handleWinEvent();
         }
-        else if (response.contains(Game.MESSAGE + "LOSS")) {
+        else if (response.contains("LOSS")) {
             handleLossEvent();
         }
-        else if (response.contains(Game.MESSAGE + "DRAW")) {
+        else if (response.contains("DRAW")) {
             handleDrawEvent();
+        } else if (response.contains(Placed.MESSAGE)) {
+            handlePlacedEvent(response);
         }
     }
 
@@ -211,6 +214,12 @@ public class ResponseHandler {
         final int gameNumber = Integer.parseInt(responseArray[2]);
         final int gameName = Integer.parseInt(responseArray[3]);
         this.gameClient.onChallenge(playerName, gameName, gameNumber);
+    }
+
+    private void handlePlacedEvent(final String response) {
+        logger.info("Handling placed event: " + response);
+        final int placed = parsePlaced(response);
+        this.gameClient.onPlaced(placed);
     }
 
     /**

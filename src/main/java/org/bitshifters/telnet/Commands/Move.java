@@ -7,6 +7,10 @@ public class Move implements SendableCommand {
         this.command = "move " + value;
     }
 
+    public Move(int from, int to) {
+        this.command = "move " + from + " " + to;
+    }
+
     @Override
     public String get() {
         return this.command;
