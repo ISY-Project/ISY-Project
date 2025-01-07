@@ -140,17 +140,13 @@ public class StrategoView extends CustomBorderPane {
      * @param toButton the button to move the pawn to
      */
     public final void movePawn(Button fromButton, Button toButton) {
-        try {
-            PawnButtonInformation fromInformation = (PawnButtonInformation) fromButton.getUserData();
-            if (fromInformation.pawn() == null) {
-                logger.error("No pawn to move from button: " + fromButton);
-                return;
-            }
-            updateButton(toButton, fromInformation);
-            updateButton(fromButton, new PawnButtonInformation(null, false));
-        } catch (Exception e) {
-            logger.error("Error moving pawn", e);
+        PawnButtonInformation fromInformation = (PawnButtonInformation) fromButton.getUserData();
+        if (fromInformation == null || fromInformation.pawn() == null) {
+            logger.error("No pawn to move from button: " + fromButton);
+            return;
         }
+        updateButton(toButton, fromInformation);
+        updateButton(fromButton, new PawnButtonInformation(null, false));
     }
 
     /** 
