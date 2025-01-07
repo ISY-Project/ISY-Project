@@ -223,10 +223,11 @@ public class StrategoView extends CustomBorderPane {
                 for (int col = 0; col < this.baseGrid.getGridHeight(); col++) {
                     Button button = buttonGrid[row][col];
                     button.setStyle(style);
-                    if ((row >= 4 && row <= 5)) { // lake tiles
-                        if ((col >= 2 && col <= 3) || (col >= 6 && col <= 7)) { // lake tiles
-                            updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
-                        }
+                    if (
+                        (row >= 4 && row <= 5) 
+                        || (col >= 2 && col <= 3) || (col >= 6 && col <= 7)
+                    ) { // lake tiles
+                        updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                     }
                     button.setMinSize(buttonSize*1.20, buttonSize); // *1.10 to make the buttons wider to accommodate the pawn number
                     button.setMaxSize(buttonSize*1.20, buttonSize);
@@ -237,10 +238,11 @@ public class StrategoView extends CustomBorderPane {
                 for (int col = 0; col < this.baseGrid.getGridWidth(); col++) {
                     Button button = buttonGrid[row][col];
                     button.setStyle(style);
-                    if ((row >= 3 && row <= 4)) { // lake tiles
-                        if ((col == 2) || (col == 5)) { // lake tiles
-                            updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
-                        }
+                    if (
+                        (row >= 3 && row <= 4) 
+                        || (col == 2) || (col == 5)
+                    ) { // lake tiles
+                        updateButton(button, Pawns.LAKE, true); // lake tiles are always opponent
                     }
                     button.setMinSize(buttonSize*1.20, buttonSize); // *1.10 to make the buttons wider to accommodate the pawn number
                     button.setMaxSize(buttonSize*1.20, buttonSize);
