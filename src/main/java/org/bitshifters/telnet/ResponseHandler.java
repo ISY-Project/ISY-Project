@@ -2,7 +2,10 @@ package org.bitshifters.telnet;
 
 
 import org.bitshifters.gameclient.GameClient;
+import org.bitshifters.gameclient.StrategoClient;
+import org.bitshifters.gameclient.StrategoClient.CombatResult;
 import org.bitshifters.games.GameTypes;
+import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Events.Challenge;
 import org.bitshifters.telnet.Events.Error;
@@ -10,6 +13,7 @@ import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
+import org.bitshifters.telnet.Exceptions.TypeMismatchException;
 
 /**
  * Handles responses from the server.
@@ -148,6 +152,10 @@ public class ResponseHandler {
             handleDrawEvent();
         } else if (response.contains(Placed.MESSAGE)) {
             handlePlacedEvent(response);
+        } else if (response.contains("ATTACKRESULT")) {
+            handleAttackResultEvent(response);
+        } else if (response.contains("DEFENDRESULT")) {
+            handleDefendResultEvent(response);
         }
     }
 
@@ -183,6 +191,49 @@ public class ResponseHandler {
         logger.info("Handling move event: " + response);
         final String[] data = parseMove(response);
         this.gameClient.onMove(data);
+    }
+
+    /**
+     * Parses a move from the response.
+     * @param response The response from the server.
+     * @return The parsed move data.
+     */
+    private String[] parseCombatResult(final String response) {
+        logger.debug("Parsing combat: " + response);
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final String[] result = new String[data.length];
+
+        // TODO: Edit to parse combat data.
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = '"';
+            // TODO:
+        }
+
+        logger.debug("Parsed move: " + result);
+        return result;
+    }
+
+    private void handleAttackResultEvent(final String response) {
+        logger.info("Handling attack result event: " + response);
+        final String[] data = parseCombatResult(response);
+        Pawns defender = null;
+        CombatResult result = null;
+        StrategoClient SC = (StrategoClient) this.gameClient;
+        SC.onCombatResult(result);
+    }
+
+    private void handleDefendResultEvent(final String response) {
+        logger.info("Handling defend result event: " + response);
+        final String[] data = parseCombatResult(response);
+        Pawns attacker = null;
+        CombatResult result = null;
+        StrategoClient SC = (StrategoClient) this.gameClient;
+        SC.onCombatResult(result);
     }
 
     /**
