@@ -6,7 +6,9 @@ import org.bitshifters.gameclient.StrategoClient.CombatResult;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Events.AttackResult;
 import org.bitshifters.telnet.Events.Challenge;
+import org.bitshifters.telnet.Events.DefenseResult;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
@@ -151,9 +153,9 @@ public class ResponseHandler {
             handleDrawEvent();
         } else if (response.contains(Placed.MESSAGE)) {
             handlePlacedEvent(response);
-        } else if (response.contains("ATTACKRESULT")) {
+        } else if (response.contains(AttackResult.MESSAGE)) {
             handleAttackResultEvent(response);
-        } else if (response.contains("DEFENDRESULT")) {
+        } else if (response.contains(DefenseResult.MESSAGE)) {
             handleDefendResultEvent(response);
         }
     }
