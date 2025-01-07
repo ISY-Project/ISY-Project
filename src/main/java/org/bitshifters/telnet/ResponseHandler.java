@@ -1,6 +1,5 @@
 package org.bitshifters.telnet;
 
-
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.StrategoClient.CombatResult;
@@ -24,8 +23,9 @@ public class ResponseHandler {
 
     /**
      * Constructs a ResponseHandler.
+     * 
      * @param eventHandler The event handler.
-     * @param gameClient The game client.
+     * @param gameClient   The game client.
      * @throws TypeMismatchException If the game types do not match.
      */
     public ResponseHandler(final GameClient gameClient) {
@@ -34,6 +34,7 @@ public class ResponseHandler {
 
     /**
      * Handles the response from the server.
+     * 
      * @param response The response from the server.
      * @return True if the response was handled, false otherwise.
      */
@@ -46,8 +47,7 @@ public class ResponseHandler {
         final String[] responseArray = response.split(" ");
         if (response.contains(Help.MESSAGE)) {
             handleHelpEvent(response);
-        }
-        else if (response.contains(Server.MESSAGE)) {
+        } else if (response.contains(Server.MESSAGE)) {
             handleServerEvent(response, responseArray);
         } else if (response.contains(Error.MESSAGE)) {
             handleErrorEvent(response);
@@ -57,6 +57,7 @@ public class ResponseHandler {
 
     /**
      * Determines the game type from the response.
+     * 
      * @param response The response from the server.
      * @return The game type.
      */
@@ -95,6 +96,7 @@ public class ResponseHandler {
 
     /**
      * Handles an error event.
+     * 
      * @param response The response from the server.
      */
     private void handleErrorEvent(final String response) {
@@ -104,6 +106,7 @@ public class ResponseHandler {
 
     /**
      * Handles a help event.
+     * 
      * @param response The response from the server.
      */
     private void handleHelpEvent(final String response) {
@@ -113,7 +116,8 @@ public class ResponseHandler {
 
     /**
      * Handles a server event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleServerEvent(final String response, final String[] responseArray) {
@@ -125,30 +129,25 @@ public class ResponseHandler {
 
     /**
      * Handles a game event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleGameEvent(final String response, final String[] responseArray) {
         logger.info("Handling game event: " + response);
         if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
-        }
-        else if (response.contains("MATCH")) {
+        } else if (response.contains("MATCH")) {
             handleMatchEvent(response);
-        }
-        else if (response.contains("YOURTURN")) {
+        } else if (response.contains("YOURTURN")) {
             handleYourTurnEvent(responseArray);
-        }
-        else if (response.contains("MOVE")) {
+        } else if (response.contains("MOVE")) {
             handleMoveEvent(response);
-        }
-        else if (response.contains("WIN")) {
+        } else if (response.contains("WIN")) {
             handleWinEvent();
-        }
-        else if (response.contains("LOSS")) {
+        } else if (response.contains("LOSS")) {
             handleLossEvent();
-        }
-        else if (response.contains("DRAW")) {
+        } else if (response.contains("DRAW")) {
             handleDrawEvent();
         } else if (response.contains(Placed.MESSAGE)) {
             handlePlacedEvent(response);
@@ -185,6 +184,7 @@ public class ResponseHandler {
 
     /**
      * Handles a move event.
+     * 
      * @param response The response from the server.
      */
     private void handleMoveEvent(final String response) {
@@ -195,6 +195,7 @@ public class ResponseHandler {
 
     /**
      * Parses a move from the response.
+     * 
      * @param response The response from the server.
      * @return The parsed move data.
      */
@@ -238,6 +239,7 @@ public class ResponseHandler {
 
     /**
      * Handles a "your turn" event.
+     * 
      * @param responseArray The response array.
      */
     private void handleYourTurnEvent(final String[] responseArray) {
@@ -247,6 +249,7 @@ public class ResponseHandler {
 
     /**
      * Handles a match event.
+     * 
      * @param response The response from the server.
      */
     private void handleMatchEvent(final String response) {
@@ -256,7 +259,8 @@ public class ResponseHandler {
 
     /**
      * Handles a challenge event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleChallengeEvent(final String response, final String[] responseArray) {
@@ -275,6 +279,7 @@ public class ResponseHandler {
 
     /**
      * Parses a move from the response.
+     * 
      * @param response The response from the server.
      * @return The parsed move data.
      */
