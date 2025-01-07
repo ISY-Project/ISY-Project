@@ -419,7 +419,7 @@ public class StrategoClient extends GameClient {
         makeMove(fromRow, fromCol, toRow, toCol);
     }
 
-    // TODO docstring and test
+    // TODO docstring
     public void onAttackResult(Pawns defender, CombatResult result) {
         view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(defender, true));
         engine.PlaceGridUnit(opponentPlayer, storedToRow, storedToCol, defender);
@@ -427,7 +427,7 @@ public class StrategoClient extends GameClient {
         applyAttackResult(defender, result);
     }
 
-    // TODO docstring and test
+    // TODO docstring
     public void onDefenseResult(Pawns attacker, CombatResult result) {
         view.updateButton(storedFromRow, storedFromCol, new PawnButtonInformation(attacker, true));
         engine.PlaceGridUnit(opponentPlayer, storedFromRow, storedFromCol, attacker);
