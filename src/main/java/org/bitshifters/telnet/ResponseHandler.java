@@ -139,17 +139,17 @@ public class ResponseHandler {
         logger.info("Handling game event: " + response);
         if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
-        } else if (response.contains("MATCH")) {
+        } else if (response.contains(Game.MESSAGE + "MATCH")) {
             handleMatchEvent(response);
-        } else if (response.contains("YOURTURN")) {
+        } else if (response.contains(Game.MESSAGE + "YOURTURN")) {
             handleYourTurnEvent(responseArray);
-        } else if (response.contains("MOVE")) {
+        } else if (response.contains(Game.MESSAGE + "MOVE")) {
             handleMoveEvent(response);
-        } else if (response.contains("WIN")) {
+        } else if (response.contains(Game.MESSAGE + "WIN")) {
             handleWinEvent();
-        } else if (response.contains("LOSS")) {
+        } else if (response.contains(Game.MESSAGE + "LOSS")) {
             handleLossEvent();
-        } else if (response.contains("DRAW")) {
+        } else if (response.contains(Game.MESSAGE + "DRAW")) {
             handleDrawEvent();
         } else if (response.contains(Placed.MESSAGE)) {
             handlePlacedEvent(response);
@@ -213,8 +213,11 @@ public class ResponseHandler {
         // TODO: Edit to parse combat data.
         for (int i = 0; i < data.length; i++) {
             String option = data[i].trim();
-            final char split = '"';
-            // TODO:
+            final char split = ':';
+            final String key = option.split(String.valueOf(split))[0];
+            final String value = option.split(String.valueOf(split))[1];
+            // Sanitize the value
+            result[i] = value.replaceAll("[^a-zA-Z]", "");
         }
 
         logger.debug("Parsed move: " + result);
@@ -224,19 +227,19 @@ public class ResponseHandler {
     private void handleAttackResultEvent(final String response) {
         logger.info("Handling attack result event: " + response);
         final String[] data = parseCombatResult(response);
-        Pawns defender = null;
-        CombatResult result = null;
+        Pawns defender = Pawns.valueOf(data[0]);
+        CombatResult result = CombatResult.valueOf(data[1]);
         StrategoClient SC = (StrategoClient) this.gameClient;
-        SC.onCombatResult(result);
+        SC.onAttackResult(defender, result);
     }
 
     private void handleDefendResultEvent(final String response) {
         logger.info("Handling defend result event: " + response);
         final String[] data = parseCombatResult(response);
-        Pawns attacker = null;
-        CombatResult result = null;
+        Pawns attacker = Pawns.valueOf(data[0]);
+        CombatResult result = CombatResult.valueOf(data[1]);
         StrategoClient SC = (StrategoClient) this.gameClient;
-        SC.onCombatResult(result);
+        SC.onDefenseResult(attacker,result);
     }
 
     /**

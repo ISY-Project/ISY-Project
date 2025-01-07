@@ -176,9 +176,11 @@ public class StrategoView extends CustomBorderPane {
         try {
             FileInputStream input = null;
             if (pawn == null) {
-                button.setGraphic(null);
-                button.setText("");
-                button.setStyle(style);
+                Platform.runLater(() -> {
+                    button.setGraphic(null);
+                    button.setText("");
+                    button.setStyle(style);
+                });
             } else switch (pawn) {
                 case UNKNOWN -> input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
                 case LAKE -> button.setStyle(style);
