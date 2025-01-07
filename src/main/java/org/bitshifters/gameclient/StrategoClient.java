@@ -117,8 +117,6 @@ public class StrategoClient extends GameClient {
         }
         // moving fase
         if (unitSelected) { // move unit (click on second button)
-            // int fromIndex = GT.toIndex(selectedUnitRow, selectedUnitCol, view.getBaseGrid().getButtonGrid().length);
-            // int toIndex = GT.toIndex(finalRow, finalCol, view.getBaseGrid().getButtonGrid().length);
 
             if (selectedUnitCol == finalCol && selectedUnitRow == finalRow) { // deselect unit
                 view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
@@ -129,9 +127,12 @@ public class StrategoClient extends GameClient {
             }
             if (validateMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol)){
                 makeMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol);
-                // TODO telnet for stratego move
-                // telnet send move
-            } else {
+                int size = engine.getTotalCols();
+                telnet.send(new Move(
+                    GT.toIndex(selectedUnitRow, selectedUnitCol, size),
+                    GT.toIndex(finalRow, finalCol, size)));
+            }
+            else {
                 view.getMainFrame().showPopup("Invalid move, the selected unit cannot move there");
             }
             view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
@@ -210,10 +211,6 @@ public class StrategoClient extends GameClient {
             view.movePawn(fromRow, fromCol, toRow, toCol);
             engine.moveUnit(fromRow, fromCol, toRow, toCol, activePlayer);
             engine.setActivePlayer(nextPlayer);
-            int size = engine.getTotalCols();
-            telnet.send(new Move(
-                GT.toIndex(fromRow, fromCol, size),
-                GT.toIndex(toRow, toCol, size)));
         }
         // Attack happened, store move for battle result
         else {
