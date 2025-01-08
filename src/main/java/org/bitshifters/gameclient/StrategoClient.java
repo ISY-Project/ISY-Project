@@ -488,6 +488,7 @@ public class StrategoClient extends GameClient {
     /**
      * Reset the game if the game ended
      */
+    // TODO reset gui as well
     private void resetGrids() {
         engine.resetGrid(engine.getActivePlayer());
         engine.resetGrid(getNextPlayer());
