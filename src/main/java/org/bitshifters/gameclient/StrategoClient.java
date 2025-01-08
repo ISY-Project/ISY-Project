@@ -462,7 +462,7 @@ public class StrategoClient extends GameClient {
         view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(defender, true));
         engine.PlaceGridUnit(opponentPlayer, storedToRow, storedToCol, defender);
 
-        applyAttackResult(defender, result);
+        applyAttackResult(result);
     }
 
     /**
@@ -475,13 +475,13 @@ public class StrategoClient extends GameClient {
         engine.PlaceGridUnit(opponentPlayer, storedFromRow, storedFromCol, attacker);
 
         if (result == CombatResult.TIE) {
-            applyAttackResult(attacker, result);
+            applyAttackResult(result);
         }
         else if (result == CombatResult.LOSS) {
-            applyAttackResult(attacker, CombatResult.WIN);
+            applyAttackResult(CombatResult.WIN);
         }
         else if (result == CombatResult.WIN){
-            applyAttackResult(attacker, CombatResult.LOSS);
+            applyAttackResult(CombatResult.LOSS);
         }
     }
 
