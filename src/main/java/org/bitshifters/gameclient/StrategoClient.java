@@ -214,6 +214,7 @@ public class StrategoClient extends GameClient {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
+        removeLastEnemyInformation();
         
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
@@ -227,6 +228,12 @@ public class StrategoClient extends GameClient {
             this.storedToRow = toRow;
             this.storedToCol = toCol;
         }
+    }
+
+    private void removeLastEnemyInformation() {
+        Unit unit = engine.getCell(storedToRow, storedToCol, StrategoEngine.GameGrid);
+        if (unit == null || unit.getPlayer() != opponentPlayer || ClientController.isComputer) return;
+        view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(Pawns.UNKNOWN, true));
     }
 
     // TODO docstring and test
