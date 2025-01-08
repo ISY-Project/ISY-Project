@@ -1,2 +1,4 @@
 --verbose
 HIGH
+--host
+localhost

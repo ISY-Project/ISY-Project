@@ -83,7 +83,8 @@ public class BaseGrid extends GridPane {
         for (Button[] row : this.grid) {
             for (Button cell : row) {
                 cell.setText("");
-                cell.setUserData(null):
+                cell.setUserData(null);
+                cell.setGraphic(null);
             }
         }
     }

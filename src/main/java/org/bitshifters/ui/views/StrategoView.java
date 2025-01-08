@@ -50,6 +50,13 @@ public class StrategoView extends CustomBorderPane {
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+
+        Button resetButton = new Button("Reset");
+        resetButton.setOnAction(_ -> {
+            resetView();
+        });
+        hButtonBox.getChildren().add(resetButton);
+        
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
         VBox rightBox = new VBox(20);
@@ -263,5 +270,10 @@ public class StrategoView extends CustomBorderPane {
 
     public static String getButtonStyle() {
         return style;
+    }
+
+    public void resetView() {
+        this.availableUnitsButtons.reset();
+        this.baseGrid.clearGrid();
     }
 }
