@@ -5,6 +5,7 @@ import org.bitshifters.telnet.OnConnectionSwitch;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.CustomBorderPane;
+import org.bitshifters.ui.components.Status;
 
 public class ConnectionStatus extends CustomBorderPane implements OnConnectionSwitch {
     private static final TelnetClient telnet = ClientController.telnet;
@@ -16,6 +17,6 @@ public class ConnectionStatus extends CustomBorderPane implements OnConnectionSw
 
     @Override
     public void OnConnectionSwitch(boolean isConnected) {
-        status.setStatusText(isConnected.toString());
+        status.setStatusText(isConnected);
     }
 }
