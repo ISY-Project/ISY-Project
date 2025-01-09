@@ -17,6 +17,11 @@ public class ConnectionStatus extends CustomBorderPane implements OnConnectionSw
 
     @Override
     public void OnConnectionSwitch(boolean isConnected) {
-        status.setLabel(isConnected);
+        status.setConnectionLabel(isConnected);
+    }
+
+    @Override
+    public void OnConnectionSwitch(String connectionText) {
+        status.setConnectionLabel(connectionText);
     }
 }

@@ -6,4 +6,5 @@ public interface OnConnectionSwitch {
      * @param isConnected
      */
     void OnConnectionSwitch(boolean isConnected);
+    void OnConnectionSwitch(String connectionText);
 }
