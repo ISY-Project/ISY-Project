@@ -1,9 +1,11 @@
 package org.bitshifters.telnet;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.SendableCommand;
@@ -18,6 +20,11 @@ public class TelnetClient {
     private BufferedReader in;
     private String server;
     private int port;
+    private boolean isConnected = false;
+
+    public boolean isConnected() {
+        return isConnected;
+    }
 
     /**
      * Constructs a TelnetClient.
@@ -31,13 +38,16 @@ public class TelnetClient {
 
     /**
      * Connects to the server.
+     * @throws IOException 
+     * @throws UnknownHostException 
      * @throws Exception If an error occurs while connecting.
      */
-    public void connect() throws Exception {
+    public void connect() throws UnknownHostException, IOException  {
         logger.info("Connecting to server: " + this.server + ":" + this.port);
         socket = new Socket(this.server, this.port);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        isConnected = true;
     }
 
     /**
@@ -47,7 +57,7 @@ public class TelnetClient {
      */
     public void send(final SendableCommand message) throws IllegalStateException {
         logger.debug("Sending message: " + message.get());
-        if (this.out == null) {
+        if (!this.isConnected || this.out == null) {
             throw new IllegalStateException("Connection not established");
         }
         System.out.println("Sent: " + message.get());
@@ -74,5 +84,6 @@ public class TelnetClient {
         in.close();
         out.close();
         socket.close();
+        isConnected = false;
     }
 }

@@ -1,5 +1,6 @@
 package org.bitshifters.ui;
 
+import java.net.ConnectException;
 import java.util.logging.Level;
 
 import org.bitshifters.ClientController;
@@ -89,19 +90,40 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
-        connect(ClientController.telnet);
-        login(ClientController.telnet);
+        attemptLogin();
+    }
+
+    private void attemptLogin() {
+        Thread thread = new Thread(() -> {
+            int tries = 0;
+            while (!ClientController.telnet.isConnected()) {
+                tries++;
+                try {
+                    connect(ClientController.telnet);
+                    login(ClientController.telnet);
+                } catch (ConnectException e) {
+                    try {
+                        int waitTimeMilliseconds = Math.min(1000 * tries, 30000);
+                        logger.debug("Attempting to connect again in " + waitTimeMilliseconds + "ms");
+                        Thread.sleep(waitTimeMilliseconds);
+                    } catch (InterruptedException ex) {
+                        logger.error("Thread interrupted", ex);
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     private void login(TelnetClient telnet) {
         telnet.send(new Login(Config.getInstance().getValue("username")));
     }
 
-    private void connect(TelnetClient telnet) {
+    private void connect(TelnetClient telnet) throws ConnectException {
         try {
             telnet.connect();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ConnectException("Could not connect to server");
         }
     }
 
