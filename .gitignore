@@ -42,3 +42,4 @@ config.ini
 
 ### Custom
 *.log.*
+*.lck
