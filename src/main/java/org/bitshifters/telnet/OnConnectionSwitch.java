@@ -1,5 +1,5 @@
 package org.bitshifters.telnet;
 
 public interface OnConnectionSwitch {
-    void handle(boolean isConnected);
+    void OnConnectionSwitch(boolean isConnected);
 }

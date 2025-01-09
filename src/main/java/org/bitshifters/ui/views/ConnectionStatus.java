@@ -14,7 +14,7 @@ public class ConnectionStatus extends CustomBorderPane implements OnConnectionSw
     }
 
     @Override
-    public void handle(boolean isConnected) {
+    public void OnConnectionSwitch(boolean isConnected) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handle'");
     }

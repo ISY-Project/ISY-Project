@@ -15,7 +15,7 @@ public class ConnectionNotifier{
 
     public static void notifyListeners(boolean isConnected) {
         for (OnConnectionSwitch listener : listeners) {
-            listener.handle(isConnected);
+            listener.OnConnectionSwitch(isConnected);
         }
     }
 }
