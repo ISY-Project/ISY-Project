@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.ConnectionNotifier;
+import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;

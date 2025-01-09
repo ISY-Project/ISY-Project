@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.ConnectionNotifier;
+import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;

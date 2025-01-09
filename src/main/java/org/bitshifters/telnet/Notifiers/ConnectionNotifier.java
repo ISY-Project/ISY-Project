@@ -1,9 +1,12 @@
-package org.bitshifters.telnet;
+package org.bitshifters.telnet.Notifiers;
 
 import java.util.ArrayList;
 
+import org.bitshifters.telnet.Notifiers.interfaces.OnConnectionSwitch;
+
+
 public class ConnectionNotifier{
-    protected static ArrayList<OnConnectionSwitch> listeners = new ArrayList<OnConnectionSwitch>();
+    protected static ArrayList<OnConnectionSwitch> listeners = new ArrayList<>();
 
     /**
      * Register a listener

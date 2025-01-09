@@ -1,7 +1,7 @@
 package org.bitshifters.ui.views;
 
 import org.bitshifters.ClientController;
-import org.bitshifters.telnet.OnConnectionSwitch;
+import org.bitshifters.telnet.Notifiers.interfaces.OnConnectionSwitch;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.CustomBorderPane;

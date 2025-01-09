@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.SendableCommand;
+import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 
 /**
  * Client for connecting to a Telnet server.

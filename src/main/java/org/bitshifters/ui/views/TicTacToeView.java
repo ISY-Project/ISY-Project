@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.ConnectionNotifier;
+import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;

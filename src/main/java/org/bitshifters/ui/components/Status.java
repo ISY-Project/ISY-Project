@@ -1,6 +1,6 @@
 package org.bitshifters.ui.components;
 
-import org.bitshifters.telnet.OnConnectionSwitch;
+import org.bitshifters.telnet.Notifiers.interfaces.OnConnectionSwitch;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;

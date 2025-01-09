@@ -1,4 +1,4 @@
-package org.bitshifters.telnet;
+package org.bitshifters.telnet.Notifiers.interfaces;
 
 public interface OnConnectionSwitch {
     /**
