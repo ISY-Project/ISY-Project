@@ -41,5 +41,4 @@ dependency-reduced-pom.xml
 config.ini
 
 ### Custom
-*.log
-*.lck
+*.log.*
