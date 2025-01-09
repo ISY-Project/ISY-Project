@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
+import org.bitshifters.ui.components.Status;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -35,11 +37,17 @@ public class TicTacToeView extends CustomBorderPane {
 
         this.baseGrid = new BaseGrid(3);
 
+        Status status = new Status();
+        ConnectionNotifier.register(status);
+
         fillGrid();
 
         hGridBox.getChildren().addAll(this.baseGrid);
         hGridBox.setAlignment(javafx.geometry.Pos.CENTER);  
 
+        status.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(status);
+        
         vBox.getChildren().addAll(hGridBox);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
