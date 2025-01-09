@@ -1,5 +1,8 @@
 package org.bitshifters.telnet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.StrategoClient.CombatResult;
@@ -282,6 +285,26 @@ public class ResponseHandler {
         logger.info("Handling placed event: " + response);
         final int placed = parsePlaced(response);
         this.gameClient.onPlaced(placed);
+    }
+
+    public Map<String, String> parseData(final String response) {
+        logger.debug("Parsing data: " + response);
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final Map<String, String> result = new HashMap<>();
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = ':';
+            final String key = option.split(String.valueOf(split))[0];
+            final String value = option.split(String.valueOf(split))[1];
+            // Sanitize the value
+            result.put(key, value.replaceAll("[^a-zA-Z]", ""));
+        }
+        logger.debug("Parsed data: " + result);
+        return result;
     }
 
     /**
