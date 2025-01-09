@@ -26,6 +26,15 @@ public class TelnetClient {
         return isConnected;
     }
 
+    private void isConnected(boolean isConnected) {
+        this.isConnected = isConnected;
+        onConnectionSwitch();
+    }
+
+    public void onConnectionSwitch() {
+        ConnectionNotifier.notifyListeners(isConnected);
+    }
+
     /**
      * Constructs a TelnetClient.
      * @param server The server address.
@@ -47,7 +56,7 @@ public class TelnetClient {
         socket = new Socket(this.server, this.port);
         out = new PrintWriter(socket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        isConnected = true;
+        isConnected(true);
     }
 
     /**
@@ -84,6 +93,6 @@ public class TelnetClient {
         in.close();
         out.close();
         socket.close();
-        isConnected = false;
+        isConnected(false);
     }
 }
