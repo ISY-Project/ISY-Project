@@ -2,6 +2,7 @@ package org.bitshifters.ui.components;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Set;
 import java.util.logging.Level;
 
 import org.bitshifters.games.stratego.Pawns;
@@ -19,7 +20,7 @@ import javafx.scene.text.Text;
 public final class AvailableUnits extends HBox {
     private final BSLogger logger = new BSLogger(AvailableUnits.class);
     private UnitSet availableUnits;
-    private final Button[] buttons;
+    private Button[] buttons;
     private final int buttonHeight = 80;
     private final int buttonWidth = 110;
     private final VBox leftBox;
@@ -27,6 +28,7 @@ public final class AvailableUnits extends HBox {
     private int selectedButtonIndex = -1;
     private final String style = "-fx-font-size: 1em; -fx-text-fill: #000000;"; // defualt button style
     private final String selectedStyle = "-fx-font-size: 1em; -fx-text-fill: #000000; -fx-background-color: #00FF00;"; // selected button style
+    private final boolean isSmallVersion;
 
     /**
      * Constructor for the AvailableUnits
@@ -34,7 +36,7 @@ public final class AvailableUnits extends HBox {
     public AvailableUnits(final boolean isSmallVersion) {
         super();
         logger.debug("Creating AvailableUnits");
-
+        this.isSmallVersion = isSmallVersion;
         int spacing = 5;
 
         setSpacing(spacing);
@@ -60,7 +62,8 @@ public final class AvailableUnits extends HBox {
      */
     private void createButtons() {
         int i = 0;
-        for (final Pawns pawn : this.availableUnits.getUnits().keySet()) {
+
+        for (final Pawns pawn : getSortedPawns()) {
             buttons[i] = new Button();
             buttons[i].setPrefSize(buttonWidth, buttonHeight);
             buttons[i].setStyle(style);
@@ -97,6 +100,25 @@ public final class AvailableUnits extends HBox {
 
             i++;
         }
+    }
+
+    private Pawns[] getSortedPawns() {
+        // TODO: make this more efficient its O(n^2)
+        Pawns[] pawns = new Pawns[this.availableUnits.getUnits().size()];
+        Set<Pawns> keyset = this.availableUnits.getUnits().keySet();
+        Pawns[] pawnss = Pawns.values();
+
+        int i = 0;
+        for (Pawns pawn : pawnss) {
+            // check if the pawn is in the pawnss array
+            for (Pawns p : keyset) {
+                if (p.equals(pawn)) {
+                    pawns[i] = pawn;
+                    i++;
+                }
+            }
+        }
+        return pawns;
     }
 
     /**
@@ -182,6 +204,21 @@ public final class AvailableUnits extends HBox {
 
     public VBox getRightBox() {
         return rightBox;
+    }
+
+    public void reset() {
+        this.leftBox.getChildren().clear();
+        this.rightBox.getChildren().clear();
+        if (this.isSmallVersion) {
+            this.availableUnits = new UnitSet().setEightUnits();
+        } else {
+            this.availableUnits = new UnitSet().setTenUnits();
+        }
+        int size = this.availableUnits.getUnits().size();
+        this.buttons = new Button[size];
+        createButtons();
+
+        selectedButtonIndex = -1;
     }
 
 }

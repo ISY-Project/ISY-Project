@@ -17,8 +17,8 @@ public enum Pawns {
     MARSHAL("10", "Marshal"),
 
     // Special Units
-    FLAG("F", "Flag"),
     BOMB("B", "Bomb"),
+    FLAG("F", "Flag"),
     
 
     // Special tiles
