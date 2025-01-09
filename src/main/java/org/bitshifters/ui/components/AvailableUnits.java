@@ -2,7 +2,6 @@ package org.bitshifters.ui.components;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Set;
 import java.util.logging.Level;
 
 import org.bitshifters.games.stratego.Pawns;
@@ -63,7 +62,7 @@ public final class AvailableUnits extends HBox {
     private void createButtons() {
         int i = 0;
 
-        for (final Pawns pawn : getSortedPawns()) {
+        for (final Pawns pawn : this.availableUnits.getUnits().keySet()) {
             buttons[i] = new Button();
             buttons[i].setPrefSize(buttonWidth, buttonHeight);
             buttons[i].setStyle(style);
@@ -100,25 +99,6 @@ public final class AvailableUnits extends HBox {
 
             i++;
         }
-    }
-
-    private Pawns[] getSortedPawns() {
-        // TODO: make this more efficient its O(n^2)
-        Pawns[] pawns = new Pawns[this.availableUnits.getUnits().size()];
-        Set<Pawns> keyset = this.availableUnits.getUnits().keySet();
-        Pawns[] pawnss = Pawns.values();
-
-        int i = 0;
-        for (Pawns pawn : pawnss) {
-            // check if the pawn is in the pawnss array
-            for (Pawns p : keyset) {
-                if (p.equals(pawn)) {
-                    pawns[i] = pawn;
-                    i++;
-                }
-            }
-        }
-        return pawns;
     }
 
     /**
