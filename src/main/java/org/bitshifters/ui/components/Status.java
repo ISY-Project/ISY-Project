@@ -19,7 +19,7 @@ public class Status extends HBox {
      * Set the status text
      * @param text the text to set
      */
-    public void setStatusText(String text) {
+    public void setLabel(String text) {
         this.statusLabel.setText(text);
     }
 
@@ -27,7 +27,7 @@ public class Status extends HBox {
      * Set the status text based on a boolean
      * @param bool the boolean to set the text based on
      */
-    public void setStatusText(boolean bool) {
+    public void setLabel(boolean bool) {
         String text = "Connection Status " + (bool ? "Connected" : "Disconnected");
         this.statusLabel.setText(text);
     }
