@@ -67,7 +67,8 @@ public class TelnetClient {
     public void send(final SendableCommand message) throws IllegalStateException {
         logger.debug("Sending message: " + message.get());
         if (!this.isConnected || this.out == null) {
-            throw new IllegalStateException("Connection not established");
+            // We silently ignore connections, as we have a visual indicated for this now.
+            return;
         }
         System.out.println("Sent: " + message.get());
         out.println(message.get());
