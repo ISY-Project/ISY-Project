@@ -214,6 +214,7 @@ public class StrategoClient extends GameClient {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
+        removeLastEnemyInformation();
         
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
@@ -229,8 +230,21 @@ public class StrategoClient extends GameClient {
         }
     }
 
-    // TODO docstring and test
-    private void applyAttackResult(Pawns revealedUnit, CombatResult result) {
+    /**
+     * Remove the last enemy unit rank information from the gui
+     */
+    private void removeLastEnemyInformation() {
+        Unit unit = engine.getCell(storedToRow, storedToCol, StrategoEngine.GameGrid);
+        if (unit == null || unit.getPlayer() != opponentPlayer || ClientController.isComputer) return;
+        view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(Pawns.UNKNOWN, true));
+    }
+
+    /**
+     * Apply the result of the attack from the attackers perspective
+     * @param result the result of the attack
+     */
+    // TODO test
+    private void applyAttackResult(CombatResult result) {
         Player activePlayer = engine.getActivePlayer();
 
         if (result == CombatResult.WIN) {
@@ -254,6 +268,13 @@ public class StrategoClient extends GameClient {
         engine.setActivePlayer(getNextPlayer());
     }
 
+    /**
+     * Validate if the unit can be placed there.
+     * @param row the row
+     * @param col the column
+     * @param pawn the pawn to be placed
+     * @return true if the placement is valid
+     */
     private boolean validatePlaceUnit(int row, int col, Pawns pawn) {
         Player activePlayer = engine.getActivePlayer();
 
@@ -275,6 +296,10 @@ public class StrategoClient extends GameClient {
         return true;
     }
 
+    /**
+     * check if all units are placed
+     * @return true if all units are placed
+     */
     private boolean validateAllUnitsPlaced() {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
@@ -297,6 +322,7 @@ public class StrategoClient extends GameClient {
      * @param row the row
      * @param col the column
      * @param pawn the Pawn type
+     * @return true if all units are placed after this placement
      */
     private boolean placeUnit(int row, int col, Pawns pawn) {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
@@ -312,6 +338,9 @@ public class StrategoClient extends GameClient {
         return validateAllUnitsPlaced();
     }
 
+    /**
+     * Start the game if all units on both sides have been placed
+     */
     private void checkStartGame() {
         if (
             !engine.validateAllUnitsPlaced(engine.getActivePlayer())
@@ -386,6 +415,10 @@ public class StrategoClient extends GameClient {
         // call makeMove
     }
 
+    /**
+     * Handle the placement of the opponent
+     * @param index the index of the placement
+     */
     @Override
     public void onPlaced(int index) {
         int[] coord = GT.toCoordinates(index, engine.getTotalCols());
@@ -401,6 +434,7 @@ public class StrategoClient extends GameClient {
 
     /**
      * Handle the move of the opponent
+     * @param data the from index and to index of the movement
      */
     // TODO test this
     @Override
@@ -419,30 +453,42 @@ public class StrategoClient extends GameClient {
         makeMove(fromRow, fromCol, toRow, toCol);
     }
 
-    // TODO docstring
+    /**
+     * Handle the attack result
+     * @param defender the enemy unit
+     * @param result the result of the attack
+     */
     public void onAttackResult(Pawns defender, CombatResult result) {
         view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(defender, true));
         engine.PlaceGridUnit(opponentPlayer, storedToRow, storedToCol, defender);
 
-        applyAttackResult(defender, result);
+        applyAttackResult(result);
     }
 
-    // TODO docstring
+    /**
+     * Handle the defense result
+     * @param attacker the enemy unit
+     * @param result the result of the defense
+     */
     public void onDefenseResult(Pawns attacker, CombatResult result) {
         view.updateButton(storedFromRow, storedFromCol, new PawnButtonInformation(attacker, true));
         engine.PlaceGridUnit(opponentPlayer, storedFromRow, storedFromCol, attacker);
 
         if (result == CombatResult.TIE) {
-            applyAttackResult(attacker, result);
+            applyAttackResult(result);
         }
         else if (result == CombatResult.LOSS) {
-            applyAttackResult(attacker, CombatResult.WIN);
+            applyAttackResult(CombatResult.WIN);
         }
         else if (result == CombatResult.WIN){
-            applyAttackResult(attacker, CombatResult.LOSS);
+            applyAttackResult(CombatResult.LOSS);
         }
     }
 
+    /**
+     * Reset the game if the game ended
+     */
+    // TODO reset gui as well
     private void resetGrids() {
         engine.resetGrid(engine.getActivePlayer());
         engine.resetGrid(getNextPlayer());
