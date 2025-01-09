@@ -27,6 +27,9 @@ public class TicTacToeClient extends GameClient {
     private final TicTacToeView view;
     private final TTTEngine engine;
 
+    // TODO: Add an event handler for the buttons in the view
+    // TODO: Implement the reset method
+    
     public TicTacToeClient(TicTacToeView view, Player playerX, Player playerO) {
         super(GameTypes.TicTacToe);
         this.view = view;
