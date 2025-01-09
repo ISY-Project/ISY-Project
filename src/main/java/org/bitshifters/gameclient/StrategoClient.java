@@ -498,6 +498,7 @@ public class StrategoClient extends GameClient {
             engine.resetGrid(getNextPlayer());
         }
         engine.resetGrid(StrategoEngine.GameGrid);
+        
     }
 
     /**
@@ -505,7 +506,8 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onWin() {
-        resetGrids();
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
         Platform.runLater(() -> view.getMainFrame().showPopup("You Win"));
     }
 
@@ -514,7 +516,8 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onLose() {
-        resetGrids();
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
         Platform.runLater(() -> view.getMainFrame().showPopup("You Lose"));
     }
 
@@ -523,7 +526,8 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onDraw() {
-        resetGrids();
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
         Platform.runLater(() -> view.getMainFrame().showPopup("Draw"));
     }
 

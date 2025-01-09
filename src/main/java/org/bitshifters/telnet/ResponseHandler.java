@@ -16,6 +16,8 @@ import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
 import org.bitshifters.telnet.Exceptions.TypeMismatchException;
 
+import javafx.application.Platform;
+
 /**
  * Handles responses from the server.
  */
@@ -165,7 +167,7 @@ public class ResponseHandler {
      */
     private void handleDrawEvent() {
         logger.info("Handling draw event");
-        this.gameClient.onDraw();
+        Platform.runLater(() -> this.gameClient.onDraw());
     }
 
     /**
@@ -173,7 +175,7 @@ public class ResponseHandler {
      */
     private void handleLossEvent() {
         logger.info("Handling loss event");
-        this.gameClient.onLose();
+        Platform.runLater(() -> this.gameClient.onLose());
     }
 
     /**
@@ -181,7 +183,7 @@ public class ResponseHandler {
      */
     private void handleWinEvent() {
         logger.info("Handling win event");
-        this.gameClient.onWin();
+        Platform.runLater(() -> this.gameClient.onWin());
     }
 
     /**

@@ -201,4 +201,16 @@ public final class AvailableUnits extends HBox {
         selectedButtonIndex = -1;
     }
 
+    public void disableButtons() {
+        for (Button button : buttons) {
+            button.setDisable(true);
+        }
+    }
+
+    public void enableButtons() {
+        for (Button button : buttons) {
+            button.setDisable(false);
+        }
+    }
+
 }
