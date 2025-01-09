@@ -68,8 +68,11 @@ public class TelnetClient {
         logger.debug("Sending message: " + message.get());
         if (!this.isConnected || this.out == null) {
             // We silently ignore connections, as we have a visual indicated for this now.
+            logger.error("Connection is not established, cannot send message: " + message.get());
+            ConnectionNotifier.notifyListeners(false);
             return;
         }
+        ConnectionNotifier.notifyListeners(true);
         System.out.println("Sent: " + message.get());
         out.println(message.get());
     }

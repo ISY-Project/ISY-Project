@@ -4,10 +4,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
+import org.bitshifters.ui.components.Status;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -38,8 +40,14 @@ public class BattleshipsView extends CustomBorderPane {
 
         fillGrid();
 
+        Status status = new Status();
+        ConnectionNotifier.register(status);
+
         hGridBox.getChildren().addAll(this.playerGrid, this.opponentGrid);
         hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
+        
+        status.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(status);
 
         vBox.getChildren().addAll(hGridBox);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);

@@ -8,8 +8,8 @@ import org.bitshifters.Config;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.telnet.Commands.Login;
+import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -161,6 +161,7 @@ public class MainFrame extends Application {
         this.popup.setAutoHide(true); // close popup when clicked outside
 
         Label label = new Label("This is a popup");
+        // TODO: make the popup look better
         label.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         this.popup.getContent().add(label);
     }

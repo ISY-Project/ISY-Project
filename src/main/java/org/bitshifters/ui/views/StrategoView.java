@@ -5,12 +5,14 @@ import java.io.FileNotFoundException;
 
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
+import org.bitshifters.ui.components.Status;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -53,6 +55,9 @@ public class StrategoView extends CustomBorderPane {
         
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
+        Status status = new Status();
+        ConnectionNotifier.register(status);
+
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         rightBox.getChildren().add(hButtonBox);
@@ -90,6 +95,9 @@ public class StrategoView extends CustomBorderPane {
 
         gridStackPane.setAlignment(javafx.geometry.Pos.CENTER);
 
+        status.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(status);
+        
         vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 

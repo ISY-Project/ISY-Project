@@ -43,3 +43,4 @@ config.ini
 ### Custom
 *.log.*
 *.lck
+bitshifters.log
