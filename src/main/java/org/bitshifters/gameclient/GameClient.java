@@ -32,6 +32,9 @@ public abstract class GameClient extends EventHandler {
         return super.getGameType();
     }
 
+    /**
+     * Exit the game, and restart the client again
+     */
     public void rejoin() {
         ClientController.setSelectedClient(Optional.of(this));
     }
