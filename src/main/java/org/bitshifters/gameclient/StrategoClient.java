@@ -84,6 +84,9 @@ public class StrategoClient extends GameClient {
         for (int i = 0; i < buttons.length; i++) {
             setupAvailableUnitsButtons(i, view);
         }
+
+        view.getNavigationButtons().getResetButton().addEventHandler(ActionEvent.ACTION, _ -> resetGrids());
+
     }
 
     /**
@@ -488,10 +491,12 @@ public class StrategoClient extends GameClient {
     /**
      * Reset the game if the game ended
      */
-    // TODO reset gui as well
     private void resetGrids() {
-        engine.resetGrid(engine.getActivePlayer());
-        engine.resetGrid(getNextPlayer());
+        view.resetView();
+        if (engine.getActivePlayer() != null) {
+            engine.resetGrid(engine.getActivePlayer());
+            engine.resetGrid(getNextPlayer());
+        }
         engine.resetGrid(StrategoEngine.GameGrid);
     }
 
