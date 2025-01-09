@@ -38,7 +38,6 @@ public class TicTacToeView extends CustomBorderPane {
         this.baseGrid = new BaseGrid(3);
 
         Status status = new Status();
-        ConnectionNotifier.register(status);
 
         fillGrid();
 

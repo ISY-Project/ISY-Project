@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
@@ -41,7 +40,6 @@ public class BattleshipsView extends CustomBorderPane {
         fillGrid();
 
         Status status = new Status();
-        ConnectionNotifier.register(status);
 
         hGridBox.getChildren().addAll(this.playerGrid, this.opponentGrid);
         hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
