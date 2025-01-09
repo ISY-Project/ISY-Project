@@ -498,7 +498,6 @@ public class StrategoClient extends GameClient {
             engine.resetGrid(getNextPlayer());
         }
         engine.resetGrid(StrategoEngine.GameGrid);
-        // ClientController.setSelectedClient(this);
     }
 
     /**
