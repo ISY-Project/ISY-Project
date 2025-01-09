@@ -8,6 +8,7 @@ import org.bitshifters.ui.components.CustomBorderPane;
 
 public class ConnectionStatus extends CustomBorderPane implements OnConnectionSwitch {
     private static final TelnetClient telnet = ClientController.telnet;
+    private final Status status = new Status();
 
     public ConnectionStatus(MainFrame mainFrame) {
         super(mainFrame);
@@ -15,7 +16,6 @@ public class ConnectionStatus extends CustomBorderPane implements OnConnectionSw
 
     @Override
     public void OnConnectionSwitch(boolean isConnected) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handle'");
+        status.setStatusText(isConnected.toString());
     }
 }
