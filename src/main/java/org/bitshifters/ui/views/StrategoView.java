@@ -51,11 +51,9 @@ public class StrategoView extends CustomBorderPane {
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
 
-        Button resetButton = new Button("Reset");
-        resetButton.setOnAction(_ -> {
+        hButtonBox.getResetButton().setOnAction(_ -> {
             resetView();
         });
-        hButtonBox.getChildren().add(resetButton);
         
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
