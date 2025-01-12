@@ -32,8 +32,8 @@ public class TelnetClient {
         onConnectionSwitch();
     }
 
-    public void onConnectionSwitch() {
-        Notifiers.connectionNotifier.notifyListeners(isConnected);
+    private void onConnectionSwitch() {
+        Notifiers.connection.notifyListeners(isConnected);
     }
 
     /**
@@ -70,10 +70,10 @@ public class TelnetClient {
         if (!this.isConnected || this.out == null) {
             // We silently ignore connections, as we have a visual indicated for this now.
             logger.error("Connection is not established, cannot send message: " + message.get());
-            Notifiers.connectionNotifier.notifyListeners(false);
+            Notifiers.connection.notifyListeners(false);
             return;
         }
-        Notifiers.connectionNotifier.notifyListeners(true);
+        Notifiers.connection.notifyListeners(true);
         System.out.println("Sent: " + message.get());
         out.println(message.get());
     }

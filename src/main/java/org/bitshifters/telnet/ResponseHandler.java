@@ -3,6 +3,7 @@ package org.bitshifters.telnet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bitshifters.Notifiers;
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.StrategoClient.CombatResult;
@@ -255,6 +256,7 @@ public class ResponseHandler {
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
         this.gameClient.onYourTurn(responseArray[2]);
+        Notifiers.turn.notifyListeners(true);
     }
 
     /**
