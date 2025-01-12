@@ -56,7 +56,7 @@ public class StrategoView extends CustomBorderPane {
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
         Status status = new Status();
-        Notifiers.connectionNotifier.register(status);
+        Notifiers.connection.register(status);
 
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
