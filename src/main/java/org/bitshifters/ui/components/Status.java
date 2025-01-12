@@ -1,12 +1,12 @@
 package org.bitshifters.ui.components;
 
-import org.bitshifters.telnet.OnConnectionSwitch;
+import org.bitshifters.telnet.Notifiers.Listener;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class Status extends HBox implements OnConnectionSwitch{
+public class Status extends HBox implements Listener<Boolean> {
     private final Label statusLabel;
 
     /**
@@ -44,7 +44,7 @@ public class Status extends HBox implements OnConnectionSwitch{
     }
 
     @Override
-    public void OnConnectionSwitch(boolean isConnected) {
-        Platform.runLater(() -> setLabel(isConnected));
+    public void callback(Boolean value) {
+        Platform.runLater(() -> setLabel(value));
     }
 }
