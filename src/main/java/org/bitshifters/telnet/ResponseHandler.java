@@ -298,10 +298,11 @@ public class ResponseHandler {
         for (int i = 0; i < data.length; i++) {
             String option = data[i].trim();
             final char split = ':';
-            final String key = option.split(String.valueOf(split))[0];
-            final String value = option.split(String.valueOf(split))[1];
-            // Sanitize the value
-            result.put(key, value.replaceAll("[^a-zA-Z]", ""));
+            String key = option.split(String.valueOf(split))[0];
+            String value = option.split(String.valueOf(split))[1];
+            key = key.trim();
+            value = value.trim();
+            result.put(key, value);
         }
         logger.debug("Parsed data: " + result);
         return result;
