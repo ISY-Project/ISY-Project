@@ -111,13 +111,11 @@ public class StrategoClient extends GameClient {
                 return;
             }
             placeUnit(finalRow, finalCol, selectedUnit);
-            selectedUnit = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
             checkStartGame();
             return;
         }
         // moving fase
         if (unitSelected) { // move unit (click on second button)
-
             if (selectedUnitCol == finalCol && selectedUnitRow == finalRow) { // deselect unit
                 view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
                 unitSelected = false;
@@ -273,16 +271,12 @@ public class StrategoClient extends GameClient {
         Player nextPlayer = getNextPlayer();
         if (
             engine.validateAllUnitsPlaced(activePlayer)
+            && engine.validateAllUnitsPlaced(nextPlayer)
             && view.isPlacingDone() // should always be true if validateAllUnitsPlaced is true
         ) {
-            placingUnits = false;
-            view.setPlacingMode(placingUnits);
-            logger.info("Placing units done, waiting on enemy");
-            view.getMainFrame().showPopup("All units are placed, waiting for the other player");
-            engine.setActivePlayer(nextPlayer);
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     /***
@@ -291,7 +285,7 @@ public class StrategoClient extends GameClient {
      * @param col the column
      * @param pawn the Pawn type
      */
-    private boolean placeUnit(int row, int col, Pawns pawn) {
+    private void placeUnit(int row, int col, Pawns pawn) {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
         Player activePlayer = engine.getActivePlayer();
 
@@ -301,17 +295,13 @@ public class StrategoClient extends GameClient {
         view.updateButton(row, col, new PawnButtonInformation(pawn, activePlayer.equals(players[1]))); // update the button with the pawn, should only be done for the active player
         engine.PlaceUnit(activePlayer, engineRow, engineCol, pawn);
         telnet.send(new Place(pawn.getName(), GT.toIndex(row, col, engine.getTotalCols())));
+        selectedUnit = view.getAvailableUnitsButtons().removeUnit(selectedUnit);
 
-        return validateAllUnitsPlaced();
+        return;
     }
 
     private void checkStartGame() {
-        if (
-            !engine.validateAllUnitsPlaced(engine.getActivePlayer())
-            || !engine.validateAllUnitsPlaced(getNextPlayer())
-        ) {
-            return;
-        }
+        if (!validateAllUnitsPlaced()) return;
         view.setPlacingMode(false);
         placingUnits = false;
         logger.info("Placing units done, starting game");
@@ -346,7 +336,6 @@ public class StrategoClient extends GameClient {
     public void onMatch() {
         // Als de game begint, start de game
         setScreen();
-        engine.setActivePlayer(getNextPlayer());
     }
 
     private void setScreen() {
