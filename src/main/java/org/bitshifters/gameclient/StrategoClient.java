@@ -270,7 +270,7 @@ public class StrategoClient extends GameClient {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
         if (
-            engine.validateAllUnitsPlaced(activePlayer)
+            engine.validateAllUnitsPlaced(activePlayer) 
             && engine.validateAllUnitsPlaced(nextPlayer)
             && view.isPlacingDone() // should always be true if validateAllUnitsPlaced is true
         ) {
