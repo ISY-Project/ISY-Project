@@ -1,6 +1,7 @@
 package org.bitshifters.games.stratego;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Represents a set of units for a game of Stratego.
@@ -8,14 +9,14 @@ import java.util.HashMap;
 public class UnitSet {
     public static final UnitSet TEN = new UnitSet().setTenUnits();
     public static final UnitSet EIGHT = new UnitSet().setEightUnits();
-    private final HashMap<Pawns, Integer> units = new HashMap<>();
+    private final Map<Pawns, Integer> units = new LinkedHashMap<>();
     private int maxUnits = 40;
 
     /**
      * Get the units
      * @return A hashmap of the units and there counts
      */
-    public HashMap<Pawns, Integer> getUnits() {
+    public Map<Pawns, Integer> getUnits() {
         return units;
     }
 
@@ -31,6 +32,7 @@ public class UnitSet {
      */
     public UnitSet setTenUnits() {
         units.clear();
+        // The insert order is important for the UI to display the units in the correct order
         units.put(Pawns.MARSHAL, 1);
         units.put(Pawns.GENERAL, 1);
         units.put(Pawns.COLONEL, 2);
@@ -51,6 +53,7 @@ public class UnitSet {
      * Set units for an 8x8 game
      */
     public UnitSet setEightUnits() {
+        // The insert order is important for the UI to display the units in the correct order
         units.clear();
         units.put(Pawns.MARSHAL, 1);
         units.put(Pawns.GENERAL, 1);

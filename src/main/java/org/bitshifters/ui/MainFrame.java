@@ -1,5 +1,6 @@
 package org.bitshifters.ui;
 
+import java.net.ConnectException;
 import java.util.logging.Level;
 
 import org.bitshifters.ClientController;
@@ -7,8 +8,8 @@ import org.bitshifters.Config;
 import org.bitshifters.gameclient.TicTacToeClient;
 import org.bitshifters.games.components.Player;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.telnet.Commands.Login;
+import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
 import org.bitshifters.ui.views.StartView;
@@ -89,19 +90,40 @@ public class MainFrame extends Application {
         // showPopup("test"); // show popup when the program starts
 
         showScreen(Screens.START_SCREEN);
-        connect(ClientController.telnet);
-        login(ClientController.telnet);
+        attemptLogin();
+    }
+
+    private void attemptLogin() {
+        Thread thread = new Thread(() -> {
+            int tries = 0;
+            while (!ClientController.telnet.isConnected()) {
+                tries++;
+                try {
+                    connect(ClientController.telnet);
+                    login(ClientController.telnet);
+                } catch (ConnectException e) {
+                    try {
+                        int waitTimeMilliseconds = Math.min(1000 * tries, 30000);
+                        logger.debug("Attempting to connect again in " + waitTimeMilliseconds + "ms");
+                        Thread.sleep(waitTimeMilliseconds);
+                    } catch (InterruptedException ex) {
+                        logger.error("Thread interrupted", ex);
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     private void login(TelnetClient telnet) {
         telnet.send(new Login(Config.getInstance().getValue("username")));
     }
 
-    private void connect(TelnetClient telnet) {
+    private void connect(TelnetClient telnet) throws ConnectException {
         try {
             telnet.connect();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ConnectException("Could not connect to server");
         }
     }
 
@@ -139,6 +161,7 @@ public class MainFrame extends Application {
         this.popup.setAutoHide(true); // close popup when clicked outside
 
         Label label = new Label("This is a popup");
+        // TODO: make the popup look better
         label.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         this.popup.getContent().add(label);
     }

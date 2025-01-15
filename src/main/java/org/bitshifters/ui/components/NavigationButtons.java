@@ -15,6 +15,7 @@ public class NavigationButtons extends VBox {
     private final CustomButton strategoTenButton;
     private final CustomButton strategoEightButton;
     private final CustomButton backButton;
+    private final CustomButton resetButton;
     private final Boolean isHorizontal;
 
     /** 
@@ -61,11 +62,13 @@ public class NavigationButtons extends VBox {
                 hBox.getChildren().add(backButton);
             }
             getChildren().add(hBox);
+            this.resetButton = null;
         } else {
+            this.resetButton = new CustomButton("Reset Game", getPrefWidth(), style);
             if (backButton != null) {
-                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, backButton);
+                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, backButton, resetButton);
             } else {
-                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton);
+                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, resetButton);
             }
         }
     }
@@ -182,5 +185,9 @@ public class NavigationButtons extends VBox {
      */
     public CustomButton getBackButton() {
         return backButton;
+    }
+
+    public CustomButton getResetButton() {
+        return resetButton;
     }
 }

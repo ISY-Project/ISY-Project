@@ -3,6 +3,7 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import org.bitshifters.Notifiers;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
@@ -11,6 +12,7 @@ import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
+import org.bitshifters.ui.components.Status;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -50,8 +52,12 @@ public class StrategoView extends CustomBorderPane {
         VBox vBox = new VBox();
         hButtonBox = new NavigationButtons(mainFrame, true, false);
         hButtonBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
+        
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
+        Status status = new Status();
+        Notifiers.connection.register(status);
+
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         rightBox.getChildren().add(hButtonBox);
@@ -89,6 +95,9 @@ public class StrategoView extends CustomBorderPane {
 
         gridStackPane.setAlignment(javafx.geometry.Pos.CENTER);
 
+        status.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(status);
+        
         vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
@@ -140,17 +149,13 @@ public class StrategoView extends CustomBorderPane {
      * @param toButton the button to move the pawn to
      */
     public final void movePawn(Button fromButton, Button toButton) {
-        try {
-            PawnButtonInformation fromInformation = (PawnButtonInformation) fromButton.getUserData();
-            if (fromInformation.pawn() == null) {
-                logger.error("No pawn to move from button: " + fromButton);
-                return;
-            }
-            updateButton(toButton, fromInformation);
-            updateButton(fromButton, new PawnButtonInformation(null, false));
-        } catch (Exception e) {
-            logger.error("Error moving pawn", e);
+        PawnButtonInformation fromInformation = (PawnButtonInformation) fromButton.getUserData();
+        if (fromInformation == null || fromInformation.pawn() == null) {
+            logger.error("No pawn to move from button: " + fromButton);
+            return;
         }
+        updateButton(toButton, fromInformation);
+        updateButton(fromButton, new PawnButtonInformation(null, false));
     }
 
     /** 
@@ -176,9 +181,11 @@ public class StrategoView extends CustomBorderPane {
         try {
             FileInputStream input = null;
             if (pawn == null) {
-                button.setGraphic(null);
-                button.setText("");
-                button.setStyle(style);
+                Platform.runLater(() -> {
+                    button.setGraphic(null);
+                    button.setText("");
+                    button.setStyle(style);
+                });
             } else switch (pawn) {
                 case UNKNOWN -> input = new FileInputStream("src\\main\\resources\\images\\StrategoRed.png");
                 case LAKE -> button.setStyle(style);
@@ -265,5 +272,14 @@ public class StrategoView extends CustomBorderPane {
 
     public static String getButtonStyle() {
         return style;
+    }
+
+    public void resetView() {
+        this.availableUnitsButtons.reset();
+        this.baseGrid.clearGrid();
+    }
+
+    public NavigationButtons getNavigationButtons() {
+        return hButtonBox;
     }
 }

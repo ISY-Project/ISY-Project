@@ -17,6 +17,7 @@ import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.StrategoView;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 
@@ -40,6 +41,13 @@ public class StrategoClient extends GameClient {
     private int storedFromCol; // move stored for battleresult
     private int storedToRow; // move stored for battleresult
     private int storedToCol; // move stored for battleresult
+
+
+    public enum CombatResult {
+        WIN,
+        LOSS,
+        TIE
+    }
 
     /**
      * Constructor for the StrategoClient
@@ -76,6 +84,9 @@ public class StrategoClient extends GameClient {
         for (int i = 0; i < buttons.length; i++) {
             setupAvailableUnitsButtons(i, view);
         }
+
+        view.getNavigationButtons().getResetButton().addEventHandler(ActionEvent.ACTION, _ -> resetGrids());
+
     }
 
     /**
@@ -204,6 +215,7 @@ public class StrategoClient extends GameClient {
         logger.info("Making move from row: " + fromRow + " col: " + fromCol + " to row: " + toRow + " col: " + toCol);
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
+        removeLastEnemyInformation();
         
         if (engine.getCell(toRow, toCol, StrategoEngine.GameGrid) == null) {
             view.movePawn(fromRow, fromCol, toRow, toCol);
@@ -219,32 +231,51 @@ public class StrategoClient extends GameClient {
         }
     }
 
-    // TODO docstring and test
-    private void applyAttackResult(String result) {
-        Player activePlayer = engine.getActivePlayer();
-        Player nextPlayer = getNextPlayer();
+    /**
+     * Remove the last enemy unit rank information from the gui
+     */
+    private void removeLastEnemyInformation() {
+        Unit unit = engine.getCell(storedToRow, storedToCol, StrategoEngine.GameGrid);
+        if (unit == null || unit.getPlayer() != opponentPlayer || ClientController.isComputer) return;
+        view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(Pawns.UNKNOWN, true));
+    }
 
-        if (result == "win") {
+    /**
+     * Apply the result of the attack from the attackers perspective
+     * @param result the result of the attack
+     */
+    // TODO test
+    private void applyAttackResult(CombatResult result) {
+        Player activePlayer = engine.getActivePlayer();
+
+        if (result == CombatResult.WIN) {
             // essentially no different from moving into an empty space
             view.movePawn(storedFromRow, storedFromCol, storedToRow, storedToCol);
             engine.moveUnit(storedFromRow, storedFromCol, storedToRow, storedToCol, activePlayer);
         }
-        else if (result == "tie") {
+        else if (result == CombatResult.TIE) {
             // killing both units
-            view.updateButton(storedFromRow, storedFromCol, null);
-            view.updateButton(storedToRow, storedToCol, null);
+            view.updateButton(storedFromRow, storedFromCol, new PawnButtonInformation(null, false));
+            view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(null, false));
             engine.moveUnit(storedFromRow, storedFromCol, storedToRow, storedToCol, activePlayer); // just to update movementtracker and turn count
             engine.killUnit(storedToRow, storedToCol);
         }
-        else if (result == "loss") {
+        else if (result == CombatResult.LOSS) {
             // killing the attacker, is a little weird because of having to update the movementtracker
-            view.updateButton(storedFromRow, storedFromCol, null);
+            view.updateButton(storedFromRow, storedFromCol, new PawnButtonInformation(null, false));
             engine.moveUnit(storedFromRow, storedFromCol, storedFromRow, storedFromCol, activePlayer); // just to update movementtracker and turn count
             engine.killUnit(storedFromRow, storedFromCol);
         }
-        engine.setActivePlayer(nextPlayer);
+        engine.setActivePlayer(getNextPlayer());
     }
 
+    /**
+     * Validate if the unit can be placed there.
+     * @param row the row
+     * @param col the column
+     * @param pawn the pawn to be placed
+     * @return true if the placement is valid
+     */
     private boolean validatePlaceUnit(int row, int col, Pawns pawn) {
         Player activePlayer = engine.getActivePlayer();
 
@@ -266,6 +297,10 @@ public class StrategoClient extends GameClient {
         return true;
     }
 
+    /**
+     * check if all units are placed
+     * @return true if all units are placed
+     */
     private boolean validateAllUnitsPlaced() {
         Player activePlayer = engine.getActivePlayer();
         Player nextPlayer = getNextPlayer();
@@ -284,6 +319,7 @@ public class StrategoClient extends GameClient {
      * @param row the row
      * @param col the column
      * @param pawn the Pawn type
+     * @return true if all units are placed after this placement
      */
     private void placeUnit(int row, int col, Pawns pawn) {
         logger.log(Level.INFO, "placing unit {0} on row: {1} col: {2}", new Object[]{pawn, row, col});
@@ -300,6 +336,9 @@ public class StrategoClient extends GameClient {
         return;
     }
 
+    /**
+     * Start the game if all units on both sides have been placed
+     */
     private void checkStartGame() {
         if (!validateAllUnitsPlaced()) return;
         view.setPlacingMode(false);
@@ -368,6 +407,10 @@ public class StrategoClient extends GameClient {
         // call makeMove
     }
 
+    /**
+     * Handle the placement of the opponent
+     * @param index the index of the placement
+     */
     @Override
     public void onPlaced(int index) {
         int[] coord = GT.toCoordinates(index, engine.getTotalCols());
@@ -383,6 +426,7 @@ public class StrategoClient extends GameClient {
 
     /**
      * Handle the move of the opponent
+     * @param data the from index and to index of the movement
      */
     // TODO test this
     @Override
@@ -401,38 +445,49 @@ public class StrategoClient extends GameClient {
         makeMove(fromRow, fromCol, toRow, toCol);
     }
 
-    // TODO docstring and test
-    public void onAttackResult(Pawns defender, String result) {
-        // TODO send information to algorithm
-        if (result == "tie") {
-            applyAttackResult("tie");
+    /**
+     * Handle the attack result
+     * @param defender the enemy unit
+     * @param result the result of the attack
+     */
+    public void onAttackResult(Pawns defender, CombatResult result) {
+        view.updateButton(storedToRow, storedToCol, new PawnButtonInformation(defender, true));
+        engine.PlaceGridUnit(opponentPlayer, storedToRow, storedToCol, defender);
+
+        applyAttackResult(result);
+    }
+
+    /**
+     * Handle the defense result
+     * @param attacker the enemy unit
+     * @param result the result of the defense
+     */
+    public void onDefenseResult(Pawns attacker, CombatResult result) {
+        view.updateButton(storedFromRow, storedFromCol, new PawnButtonInformation(attacker, true));
+        engine.PlaceGridUnit(opponentPlayer, storedFromRow, storedFromCol, attacker);
+
+        if (result == CombatResult.TIE) {
+            applyAttackResult(result);
         }
-        else if (result == "loss") {
-            applyAttackResult("loss");
+        else if (result == CombatResult.LOSS) {
+            applyAttackResult(CombatResult.WIN);
         }
-        else if (result == "win"){
-            applyAttackResult("win");
+        else if (result == CombatResult.WIN){
+            applyAttackResult(CombatResult.LOSS);
         }
     }
 
-    // TODO docstring and test
-    public void onDefenseResult(Pawns attacker, String result) {
-        // TODO send information to algorithm
-        if (result == "tie") {
-            applyAttackResult("tie");
-        }
-        else if (result == "loss") {
-            applyAttackResult("win");
-        }
-        else if (result == "win"){
-            applyAttackResult("loss");
-        }
-    }
-
+    /**
+     * Reset the game if the game ended
+     */
     private void resetGrids() {
-        engine.resetGrid(engine.getActivePlayer());
-        engine.resetGrid(getNextPlayer());
+        view.resetView();
+        if (engine.getActivePlayer() != null) {
+            engine.resetGrid(engine.getActivePlayer());
+            engine.resetGrid(getNextPlayer());
+        }
         engine.resetGrid(StrategoEngine.GameGrid);
+        
     }
 
     /**
@@ -440,8 +495,9 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onWin() {
-        resetGrids();
-        view.getMainFrame().showPopup("You Win");
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
+        Platform.runLater(() -> view.getMainFrame().showPopup("You Win"));
     }
 
     /**
@@ -449,8 +505,9 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onLose() {
-        resetGrids();
-        view.getMainFrame().showPopup("You Lose");
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
+        Platform.runLater(() -> view.getMainFrame().showPopup("You Lose"));
     }
 
     /**
@@ -458,8 +515,9 @@ public class StrategoClient extends GameClient {
      */
     @Override
     public void onDraw() {
-        resetGrids();
-        view.getMainFrame().showPopup("Draw");
+        view.getBaseGrid().disableGrid();
+        view.getAvailableUnitsButtons().disableButtons();
+        Platform.runLater(() -> view.getMainFrame().showPopup("Draw"));
     }
 
     @Override

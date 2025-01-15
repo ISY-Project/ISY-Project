@@ -1,5 +1,7 @@
 package org.bitshifters.gameclient;
 
+import java.util.Optional;
+
 import org.bitshifters.ClientController;
 import org.bitshifters.games.GameTypes;
 import org.bitshifters.telnet.EventHandler;
@@ -28,6 +30,13 @@ public abstract class GameClient extends EventHandler {
     @Override
     public GameTypes getGameType() {
         return super.getGameType();
+    }
+
+    /**
+     * Exit the game, and restart the client again
+     */
+    public void rejoin() {
+        ClientController.setSelectedClient(Optional.of(this));
     }
 
     public void run() {

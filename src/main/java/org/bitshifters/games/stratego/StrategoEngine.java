@@ -395,6 +395,18 @@ public class StrategoEngine extends GridEngine<Unit> {
      * @param col The column to place the unit
      * @param rank The rank of the unit
      */
+    public void PlaceGridUnit(final Player player, final int row, final int col, final Pawns rank) {
+        final Unit unit = new Unit(rank, player, row, col);
+        setCell(row, col, unit, GameGrid);
+    }
+
+    /**
+     * Place a unit on the board
+     * @param player The player placing the unit
+     * @param row The row to place the unit
+     * @param col The column to place the unit
+     * @param rank The rank of the unit
+     */
     public void PlaceUnit(final Player player, final int row, final int col, final Pawns rank) {
         final Unit unit = new Unit(rank, player, row, col);
         setCell(row, col, unit, player);
@@ -527,5 +539,9 @@ public class StrategoEngine extends GridEngine<Unit> {
      */
     public static int getTurnLimit() {
         return TURN_LIMIT;
+    }
+
+    public void incrementTurnCount() {
+        turnCount++;
     }
 }

@@ -1,15 +1,26 @@
 package org.bitshifters.telnet;
 
+import java.util.HashMap;
+import java.util.Map;
 
+import org.bitshifters.Notifiers;
 import org.bitshifters.gameclient.GameClient;
+import org.bitshifters.gameclient.StrategoClient;
+import org.bitshifters.gameclient.StrategoClient.CombatResult;
 import org.bitshifters.games.GameTypes;
+import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
+import org.bitshifters.telnet.Events.AttackResult;
 import org.bitshifters.telnet.Events.Challenge;
+import org.bitshifters.telnet.Events.DefenseResult;
 import org.bitshifters.telnet.Events.Error;
 import org.bitshifters.telnet.Events.Game;
 import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
+import org.bitshifters.telnet.Exceptions.TypeMismatchException;
+
+import javafx.application.Platform;
 
 /**
  * Handles responses from the server.
@@ -20,8 +31,9 @@ public class ResponseHandler {
 
     /**
      * Constructs a ResponseHandler.
+     * 
      * @param eventHandler The event handler.
-     * @param gameClient The game client.
+     * @param gameClient   The game client.
      * @throws TypeMismatchException If the game types do not match.
      */
     public ResponseHandler(final GameClient gameClient) {
@@ -30,6 +42,7 @@ public class ResponseHandler {
 
     /**
      * Handles the response from the server.
+     * 
      * @param response The response from the server.
      * @return True if the response was handled, false otherwise.
      */
@@ -42,8 +55,7 @@ public class ResponseHandler {
         final String[] responseArray = response.split(" ");
         if (response.contains(Help.MESSAGE)) {
             handleHelpEvent(response);
-        }
-        else if (response.contains(Server.MESSAGE)) {
+        } else if (response.contains(Server.MESSAGE)) {
             handleServerEvent(response, responseArray);
         } else if (response.contains(Error.MESSAGE)) {
             handleErrorEvent(response);
@@ -53,6 +65,7 @@ public class ResponseHandler {
 
     /**
      * Determines the game type from the response.
+     * 
      * @param response The response from the server.
      * @return The game type.
      */
@@ -91,6 +104,7 @@ public class ResponseHandler {
 
     /**
      * Handles an error event.
+     * 
      * @param response The response from the server.
      */
     private void handleErrorEvent(final String response) {
@@ -100,6 +114,7 @@ public class ResponseHandler {
 
     /**
      * Handles a help event.
+     * 
      * @param response The response from the server.
      */
     private void handleHelpEvent(final String response) {
@@ -109,7 +124,8 @@ public class ResponseHandler {
 
     /**
      * Handles a server event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleServerEvent(final String response, final String[] responseArray) {
@@ -121,33 +137,32 @@ public class ResponseHandler {
 
     /**
      * Handles a game event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleGameEvent(final String response, final String[] responseArray) {
         logger.info("Handling game event: " + response);
         if (response.contains(Challenge.MESSAGE)) {
             handleChallengeEvent(response, responseArray);
-        }
-        else if (response.contains("MATCH")) {
+        } else if (response.contains(Game.MESSAGE + "MATCH")) {
             handleMatchEvent(response);
-        }
-        else if (response.contains("YOURTURN")) {
+        } else if (response.contains(Game.MESSAGE + "YOURTURN")) {
             handleYourTurnEvent(responseArray);
-        }
-        else if (response.contains("MOVE")) {
+        } else if (response.contains(Game.MESSAGE + "MOVE")) {
             handleMoveEvent(response);
-        }
-        else if (response.contains("WIN")) {
+        } else if (response.contains(Game.MESSAGE + "WIN")) {
             handleWinEvent();
-        }
-        else if (response.contains("LOSS")) {
+        } else if (response.contains(Game.MESSAGE + "LOSS")) {
             handleLossEvent();
-        }
-        else if (response.contains("DRAW")) {
+        } else if (response.contains(Game.MESSAGE + "DRAW")) {
             handleDrawEvent();
         } else if (response.contains(Placed.MESSAGE)) {
             handlePlacedEvent(response);
+        } else if (response.contains(AttackResult.MESSAGE)) {
+            handleAttackResultEvent(response);
+        } else if (response.contains(DefenseResult.MESSAGE)) {
+            handleDefendResultEvent(response);
         }
     }
 
@@ -156,7 +171,7 @@ public class ResponseHandler {
      */
     private void handleDrawEvent() {
         logger.info("Handling draw event");
-        this.gameClient.onDraw();
+        Platform.runLater(() -> this.gameClient.onDraw());
     }
 
     /**
@@ -164,7 +179,7 @@ public class ResponseHandler {
      */
     private void handleLossEvent() {
         logger.info("Handling loss event");
-        this.gameClient.onLose();
+        Platform.runLater(() -> this.gameClient.onLose());
     }
 
     /**
@@ -172,11 +187,12 @@ public class ResponseHandler {
      */
     private void handleWinEvent() {
         logger.info("Handling win event");
-        this.gameClient.onWin();
+        Platform.runLater(() -> this.gameClient.onWin());
     }
 
     /**
      * Handles a move event.
+     * 
      * @param response The response from the server.
      */
     private void handleMoveEvent(final String response) {
@@ -186,16 +202,66 @@ public class ResponseHandler {
     }
 
     /**
+     * Parses a move from the response.
+     * 
+     * @param response The response from the server.
+     * @return The parsed move data.
+     */
+    private String[] parseCombatResult(final String response) {
+        logger.debug("Parsing combat: " + response);
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final String[] result = new String[data.length];
+
+        // TODO: Edit to parse combat data.
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = ':';
+            final String key = option.split(String.valueOf(split))[0];
+            final String value = option.split(String.valueOf(split))[1];
+            // Sanitize the value
+            result[i] = value.replaceAll("[^a-zA-Z]", "");
+        }
+
+        logger.debug("Parsed move: " + result);
+        return result;
+    }
+
+    private void handleAttackResultEvent(final String response) {
+        logger.info("Handling attack result event: " + response);
+        final String[] data = parseCombatResult(response);
+        Pawns defender = Pawns.valueOf(data[0]);
+        CombatResult result = CombatResult.valueOf(data[1]);
+        StrategoClient SC = (StrategoClient) this.gameClient;
+        SC.onAttackResult(defender, result);
+    }
+
+    private void handleDefendResultEvent(final String response) {
+        logger.info("Handling defend result event: " + response);
+        final String[] data = parseCombatResult(response);
+        Pawns attacker = Pawns.valueOf(data[0]);
+        CombatResult result = CombatResult.valueOf(data[1]);
+        StrategoClient SC = (StrategoClient) this.gameClient;
+        SC.onDefenseResult(attacker,result);
+    }
+
+    /**
      * Handles a "your turn" event.
+     * 
      * @param responseArray The response array.
      */
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
         this.gameClient.onYourTurn(responseArray[2]);
+        Notifiers.turn.notifyListeners(true);
     }
 
     /**
      * Handles a match event.
+     * 
      * @param response The response from the server.
      */
     private void handleMatchEvent(final String response) {
@@ -205,7 +271,8 @@ public class ResponseHandler {
 
     /**
      * Handles a challenge event.
-     * @param response The response from the server.
+     * 
+     * @param response      The response from the server.
      * @param responseArray The response array.
      */
     private void handleChallengeEvent(final String response, final String[] responseArray) {
@@ -222,8 +289,30 @@ public class ResponseHandler {
         this.gameClient.onPlaced(placed);
     }
 
+    public Map<String, String> parseData(final String response) {
+        logger.debug("Parsing data: " + response);
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final Map<String, String> result = new HashMap<>();
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = ':';
+            String key = option.split(String.valueOf(split))[0];
+            String value = option.split(String.valueOf(split))[1];
+            key = key.trim();
+            value = value.trim();
+            result.put(key, value);
+        }
+        logger.debug("Parsed data: " + result);
+        return result;
+    }
+
     /**
      * Parses a move from the response.
+     * 
      * @param response The response from the server.
      * @return The parsed move data.
      */

@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 public final class AvailableUnits extends HBox {
     private final BSLogger logger = new BSLogger(AvailableUnits.class);
     private UnitSet availableUnits;
-    private final Button[] buttons;
+    private Button[] buttons;
     private final int buttonHeight = 80;
     private final int buttonWidth = 110;
     private final VBox leftBox;
@@ -27,6 +27,7 @@ public final class AvailableUnits extends HBox {
     private int selectedButtonIndex = -1;
     private final String style = "-fx-font-size: 1em; -fx-text-fill: #000000;"; // defualt button style
     private final String selectedStyle = "-fx-font-size: 1em; -fx-text-fill: #000000; -fx-background-color: #00FF00;"; // selected button style
+    private final boolean isSmallVersion;
 
     /**
      * Constructor for the AvailableUnits
@@ -34,7 +35,7 @@ public final class AvailableUnits extends HBox {
     public AvailableUnits(final boolean isSmallVersion) {
         super();
         logger.debug("Creating AvailableUnits");
-
+        this.isSmallVersion = isSmallVersion;
         int spacing = 5;
 
         setSpacing(spacing);
@@ -60,6 +61,7 @@ public final class AvailableUnits extends HBox {
      */
     private void createButtons() {
         int i = 0;
+
         for (final Pawns pawn : this.availableUnits.getUnits().keySet()) {
             buttons[i] = new Button();
             buttons[i].setPrefSize(buttonWidth, buttonHeight);
@@ -182,6 +184,33 @@ public final class AvailableUnits extends HBox {
 
     public VBox getRightBox() {
         return rightBox;
+    }
+
+    public void reset() {
+        this.leftBox.getChildren().clear();
+        this.rightBox.getChildren().clear();
+        if (this.isSmallVersion) {
+            this.availableUnits = new UnitSet().setEightUnits();
+        } else {
+            this.availableUnits = new UnitSet().setTenUnits();
+        }
+        int size = this.availableUnits.getUnits().size();
+        this.buttons = new Button[size];
+        createButtons();
+
+        selectedButtonIndex = -1;
+    }
+
+    public void disableButtons() {
+        for (Button button : buttons) {
+            button.setDisable(true);
+        }
+    }
+
+    public void enableButtons() {
+        for (Button button : buttons) {
+            button.setDisable(false);
+        }
     }
 
 }

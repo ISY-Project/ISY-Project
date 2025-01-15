@@ -41,5 +41,6 @@ dependency-reduced-pom.xml
 config.ini
 
 ### Custom
-*.log
-*.log.lck
+*.log.*
+*.lck
+bitshifters.log
