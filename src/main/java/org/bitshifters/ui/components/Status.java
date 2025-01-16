@@ -1,5 +1,6 @@
 package org.bitshifters.ui.components;
 
+import org.bitshifters.telnet.MatchData;
 import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 import org.bitshifters.telnet.Notifiers.YourTurnNotifier;
 import org.bitshifters.telnet.Notifiers.interfaces.OnConnectionSwitch;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch{
     private final Label statusLabel;
     private final Label yourTurnLabel;
+    private MatchData matchData;
 
     /**
      * Constructor for the Status
@@ -88,7 +90,11 @@ public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch
      * @param yourTurn the boolean to set the text based on
      */
     public void setYourTurnLabel(boolean yourTurn) {
-        String text = yourTurn ? "It's Your Turn" : "It's the Opponents Turn";
+        String opponentName = matchData.opponentName;
+        if (matchData == null) {
+            opponentName = "Opponent";
+        }
+        String text = yourTurn ? "It's Your Turn" : "It's " + opponentName +"'s Turn";
         this.yourTurnLabel.setText(text);
     }
 
@@ -116,5 +122,10 @@ public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch
     @Override
     public void OnYourTurnSwitch(String yourTurnText) {
         Platform.runLater(() -> setYourTurnLabel(yourTurnText));
+    }
+
+    public void setMatchData(MatchData data) {
+        this.matchData = data;
+        Platform.runLater(() -> setYourTurnLabel(false));
     }
 }

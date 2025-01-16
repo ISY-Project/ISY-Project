@@ -29,6 +29,11 @@ public class StrategoView extends CustomBorderPane {
     private boolean isSmallVersion = false;
     private static String style = "-fx-background-color: #aaddaa00"; // transparent background
     private ImageView gridBackground = new ImageView();
+    private Status status = new Status();
+
+    public Status getStatus() {
+        return status;
+    }
 
     /** 
      * Constructor for the StrategoView with the default size (10*10)
@@ -54,8 +59,6 @@ public class StrategoView extends CustomBorderPane {
         
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
-        Status status = new Status();
-
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         rightBox.getChildren().add(hButtonBox);
