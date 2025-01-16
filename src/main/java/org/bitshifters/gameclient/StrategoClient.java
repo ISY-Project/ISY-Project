@@ -407,6 +407,7 @@ public class StrategoClient extends GameClient {
     // TODO algorithm
     @Override
     public void onYourTurn(String message) {
+        
         engine.setActivePlayer(players[0]);
         view.setPlacingMode(placingUnits);
         if (placingUnits) {

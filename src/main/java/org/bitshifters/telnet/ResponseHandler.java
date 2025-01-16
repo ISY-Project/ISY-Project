@@ -18,6 +18,7 @@ import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
 import org.bitshifters.telnet.Exceptions.TypeMismatchException;
+import org.bitshifters.telnet.Notifiers.YourTurnNotifier;
 
 import javafx.application.Platform;
 
@@ -255,6 +256,7 @@ public class ResponseHandler {
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
         this.gameClient.onYourTurn(responseArray[2]);
+        YourTurnNotifier.notifyListeners(true);
     }
 
     /**
