@@ -90,10 +90,7 @@ public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch
      * @param yourTurn the boolean to set the text based on
      */
     public void setYourTurnLabel(boolean yourTurn) {
-        String opponentName = matchData.opponentName;
-        if (matchData == null) {
-            opponentName = "Opponent";
-        }
+        String opponentName = (matchData == null) ? "Opponent" : matchData.opponentName;
         String text = yourTurn ? "It's Your Turn" : "It's " + opponentName +"'s Turn";
         this.yourTurnLabel.setText(text);
     }
