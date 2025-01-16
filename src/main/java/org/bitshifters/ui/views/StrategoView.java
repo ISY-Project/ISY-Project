@@ -3,7 +3,6 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
@@ -56,7 +55,6 @@ public class StrategoView extends CustomBorderPane {
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
         Status status = new Status();
-        Notifiers.connection.register(status);
 
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);

@@ -4,7 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
@@ -38,7 +37,6 @@ public class TicTacToeView extends CustomBorderPane {
         this.baseGrid = new BaseGrid(3);
 
         Status status = new Status();
-        Notifiers.connection.register(status);
 
         fillGrid();
 
