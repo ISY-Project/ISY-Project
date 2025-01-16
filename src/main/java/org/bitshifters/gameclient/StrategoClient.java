@@ -14,6 +14,7 @@ import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.MatchData;
 import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.Commands.Place;
+import org.bitshifters.telnet.Notifiers.YourTurnNotifier;
 import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.StrategoView;
@@ -144,6 +145,7 @@ public class StrategoClient extends GameClient {
                     telnet.send(new Move(
                         GT.toIndex(selectedUnitRow, selectedUnitCol, size),
                         GT.toIndex(finalRow, finalCol, size)));
+                    YourTurnNotifier.notifyListeners(false);
                 }
                 else {
                     view.getMainFrame().showPopup("Invalid move, the selected unit cannot move there");
@@ -319,6 +321,7 @@ public class StrategoClient extends GameClient {
                 engine.setActivePlayer(nextPlayer);
                 return false;
             }
+            YourTurnNotifier.notifyListeners(false);
             return true;
         }
     
