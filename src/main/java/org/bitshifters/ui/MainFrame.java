@@ -71,6 +71,7 @@ public class MainFrame extends Application {
         this.stage.setScene(scene);
         this.stage.show();
         // this.stage.setFullScreen(true);
+        this.stage.setTitle(config.getValue("username") + " - Bitshifters");
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED,  (event) -> {
             logger.debug("Key pressed: " + event.getCode());
