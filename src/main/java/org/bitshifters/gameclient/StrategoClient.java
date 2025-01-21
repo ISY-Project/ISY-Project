@@ -11,9 +11,9 @@ import org.bitshifters.games.stratego.StrategoEngine;
 import org.bitshifters.games.stratego.Unit;
 import org.bitshifters.games.stratego.UnitSet;
 import org.bitshifters.logging.BSLogger;
-import org.bitshifters.telnet.MatchData;
 import org.bitshifters.telnet.Commands.Move;
 import org.bitshifters.telnet.Commands.Place;
+import org.bitshifters.telnet.MatchData;
 import org.bitshifters.telnet.Notifiers.YourTurnNotifier;
 import org.bitshifters.ui.components.PawnButtonInformation;
 import org.bitshifters.ui.enums.Screens;
@@ -131,6 +131,12 @@ public class StrategoClient extends GameClient {
             }
             // moving fase
             if (unitSelected) { // move unit (click on second button)
+                Player activePlayer = engine.getActivePlayer();
+    
+                if (activePlayer == ClientController.getOpponentPlayer()){
+                    view.getMainFrame().showPopup("It is not your turn");
+                    return;
+                }
     
                 if (selectedUnitCol == finalCol && selectedUnitRow == finalRow) { // deselect unit
                     view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
