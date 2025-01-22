@@ -9,6 +9,7 @@ import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
+import org.bitshifters.ui.components.GameStatus;
 import org.bitshifters.ui.components.InformationBar;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
@@ -30,6 +31,7 @@ public class StrategoView extends CustomBorderPane {
     private static String style = "-fx-background-color: #aaddaa00"; // transparent background
     private ImageView gridBackground = new ImageView();
     private InformationBar informationBar = new InformationBar();
+    private final GameStatus gameStatus;
 
 
     public InformationBar getInformationBar() {
@@ -64,6 +66,12 @@ public class StrategoView extends CustomBorderPane {
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         rightBox.getChildren().add(hButtonBox);
         rightBox.getChildren().add(availableUnitsButtons);
+
+        gameStatus = new GameStatus(smallVerison);
+
+        VBox leftBox = new VBox(20);
+        leftBox.getChildren().add(gameStatus);
+        leftBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
 
         if (smallVerison) {
             this.baseGrid = new BaseGrid(8);
@@ -103,6 +111,7 @@ public class StrategoView extends CustomBorderPane {
         vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
+        this.setRight(leftBox);
         this.setCenter(vBox);
         this.setRight(rightBox);
         setPlacingMode(true);
@@ -122,6 +131,10 @@ public class StrategoView extends CustomBorderPane {
      */
     public AvailableUnits getAvailableUnitsButtons() {
         return this.availableUnitsButtons;
+    }
+
+    public GameStatus getGameStatus() {
+        return this.gameStatus;
     }
 
     /** 
@@ -278,6 +291,7 @@ public class StrategoView extends CustomBorderPane {
 
     public void resetView() {
         this.availableUnitsButtons.reset();
+        this.gameStatus.reset();
         this.baseGrid.clearGrid();
     }
 
