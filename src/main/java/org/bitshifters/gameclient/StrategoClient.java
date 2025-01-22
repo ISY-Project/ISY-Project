@@ -66,6 +66,8 @@ public class StrategoClient extends GameClient {
             this.view = view;
             this.engine = new StrategoEngine(boardRows, boardCols, players);
             setupGridButtonListeners(view);
+            view.getNavigationButtons().getResetButton().addEventHandler(ActionEvent.ACTION, _ -> resetGrids());
+            view.getNavigationButtons().getBackButton().addEventHandler(ActionEvent.ACTION, _ -> resetGrids());
             if (view.isSmallVersion()) {
                 engine.setUnitCounts(UnitSet.EIGHT);
             }
@@ -87,9 +89,6 @@ public class StrategoClient extends GameClient {
             for (int i = 0; i < buttons.length; i++) {
                 setupAvailableUnitsButtons(i, view);
             }
-    
-            view.getNavigationButtons().getResetButton().addEventHandler(ActionEvent.ACTION, _ -> resetGrids());
-    
         }
     
         /**
@@ -133,11 +132,6 @@ public class StrategoClient extends GameClient {
             if (unitSelected) { // move unit (click on second button)
                 Player activePlayer = engine.getActivePlayer();
     
-                if (activePlayer == ClientController.getOpponentPlayer()){
-                    view.getMainFrame().showPopup("It is not your turn");
-                    return;
-                }
-    
                 if (selectedUnitCol == finalCol && selectedUnitRow == finalRow) { // deselect unit
                     view.getBaseGrid().deselectButton(selectedUnitRow, selectedUnitCol);
                     unitSelected = false;
@@ -145,6 +139,12 @@ public class StrategoClient extends GameClient {
                     selectedUnitCol = -1;
                     return;
                 }
+
+                if (activePlayer == ClientController.getOpponentPlayer()){
+                    view.getMainFrame().showPopup("It is not your turn");
+                    return;
+                }
+                
                 if (validateMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol)){
                     makeMove(selectedUnitRow, selectedUnitCol, finalRow, finalCol);
                     int size = engine.getTotalCols();
@@ -507,6 +507,7 @@ public class StrategoClient extends GameClient {
      */
     private void resetGrids() {
         view.resetView();
+        setupGridButtonListeners(view);
         if (engine.getActivePlayer() != null) {
             engine.resetGrid(engine.getActivePlayer());
             engine.resetGrid(getNextPlayer());
