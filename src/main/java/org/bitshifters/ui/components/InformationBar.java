@@ -10,7 +10,7 @@ import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch{
+public class InformationBar extends HBox implements OnConnectionSwitch, OnYourTurnSwitch{
     private final Label statusLabel;
     private final Label yourTurnLabel;
     private MatchData matchData;
@@ -18,7 +18,7 @@ public class Status extends HBox implements OnConnectionSwitch, OnYourTurnSwitch
     /**
      * Constructor for the Status
      */
-    public Status() {
+    public InformationBar() {
         super(20);
         this.statusLabel = new Label();
         this.yourTurnLabel = new Label("Waiting On Opponent");

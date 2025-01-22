@@ -11,7 +11,7 @@ import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
-import org.bitshifters.ui.components.Status;
+import org.bitshifters.ui.components.InformationBar;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -37,7 +37,7 @@ public class TicTacToeView extends CustomBorderPane {
 
         this.baseGrid = new BaseGrid(3);
 
-        Status status = new Status();
+        InformationBar status = new InformationBar();
 
         fillGrid();
 

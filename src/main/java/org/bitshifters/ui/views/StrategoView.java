@@ -9,9 +9,9 @@ import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
+import org.bitshifters.ui.components.InformationBar;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
-import org.bitshifters.ui.components.Status;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -29,10 +29,11 @@ public class StrategoView extends CustomBorderPane {
     private boolean isSmallVersion = false;
     private static String style = "-fx-background-color: #aaddaa00"; // transparent background
     private ImageView gridBackground = new ImageView();
-    private Status status = new Status();
+    private InformationBar informationBar = new InformationBar();
 
-    public Status getStatus() {
-        return status;
+
+    public InformationBar getInformationBar() {
+        return informationBar;
     }
 
     /** 
@@ -96,8 +97,8 @@ public class StrategoView extends CustomBorderPane {
 
         gridStackPane.setAlignment(javafx.geometry.Pos.CENTER);
 
-        status.setAlignment(javafx.geometry.Pos.CENTER);
-        vBox.getChildren().addAll(status);
+        informationBar.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(informationBar);
         
         vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);

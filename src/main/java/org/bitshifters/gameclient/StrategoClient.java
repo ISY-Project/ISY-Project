@@ -398,7 +398,7 @@ public class StrategoClient extends GameClient {
             setScreen();
             engine.setActivePlayer(getNextPlayer());
             this.matchData = data;
-            view.getStatus().setMatchData(data);
+            view.getInformationBar().setMatchData(data);
     }
 
     private void setScreen() {

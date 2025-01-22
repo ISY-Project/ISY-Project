@@ -7,7 +7,7 @@ import org.bitshifters.ui.MainFrame;
 
 public class ConnectionStatus extends CustomBorderPane implements OnConnectionSwitch {
     private static final TelnetClient telnet = ClientController.telnet;
-    private final Status status = new Status();
+    private final InformationBar status = new InformationBar();
 
     public ConnectionStatus(MainFrame mainFrame) {
         super(mainFrame);
