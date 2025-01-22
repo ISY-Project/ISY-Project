@@ -12,16 +12,15 @@ import org.bitshifters.telnet.Commands.Login;
 import org.bitshifters.telnet.TelnetClient;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.BattleshipsView;
+import org.bitshifters.ui.views.PopupView;
 import org.bitshifters.ui.views.StartView;
 import org.bitshifters.ui.views.StrategoView;
 import org.bitshifters.ui.views.TicTacToeView;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle; 
 
@@ -38,7 +37,7 @@ public class MainFrame extends Application {
     private final StrategoView strategoViewTen = new StrategoView(this, false);
     private final StrategoView strategoViewEight = new StrategoView(this, true);
     private Stage stage;
-    private Popup popup;
+    private PopupView popupView = new PopupView(this);
     private boolean tests = false;
     private static final Config config = Config.getInstance();
     private static final Player player = new Player(config.getValue("username"));
@@ -57,7 +56,7 @@ public class MainFrame extends Application {
         clientController.setUp();
 
         StackPane root = new StackPane();
-        root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight);
+        root.getChildren().addAll(startView, battleshipsView, ticTacToeView, strategoViewTen, strategoViewEight, popupView);
         new TicTacToeClient(ticTacToeView, player, new Player("Opponent"));
         // new BattleshipClient(battleshipsView, this.player, new Player("Opponent"));
         // new StrategoClient(strategoView, this.player, new Player("Opponent"));
@@ -86,9 +85,9 @@ public class MainFrame extends Application {
                 }
             }
         });
-        
-        setUpPopup();
-        // showPopup("test"); // show popup when the program starts
+
+        popupView.getCloseButton().setOnAction(_ -> popupView.setVisible(false));
+        popupView.setVisible(false);
 
         showScreen(Screens.START_SCREEN);
         attemptLogin();
@@ -148,33 +147,12 @@ public class MainFrame extends Application {
     }
 
     /**
-     * This method will set up the popup window
-     */
-    public void setUpPopup() {
-        if (this.popup != null) {
-            return;
-        }
-        this.popup = new Popup();
-        this.popup.setX(300);
-        this.popup.setY(200);
-        this.popup.setWidth(200);
-        this.popup.setHeight(100);
-        this.popup.setAutoHide(true); // close popup when clicked outside
-
-        Label label = new Label("This is a popup");
-        // TODO: make the popup look better
-        label.setStyle("-fx-background-color: white; -fx-padding: 10px;");
-        this.popup.getContent().add(label);
-    }
-
-    /**
      * This method will show a popup with the given message
      * @param message the message to show in the popup
      */
     public void showPopup(String message) {
-        Label label = (Label) this.popup.getContent().get(0);
-        label.setText(message);
-        this.popup.show(stage);
+        popupView.getLabel().setText(message);
+        popupView.setVisible(true);
     }
 
     /**
