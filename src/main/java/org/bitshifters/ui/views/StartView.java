@@ -8,6 +8,7 @@ import org.bitshifters.ui.components.CustomBorderPane;
 import org.bitshifters.ui.components.NavigationButtons;
 
 import javafx.geometry.Insets;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -18,6 +19,9 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 
 public class StartView extends CustomBorderPane {
@@ -40,14 +44,38 @@ public class StartView extends CustomBorderPane {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        hButtonBox = new NavigationButtons(mainFrame, false, true);
+        hButtonBox = new NavigationButtons(mainFrame, false, false);
 
-        hButtonBox.setButtonStyle(" -fx-font-size: 4em; -fx-text-fill: #000000;");
-        hButtonBox.getStrategoTenButton().setStyle(" -fx-font-size: 2.5em; -fx-text-fill: #000000;");
-        hButtonBox.getStrategoEightButton().setStyle(" -fx-font-size: 3em; -fx-text-fill: #000000;");
-        hButtonBox.setButtonSize(500, 100);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(1);
+        dropShadow.setOffsetX(5);
+        dropShadow.setOffsetY(5);
+        dropShadow.setColor(Color.web("#bb240d"));
+        hButtonBox.setEffectProperty(dropShadow);
 
-        grid.setAlignment(javafx.geometry.Pos.BOTTOM_CENTER);
+        // TODO: Chose a font family from the list of available fonts
+        // List<String> fontFamilies = Font.getFamilies();
+        // for(String item : fontFamilies) {
+        //     System.out.println(item);
+        // }
+
+        String      fontFamily  = "Cascadia Code";
+        double      fontSize    = 35;
+        FontWeight  fontWeight  = FontWeight.BOLD;
+        FontPosture fontPosture = FontPosture.REGULAR;
+        
+        Font buttonFont = Font.font(fontFamily, fontWeight , fontPosture, fontSize);
+
+        hButtonBox.setButtonFont(buttonFont);
+        hButtonBox.setButtonAlignment(javafx.geometry.Pos.BOTTOM_LEFT);
+
+        hButtonBox.setButtonStyle(" -fx-text-fill: #ffffff; -fx-background-color:#ffffff00;");
+        hButtonBox.getStrategoTenButton().setStyle(" -fx-text-fill: #ffffff; -fx-background-color:#ffffff00;");
+        hButtonBox.getStrategoEightButton().setStyle(" -fx-text-fill: #ffffff; -fx-background-color:#ffffff00;");
+        hButtonBox.setButtonSize(500, 10);
+
+
+        grid.setAlignment(javafx.geometry.Pos.BOTTOM_LEFT);
         grid.add(hButtonBox, 0, 0);
 
         Image bgImageFile = new Image("file:src\\main\\resources\\images\\background.jpg");

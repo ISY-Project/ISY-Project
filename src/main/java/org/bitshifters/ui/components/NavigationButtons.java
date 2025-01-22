@@ -6,6 +6,7 @@ import org.bitshifters.ClientController;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.enums.Screens;
 
+import javafx.scene.effect.Effect;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -50,8 +51,12 @@ public class NavigationButtons extends VBox {
             this.backButton = new CustomButton("Back", getPrefWidth(), style);
             backButton.setOnAction(_ -> backButtonAction(mainFrame));
             backButton.addOnAction(_ -> ClientController.setSelectedClient(Optional.empty()));
+            this.resetButton = new CustomButton("Reset Game", getPrefWidth(), style);
+            getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, backButton, resetButton);
         } else {
             this.backButton = null;
+            this.resetButton = null;
+            getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton);
         }
 
         if (isHorizontal) {
@@ -62,14 +67,6 @@ public class NavigationButtons extends VBox {
                 hBox.getChildren().add(backButton);
             }
             getChildren().add(hBox);
-            this.resetButton = null;
-        } else {
-            this.resetButton = new CustomButton("Reset Game", getPrefWidth(), style);
-            if (backButton != null) {
-                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, backButton, resetButton);
-            } else {
-                getChildren().addAll(battleshipButton, ticTacToeButton, strategoTenButton, strategoEightButton, resetButton);
-            }
         }
     }
 
@@ -92,6 +89,7 @@ public class NavigationButtons extends VBox {
             if (backButton != null) {
                 setPrefWidth(width*4);
                 backButton.setPrefWidth(width);
+                resetButton.setPrefWidth(width);
             }
         } else {
             setPrefWidth(width);
@@ -101,6 +99,7 @@ public class NavigationButtons extends VBox {
             strategoEightButton.setPrefWidth(width);
             if (backButton != null) {
                 backButton.setPrefWidth(width);
+                resetButton.setPrefWidth(width);
             }
         }
     }
@@ -116,6 +115,7 @@ public class NavigationButtons extends VBox {
         strategoEightButton.setPrefHeight(height);
         if (backButton != null) {
             backButton.setPrefHeight(height);
+            resetButton.setPrefHeight(height);
         }
     }
 
@@ -127,10 +127,6 @@ public class NavigationButtons extends VBox {
     public void setButtonSize(double width, double height) {
         setButtonWidth(width);
         setButtonHeight(height);
-        if (backButton != null) {
-            backButton.setPrefWidth(width);
-            backButton.setPrefHeight(height);
-        }
     }
 
     /** 
@@ -144,6 +140,7 @@ public class NavigationButtons extends VBox {
         strategoEightButton.setStyle(style);
         if (backButton != null) {
             backButton.setStyle(style);
+            resetButton.setStyle(style);
         }
     }
 
@@ -189,5 +186,38 @@ public class NavigationButtons extends VBox {
 
     public CustomButton getResetButton() {
         return resetButton;
+    }
+
+    public void setEffectProperty(Effect effect) {
+        battleshipButton.effectProperty().set(effect);
+        ticTacToeButton.effectProperty().set(effect);
+        strategoTenButton.effectProperty().set(effect);
+        strategoEightButton.effectProperty().set(effect);
+        if (backButton != null) {
+            backButton.effectProperty().set(effect);
+            resetButton.effectProperty().set(effect);
+        }
+    }
+
+    public void setButtonFont(javafx.scene.text.Font font) {
+        battleshipButton.setFont(font);
+        ticTacToeButton.setFont(font);
+        strategoTenButton.setFont(font);
+        strategoEightButton.setFont(font);
+        if (backButton != null) {
+            backButton.setFont(font);
+            resetButton.setFont(font);
+        }
+    }
+
+    public void setButtonAlignment(javafx.geometry.Pos pos) {
+        battleshipButton.setAlignment(pos);
+        ticTacToeButton.setAlignment(pos);
+        strategoTenButton.setAlignment(pos);
+        strategoEightButton.setAlignment(pos);
+        if (backButton != null) {
+            backButton.setAlignment(pos);
+            resetButton.setAlignment(pos);
+        }
     }
 }
