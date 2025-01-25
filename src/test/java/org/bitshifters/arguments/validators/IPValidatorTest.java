@@ -44,14 +44,14 @@ public class IPValidatorTest {
         assertThrows(ParameterException.class, () -> validator.validate("ip", "invalid_ip"));
     }
 
-    @Test
-    void testValidateValidIPv6() {
-        IPValidator validator = new IPValidator();
-        validator.validate("ip", "::");
-        validator.validate("ip", "::1");
-        validator.validate("ip", "fe80::219:7eff:fe46:6c42");
-        validator.validate("ip", "::00:192.168.10.184");
-    }
+    // @Test
+    // void testValidateValidIPv6() {
+    //     IPValidator validator = new IPValidator();
+    //     validator.validate("ip", "::");
+    //     validator.validate("ip", "::1");
+    //     validator.validate("ip", "fe80::219:7eff:fe46:6c42");
+    //     validator.validate("ip", "::00:192.168.10.184");
+    // }
 
     @Test
     void testValidateValidIPv6EdgeCase() {

@@ -3,16 +3,16 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.games.stratego.Pawns;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.AvailableUnits;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
+import org.bitshifters.ui.components.GameStatus;
+import org.bitshifters.ui.components.InformationBar;
 import org.bitshifters.ui.components.NavigationButtons;
 import org.bitshifters.ui.components.PawnButtonInformation;
-import org.bitshifters.ui.components.Status;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -30,6 +30,13 @@ public class StrategoView extends CustomBorderPane {
     private boolean isSmallVersion = false;
     private static String style = "-fx-background-color: #aaddaa00"; // transparent background
     private ImageView gridBackground = new ImageView();
+    private InformationBar informationBar = new InformationBar();
+    private final GameStatus gameStatus;
+
+
+    public InformationBar getInformationBar() {
+        return informationBar;
+    }
 
     /** 
      * Constructor for the StrategoView with the default size (10*10)
@@ -55,13 +62,16 @@ public class StrategoView extends CustomBorderPane {
         
         availableUnitsButtons = new AvailableUnits(smallVerison);
         
-        Status status = new Status();
-        Notifiers.connection.register(status);
-
         VBox rightBox = new VBox(20);
         rightBox.setAlignment(javafx.geometry.Pos.TOP_RIGHT);
         rightBox.getChildren().add(hButtonBox);
         rightBox.getChildren().add(availableUnitsButtons);
+
+        gameStatus = new GameStatus(smallVerison);
+
+        VBox leftBox = new VBox(20);
+        leftBox.getChildren().add(gameStatus);
+        leftBox.setAlignment(javafx.geometry.Pos.TOP_LEFT);
 
         if (smallVerison) {
             this.baseGrid = new BaseGrid(8);
@@ -95,12 +105,13 @@ public class StrategoView extends CustomBorderPane {
 
         gridStackPane.setAlignment(javafx.geometry.Pos.CENTER);
 
-        status.setAlignment(javafx.geometry.Pos.CENTER);
-        vBox.getChildren().addAll(status);
+        informationBar.setAlignment(javafx.geometry.Pos.CENTER);
+        vBox.getChildren().addAll(informationBar);
         
         vBox.getChildren().addAll(gridStackPane);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);
 
+        this.setRight(leftBox);
         this.setCenter(vBox);
         this.setRight(rightBox);
         setPlacingMode(true);
@@ -120,6 +131,10 @@ public class StrategoView extends CustomBorderPane {
      */
     public AvailableUnits getAvailableUnitsButtons() {
         return this.availableUnitsButtons;
+    }
+
+    public GameStatus getGameStatus() {
+        return this.gameStatus;
     }
 
     /** 
@@ -276,6 +291,7 @@ public class StrategoView extends CustomBorderPane {
 
     public void resetView() {
         this.availableUnitsButtons.reset();
+        this.gameStatus.reset();
         this.baseGrid.clearGrid();
     }
 

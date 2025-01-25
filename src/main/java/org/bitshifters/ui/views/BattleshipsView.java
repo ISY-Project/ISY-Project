@@ -3,14 +3,12 @@ package org.bitshifters.ui.views;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.ui.MainFrame;
 import org.bitshifters.ui.components.BaseGrid;
 import org.bitshifters.ui.components.CustomBorderPane;
+import org.bitshifters.ui.components.InformationBar;
 import org.bitshifters.ui.components.NavigationButtons;
-import org.bitshifters.ui.components.Status;
-import org.bitshifters.ui.components.TurnIndicator;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -41,20 +39,13 @@ public class BattleshipsView extends CustomBorderPane {
 
         fillGrid();
 
-        Status status = new Status();
-        Notifiers.connection.register(status);
-
-        TurnIndicator turnIndicator = new TurnIndicator();
-        Notifiers.turn.register(turnIndicator);
+        InformationBar status = new InformationBar();
 
         hGridBox.getChildren().addAll(this.playerGrid, this.opponentGrid);
         hGridBox.setAlignment(javafx.geometry.Pos.CENTER);
         
-        status.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        status.setAlignment(javafx.geometry.Pos.CENTER);
         vBox.getChildren().addAll(status);
-
-        turnIndicator.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-        vBox.getChildren().addAll(turnIndicator);
 
         vBox.getChildren().addAll(hGridBox);
         vBox.setAlignment(javafx.geometry.Pos.CENTER);

@@ -7,9 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.SendableCommand;
+import org.bitshifters.telnet.Notifiers.ConnectionNotifier;
 
 /**
  * Client for connecting to a Telnet server.
@@ -32,8 +32,8 @@ public class TelnetClient {
         onConnectionSwitch();
     }
 
-    private void onConnectionSwitch() {
-        Notifiers.connection.notifyListeners(isConnected);
+    public void onConnectionSwitch() {
+        ConnectionNotifier.notifyListeners(isConnected);
     }
 
     /**
@@ -70,10 +70,10 @@ public class TelnetClient {
         if (!this.isConnected || this.out == null) {
             // We silently ignore connections, as we have a visual indicated for this now.
             logger.error("Connection is not established, cannot send message: " + message.get());
-            Notifiers.connection.notifyListeners(false);
+            ConnectionNotifier.notifyListeners(false);
             return;
         }
-        Notifiers.connection.notifyListeners(true);
+        ConnectionNotifier.notifyListeners(true);
         System.out.println("Sent: " + message.get());
         out.println(message.get());
     }

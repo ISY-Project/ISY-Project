@@ -3,7 +3,6 @@ package org.bitshifters.telnet;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.bitshifters.Notifiers;
 import org.bitshifters.gameclient.GameClient;
 import org.bitshifters.gameclient.StrategoClient;
 import org.bitshifters.gameclient.StrategoClient.CombatResult;
@@ -19,6 +18,7 @@ import org.bitshifters.telnet.Events.Help;
 import org.bitshifters.telnet.Events.Placed;
 import org.bitshifters.telnet.Events.Server;
 import org.bitshifters.telnet.Exceptions.TypeMismatchException;
+import org.bitshifters.telnet.Notifiers.YourTurnNotifier;
 
 import javafx.application.Platform;
 
@@ -256,7 +256,7 @@ public class ResponseHandler {
     private void handleYourTurnEvent(final String[] responseArray) {
         logger.info("Handling your turn event: " + responseArray[2]);
         this.gameClient.onYourTurn(responseArray[2]);
-        Notifiers.turn.notifyListeners(true);
+        YourTurnNotifier.notifyListeners(true);
     }
 
     /**
@@ -266,7 +266,9 @@ public class ResponseHandler {
      */
     private void handleMatchEvent(final String response) {
         logger.info("Handling match event: " + response);
-        this.gameClient.onMatch();
+        var data = parseData(response);
+        var matchData = new MatchData(data);
+        this.gameClient.onMatch(matchData);
     }
 
     /**
@@ -287,27 +289,6 @@ public class ResponseHandler {
         logger.info("Handling placed event: " + response);
         final int placed = parsePlaced(response);
         this.gameClient.onPlaced(placed);
-    }
-
-    public Map<String, String> parseData(final String response) {
-        logger.debug("Parsing data: " + response);
-        final char data_start = '{';
-        final char data_end = '}';
-        final int start = response.indexOf(data_start);
-        final int end = response.indexOf(data_end);
-        final String[] data = response.substring(start + 1, end).split(",");
-        final Map<String, String> result = new HashMap<>();
-        for (int i = 0; i < data.length; i++) {
-            String option = data[i].trim();
-            final char split = ':';
-            String key = option.split(String.valueOf(split))[0];
-            String value = option.split(String.valueOf(split))[1];
-            key = key.trim();
-            value = value.trim();
-            result.put(key, value);
-        }
-        logger.debug("Parsed data: " + result);
-        return result;
     }
 
     /**
@@ -336,6 +317,27 @@ public class ResponseHandler {
             result[i] = option;
         }
         logger.debug("Parsed move: " + result);
+        return result;
+    }
+
+    public Map<String, String> parseData(final String response) {
+        logger.debug("Parsing data: " + response);
+        final char data_start = '{';
+        final char data_end = '}';
+        final int start = response.indexOf(data_start);
+        final int end = response.indexOf(data_end);
+        final String[] data = response.substring(start + 1, end).split(",");
+        final Map<String, String> result = new HashMap<>();
+        for (int i = 0; i < data.length; i++) {
+            String option = data[i].trim();
+            final char split = ':';
+            String key = option.split(String.valueOf(split))[0];
+            String value = option.split(String.valueOf(split))[1];
+            key = key.trim().replace("\"", "");
+            value = value.trim().replace("\"", "");;
+            result.put(key, value);
+        }
+        logger.debug("Parsed data: " + result);
         return result;
     }
 

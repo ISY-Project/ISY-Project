@@ -10,6 +10,7 @@ import org.bitshifters.games.tictactoe.TTTEngine;
 import org.bitshifters.games.tictactoe.TicTacToeCell;
 import org.bitshifters.logging.BSLogger;
 import org.bitshifters.telnet.Commands.Move;
+import org.bitshifters.telnet.MatchData;
 import org.bitshifters.ui.enums.Screens;
 import org.bitshifters.ui.views.TicTacToeView;
 
@@ -110,7 +111,7 @@ public class TicTacToeClient extends GameClient {
     }
 
     @Override
-    public void onMatch() {
+    public void onMatch(MatchData data) {
         // Als de game begint, start de game
         view.getMainFrame().showScreen(Screens.TICTACTOE);
     }
@@ -186,8 +187,8 @@ public class TicTacToeClient extends GameClient {
     public void onDraw() {
         this.engine.getPlayerX().incrementScore(1);
         this.engine.getPlayerO().incrementScore(1);
-        view.getMainFrame().setUpPopup();
-        view.getMainFrame().showPopup("Draw");
+        // view.getMainFrame().setUpPopup();
+        // view.getMainFrame().showPopup("Draw");
     }
 
     @Override
