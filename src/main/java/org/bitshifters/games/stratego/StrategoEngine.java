@@ -84,7 +84,8 @@ public class StrategoEngine extends GridEngine<Unit> {
     private void initializePlayers(final Player[] players) {
         for (final var player : players) {
             addGrid(player, playerRows, playerCols, null);
-            movementTrackers.put(player, new MovementTracker(10));
+            // TODO needs to adjust for 8x8 vs 10 by 10
+            movementTrackers.put(player, new MovementTracker(3));
         }
     }
 
@@ -195,7 +196,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         Unit unit = getCell(fromRow, fromCol, GameGrid);
         setCell(fromRow, fromCol, null, GameGrid);
         setCell(toRow, toCol, unit, GameGrid);
-        movementTrackers.get(player).add(fromRow, fromCol, toRow, toCol);
+        movementTrackers.get(player).add(fromRow * totalRows + fromCol, toRow * totalRows + toCol);
         turnCount++;
     }
 
@@ -230,7 +231,7 @@ public class StrategoEngine extends GridEngine<Unit> {
         }
         // Check if this player is allowed to move this unit 
         if (getCell(fromRow, fromCol, GameGrid).getPlayer() != player || isInvalidRank(getCell(fromRow, fromCol, GameGrid).getRank())
-                || movementTrackers.get(player).isRepeating(fromRow, fromCol, toRow, toCol)) {
+                || movementTrackers.get(player).isRepeating(fromRow * totalRows + fromCol, toRow * totalRows + toCol)) {
             return false;
         }
         // Checking if the unit is moving by 1 tile
